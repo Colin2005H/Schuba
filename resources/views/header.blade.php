@@ -1,3 +1,5 @@
+<head><script src="https://cdn.tailwindcss.com"></script>
+
 <header class="bg-gray-800 text-white shadow">
     <div class="container mx-auto flex items-center justify-between py-4 px-6">
         <!-- Logo -->
@@ -6,9 +8,13 @@
         </a>
         @php
             use App\Http\Controllers\RoleController;
+            use Illuminate\Support\Facades\Auth;
+
+            
 
             $roleController = new RoleController();
-            $role = $roleController->getRole();
+            $role = $roleController->getRole(session('user'));
+            print_r($role);
         @endphp
         
         @if($role === 'eleve')
@@ -46,13 +52,16 @@
     </div>
 
     <!-- Mobile Navigation -->
+    <!-- Mobile Navigation
     <nav id="mobile-menu" class="md:hidden bg-gray-700 hidden">
         <a href="{{ url('/') }}" class="block px-4 py-2 hover:bg-gray-600">Accueil</a>
         <a href="{{ url('/about') }}" class="block px-4 py-2 hover:bg-gray-600">À propos</a>
         <a href="{{ url('/services') }}" class="block px-4 py-2 hover:bg-gray-600">Services</a>
         <a href="{{ url('/contact') }}" class="block px-4 py-2 hover:bg-gray-600">Contact</a>
     </nav>
+     -->
 </header>
+</head>
 
 <script>
     // Script pour le menu mobile

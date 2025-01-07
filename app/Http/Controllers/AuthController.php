@@ -19,7 +19,9 @@ class AuthController extends Controller
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-            return redirect('/');
+            $user = Auth::user();  // Récupérer l'utilisateur actuellement authentifié
+            session(['user' => $user]);  // Stocker l'utilisateur dans la session
+            return redirect('/header'); //azjajf
         }
 
         return back()->withErrors([
