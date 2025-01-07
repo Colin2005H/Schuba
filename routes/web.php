@@ -16,3 +16,10 @@ use App\Http\Controllers\FormationController;
 
 Route::get('/formations', [FormationController::class, 'showFormation']);
 Route::post('/formations', [FormationController::class, 'createFormation']);
+Route::get('/', function () {
+    return view('welcome');
+});
+
+Route::get('/calendar', function () {
+    return view('calendar');
+});
