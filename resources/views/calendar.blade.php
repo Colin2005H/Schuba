@@ -34,6 +34,7 @@
             height: "auto",
             nowIndicator: true,
             handleWindowResize: true,
+            firstDay: 1,
             navLinks: true,
             businessHours: {
                 daysOfWeek: [0, 1, 2, 3, 4, 5, 6],
