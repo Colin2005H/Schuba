@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Aptitude;
 use App\Models\Lieu;
 use App\Models\Seance;
 use Exception;
@@ -16,7 +17,7 @@ class SeanceController extends Controller
      * @return void
      */
     public function createSession(){
-        return view('creer-seance', ['lieux' => Lieu::all()]);
+        return view('creer-seance', ['lieux' => Lieu::all(), 'aptitudes'=>Aptitude::all()]);
     }
 
     /**
@@ -31,6 +32,9 @@ class SeanceController extends Controller
         }catch(Exception $e){
             return redirect()->route('createSession.show')->with('success', $e->getMessage());
         }
+        
+        $request->input('aptitude');
+
         return redirect()->route('createSession.show')->with('success', "La séance a été créée");
     }
 }
