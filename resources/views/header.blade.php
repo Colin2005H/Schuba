@@ -4,8 +4,14 @@
         <a href="{{ url('/') }}" class="text-lg font-bold">
             <img src="{{ asset('images/logo.png') }}" alt="Logo" class="h-8">
         </a>
-        @Auth
-        @if()
+        @php
+            use App\Http\Controllers\RoleController;
+
+            $roleController = new RoleController();
+            $role = $roleController->getRole();
+        @endphp
+        
+        @if($role === 'eleve')
         <!-- Navigation élève -->
         <nav class="hidden md:flex space-x-6">
             <a href="{{ url('/') }}" class="hover:text-gray-400">Mon compte</a>
@@ -13,7 +19,7 @@
             <a href="{{ url('/services') }}" class="hover:text-gray-400">Compétences</a>
             <a href="{{ url('/contact') }}" class="hover:text-gray-400">Se Déconnecter</a>
         </nav>
-        @elseif
+        @elseif($role === 'initiateur')
         <!-- Navigation initiateur/responsable-->
         <nav class="hidden md:flex space-x-6">
             <a href="{{ url('/') }}" class="hover:text-gray-400">Mon compte</a>
@@ -22,7 +28,7 @@
             <a href="{{ url('/') }}" class="hover:text-gray-400">Élèves</a>
             <a href="{{ url('/') }}" class="hover:text-gray-400">Se Déconnecter</a>
         </nav>
-        @elseif
+        @elseif($role === 'directeur_technique')
         <!-- Navigation directeur technique-->
         <nav class="hidden md:flex space-x-6">
             <a href="{{ url('/') }}" class="hover:text-gray-400">Mon compte</a>

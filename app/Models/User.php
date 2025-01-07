@@ -63,6 +63,12 @@ class User extends Authenticatable
         if($countINIT > 0){
             return 'initiateur';
         }
+        if($countDT > 0){
+            return 'directeur_technique';
+        }
+        if($countELEVE > 0){
+            return 'eleve';
+        }
 
 
 
