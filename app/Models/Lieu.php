@@ -10,10 +10,10 @@ class Lieu extends Model
     use HasFactory;
 
     /**
- * The table associated with the model.
- *
- * @var string
- */
+     * The table associated with the model.
+     *
+     * @var string
+     */
     protected $table = 'plo_lieu';
 
     /**
@@ -25,12 +25,4 @@ class Lieu extends Model
 
     protected $primaryKey = "LI_ID";
 
-    /**
-     * Undocumented function
-     *
-     * @return void
-     */
-    public function getName(){
-        return $this->attributes["LI_NOM"];
-    }
 }

@@ -9,8 +9,13 @@
         <title>Création d'une session</title>
     </head>
     <body>
+        @if (session('success'))
+        <div class="alert alert-success">
+            {{session('success')}}
+        </div>
+        @endif
         <h1>Creation de la séance</h1>
-        <form>
+        <form method="POST">
 
             <label for="niv">Niveau de la formation :</label><br>
             <input type="number" id="niv" name="niv" min="1" max="3"><br>

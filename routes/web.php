@@ -17,4 +17,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/creation-seance', [\App\Http\Controllers\SeanceController::class, 'index']);
+Route::prefix('/createSession')->name('createSession.')->controller(\App\Http\Controllers\SeanceController::class)->group(function(){
+    Route::get('/', 'createSession')->name('show');
+    Route::post('/', 'store');
+});
+
