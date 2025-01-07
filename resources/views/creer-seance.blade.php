@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
@@ -8,5 +10,13 @@
     </head>
     <body>
         <h1>Creation de la séance</h1>
+
+        
+
+        <ul>
+            @foreach($lieux as $lieu)
+                <li>{{$lieu->LI_NOM}}</li>
+            @endforeach
+        </ul>
     </body>
 </html>
