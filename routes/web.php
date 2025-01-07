@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CreateAccountController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,4 +16,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
+});
+
+Route::prefix('/createAccount')->name('createAccount.')->controller(CreateAccountController::class)->group(function(){
+    Route::get('/', 'createAccount')->name('show');
+    Route::post('/', 'store');
 });
