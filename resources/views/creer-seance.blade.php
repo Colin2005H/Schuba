@@ -10,6 +10,23 @@
     </head>
     <body>
         <h1>Creation de la séance</h1>
+        <form>
+
+            <label for="niv">Niveau de la formation :</label><br>
+            <input type="text" id="niv" name="niv"><br>
+
+            <label for="lieu">Lieu:</label><br>
+            <input type="text" id="lieu" name="lieu"><br>
+
+            <label for="dateD">Date de début :</label><br>
+            <input type="text" id="dateD" name="dateD"><br>
+
+            <label for="dateF">Date de fin :</label><br>
+            <input type="text" id="dateF" name="dateF"><br><br>
+
+            <input type="submit" value="Créer la séance">
+            
+        </form> 
 
         
 
