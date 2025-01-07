@@ -13,27 +13,23 @@
         <form>
 
             <label for="niv">Niveau de la formation :</label><br>
-            <input type="text" id="niv" name="niv"><br>
+            <input type="number" id="niv" name="niv" min="1" max="3"><br>
 
             <label for="lieu">Lieu:</label><br>
-            <input type="text" id="lieu" name="lieu"><br>
+            <select name="lieu" id="lieu">
+                @foreach($lieux as $lieu)
+                    <option value="{{$lieu->LI_ID}}">{{$lieu->LI_NOM}}</option>
+                @endforeach
+            </select><br>
 
             <label for="dateD">Date de début :</label><br>
-            <input type="text" id="dateD" name="dateD"><br>
+            <input type="datetime-local" id="dateD" name="dateD"><br>
 
             <label for="dateF">Date de fin :</label><br>
-            <input type="text" id="dateF" name="dateF"><br><br>
+            <input type="datetime-local" id="dateF" name="dateF"><br><br>
 
             <input type="submit" value="Créer la séance">
             
         </form> 
-
-        
-
-        <ul>
-            @foreach($lieux as $lieu)
-                <li>{{$lieu->LI_NOM}}</li>
-            @endforeach
-        </ul>
     </body>
 </html>
