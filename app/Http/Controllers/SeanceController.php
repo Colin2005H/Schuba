@@ -9,7 +9,6 @@ use App\Models\Seance;
 use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class SeanceController extends Controller
 {
@@ -21,8 +20,8 @@ class SeanceController extends Controller
     public function createSession(){
         return view('creer-seance', [
             'lieux' => Lieu::all(),
-            'aptitudes'=>Aptitude::all(),
-            'initiateurs'=>User::all(),
+            'aptitudes'=>Aptitude::all(), //TODO faire un Eleve::all() puis join sur User
+            'initiateurs'=>User::all(), //TODO faire un Initiator::all() puis join sur User
             'eleves'=>User::all()
         ]);
     }
@@ -46,7 +45,7 @@ class SeanceController extends Controller
                 "GRP_PRESENCE"=>NULL
             ]);
 
-            
+
             if($request->input('eleve2') !=="null"){
                 $group = Groupe::create([
                     "SEA_ID" => $sessionId,

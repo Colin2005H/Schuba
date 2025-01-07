@@ -21,13 +21,14 @@
             <label for="niv">Niveau de la formation :</label><br>
             <input type="number" id="niv" name="niv" min="1" max="3" value="1"><br>
 
+            {{--
             <label for="lieu">Aptitudes travaillées:</label><br>
             <ul>
                 @foreach($aptitudes as $apt)
                     <li><input type="checkbox" value="{{$apt->APT_CODE}}" name="aptitude[]">{{$apt->APT_LIBELLE}}</input></li>
                 @endforeach
             </ul>
-                
+                --}}
             <br>
 
             <label for="lieu">Lieu :</label><br>
