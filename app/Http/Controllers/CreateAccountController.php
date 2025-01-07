@@ -19,13 +19,14 @@ class CreateAccountController extends Controller
 
     public function store(Request $request){
         $this->validate($request, [
-            'uti_mail' => 'bail|required|email',
+            'uti_mail' => 'bail|required|unique:plo_utilisateur|email',
             'uti_nom' => 'bail|required',
             'uti_prenom' => 'bail|required',
             'uti_niveau' => 'bail|required',
             'uti_date_naissance' => 'bail|required',
         ], [
             'uti_mail.email' => "Le texte doit correspondre à une adresse email valide",
+            'uti_mail.unique' => "Cette adresse mail est déjà prise",
             'uti_mail.required' => "Le champ doit être rempli",
             'uti_nom.required' => "Le champ doit être rempli",
             'uti_prenom.required' => "Le champ doit être rempli",

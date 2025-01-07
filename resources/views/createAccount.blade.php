@@ -16,33 +16,33 @@
     <h3>Créer un compte utilisateur</h3>
         <form method="POST" action="">
             @csrf
-            <div>
+            <div class="form-group">
                 <label for="uti_nom">Nom</label>
-                <input type="text" name="uti_nom" value="">
+                <input type="text" id="uti_nom" name="uti_nom" value="">
                 @error("uti_nom")
                     {{$message}}
                 @enderror
             </div>
 
-            <div>
+            <div class="form-group">
                 <label for="uti_prenom">Prénom</label>
-                <input type="text" name="uti_prenom" value="">
+                <input type="text" id="uti_prenom" name="uti_prenom" value="">
                 @error("uti_prenom")
                     {{$message}}
                 @enderror
-            </div>
+            </div class="form-group">
 
-            <div>
+            <div class="form-group">
                 <label for="uti_mail">Email</label>
-                <input type="text" name="uti_mail" value="">
+                <input type="text" id="uti_mail" name="uti_mail" value="">
                 @error("uti_mail")
                     {{$message}}
                 @enderror
-            </div>
+            </div class="form-group">
 
-            <div>
+            <div class="form-group">
                 <label for="clu_id">Club</label>
-                <select name="clu_id">
+                <select id="clu_id" name="clu_id">
                     @foreach ($clubs as $club)
                         <option value="{{ $club->clu_id }}">{{ $club->clu_nom }}</option>
                     @endforeach
@@ -51,32 +51,34 @@
                 @error("clu_id")
                     {{$message}}
                 @enderror
-            </div>
+            </div class="form-group">
 
-            <div>
-                <label for="uti_niveau">Niveau </label>
-                <input id="niveauUser" type="text" name="uti_niveau" value="">
+            <div class="form-group">
+                <label for="niveauUser">Niveau </label>
+                <input id="niveauUser" type="text" name="uti_niveau" value="0">
                 @error("uti_niveau")
                     {{$message}}
                 @enderror
             </div>
 
-            <div>
+            <div class="form-group">
                 <label for="uti_date_naissance">Date de naissance</label>
-                <input type="date" name="uti_date_naissance" value="1970-01-01" min="1970-01-01" max="{{today()}}"/>
+                <input id="uti_date_naissance" type="date" name="uti_date_naissance" value="1970-01-01" min="1970-01-01" max="{{today()}}"/>
                 @error("uti_date_naissance")
                     {{$message}}
                 @enderror
             </div>
 
-            <div>
-                <input type="radio" id="userType1" name="userType" value="eleve" />
-                <label for="userType1">Eleve</label>
-            </div>
+            <div class="form-group">
+                <div class="form-check">
+                    <input type="radio" id="userType1" name="userType" value="eleve" />
+                    <label for="userType1">Eleve</label>
+                </div>
 
-            <div id="initiateurBtnRadio">
-                <input type="radio" id="userType2" name="userType" value="initiateur" />
-                <label for="userType2">Initiateur</label>
+                <div id="initiateurBtnRadio" class="form-check">
+                    <input type="radio" id="userType2" name="userType" value="initiateur" />
+                    <label for="userType2">Initiateur</label>
+                </div>
             </div>
 
             <button class="btn btn-primary">Enregistrer</button>
@@ -86,10 +88,8 @@
             var niveau = document.getElementById("niveauUser");
             var initiateur = document.getElementById("userType2");
             initiateur.disabled = true;
-            console.log("Nooooooo");
 
             niveau.addEventListener('input', function () {
-                console.log("YEY");
                 if(parseInt(niveau.value) < 2){
                     initiateur.disabled = true;
                 }
