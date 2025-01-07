@@ -87,7 +87,7 @@
                     },
                     eventSources: [
                         {
-                            url: 'http://localhost:8000/api/seance', // use the `url` property
+                            url: 'http://localhost:8000/api/session', // use the `url` property
                             color: 'blue',
                             textColor: 'white',
                             timeZoneParam: 'EU/PARIS',
