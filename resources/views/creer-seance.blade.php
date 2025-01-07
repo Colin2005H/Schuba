@@ -15,7 +15,8 @@
         </div>
         @endif
         <h1>Creation de la séance</h1>
-        <form method="POST">
+        <form method="POST" action="">
+            @csrf
 
             <label for="niv">Niveau de la formation :</label><br>
             <input type="number" id="niv" name="niv" min="1" max="3"><br>

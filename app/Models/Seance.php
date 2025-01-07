@@ -40,10 +40,9 @@ class Seance extends Model
      * @return void
      */
     public static function insert($beginTime, $endTime, $place, $level){
-        echo "<script>window.alert('insertion');</script>";
         DB::beginTransaction();
-        try{throw new Exception('jsp');
-            DB::insert("insert plo_seances (li_id, form_niveau, sea_date_deb, sea_date_fin) values (?, ?, str_to_date(?, \"%d/%m/%Y %H:%i\"), str_to_date(?, \"%d/%m/%Y %H:%i\"))", [$place, $level, $beginTime, $endTime]);
+        try{ //
+            DB::insert("insert into plo_seances (li_id, form_niveau, sea_date_deb, sea_date_fin) values (?, ?, str_to_date(?, \"%Y-%m-%dT%H:%i\"), str_to_date(?, \"%Y-%m-%dT%H:%i\"))", [$place, $level, $beginTime, $endTime]);
             
         } catch (Exception $e){
             DB::rollBack();
