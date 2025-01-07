@@ -4,8 +4,8 @@
         <a href="{{ url('/') }}" class="text-lg font-bold">
             <img src="{{ asset('images/logo.png') }}" alt="Logo" class="h-8">
         </a>
-
-        @if
+        @Auth
+        @if()
         <!-- Navigation élève -->
         <nav class="hidden md:flex space-x-6">
             <a href="{{ url('/') }}" class="hover:text-gray-400">Mon compte</a>
