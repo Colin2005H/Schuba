@@ -23,6 +23,12 @@ class CreateUserRequest extends FormRequest
      */
     public function rules()
     {
-        //
+        return [
+            'uti_nom' => ['required'],
+            'uti_prenom' => ['required'],
+            'uti_mail' => ['required', 'email'],
+            'club_id' => ['required'],
+            'uti_date_naissance' => ['required'],
+        ];
     }
 }
