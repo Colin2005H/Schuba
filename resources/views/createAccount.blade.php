@@ -38,6 +38,29 @@
 
             <div class="mb-4">
                 <label class="flex items-center gap-2 text-gray-700">
+                    <input type="text" id="uti_code_postal" name="uti_code_postal" value="" placeholder="Code Postal" class="w-full px-3 py-2 bg-white border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400">
+                </label>
+                @error("uti_code_postal")
+                    {{$message}}
+                @enderror
+
+                <label class="flex items-center gap-2 text-gray-700">
+                    <input type="text" id="uti_adresse" name="uti_adresse" value="" placeholder="Adresse" class="w-full px-3 py-2 bg-white border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400">
+                </label>
+                @error("uti_adresse")
+                    {{$message}}
+                @enderror
+
+                <label class="flex items-center gap-2 text-gray-700">
+                    <input type="text" id="uti_ville" name="uti_ville" value="" placeholder="Ville" class="w-full px-3 py-2 bg-white border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400">
+                </label>
+                @error("uti_ville")
+                    {{$message}}
+                @enderror
+            </div>
+
+            <div class="mb-4">
+                <label class="flex items-center gap-2 text-gray-700">
                     <input type="text" id="uti_mail" name="uti_mail" value="" placeholder="Adresse email" class="w-full px-3 py-2 bg-white border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400">
                 </label>
                 @error("uti_mail")
@@ -69,20 +92,28 @@
 
             <div class="mb-4">
                 <label for="uti_date_naissance">Date de naissance : </label>
-                <input id="uti_date_naissance" type="date" name="uti_date_naissance" value="1970-01-01" min="1970-01-01" max="{{today()}}" class="w-full px-3 py-2 bg-white border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"/>
+                <input id="uti_date_naissance" type="date" name="uti_date_naissance" value="1950-01-01" min="1970-01-01" max="{{today()}}" class="w-full px-3 py-2 bg-white border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"/>
                 @error("uti_date_naissance")
                     {{$message}}
                 @enderror
             </div>
 
             <div class="mb-4">
-                <div class="form-check">
+                <label for="uti_date_certificat">Date de naissance : </label>
+                <input id="uti_date_certificat" type="date" name="uti_date_certificat" value="1950-01-01" min="1970-01-01" max="{{today()}}" class="w-full px-3 py-2 bg-white border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"/>
+                @error("uti_date_certificat")
+                    {{$message}}
+                @enderror
+            </div>
+
+            <div class="mb-4">
+                <div class="form-check" id="eleveDiv">
                     <input type="radio" id="userType1" name="userType" value="eleve" />
                     <label for="userType1">Eleve</label>
                 </div>
 
                 <div id="initiateurBtnRadio" class="form-check">
-                    <input type="radio" id="userType2" name="userType" value="initiateur" />
+                    <input type="radio" id="userType2" name="userType" value="initiateur" disabled/>
                     <label for="userType2">Initiateur</label>
                 </div>
             </div>
@@ -93,15 +124,32 @@
 
     <script>
         var niveau = document.getElementById("niveauUser");
+        var student = document.getElementById("userType1");
         var initiateur = document.getElementById("userType2");
-        initiateur.disabled = true;
+        var studentDiv = document.getElementById("eleveDiv");
+
+        student.addEventListener('click', function() {
+            var studentFormation = document.createElement('p');
+            studentFormation.textContent = 'Formation de niveau ' + parseInt(niveau.value)+1 + 'pour cette année';
+            studentFormation.id = 'studentFormation';
+            studentDiv.appendChild(studentFormation);
+        });
+
+        initiateur.addEventListener('click', function() {
+            if(document.getElementById('studentFormation')){
+                var studentFormation = document.getElementById('studentFormation');
+                studentDiv.removeChild(studentFormation);
+            }
+        });
 
         niveau.addEventListener('input', function () {
             if(parseInt(niveau.value) < 2){
                 initiateur.disabled = true;
+                student.disabled = false;
             }
-            else{
+            if(parseInt(niveau.value) >= 3){
                 initiateur.disabled = false;
+                student.disabled = true;
             }
         });
     </script>

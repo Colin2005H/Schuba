@@ -22,15 +22,30 @@ class CreateAccountController extends Controller
             'uti_mail' => 'bail|required|unique:plo_utilisateur|email',
             'uti_nom' => 'bail|required',
             'uti_prenom' => 'bail|required',
+            'uti_code_postal' => 'bail|required|numeric|integer|min:5|max:5',
+            'uti_adresse' => 'bail|required',
+            'uti_ville' => 'bail|required',
             'uti_niveau' => 'bail|required',
             'uti_date_naissance' => 'bail|required',
+            'uti_date_certificat' => 'bail|required'
         ], [
             'uti_mail.email' => "Le texte doit correspondre à une adresse email valide",
             'uti_mail.unique' => "Cette adresse mail est déjà prise",
             'uti_mail.required' => "Le champ doit être rempli",
+
             'uti_nom.required' => "Le champ doit être rempli",
             'uti_prenom.required' => "Le champ doit être rempli",
+
+            'uti_code_postal.required' => "Le champ doit être rempli",
+            'uti_code_postal.numeric' => "Le champ doit être un nombre",
+            'uti_code_postal.integer' => "Le champ doit être un nombre entier",
+            'uti_code_postal.min' => "Le code postal doit contenir 5 chiffres",
+            'uti_code_postal.max' => "Le code postal doit contenir 5 chiffres",
+
+            'uti_adresse.required' => "Le champ doit être rempli",
+            'uti_ville.required' => "Le champ doit être rempli",
             'uti_niveau.required' => "Le champ doit être rempli",
+            'uti_date_certificat.required' => "Le champ doit être rempli",
             'uti_date_naissance.required' => "Le champ doit être rempli"
         ]);
 
@@ -42,8 +57,12 @@ class CreateAccountController extends Controller
             'uti_nom' => $request->input('uti_nom'),
             'uti_prenom' => $request->input('uti_prenom'),
             'uti_mail' => $request->input('uti_mail'),
+            'uti_code_postal' => $request->input('uti_code_postal'),
+            'uti_adresse' => $request->input('uti_adresse'),
+            'uti_ville' => $request->input('uti_ville'),
             'uti_mdp' => $passwd,
             'uti_niveau' => $request->input('uti_niveau'),
+            'uti_date_certificat' => $request->input('uti_date_certificat'),
             'uti_date_naissance' => $request->input('uti_date_naissance'),
             'uti_date_creation' => today()
         ]);
