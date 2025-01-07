@@ -1,0 +1,62 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Schuba API",
+        "description": "API pour la gestion des séances de formation",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/seance": {
+            "get": {
+                "tags": [
+                    "Seances"
+                ],
+                "summary": "Liste des séances",
+                "description": "Récupère la liste des séances.",
+                "operationId": "getSeances",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "description": "ID de la séance",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "SEA_DATE_DEB",
+                        "in": "query",
+                        "description": "Date de début",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "format": "date-time"
+                        }
+                    },
+                    {
+                        "name": "SEA_DATE_FIN",
+                        "in": "query",
+                        "description": "Date de fin",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "format": "date-time"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Liste des séances"
+                    }
+                }
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Seances",
+            "description": "Seances"
+        }
+    ]
+}

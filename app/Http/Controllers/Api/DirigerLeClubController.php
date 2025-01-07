@@ -17,15 +17,4 @@ class DirigerLeClubController extends Controller {
     function liste(){
         return response()->json(DirigerLeClub::all());
     }
-
-    /**
-     * dirigeants
-     *
-     * Liste les dirigeants de club
-     * 
-     * @param Int $id identifiant du dirigeant
-     */
-    function detail($id){
-        return response()->json(DirigerLeClub::find($id));
-    }
 }
