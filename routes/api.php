@@ -14,34 +14,23 @@ use App\Http\Controllers\Api\PloSeanceController;
 use App\Http\Controllers\Api\PloUtilisateurController;
 use App\Models\PloInitiateur;
 
-Route::get('/eleve', [PloEleveController::class, "liste"]);
-Route::get('/eleve/{id}', [PloEleveController::class, "detail"]);
-
-Route::get('/formation', [PloFormationController::class, "liste"]);
-Route::get('/formation/{id}', [PloFormationController::class, "detail"]);
+Route::get('/training', [PloFormationController::class, "liste"]);
 
 Route::get('/aptitude', [PloAptitudeController::class, "liste"]);
-Route::get('/aptitude/{id}', [PloAptitudeController::class, "detail"]);
 
 Route::get('/club', [PloClubController::class, "liste"]);
-Route::get('/club/{id}', [PloClubController::class, "detail"]);
 
 Route::get('/competence', [PloCompetenceController::class, "liste"]);
-Route::get('/competence/{id}', [PloCompetenceController::class, "detail"]);
 
-Route::get('/initiateur', [PloInitiateurController::class, "liste"]);
-Route::get('/initiateur/{id}', [PloInitiateurController::class, "detail"]);
+Route::get('/location', [PloLieuController::class, "liste"]);
 
-Route::get('/lieu', [PloLieuController::class, "liste"]);
-Route::get('/lieu/{id}', [PloLieuController::class, "detail"]);
+Route::get('/session', [PloSeanceController::class, "liste"]);
 
-Route::get('/seance', [PloSeanceController::class, "liste"]);
+Route::get('/user', [PloUtilisateurController::class, "liste"]);
+Route::get('/user/student', [PloUtilisateurController::class, "eleve"]);
+Route::get('/user/instructor', [PloUtilisateurController::class, "initiateur"]);
 
-Route::get('/utilisateur', [PloUtilisateurController::class, "liste"]);
-Route::get('/utilisateur/{id}', [PloUtilisateurController::class, "detail"]);
-
-Route::get('/dirigeant', [DirigerLeClubController::class, "liste"]);
-Route::get('/dirigeant/{id}', [DirigerLeClubController::class, "detail"]);
+Route::get('/leader', [DirigerLeClubController::class, "liste"]);
 
 /*
 |--------------------------------------------------------------------------
@@ -53,7 +42,7 @@ Route::get('/dirigeant/{id}', [DirigerLeClubController::class, "detail"]);
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
+/*
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
-});
+});*/

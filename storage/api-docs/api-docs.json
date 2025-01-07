@@ -6,19 +6,19 @@
         "version": "1.0.0"
     },
     "paths": {
-        "/api/seance": {
+        "/api/session": {
             "get": {
                 "tags": [
-                    "Seances"
+                    "Sessions"
                 ],
-                "summary": "Liste des séances",
-                "description": "Récupère la liste des séances.",
-                "operationId": "getSeances",
+                "summary": "List of sessions",
+                "description": "Retrieve the list of sessions.",
+                "operationId": "getSessions",
                 "parameters": [
                     {
                         "name": "id",
                         "in": "query",
-                        "description": "ID de la séance",
+                        "description": "Session ID",
                         "required": false,
                         "schema": {
                             "type": "integer"
@@ -27,7 +27,7 @@
                     {
                         "name": "SEA_DATE_DEB",
                         "in": "query",
-                        "description": "Date de début",
+                        "description": "Start date",
                         "required": false,
                         "schema": {
                             "type": "string",
@@ -37,7 +37,7 @@
                     {
                         "name": "SEA_DATE_FIN",
                         "in": "query",
-                        "description": "Date de fin",
+                        "description": "End date",
                         "required": false,
                         "schema": {
                             "type": "string",
@@ -47,7 +47,151 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Liste des séances"
+                        "description": "List of sessions"
+                    }
+                }
+            }
+        },
+        "/api/user": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "List filtered users",
+                "description": "Retrieve a list of users filtered by criteria such as user ID, last name, first name, email, creation date, etc.",
+                "operationId": "listUsers",
+                "parameters": [
+                    {
+                        "name": "u_id",
+                        "in": "query",
+                        "description": "User ID",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "c_id",
+                        "in": "query",
+                        "description": "Club ID",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "User's last name (uses LIKE 'name%')",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "firstname",
+                        "in": "query",
+                        "description": "User's first name (uses LIKE 'firstname%')",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "email",
+                        "in": "query",
+                        "description": "User's email address (uses LIKE 'email%')",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "creation_date",
+                        "in": "query",
+                        "description": "User's creation date",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    },
+                    {
+                        "name": "birth_date",
+                        "in": "query",
+                        "description": "User's date of birth",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    },
+                    {
+                        "name": "level",
+                        "in": "query",
+                        "description": "User's level",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of users matching the criteria",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "u_id": {
+                                                "type": "integer"
+                                            },
+                                            "c_id": {
+                                                "type": "integer"
+                                            },
+                                            "name": {
+                                                "type": "string"
+                                            },
+                                            "firstname": {
+                                                "type": "string"
+                                            },
+                                            "email": {
+                                                "type": "string"
+                                            },
+                                            "level": {
+                                                "type": "integer"
+                                            },
+                                            "creation_date": {
+                                                "type": "string",
+                                                "format": "date-time"
+                                            },
+                                            "birth_date": {
+                                                "type": "string",
+                                                "format": "date-time"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Incorrect parameters",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -55,8 +199,12 @@
     },
     "tags": [
         {
-            "name": "Seances",
-            "description": "Seances"
+            "name": "Sessions",
+            "description": "Sessions"
+        },
+        {
+            "name": "Users",
+            "description": "Users"
         }
     ]
 }

@@ -18,38 +18,38 @@ use OpenApi\Annotations as OA;
 class PloSeanceController extends Controller {
 
     /**
-     * Liste des séances
+     * List of sessions
      *
      * @OA\Get(
-     *     path="/api/seance",
-     *     summary="Liste des séances",
-     *     description="Récupère la liste des séances.",
-     *     operationId="getSeances",
-     *     tags={"Seances"},
+     *     path="/api/session",
+     *     summary="List of sessions",
+     *     description="Retrieve the list of sessions.",
+     *     operationId="getSessions",
+     *     tags={"Sessions"},
      *     @OA\Parameter(
      *         name="id",
      *         in="query",
-     *         description="ID de la séance",
+     *         description="Session ID",
      *         required=false,
      *         @OA\Schema(type="integer")
      *     ),
      *     @OA\Parameter(
      *         name="SEA_DATE_DEB",
      *         in="query",
-     *         description="Date de début",
+     *         description="Start date",
      *         required=false,
      *         @OA\Schema(type="string", format="date-time")
      *     ),
      *     @OA\Parameter(
      *         name="SEA_DATE_FIN",
      *         in="query",
-     *         description="Date de fin",
+     *         description="End date",
      *         required=false,
      *         @OA\Schema(type="string", format="date-time")
      *     ),
      *     @OA\Response(
      *         response=200,
-     *         description="Liste des séances",
+     *         description="List of sessions",
      *         @OA\Schema(
      *             type="array",
      *             @OA\Items(
@@ -65,7 +65,7 @@ class PloSeanceController extends Controller {
      *     )
      * )
      */
-    public function liste(Request $request){
+    public function liste(Request $request) {
         $id = $request->input('id');
         $dateDebut = $request->input('SEA_DATE_DEB');
         $dateFin = $request->input('SEA_DATE_FIN');

@@ -9,11 +9,6 @@ use Illuminate\Http\Request;
 
 class DirigerLeClubController extends Controller {
     
-    /**
-     * dirigeants
-     *
-     * Liste les dirigeants de club
-     */
     function liste(){
         return response()->json(DirigerLeClub::all());
     }
