@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 class PloSeanceController extends Controller {
+
     public function liste(Request $request){
         $id = $request->input('id');
         $dateDebut = $request->input('SEA_DATE_DEB');
