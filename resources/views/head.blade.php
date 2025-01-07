@@ -6,11 +6,11 @@
     <title>@yield('title')</title>
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
-<body>
+<body class="bg-blue-900 justify-items-center">
 
-<div class="container">
+<!-- <div class="container bg-blue-400"> -->
     @yield('content')
-</div>
+<!-- </div> -->
 
 </body>
 </html>
