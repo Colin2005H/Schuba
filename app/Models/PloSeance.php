@@ -31,6 +31,7 @@ class PloSeance extends Model
 	protected $table = 'plo_seance';
 	protected $primaryKey = 'SEA_ID';
 	public $timestamps = false;
+	public $with = ['plo_lieu'];
 
 	protected $casts = [
 		'LI_ID' => 'int',

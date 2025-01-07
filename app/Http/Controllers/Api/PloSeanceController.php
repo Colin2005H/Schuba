@@ -9,16 +9,19 @@ use App\Http\Controllers\Controller;
 
 class PloSeanceController extends Controller {
     public function liste(Request $request){
-        $dateDebut = $request->input('start');
-        $dateFin = $request->input('end');
+        $id = $request->input('id');
+        $dateDebut = $request->input('SEA_DATE_DEB');
+        $dateFin = $request->input('SEA_DATE_FIN');
 
         $query = PloSeance::query();
 
+        if ($id) {
+            $query->where('SEA_ID', $id);
+        }
         if ($dateDebut) {
             $dateDebut = Carbon::parse($dateDebut);
             $query->where('SEA_DATE_DEB', '>=', $dateDebut);
         }
-
         if ($dateFin) {
             $dateFin = Carbon::parse($dateFin);
             $query->where('SEA_DATE_FIN', '<=', $dateFin);
@@ -26,20 +29,18 @@ class PloSeanceController extends Controller {
 
         $seances = $query->get();
 
-        // Transformer les séances pour le format FullCalendar
+        // format personnalisé
         $events = $seances->map(function ($seance) {
             return [
                 'id' => $seance->SEA_ID,
                 'niveau' =>$seance->FORM_NIVEAU,
                 'start' => $seance->SEA_DATE_DEB->toIso8601String(),
-                'end' => $seance->SEA_DATE_FIN->toIso8601String()
+                'end' => $seance->SEA_DATE_FIN->toIso8601String(),
+                'lieu' => $seance->plo_lieu->LI_NOM,
+                'type' => $seance->plo_lieu->LI_TYPE
             ];
         });
 
         return response()->json($events);
-    }
-
-    function detail($id){
-        return response()->json(PloSeance::find($id));
     }
 }

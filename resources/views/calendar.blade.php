@@ -88,16 +88,19 @@
                     eventSources: [
                         {
                             url: 'http://localhost:8000/api/seance', // use the `url` property
-                            title: 'Séance',
                             color: 'blue',
                             textColor: 'white',
-                            timeZoneParam: 'EU/PARIS'
+                            timeZoneParam: 'EU/PARIS',
+                            eventDataTransform: function(eventData) {
+                                eventData["title"] = eventData["lieu"];
+                                return eventData;
+                            }
                         }
                     ],
                     slotMinTime: "06:00:00",
                     slotMaxTime: "22:00:00",
                     windowResize: function(arg) {
-                        resizeCaldendar(); // Appeler resizeCaldendar lors du redimensionnement de la fenêtre
+                        resizeCaldendar();
                     }
                 };
 
