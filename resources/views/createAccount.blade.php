@@ -55,7 +55,7 @@
 
             <div>
                 <label for="uti_niveau">Niveau </label>
-                <input type="text" name="uti_niveau" value="">
+                <input id="niveauUser" type="text" name="uti_niveau" value="">
                 @error("uti_niveau")
                     {{$message}}
                 @enderror
@@ -72,12 +72,31 @@
             <div>
                 <input type="radio" id="userType1" name="userType" value="eleve" />
                 <label for="userType1">Eleve</label>
+            </div>
 
+            <div id="initiateurBtnRadio">
                 <input type="radio" id="userType2" name="userType" value="initiateur" />
                 <label for="userType2">Initiateur</label>
             </div>
 
             <button class="btn btn-primary">Enregistrer</button>
         </form>
-</body>
+
+        <script>
+            var niveau = document.getElementById("niveauUser");
+            var initiateur = document.getElementById("userType2");
+            initiateur.disabled = true;
+            console.log("Nooooooo");
+
+            niveau.addEventListener('input', function () {
+                console.log("YEY");
+                if(parseInt(niveau.value) < 2){
+                    initiateur.disabled = true;
+                }
+                else{
+                    initiateur.disabled = false;
+                }
+            });
+        </script>
+    </body>
 </html>
