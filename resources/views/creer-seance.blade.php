@@ -43,6 +43,34 @@
             <label for="dateF">Date de fin :</label><br>
             <input type="datetime-local" id="dateF" name="dateF" required><br><br>
 
+            <label for="initiateur">Initiateur : </label>
+            <select name="initiateur" id="initiateur">
+                
+                @foreach($initiateurs as $init)
+                    <option value="{{$init->UTI_ID}}">{{$init->UTI_NOM}} {{$init->UTI_PRENOM}}</option>
+                @endforeach
+
+            </select>
+
+            <label for="eleve1">Eleve 1 : </label>
+            <select name="eleve1" id="eleve1">
+                
+                @foreach($eleves as $eleve)
+                    <option value="{{$eleve->UTI_ID}}">{{$eleve->UTI_NOM}} {{$eleve->UTI_PRENOM}}</option>
+                @endforeach
+
+            </select>
+
+            <label for="eleve2">Eleve 2 : </label>
+            <select name="eleve2" id="eleve2">
+                <option value="null">Aucun</option>
+
+                @foreach($eleves as $eleve)
+                    <option value="{{$eleve->UTI_ID}}">{{$eleve->UTI_NOM}} {{$eleve->UTI_PRENOM}}</option>
+                @endforeach
+
+            </select>
+            <br>
             <input type="submit" value="Créer la séance">
             
         </form> 

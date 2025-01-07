@@ -9,8 +9,20 @@ class Groupe extends Model
 {
     use HasFactory;
 
-    protected $table = 'plo_eleve';
+    protected $table = 'grouper';
     public $timestamps = false;
 
     //  NE PAS METTRE DE CLE PRIMAIRE
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
+    protected $fillable = [
+        'SEA_ID',
+        'UTI_ID_INITIATEUR',
+        'UTI_ID',
+        'GRP_PRESENCE'
+    ];
 }

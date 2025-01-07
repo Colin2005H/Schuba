@@ -37,6 +37,4 @@ Route::get('/login-page', function () {
 // Route pour la page de authconstroller
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 
-Route::get('/triche', function() {
-    return Hash::make("supermdp");
-});
+
