@@ -7,6 +7,9 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 
 /**
  * Class Grouper
@@ -24,6 +27,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Grouper extends Model
 {
+	use HasApiTokens, HasFactory, Notifiable;
 	protected $table = 'grouper';
 	public $incrementing = false;
 	public $timestamps = false;

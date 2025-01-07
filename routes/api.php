@@ -2,9 +2,10 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PloEleveController;
 
-use App\Http\Controllers\Api\SeanceController;
-Route::apiResource('seances', SeanceController::class);
+
+Route::get('/eleve', [PloEleveController::class, "liste"]);
 
 /*
 |--------------------------------------------------------------------------
