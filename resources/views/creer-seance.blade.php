@@ -19,7 +19,7 @@
             @csrf
 
             <label for="niv">Niveau de la formation :</label><br>
-            <input type="number" id="niv" name="niv" min="1" max="3"><br>
+            <input type="number" id="niv" name="niv" min="1" max="3" value="1"><br>
 
             <label for="lieu">Lieu:</label><br>
             <select name="lieu" id="lieu">
@@ -29,10 +29,10 @@
             </select><br>
 
             <label for="dateD">Date de début :</label><br>
-            <input type="datetime-local" id="dateD" name="dateD"><br>
+            <input type="datetime-local" id="dateD" name="dateD" required><br>
 
             <label for="dateF">Date de fin :</label><br>
-            <input type="datetime-local" id="dateF" name="dateF"><br><br>
+            <input type="datetime-local" id="dateF" name="dateF" required><br><br>
 
             <input type="submit" value="Créer la séance">
             

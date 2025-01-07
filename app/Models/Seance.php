@@ -18,7 +18,7 @@ class Seance extends Model
      *
      * @var string
      */
-    protected $table = 'plo_seances';
+    protected $table = 'plo_seance';
 
     /**
      * Indicates if the model should be timestamped.
@@ -42,7 +42,7 @@ class Seance extends Model
     public static function insert($beginTime, $endTime, $place, $level){
         DB::beginTransaction();
         try{ //
-            DB::insert("insert into plo_seances (li_id, form_niveau, sea_date_deb, sea_date_fin) values (?, ?, str_to_date(?, \"%Y-%m-%dT%H:%i\"), str_to_date(?, \"%Y-%m-%dT%H:%i\"))", [$place, $level, $beginTime, $endTime]);
+            DB::insert("insert into plo_seance (li_id, form_niveau, sea_date_deb, sea_date_fin) values (?, ?, str_to_date(?, \"%Y-%m-%dT%H:%i\"), str_to_date(?, \"%Y-%m-%dT%H:%i\"))", [$place, $level, $beginTime, $endTime]);
             
         } catch (Exception $e){
             DB::rollBack();
