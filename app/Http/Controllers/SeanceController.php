@@ -36,7 +36,10 @@ class SeanceController extends Controller
         
         
         try{
-            $sessionId = Seance::insert($request->input('dateD'), $request->input('dateF'), $request->input('lieu'), $request->input('niv'));
+            $startTime = $request->input('date')."T".$request->input('beginHour').":".$request->input('beginMin');
+            $endTime = $request->input('date')."T".$request->input('endHour').":".$request->input('endMin');
+
+            $sessionId = Seance::insert($startTime, $endTime, $request->input('lieu'), $request->input('niv'));
             
             $group = Groupe::create([
                 "SEA_ID" => $sessionId,

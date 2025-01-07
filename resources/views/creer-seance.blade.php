@@ -38,11 +38,17 @@
                 @endforeach
             </select> <br>
 
-            <label for="dateD">Date de début :</label><br>
-            <input type="datetime-local" id="dateD" name="dateD" required><br>
+            <label for="date">Date :</label><br>
+            <input type="datetime-local" id="date" name="date" required><br>
 
-            <label for="dateF">Date de fin :</label><br>
-            <input type="datetime-local" id="dateF" name="dateF" required><br><br>
+            <label for="beginHour">Heure de début :</label><br>
+            <div><input type="number" id="beginHour" name="beginHour" required min="0" max="23" value="0">:
+                <input type="number" id="beginMin" name="beginMin" required min="0" max="59" value="0"></div><br><br>
+
+
+            <label for="endHour">Heure de fin :</label><br>
+            <div><input type="number" id="endHour" name="endHour" required min="0" max="23" value="0">:
+                <input type="number" id="endMin" name="endMin" required min="0" max="59" value="0"></div><br>
 
             <label for="initiateur">Initiateur : </label>
             <select name="initiateur" id="initiateur">
