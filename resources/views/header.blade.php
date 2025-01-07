@@ -15,9 +15,9 @@
         <!-- Navigation élève -->
         <nav class="hidden md:flex space-x-6">
             <a href="{{ url('/') }}" class="hover:text-gray-400">Mon compte</a>
-            <a href="{{ url('/about') }}" class="hover:text-gray-400">Scéances</a>
-            <a href="{{ url('/services') }}" class="hover:text-gray-400">Compétences</a>
-            <a href="{{ url('/contact') }}" class="hover:text-gray-400">Se Déconnecter</a>
+            <a href="{{ url('/') }}" class="hover:text-gray-400">Scéances</a>
+            <a href="{{ url('/') }}" class="hover:text-gray-400">Compétences</a>
+            <a href="{{ url('/') }}" class="hover:text-gray-400">Se Déconnecter</a>
         </nav>
         @elseif($role === 'initiateur')
         <!-- Navigation initiateur/responsable-->

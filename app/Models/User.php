@@ -70,7 +70,7 @@ class User extends Authenticatable
             return 'eleve';
         }
 
-
+        
 
     }
 
