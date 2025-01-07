@@ -20,6 +20,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::prefix('/createSession')->name('createSession.')->controller(\App\Http\Controllers\SeanceController::class)->group(function(){
+Route::get('/', 'createSession')->name('show');
+Route::post('/', 'store');
+});
+
 // Route pour la page de login
 Route::get('/login-page', function () {
     return view('login-page');
