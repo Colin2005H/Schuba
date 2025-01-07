@@ -3,6 +3,9 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\Api\SeanceController;
+Route::apiResource('seances', SeanceController::class);
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
