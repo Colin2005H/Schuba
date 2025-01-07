@@ -69,6 +69,14 @@
                 @enderror
             </div>
 
+            <div>
+                <input type="radio" id="userType1" name="userType" value="eleve" />
+                <label for="userType1">Eleve</label>
+
+                <input type="radio" id="userType2" name="userType" value="initiateur" />
+                <label for="userType2">Initiateur</label>
+            </div>
+
             <button class="btn btn-primary">Enregistrer</button>
         </form>
 </body>
