@@ -8,7 +8,7 @@
         @csrf
 
         <label for="category-select">Catégorie&nbsp;:&nbsp;</label>
-        <select name="category" id="category-select">
+        <select name="category" id="category-select" required>
             <option value="">-- Sélectionnez une option --</option>
             <option value="1">N1</option>
             <option value="2">N2</option>
@@ -16,7 +16,7 @@
         </select>
 
         <label for="manager-select">Responsable&nbsp;:&nbsp;</label>
-        <select name="manager" id="manager-select">
+        <select name="manager" id="manager-select" required>
             <option value="">-- Sélectionnez une option --</option>
             @foreach($optionsManager as $option)
                 <option value="{{ $option->UTI_ID }}">{{ $option->UTI_NOM }} {{ $option->UTI_PRENOM }}</option>
@@ -24,7 +24,7 @@
         </select>
 
         <label for="initiator-select">Initiateurs&nbsp;:&nbsp;</label>
-        <select name="initiator" id="initiator-select" multiple="multiple">
+        <select name="initiator[]" id="initiator-select" multiple="multiple" required>
             @foreach($optionsInitiateur as $option)
                 <option value="{{ $option->UTI_ID }}">{{ $option->UTI_NOM }} {{ $option->UTI_PRENOM }}</option>
             @endforeach
@@ -32,7 +32,7 @@
         (Pour faire plusieurs choix maintenir la touche CTRL enfoncée)
 
         <label for="student-select">Élèves&nbsp;:&nbsp;</label>
-        <select name="student" id="student-select" multiple="multiple">
+        <select name="student[]" id="student-select" multiple="multiple" required>
             @foreach($optionsStudent as $option)
                 <option value="{{ $option->UTI_ID }}">{{ $option->UTI_NOM }} {{ $option->UTI_PRENOM }}</option>
             @endforeach
@@ -40,6 +40,10 @@
         (Pour faire plusieurs choix maintenir la touche CTRL enfoncée)
 
         <input type="submit" value="Créer" />
+
+        @if (session('success'))
+            <div class=""> {{ session('success') }} </div>
+        @endif
 
     </form>
 
