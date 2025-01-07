@@ -33,8 +33,8 @@ class Seance extends Model
     /**
      * Insert 
      *
-     * @param String $beginTime debut de la séance au format 'heure:minute j/m/a'
-     * @param String $endTime fin de la séance au format 'heure:minute j/m/a'
+     * @param String $beginTime debut de la séance au format '[année]-[mois]-[jour]T[heure]:[minute]'
+     * @param String $endTime fin de la séance au format '[année]-[mois]-[jour]T[heure]:[minute]'
      * @param int $place id du lieu de la séance
      * @param int $level niveau de la séance (1 à 3)
      * @return void
