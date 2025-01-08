@@ -5,12 +5,14 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\PloAptitude;
 use Illuminate\Http\Request;
+use OpenApi\Annotations as OA;
+
 
 class PloAptitudeController extends Controller {
 
     /**
      * @OA\Get(
-     *     path="/aptitude",
+     *     path="/api/aptitude",
      *     summary="Retrieve a list of aptitudes",
      *     description="Fetches a list of aptitudes based on optional filters such as ID, competence ID, and name.",
      *     operationId="getAptitudes",
@@ -103,7 +105,7 @@ class PloAptitudeController extends Controller {
 
     /**
      * @OA\Post(
-     *     path="/aptitude",
+     *     path="/api/aptitude",
      *     summary="Create a new aptitude",
      *     description="Creates a new aptitude and returns the created aptitude details.",
      *     operationId="createAptitude",
@@ -167,7 +169,7 @@ class PloAptitudeController extends Controller {
 
     /**
      * @OA\Put(
-     *     path="/aptitude/{id}",
+     *     path="/api/aptitude/{id}",
      *     summary="Update an existing aptitude",
      *     description="Updates an existing aptitude by its ID and returns the updated aptitude details.",
      *     operationId="updateAptitude",
@@ -259,7 +261,7 @@ class PloAptitudeController extends Controller {
 
     /**
      * @OA\Delete(
-     *     path="/aptitude/{id}",
+     *     path="/api/aptitude/{id}",
      *     summary="Delete an aptitude",
      *     description="Deletes an existing aptitude by its ID and returns a confirmation message.",
      *     operationId="deleteAptitude",

@@ -6,7 +6,6 @@ use Carbon\Carbon;
 use App\Models\PloSeance;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use OpenApi\Annotations as OA;
 
 /**
  * @OA\Info(

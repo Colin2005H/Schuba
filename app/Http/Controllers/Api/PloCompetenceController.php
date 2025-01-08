@@ -79,13 +79,13 @@ class PloCompetenceController extends Controller {
     
         // Filter the competences
         if ($id) {
-            $query->where('CPT_ID', 'LIKE', $id, '%');
+            $query->where('CPT_ID', 'like', '%' . $id . '%');
         }
         if ($niveau) {
             $query->where('FORM_NIVEAU', $niveau);
         }
         if ($libelle) {
-            $query->where('CPT_LIBELLE', 'LIKE', $libelle, '%');
+            $query->where('CPT_LIBELLE', 'like', '%' . $libelle . '%');
         }
     
         // Get the competences

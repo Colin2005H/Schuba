@@ -6,6 +6,634 @@
         "version": "0.3.5"
     },
     "paths": {
+        "/api/aptitude": {
+            "get": {
+                "tags": [
+                    "Aptitudes"
+                ],
+                "summary": "Retrieve a list of aptitudes",
+                "description": "Fetches a list of aptitudes based on optional filters such as ID, competence ID, and name.",
+                "operationId": "getAptitudes",
+                "parameters": [
+                    {
+                        "name": "ID",
+                        "in": "query",
+                        "description": "The ID of the aptitude to filter by",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "example": "APT001"
+                        }
+                    },
+                    {
+                        "name": "COMPETENCE_ID",
+                        "in": "query",
+                        "description": "The competence ID to filter by",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "example": "CPT01"
+                        }
+                    },
+                    {
+                        "name": "NAME",
+                        "in": "query",
+                        "description": "The name or part of the name of the aptitude to filter by",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "example": "Technical Skill"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "A list of aptitudes based on the filters provided",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "APT_CODE": {
+                                                "type": "string",
+                                                "example": "APT001"
+                                            },
+                                            "CPT_ID": {
+                                                "type": "string",
+                                                "example": "CPT01"
+                                            },
+                                            "APT_LIBELLE": {
+                                                "type": "string",
+                                                "example": "Technical Skill"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request parameters",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Invalid request parameters"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Aptitudes"
+                ],
+                "summary": "Create a new aptitude",
+                "description": "Creates a new aptitude and returns the created aptitude details.",
+                "operationId": "createAptitude",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "NAME",
+                                    "COMPETENCE_ID"
+                                ],
+                                "properties": {
+                                    "NAME": {
+                                        "type": "string",
+                                        "example": "Mathematics Aptitude"
+                                    },
+                                    "COMPETENCE_ID": {
+                                        "type": "string",
+                                        "example": "CPT123"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Aptitude created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Aptitude successfully created!"
+                                        },
+                                        "aptitude": {
+                                            "properties": {
+                                                "APT_CODE": {
+                                                    "type": "string",
+                                                    "example": "APT001"
+                                                },
+                                                "CPT_ID": {
+                                                    "type": "string",
+                                                    "example": "CPT123"
+                                                },
+                                                "APT_LIBELLE": {
+                                                    "type": "string",
+                                                    "example": "Mathematics Aptitude"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Invalid data format or missing fields."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/aptitude/{id}": {
+            "put": {
+                "tags": [
+                    "Aptitudes"
+                ],
+                "summary": "Update an existing aptitude",
+                "description": "Updates an existing aptitude by its ID and returns the updated aptitude details.",
+                "operationId": "updateAptitude",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "The ID of the aptitude to update",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "APT001"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "NAME",
+                                    "COMPETENCE_ID"
+                                ],
+                                "properties": {
+                                    "NAME": {
+                                        "type": "string",
+                                        "example": "Advanced Mathematics Aptitude"
+                                    },
+                                    "COMPETENCE_ID": {
+                                        "type": "string",
+                                        "example": "CPT123"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Aptitude updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Aptitude successfully updated!"
+                                        },
+                                        "aptitude": {
+                                            "properties": {
+                                                "APT_CODE": {
+                                                    "type": "string",
+                                                    "example": "APT001"
+                                                },
+                                                "CPT_ID": {
+                                                    "type": "string",
+                                                    "example": "CPT123"
+                                                },
+                                                "APT_LIBELLE": {
+                                                    "type": "string",
+                                                    "example": "Advanced Mathematics Aptitude"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Aptitude not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Aptitude not found."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Invalid data format or missing fields."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Aptitudes"
+                ],
+                "summary": "Delete an aptitude",
+                "description": "Deletes an existing aptitude by its ID and returns a confirmation message.",
+                "operationId": "deleteAptitude",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "The ID of the aptitude to delete",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "APT001"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Aptitude deleted successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Aptitude successfully deleted!"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Aptitude not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Cannot find the aptitude."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/club": {
+            "get": {
+                "tags": [
+                    "Clubs"
+                ],
+                "summary": "Get a list of clubs",
+                "description": "Fetches clubs based on the provided filters (ID or Name).",
+                "operationId": "getClubs",
+                "parameters": [
+                    {
+                        "name": "ID",
+                        "in": "query",
+                        "description": "The ID of the club",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    },
+                    {
+                        "name": "NAME",
+                        "in": "query",
+                        "description": "Partial name of the club to search for",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "example": "Sports Club"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of clubs successfully fetched",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "CLU_ID": {
+                                                "type": "integer",
+                                                "example": 1
+                                            },
+                                            "CLU_NOM": {
+                                                "type": "string",
+                                                "example": "Sports Club"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request, invalid parameters",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Invalid request parameters"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Clubs"
+                ],
+                "summary": "Create a new club",
+                "description": "Creates a new club with the specified name.",
+                "operationId": "createClub",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "NAME"
+                                ],
+                                "properties": {
+                                    "NAME": {
+                                        "description": "The name of the club",
+                                        "type": "string",
+                                        "example": "New Club"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Club successfully created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Club successfully created!"
+                                        },
+                                        "club": {
+                                            "properties": {
+                                                "CLU_ID": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "CLU_NOM": {
+                                                    "type": "string",
+                                                    "example": "New Club"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "The given data was invalid."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/club/{id}": {
+            "put": {
+                "tags": [
+                    "Clubs"
+                ],
+                "summary": "Update an existing club",
+                "description": "Updates a club's name by its ID.",
+                "operationId": "updateClub",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the club to update",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "NAME"
+                                ],
+                                "properties": {
+                                    "NAME": {
+                                        "description": "The name of the club",
+                                        "type": "string",
+                                        "example": "New Club Name"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Club successfully updated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Club successfully updated!"
+                                        },
+                                        "club": {
+                                            "properties": {
+                                                "CLU_ID": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "CLU_NOM": {
+                                                    "type": "string",
+                                                    "example": "New Club Name"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Club not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Club not found."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Clubs"
+                ],
+                "summary": "Delete a club",
+                "description": "Deletes a club by its ID.",
+                "operationId": "deleteClub",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the club to delete",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Club successfully deleted",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Club successfully deleted!"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Club not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Club not found."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/skill": {
             "get": {
                 "tags": [
@@ -2369,6 +2997,14 @@
         }
     },
     "tags": [
+        {
+            "name": "Aptitudes",
+            "description": "Aptitudes"
+        },
+        {
+            "name": "Clubs",
+            "description": "Clubs"
+        },
         {
             "name": "Skills",
             "description": "Skills"
