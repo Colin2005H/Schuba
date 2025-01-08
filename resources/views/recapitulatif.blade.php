@@ -34,7 +34,9 @@
 <div class="form-container">
     <h2>Récapitulatif de la Séance</h2>
     <form action="{{ route('seance-store') }}" method="POST">
+
         @csrf
+        <input type="hidden" name="SEA_ID" value="{{ $seance->SEA_ID }}">
         <table>
             <thead>
                 <tr>
@@ -47,10 +49,13 @@
             </thead>
             <tbody>
                 @foreach ($eleves as $eleve)
+                    @php
+                        $isInitiateur = $currentUser->UTI_ID === $seance->getInitiator($eleve->user->UTI_ID)[0]->user->UTI_ID;
+                    @endphp
                     <tr>
                         <td>{{ $eleve->user->UTI_NOM }}</td>
                         <td>
-                            <input type="checkbox" name="presence[{{ $eleve->id }}]" value="1">
+                            <input type="checkbox" name="presence[{{ $eleve->UTI_ID }}]" {{ $isInitiateur ? '' : 'disabled' }}>
                         </td>
                         <td>
                             @foreach ($seance->getAptEleve($eleve->user->UTI_ID) as $apt)
@@ -61,7 +66,7 @@
                         </td>
                         <td>
                         @foreach ($seance->getAptEleve($eleve->user->UTI_ID) as $apt)
-                        <select name="evaluation[{{ $eleve->id }}][{{ $apt->APT_CODE }}]">
+                        <select name="evaluation[{{ $eleve->UTI_ID }}][{{ $apt->APT_CODE }}] " {{ $isInitiateur ? '' : 'disabled' }}>
                             <option>non évaluée</option>
                             <option>en cours d'acquisition</option>
                             <option>acquise</option>
@@ -70,10 +75,12 @@
                         
                         </td>
                         <td>
-                            
-                                <div>
-                                    <textarea name="commentaire[{{ $eleve->id }}][{{ $apt->APT_CODE }}]" rows="2" placeholder="Commentaire..."></textarea>
+                        @foreach ($seance->getAptEleve($eleve->user->UTI_ID) as $apt)
+                        <div>
+                                    <textarea name="commentaire[{{ $eleve->UTI_ID }}][{{ $apt->APT_CODE }}]" rows="2" placeholder="Commentaire..." {{ $isInitiateur ? '' : 'disabled' }}></textarea>
                                 </div>
+                            @endforeach
+                                
                             
                         </td>
                     </tr>

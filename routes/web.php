@@ -51,5 +51,7 @@ Route::get('/header', function() {
 Route::post('/showForm', [BilanSeanceController::class, 'showForm'])->name('seance-store');
 
 Route::get('/triche', function() {
-    return Hash::make("supermdp");
+    return Hash::make("toujourssupermdp");
 });
+
+Route::post('/seance-store', [BilanSeanceController::class, 'store'])->name('seance-store');

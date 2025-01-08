@@ -74,18 +74,30 @@ class Seance extends Model
         return $eleves;
     }
 
-    public function getAptEleve(int $eleve) {
+    public function getAptEleve(int $eleve_id) {
         $code = DB::table('PLO_APTITUDE') 
             ->join('EVALUER', 'PLO_APTITUDE.APT_CODE', '=', 'EVALUER.APT_CODE')
             ->join('PLO_SEANCE', 'EVALUER.SEA_ID', '=', 'PLO_SEANCE.SEA_ID') 
             ->join('GROUPER', 'PLO_SEANCE.SEA_ID', '=', 'GROUPER.SEA_ID') 
             ->join('PLO_ELEVE', 'GROUPER.UTI_ID', '=', 'PLO_ELEVE.UTI_ID') 
-            ->where('PLO_ELEVE.UTI_ID', '=', $eleve)
+            ->where('PLO_ELEVE.UTI_ID', '=', $eleve_id)
             ->where('PLO_SEANCE.SEA_ID', '=', $this->SEA_ID)
             ->pluck('PLO_APTITUDE.APT_CODE');
 
             $apt = Aptitude::whereIn('APT_CODE', $code)->get();
 
             return $apt;
+    }
+
+    public function getInitiator(int $eleve_id) {
+        $id = DB::table('PLO_INITIATEUR') 
+            ->join('GROUPER', 'PLO_INITIATEUR.UTI_ID', '=', 'GROUPER.UTI_ID_INITIATEUR') 
+            ->join('PLO_ELEVE', 'GROUPER.UTI_ID', '=', 'PLO_ELEVE.UTI_ID') 
+            ->where('PLO_ELEVE.UTI_ID', '=', $eleve_id)
+            ->pluck('PLO_INITIATEUR.UTI_ID');
+
+        $initiator = Initiator::whereIn('UTI_ID', $id)->get();
+
+        return $initiator;
     }
 }
