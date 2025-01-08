@@ -13,6 +13,11 @@
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js'></script>
 
     <style>
+
+        body{
+            font-family: 'figtree', sans-serif;
+        }
+        
         .fc-event-time {
             font-size: 0.9rem !important;
             font-family: 'figtree', sans-serif; 
@@ -224,6 +229,7 @@
                 </tbody>
             </table>
             <button id="close" class="mt-4 bg-blue-500 text-white px-4 py-2 rounded mx-auto">Fermer</button>
+            <button id="evaluate" class="mt-4 bg-blue-500 text-white px-4 py-2 rounded mx-auto">Evaluer</button>
         </div>
     </div>
     <script>
