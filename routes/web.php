@@ -6,6 +6,7 @@ use App\Http\Controllers\FormationController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\listCommentariesController;
+use App\Http\Controllers\AptitudesTableStudentController;
 
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
@@ -75,3 +76,6 @@ Route::get('/calendar', function () {
     return view('calendar');
 });
 
+Route::prefix('/aptitudes')->name('aptitudes.')->controller(AptitudesTableStudentController::class)->group(function(){
+    Route::get('/', 'aptitudes')->name('showListAptitudes');
+});
