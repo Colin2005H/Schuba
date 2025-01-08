@@ -9,7 +9,7 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
-
+    <script src="https://cdn.tailwindcss.com"></script>
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js'></script>
 
     <style>
@@ -50,7 +50,10 @@
         }
 
     </style>
-    <div class="calendar">
+
+</head>
+<body>
+<div class="calendar">
         <h1>Calendrier des séances</h1>
         <div id='calendar'>
             <script>
@@ -163,6 +166,8 @@
                         beginningHour.textContent = "Début : " + info.event.start.toLocaleTimeString();
                         endingHour.textContent = "Fin : " + info.event.end.toLocaleTimeString();
                         popup.style.display = "block";
+
+                        document.cookie = "identifier="+info.event.id;
                     }
               };
 
@@ -193,23 +198,38 @@
             </script>
         </div>
     </div>
-</head>
-<body>
-    <div id='calendar'></div>
-    <popup style = "display: none;" id="popup">
-        <p id="identifier" style="display: none;"></p>
-        <p id="location"></p>
-        <p id="beginning-hour"></p>
-        <p id="ending-hour"></p>
-        @foreach 
-
-        @endforeach
-        
-
-        <button id="close">Fermer</button>
-        
-        
-        
-    </popup>
+    <div class="hidden fixed inset-0 z-10 bg-opacity-75 bg-gray-500 flex items-center justify-center place-content-center place-items-center align-content-center min-h-screen w-full" id="popup">
+        <div class="bg-white rounded-lg p-6 w-full max-w-md text-center">
+            <p id="identifier" class="hidden"></p>
+            <p id="location" class="text-lg font-semibold mb-2"></p>
+            <p id="beginning-hour" class="mb-2"></p>
+            <p id="ending-hour" class="mb-4"></p>
+            <table class="min-w-full bg-white border border-gray-200">
+                <thead>
+                    <tr>
+                        <th scope="col" class="px-4 py-2 border-b border-gray-200 text-center">Initiateur</th>
+                        <th scope="col" class="px-4 py-2 border-b border-gray-200 text-center">Elève</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    use App\Http\Controllers\CalendarController;
+                    $personTable = CalendarController::getGroupByIdSession($_COOKIE['identifier']);
+                    foreach($personTable as $line){
+                        echo "<tr>";
+                        echo "<td scope=\"row\" class=\"px-4 py-2 border-b border-gray-200 text-center\">".$line[0]."</td>";
+                        echo "<td class=\"px-4 py-2 border-b border-gray-200 text-center\">".$line[1]."</td>";
+                    }
+                    ?>
+                </tbody>
+            </table>
+            <button id="close" class="mt-4 bg-blue-500 text-white px-4 py-2 rounded mx-auto">Fermer</button>
+        </div>
+    </div>
+    <script>
+        document.getElementById('close').addEventListener('click', function() {
+            document.getElementById('popup').style.display = 'none';
+        });
+    </script>
 </body>
 </html>
