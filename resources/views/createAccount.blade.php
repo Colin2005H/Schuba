@@ -8,8 +8,8 @@
 </head>
 <body class="bg-gray-100">
     @if(session('success'))
-        <div class="alert alert-success">
-            {{session('success')}}
+        <div class="p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400">
+            <span class="font-medium"> {{session('success')}} </span>
         </div>
     @endif
     <div class="bg-white p-6 rounded-lg shadow-md sm:w-96 items-center justify-center mx-auto my-auto">
@@ -92,28 +92,28 @@
 
             <div class="mb-4">
                 <label for="uti_date_naissance">Date de naissance : </label>
-                <input id="uti_date_naissance" type="date" name="uti_date_naissance" value="1950-01-01" min="1970-01-01" max="{{today()}}" class="w-full px-3 py-2 bg-white border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"/>
+                <input id="uti_date_naissance" type="date" name="uti_date_naissance" value="1950-01-01" min="1950-01-01" max="{{today()}}" class="w-full px-3 py-2 bg-white border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"/>
                 @error("uti_date_naissance")
                     {{$message}}
                 @enderror
             </div>
 
             <div class="mb-4">
-                <label for="uti_date_certificat">Date de naissance : </label>
-                <input id="uti_date_certificat" type="date" name="uti_date_certificat" value="1950-01-01" min="1970-01-01" max="{{today()}}" class="w-full px-3 py-2 bg-white border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"/>
+                <label for="uti_date_certificat">Date du certificat de santé : </label>
+                <input id="uti_date_certificat" type="date" name="uti_date_certificat" value="1950-01-01" min="1950-01-01" max="{{today()}}" class="w-full px-3 py-2 bg-white border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"/>
                 @error("uti_date_certificat")
                     {{$message}}
                 @enderror
             </div>
 
-            <div class="mb-4">
+            <div class="mb-4" id="userTypeDiv">
                 <div class="form-check" id="eleveDiv">
                     <input type="radio" id="userType1" name="userType" value="eleve" />
                     <label for="userType1">Eleve</label>
                 </div>
 
                 <div id="initiateurBtnRadio" class="form-check">
-                    <input type="radio" id="userType2" name="userType" value="initiateur" disabled/>
+                    <input type="radio" id="userType2" name="userType" value="initiateur"/>
                     <label for="userType2">Initiateur</label>
                 </div>
             </div>
@@ -127,18 +127,24 @@
         var student = document.getElementById("userType1");
         var initiateur = document.getElementById("userType2");
         var studentDiv = document.getElementById("eleveDiv");
+        var changeStudentRadioBtn = 0;
 
         student.addEventListener('click', function() {
-            var studentFormation = document.createElement('p');
-            studentFormation.textContent = 'Formation de niveau ' + parseInt(niveau.value)+1 + 'pour cette année';
-            studentFormation.id = 'studentFormation';
-            studentDiv.appendChild(studentFormation);
+            if(student.checked && changeStudentRadioBtn === 0){
+                var studentFormation = document.createElement('p');
+                var valueFormation = parseInt(niveau.value)+ 1
+                studentFormation.textContent = 'Formation de niveau ' + valueFormation + ' pour cette année';
+                studentFormation.id = 'studentFormation';
+                studentDiv.appendChild(studentFormation);
+                changeStudentRadioBtn++;
+            }
         });
 
         initiateur.addEventListener('click', function() {
             if(document.getElementById('studentFormation')){
                 var studentFormation = document.getElementById('studentFormation');
                 studentDiv.removeChild(studentFormation);
+                changeStudentRadioBtn = 0;
             }
         });
 
