@@ -24,3 +24,7 @@ Route::get('/calendar', function () {
 Route::get('/footer', function () {
     return view('footer');
 });
+
+Route::get("message", "MessageController@formMessageGoogle");
+Route::post("message", "MessageController@sendMessageGoogle")->name('send.message.google');
+
