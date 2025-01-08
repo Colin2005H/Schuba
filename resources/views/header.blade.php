@@ -20,7 +20,7 @@
         @if($role === 'eleve')
         <!-- Navigation élève -->
         <nav class="hidden md:flex space-x-6">
-            <a href="{{ url('/') }}" class="hover:text-gray-400">Mon compte</a>
+            <a href="{{ url('/profile') }}" class="hover:text-gray-400">Mon compte</a>
             <a href="{{ url('/calendar') }}" class="hover:text-gray-400">Scéances</a>
             <a href="{{ url('/') }}" class="hover:text-gray-400">Compétences</a>
             <a href="{{ url('/') }}" class="hover:text-gray-400">Se Déconnecter</a>
@@ -28,7 +28,7 @@
         @elseif($role === 'responsable')
         <!-- Navigation responsable-->
         <nav class="hidden md:flex space-x-6">
-            <a href="{{ url('/') }}" class="hover:text-gray-400">Mon compte</a>
+            <a href="{{ url('/profile') }}" class="hover:text-gray-400">Mon compte</a>
             <a href="{{ url('/createSession') }}" class="hover:text-gray-400">Scéances</a>
             <a href="{{ url('/') }}" class="hover:text-gray-400">Commentaires</a>
             <a href="{{ url('/') }}" class="hover:text-gray-400">Élèves</a>
@@ -37,7 +37,7 @@
         @elseif($role === 'initiateur')
         <!-- Navigation initiateur-->
         <nav class="hidden md:flex space-x-6">
-            <a href="{{ url('/') }}" class="hover:text-gray-400">Mon compte</a>
+            <a href="{{ url('/profile') }}" class="hover:text-gray-400">Mon compte</a>
             <a href="{{ url('/calendar') }}" class="hover:text-gray-400">Scéances</a>
             <a href="{{ url('/') }}" class="hover:text-gray-400">Commentaires</a>
             <a href="{{ url('/') }}" class="hover:text-gray-400">Élèves</a>
@@ -46,7 +46,7 @@
         @elseif($role === 'directeur_technique')
         <!-- Navigation directeur technique-->
         <nav class="hidden md:flex space-x-6">
-            <a href="{{ url('/') }}" class="hover:text-gray-400">Mon compte</a>
+            <a href="{{ url('/profile') }}" class="hover:text-gray-400">Mon compte</a>
             <a href="{{ url('/') }}" class="hover:text-gray-400">Formations</a>
             <a href="{{ url('/createAccount') }}" class="hover:text-gray-400">Comptes</a>
             <a href="{{ url('/') }}" class="hover:text-gray-400">Élèves</a>
