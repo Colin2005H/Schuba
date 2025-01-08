@@ -3,9 +3,350 @@
     "info": {
         "title": "Schuba API",
         "description": "API for managing diving club activities",
-        "version": "0.3.0"
+        "version": "0.3.5"
     },
     "paths": {
+        "/api/skill": {
+            "get": {
+                "tags": [
+                    "Skills"
+                ],
+                "summary": "Get a list of skills",
+                "description": "Retrieves a list of skills based on the provided filters.",
+                "operationId": "getSkills",
+                "parameters": [
+                    {
+                        "name": "ID",
+                        "in": "query",
+                        "description": "The ID of the skill to search for",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    },
+                    {
+                        "name": "LEVEL",
+                        "in": "query",
+                        "description": "The level of the skill to filter by",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "example": 2
+                        }
+                    },
+                    {
+                        "name": "NAME",
+                        "in": "query",
+                        "description": "The name or part of the name of the skill to search for",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "example": "Scuba Diving"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of skills",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "CPT_ID": {
+                                                "type": "string",
+                                                "example": "123"
+                                            },
+                                            "LEVEL": {
+                                                "type": "integer",
+                                                "example": 2
+                                            },
+                                            "NAME": {
+                                                "type": "string",
+                                                "example": "Basic Scuba Diving"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input data",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Validation errors"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Skills"
+                ],
+                "summary": "Create a new skill",
+                "description": "Creates a new skill with the specified level and name.",
+                "operationId": "createSkill",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "LEVEL",
+                                    "NAME"
+                                ],
+                                "properties": {
+                                    "LEVEL": {
+                                        "description": "The level associated with the skill",
+                                        "type": "integer",
+                                        "example": 2
+                                    },
+                                    "NAME": {
+                                        "description": "The name of the skill",
+                                        "type": "string",
+                                        "example": "Basic Scuba Diving"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Skill successfully created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Skill successfully created!"
+                                        },
+                                        "skill": {
+                                            "properties": {
+                                                "CPT_ID": {
+                                                    "type": "string",
+                                                    "example": "123"
+                                                },
+                                                "LEVEL": {
+                                                    "type": "integer",
+                                                    "example": 2
+                                                },
+                                                "NAME": {
+                                                    "type": "string",
+                                                    "example": "Basic Scuba Diving"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input data",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Validation errors"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/skill/{id}": {
+            "put": {
+                "tags": [
+                    "Skills"
+                ],
+                "summary": "Update a skill",
+                "description": "Updates the details of an existing skill by its ID.",
+                "operationId": "updateSkill",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the skill to update",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "LEVEL",
+                                    "NAME"
+                                ],
+                                "properties": {
+                                    "LEVEL": {
+                                        "description": "The level associated with the skill",
+                                        "type": "integer",
+                                        "example": 3
+                                    },
+                                    "NAME": {
+                                        "description": "The name of the skill",
+                                        "type": "string",
+                                        "example": "Advanced Scuba Diving"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Skill successfully updated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Skill successfully updated!"
+                                        },
+                                        "skill": {
+                                            "properties": {
+                                                "CPT_ID": {
+                                                    "type": "string",
+                                                    "example": "123"
+                                                },
+                                                "LEVEL": {
+                                                    "type": "integer",
+                                                    "example": 3
+                                                },
+                                                "NAME": {
+                                                    "type": "string",
+                                                    "example": "Advanced Scuba Diving"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Skill not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Skill not found."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input data",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Validation errors"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Skills"
+                ],
+                "summary": "Delete a competence",
+                "description": "Deletes a competence by its ID.",
+                "operationId": "deleteCompetence",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the competence to delete",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Competence successfully deleted",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Competence successfully deleted!"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Competence not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Competence not found."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/formation": {
             "get": {
                 "tags": [
@@ -2028,6 +2369,10 @@
         }
     },
     "tags": [
+        {
+            "name": "Skills",
+            "description": "Skills"
+        },
         {
             "name": "Formations",
             "description": "Formations"

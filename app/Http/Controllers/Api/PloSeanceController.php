@@ -12,7 +12,7 @@ use OpenApi\Annotations as OA;
  * @OA\Info(
  *     title="Schuba API",
  *     description="API for managing diving club activities",
- *     version="0.3.0"
+ *     version="0.3.5"
  * )
  */
 
