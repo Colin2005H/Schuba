@@ -3,9 +3,260 @@
     "info": {
         "title": "Schuba API",
         "description": "API for managing diving club activities",
-        "version": "0.1.5"
+        "version": "0.2.5"
     },
     "paths": {
+        "/api/initiator": {
+            "get": {
+                "tags": [
+                    "Initiators"
+                ],
+                "summary": "Get Initiator information",
+                "description": "Retrieve information about one or more initiators. Optionally filter by ID.",
+                "operationId": "getInitiateur",
+                "parameters": [
+                    {
+                        "name": "ID",
+                        "in": "query",
+                        "description": "The ID of the initiator to filter by",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of initiators or specific initiator if ID is provided",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "ID": {
+                                                "type": "integer",
+                                                "example": 1
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Invalid parameter"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Something went wrong, please try again."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Initiators"
+                ],
+                "summary": "Create a new initiator",
+                "description": "Create an initiator by associating an existing user with the initiator role using their ID.",
+                "operationId": "createInitiateur",
+                "requestBody": {
+                    "description": "Initiator data to be created",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "ID"
+                                ],
+                                "properties": {
+                                    "ID": {
+                                        "description": "The ID of the existing user (PloUtilisateur) to associate as the initiator",
+                                        "type": "integer",
+                                        "example": 1
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successfully created the initiator",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Initiator successfully created!"
+                                        },
+                                        "session": {
+                                            "properties": {
+                                                "ID": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input data",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Validation error"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "User not found."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Something went wrong, please try again."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/initiator/{id}": {
+            "delete": {
+                "tags": [
+                    "Initiators"
+                ],
+                "summary": "Delete an initiator",
+                "description": "Delete an initiator by their ID.",
+                "operationId": "deleteInitiateur",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "The ID of the initiator to delete",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully deleted the initiator",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Initiator successfully deleted!"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Initiator not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Cannot find the initiator."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Something went wrong, please try again."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/location": {
             "get": {
                 "tags": [
@@ -917,10 +1168,435 @@
                         }
                     }
                 }
+            },
+            "post": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Create a new user",
+                "description": "Create a new user in the system by providing user details.",
+                "operationId": "createUser",
+                "requestBody": {
+                    "description": "User object that needs to be created",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "NAME",
+                                    "FIRSTNAME",
+                                    "EMAIL",
+                                    "PASSWORD"
+                                ],
+                                "properties": {
+                                    "CLUB_ID": {
+                                        "description": "The ID of the club the user belongs to",
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "NAME": {
+                                        "description": "The last name of the user",
+                                        "type": "string",
+                                        "example": "Doe"
+                                    },
+                                    "FIRSTNAME": {
+                                        "description": "The first name of the user",
+                                        "type": "string",
+                                        "example": "John"
+                                    },
+                                    "EMAIL": {
+                                        "description": "The email of the user",
+                                        "type": "string",
+                                        "example": "johndoe@example.com"
+                                    },
+                                    "PASSWORD": {
+                                        "description": "The password of the user",
+                                        "type": "string",
+                                        "example": "password123"
+                                    },
+                                    "LEVEL": {
+                                        "description": "The level of the user",
+                                        "type": "string",
+                                        "example": "Beginner"
+                                    },
+                                    "BIRTH_DATE": {
+                                        "description": "The birth date of the user",
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "1990-01-01"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "User successfully created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "User successfully created!"
+                                        },
+                                        "session": {
+                                            "properties": {
+                                                "ID": {
+                                                    "type": "integer",
+                                                    "example": 123
+                                                },
+                                                "CLUB_ID": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "NAME": {
+                                                    "type": "string",
+                                                    "example": "Doe"
+                                                },
+                                                "FIRSTNAME": {
+                                                    "type": "string",
+                                                    "example": "John"
+                                                },
+                                                "EMAIL": {
+                                                    "type": "string",
+                                                    "example": "johndoe@example.com"
+                                                },
+                                                "PASSWORD": {
+                                                    "type": "string",
+                                                    "example": "hashed_password"
+                                                },
+                                                "LEVEL": {
+                                                    "type": "string",
+                                                    "example": "Beginner"
+                                                },
+                                                "BIRTH_DATE": {
+                                                    "type": "string",
+                                                    "format": "date",
+                                                    "example": "1990-01-01"
+                                                },
+                                                "CREATION_DATE": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2022-01-01T12:00:00Z"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request, if the provided data is invalid",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Validation error: Email is required."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "Conflict, if the email already exists",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Email already exists."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Something went wrong, please try again."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/user/{id}": {
+            "put": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Update an existing user",
+                "description": "Update the details of an existing user by providing their ID and the required fields.",
+                "operationId": "updateUser",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "The ID of the user to update",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "User object that needs to be updated",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "CLUB_ID": {
+                                        "description": "The ID of the club the user belongs to",
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "NAME": {
+                                        "description": "The last name of the user",
+                                        "type": "string",
+                                        "example": "Doe"
+                                    },
+                                    "FIRSTNAME": {
+                                        "description": "The first name of the user",
+                                        "type": "string",
+                                        "example": "John"
+                                    },
+                                    "EMAIL": {
+                                        "description": "The email of the user",
+                                        "type": "string",
+                                        "example": "johndoe@example.com"
+                                    },
+                                    "PASSWORD": {
+                                        "description": "The password of the user (only required if updating)",
+                                        "type": "string",
+                                        "example": "newpassword123"
+                                    },
+                                    "LEVEL": {
+                                        "description": "The level of the user",
+                                        "type": "string",
+                                        "example": "Beginner"
+                                    },
+                                    "BIRTH_DATE": {
+                                        "description": "The birth date of the user",
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2000-01-01"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "User successfully updated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "User successfully updated!"
+                                        },
+                                        "user": {
+                                            "properties": {
+                                                "ID": {
+                                                    "type": "integer",
+                                                    "example": 123
+                                                },
+                                                "CLUB_ID": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "NAME": {
+                                                    "type": "string",
+                                                    "example": "Doe"
+                                                },
+                                                "FIRSTNAME": {
+                                                    "type": "string",
+                                                    "example": "John"
+                                                },
+                                                "EMAIL": {
+                                                    "type": "string",
+                                                    "example": "johndoe@example.com"
+                                                },
+                                                "PASSWORD": {
+                                                    "type": "string",
+                                                    "example": "hashed_password"
+                                                },
+                                                "LEVEL": {
+                                                    "type": "string",
+                                                    "example": "Beginner"
+                                                },
+                                                "BIRTH_DATE": {
+                                                    "type": "string",
+                                                    "format": "date",
+                                                    "example": "2000-01-01"
+                                                },
+                                                "CREATION_DATE": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2022-01-01T12:00:00Z"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request, if the provided data is invalid",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Validation error: Email is required."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "User not found."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Something went wrong, please try again."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Delete a user",
+                "description": "Delete a user from the system by providing their ID.",
+                "operationId": "deleteUser",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "The ID of the user to delete",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "User successfully deleted",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "User successfully deleted!"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "User not found."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Something went wrong, please try again."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
     },
     "tags": [
+        {
+            "name": "Initiators",
+            "description": "Initiators"
+        },
         {
             "name": "Locations",
             "description": "Locations"

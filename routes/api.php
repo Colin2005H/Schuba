@@ -28,9 +28,10 @@ Route::post('/session', [PloSeanceController::class, "create"]);
 Route::put('/session/{id}', [PloSeanceController::class, "update"]);
 Route::delete('/session/{id}', [PloSeanceController::class, "delete"]);
 
-Route::get('/user', [PloUtilisateurController::class, "liste"]);
-Route::get('/user/student', [PloUtilisateurController::class, "eleve"]);
-Route::get('/user/instructor', [PloUtilisateurController::class, "initiateur"]);
+Route::get('/user', [PloUtilisateurController::class, "get"]);
+Route::post('/user', [PloUtilisateurController::class, "create"]);
+Route::put('/user/{id}', [PloUtilisateurController::class, "update"]);
+Route::delete('/user/{id}', [PloUtilisateurController::class, "delete"]);
 
 Route::get('/leader', [DirigerLeClubController::class, "liste"]);
 

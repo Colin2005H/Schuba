@@ -12,7 +12,7 @@ use OpenApi\Annotations as OA;
  * @OA\Info(
  *     title="Schuba API",
  *     description="API for managing diving club activities",
- *     version="0.1.5"
+ *     version="0.2.5"
  * )
  */
 
@@ -318,7 +318,7 @@ class PloSeanceController extends Controller {
         // Check if session exist
         if (!$seance) {
             return response()->json([
-                'message' => 'Cannot find the session.'
+                'message' => 'Session not found.'
             ], 404);
         }
     
