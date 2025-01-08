@@ -3,6 +3,7 @@
 use App\Http\Controllers\CreateAccountController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ProfileController;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 
@@ -32,6 +33,10 @@ Route::prefix('/createAccount')->name('createAccount.')->controller(CreateAccoun
 Route::prefix('/createSession')->name('createSession.')->controller(\App\Http\Controllers\SeanceController::class)->group(function(){
     Route::get('/', 'createSession')->name('show');
     Route::post('/', 'store');
+});
+
+Route::get('/profile', function () {
+    return view('profile');
 });
 
 // Route pour la page de login
