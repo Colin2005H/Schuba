@@ -96,11 +96,22 @@ public function getAuthPassword()
             }
 
 
-        $countDT = DB::table('PLO_UTILISATEUR') 
+        /*$countDT = DB::table('PLO_UTILISATEUR') 
             ->join('PLO_INITIATEUR', 'PLO_UTILISATEUR.UTI_ID', '=', 'PLO_INITIATEUR.UTI_ID')
-            ->join('DIRIGER_LE_CLUB', 'PLO_UTILISATEUR.UTI_ID', '=', 'GERER_LA_FORMATION.UTI_ID') 
+            ->join('DIRIGER_LE_CLUB', 'PLO_INITIATEUR.UTI_ID', '=', 'GERER_LA_FORMATION.UTI_ID') 
+            ->where('PLO_UTILISATEUR.UTI_MAIL', '=', $this->UTI_MAIL) ->count();*/
+
+        
+        $countDT = DB::table('PLO_UTILISATEUR') 
+            ->whereIn('UTI_ID',function($query){
+                $query->select('UTI_ID')->from('PLO_INITIATEUR');
+            })
+            ->whereIn('UTI_ID',function($query){
+                $query->select('UTI_ID')->from('DIRIGER_LE_CLUB');
+            })
             ->where('PLO_UTILISATEUR.UTI_MAIL', '=', $this->UTI_MAIL) ->count();
 
+        
             if($countDT > 0){
                 return 'directeur_technique';
             }

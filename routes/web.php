@@ -38,5 +38,5 @@ Route::get('/header', function() {
 });
 
 Route::get('/triche', function() {
-    return Hash::make("supermdp");
+    return Hash::make("admin");
 });
