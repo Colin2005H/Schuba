@@ -30,31 +30,31 @@ use App\Http\Controllers\Controller;
  *         example=123
  *     ),
  *     @OA\Property(
- *         property="EVA_COMMENTAIRE",
+ *         property="COMMENT",
  *         type="string",
  *         description="Comments regarding the evaluation",
  *         example="Excellent performance!"
  *     ),
  *     @OA\Property(
- *         property="EVA_RESULTAT",
+ *         property="RESULT",
  *         type="string",
  *         description="The result of the evaluation",
- *         example="Pass"
+ *         example="'Acquis' / 'Non acquis'"
  *     ),
  *     @OA\Property(
- *         property="plo_aptitude",
+ *         property="Aptitude",
  *         type="object",
  *         description="The aptitude (PloAptitude) associated with the evaluation",
  *         ref="#/components/schemas/Aptitude"
  *     ),
  *     @OA\Property(
- *         property="plo_eleve",
+ *         property="Student",
  *         type="object",
  *         description="The student (PloEleve) being evaluated",
  *         ref="#/components/schemas/Student"
  *     ),
  *     @OA\Property(
- *         property="plo_seance",
+ *         property="Session",
  *         type="object",
  *         description="The session (PloSeance) associated with the evaluation",
  *         ref="#/components/schemas/Session"
@@ -63,61 +63,83 @@ use App\Http\Controllers\Controller;
  */
 
 class EvaluerController extends Controller {
+
     /**
      * @OA\Get(
      *     path="/api/assessment",
-     *     summary="Get Assessment records",
-     *     description="Retrieve Assessment records based on optional filters: SEA_ID, APT_CODE, UTI_ID.",
-     *     tags={"Assessment"},
+     *     summary="Get Assessment records based on filters",
+     *     description="Retrieve Assessment records filtered by session ID (SESS_ID), appointment code (APT_CODE), student ID (STUD_ID), comment (COMMENT), and result (RESULT).",
+     *     operationId="getAssessmentRecords",
+     *     tags={"Assessments"},
+     *
      *     @OA\Parameter(
-     *         name="SEA_ID",
+     *         name="SESS_ID",
      *         in="query",
-     *         description="Session ID to filter the records",
+     *         description="Filter by session ID",
      *         required=false,
      *         @OA\Schema(type="integer", example=1)
      *     ),
      *     @OA\Parameter(
      *         name="APT_CODE",
      *         in="query",
-     *         description="Aptitude code to filter the records",
+     *         description="Filter by appointment code",
      *         required=false,
-     *         @OA\Schema(type="string", example="A1")
+     *         @OA\Schema(type="string", example="APT123")
      *     ),
      *     @OA\Parameter(
-     *         name="UTI_ID",
+     *         name="STUD_ID",
      *         in="query",
-     *         description="User ID to filter the records",
+     *         description="Filter by student ID",
      *         required=false,
-     *         @OA\Schema(type="integer", example=1)
+     *         @OA\Schema(type="integer", example=456)
      *     ),
+     *     @OA\Parameter(
+     *         name="COMMENT",
+     *         in="query",
+     *         description="Filter by comment text (partial match)",
+     *         required=false,
+     *         @OA\Schema(type="string", example="Good performance")
+     *     ),
+     *     @OA\Parameter(
+     *         name="RESULT",
+     *         in="query",
+     *         description="Filter by result text (partial match)",
+     *         required=false,
+     *         @OA\Schema(type="string", example="Pass")
+     *     ),
+     *
      *     @OA\Response(
      *         response=200,
-     *         description="Successfully retrieved Assessment records",
+     *         description="Successfully retrieved assessment records",
      *         @OA\JsonContent(
      *             type="array",
      *             @OA\Items(
-     *                 type="object",
-     *                 @OA\Property(property="SEA_ID", type="integer", example=1),
-     *                 @OA\Property(property="APT_CODE", type="string", example="A1"),
-     *                 @OA\Property(property="UTI_ID", type="integer", example=1),
-     *                 @OA\Property(property="EVA_COMMENTAIRE", type="string", example="Great performance."),
-     *                 @OA\Property(property="EVA_RESULTAT", type="string", example="Passed")
+     *                 ref="#/components/schemas/Assessment"
      *             )
      *         )
      *     ),
      *     @OA\Response(
      *         response=400,
-     *         description="Invalid parameters",
+     *         description="Bad Request, invalid parameters",
      *         @OA\JsonContent(
-     *             @OA\Property(property="message", type="string", example="Invalid parameters")
+     *             @OA\Property(property="error", type="string", example="Invalid parameter")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Internal server error",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="error", type="string", example="Something went wrong")
      *         )
      *     )
      * )
      */
     public function get(Request $request) {
-        $seaId = $request->input('SEA_ID');
+        $seaId = $request->input('SESS_ID');
         $aptCode = $request->input('APT_CODE');
-        $utiId = $request->input('UTI_ID');
+        $utiId = $request->input('STUD_ID');
+        $com = $request->input('COMMENT');
+        $res = $request->input('RESULT');
 
         $query = Evaluer::query();
 
@@ -130,87 +152,28 @@ class EvaluerController extends Controller {
         if ($utiId) {
             $query->where('UTI_ID', $utiId);
         }
+        if ($com) {
+            $query->where('EVA_COMMENTAIRE', 'like', '%' . $com . '%');
+        }
+        if ($res) {
+            $query->where('EVA_RESULTAT', 'like', '%' . $res . '%');
+        }
 
         $evaluations = $query->get();
 
-        return response()->json($evaluations);
+        $events = $evaluations->map(function ($evaluation) {
+            return [
+                'SESS_ID' => $evaluation->SEA_ID,
+                'APT_CODE' => $evaluation->APT_CODE,
+                'STUD_ID' =>$evaluation->UTI_ID,
+                'COMMENT' => $evaluation->EVA_COMMENTAIRE,
+                'RESULT' =>$evaluation->EVA_RESULTAT,
+            ];
+        });
+
+        return response()->json($events);
     }
 
-    /**
-     * @OA\Post(
-     *     path="/api/assessment",
-     *     summary="Create a new Assessment record",
-     *     description="This API allows you to create a new Assessment record by providing the SEA_ID, APT_CODE, UTI_ID, EVA_COMMENTAIRE, and EVA_RESULTAT.",
-     *     tags={"Assessment"},
-     *     @OA\RequestBody(
-     *         required=true,
-     *         description="The necessary data to create a new Assessment record",
-     *         @OA\JsonContent(
-     *             required={"SEA_ID", "APT_CODE", "UTI_ID", "EVA_COMMENTAIRE", "EVA_RESULTAT"},
-     *             @OA\Property(
-     *                 property="SEA_ID",
-     *                 type="integer",
-     *                 description="ID of the session being evaluated",
-     *                 example=1
-     *             ),
-     *             @OA\Property(
-     *                 property="APT_CODE",
-     *                 type="string",
-     *                 description="Aptitude code for the assessment",
-     *                 example="A1"
-     *             ),
-     *             @OA\Property(
-     *                 property="UTI_ID",
-     *                 type="integer",
-     *                 description="User ID being rated",
-     *                 example=1
-     *             ),
-     *             @OA\Property(
-     *                 property="EVA_COMMENTAIRE",
-     *                 type="string",
-     *                 description="Comment on the assessment",
-     *                 example="Great performance."
-     *             ),
-     *             @OA\Property(
-     *                 property="EVA_RESULTAT",
-     *                 type="string",
-     *                 description="Result of the assessment",
-     *                 example="Passed"
-     *             )
-     *         )
-     *     ),
-     *     @OA\Response(
-     *         response=200,
-     *         description="Assessment record created successfully",
-     *         @OA\JsonContent(
-     *             @OA\Property(property="message", type="string", example="Assessment successfully created!"),
-     *             @OA\Property(
-     *                 property="assessment",
-     *                 type="object",
-     *                 @OA\Property(property="SEA_ID", type="integer", example=1),
-     *                 @OA\Property(property="APT_CODE", type="string", example="A1"),
-     *                 @OA\Property(property="UTI_ID", type="integer", example=1),
-     *                 @OA\Property(property="EVA_COMMENTAIRE", type="string", example="Great performance."),
-     *                 @OA\Property(property="EVA_RESULTAT", type="string", example="Passed")
-     *             )
-     *         )
-     *     ),
-     *     @OA\Response(
-     *         response=400,
-     *         description="Validation error in the provided data",
-     *         @OA\JsonContent(
-     *             @OA\Property(property="message", type="string", example="The provided data is invalid")
-     *         )
-     *     ),
-     *     @OA\Response(
-     *         response=500,
-     *         description="Internal server error",
-     *         @OA\JsonContent(
-     *             @OA\Property(property="message", type="string", example="An error occurred while creating the record")
-     *         )
-     *     )
-     * )
-     */
     public function create(Request $request) {
         $validated = $request->validate([
             'SEA_ID' => 'required|integer|exists:plo_seance,SEA_ID',
@@ -221,15 +184,15 @@ class EvaluerController extends Controller {
         ]);
 
         $evaluation = Evaluer::create([
-            'SEA_ID' => $request->input('SEA_ID'),
+            'SEA_ID' => $request->input('SESS_ID'),
             'APT_CODE' => $request->input('APT_CODE'),
-            'UTI_ID' => $request->input('UTI_ID'),
-            'EVA_COMMENTAIRE' => $request->input('EVA_COMMENTAIRE'),
-            'EVA_RESULTAT' => $request->input('EVA_RESULTAT'),
+            'UTI_ID' => $request->input('STUD_ID'),
+            'EVA_COMMENTAIRE' => $request->input('COMMENT'),
+            'EVA_RESULTAT' => $request->input('RESULT'),
         ]);
 
         return response()->json([
-            'message' => 'Evaluer successfully created!',
+            'message' => 'Assessment successfully created!',
             'evaluer' => [
                 'SEA_ID' => $evaluation->SEA_ID,
                 'APT_CODE' => $evaluation->APT_CODE,
@@ -241,51 +204,41 @@ class EvaluerController extends Controller {
     }
 
     /**
-     * @OA\Put(
-     *     path="/api/assessment/{id}",
-     *     summary="Update an Assessment record",
-     *     description="This API allows you to update an Assessment record by providing the SEA_ID, APT_CODE, UTI_ID, EVA_COMMENTAIRE, and EVA_RESULTAT.",
-     *     tags={"Assessment"},
-     *     @OA\Parameter(
-     *         name="id",
-     *         in="path",
-     *         description="ID of the Assessment record to be updated",
-     *         required=true,
-     *         @OA\Schema(type="integer", example=1)
-     *     ),
+     * @OA\Post(
+     *     path="/api/assessments",
+     *     summary="Create a new Assessment record",
+     *     description="Create a new Assessment record by providing session ID (SEA_ID), appointment code (APT_CODE), student ID (UTI_ID), comment (EVA_COMMENTAIRE), and result (EVA_RESULTAT).",
+     *     operationId="createAssessmentRecord",
+     *     tags={"Assessments"},
+     *
      *     @OA\RequestBody(
      *         required=true,
-     *         description="The data to update the Assessment record",
+     *         description="Assessment data to be created",
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *             @OA\Schema(ref="#/components/schemas/Assessment")
+     *         )
+     *     ),
+     * 
+     *     @OA\Response(
+     *         response=201,
+     *         description="Successfully created the assessment record",
      *         @OA\JsonContent(
-     *             required={"SEA_ID", "APT_CODE", "UTI_ID", "EVA_COMMENTAIRE", "EVA_RESULTAT"},
-     *             @OA\Property(property="SEA_ID", type="integer", example=1),
-     *             @OA\Property(property="APT_CODE", type="string", example="A1"),
-     *             @OA\Property(property="UTI_ID", type="integer", example=1),
-     *             @OA\Property(property="EVA_COMMENTAIRE", type="string", example="Improvement needed."),
-     *             @OA\Property(property="EVA_RESULTAT", type="string", example="Failed")
+     *             ref="#/components/schemas/Assessment"
      *         )
      *     ),
      *     @OA\Response(
-     *         response=200,
-     *         description="Assessment record updated successfully",
+     *         response=400,
+     *         description="Bad Request, invalid input data",
      *         @OA\JsonContent(
-     *             @OA\Property(property="message", type="string", example="Assessment successfully updated!"),
-     *             @OA\Property(
-     *                 property="assessment",
-     *                 type="object",
-     *                 @OA\Property(property="SEA_ID", type="integer", example=1),
-     *                 @OA\Property(property="APT_CODE", type="string", example="A1"),
-     *                 @OA\Property(property="UTI_ID", type="integer", example=1),
-     *                 @OA\Property(property="EVA_COMMENTAIRE", type="string", example="Improvement needed."),
-     *                 @OA\Property(property="EVA_RESULTAT", type="string", example="Failed")
-     *             )
+     *             @OA\Property(property="error", type="string", example="Validation failed for input parameters")
      *         )
      *     ),
      *     @OA\Response(
-     *         response=404,
-     *         description="Assessment record not found",
+     *         response=500,
+     *         description="Internal server error",
      *         @OA\JsonContent(
-     *             @OA\Property(property="message", type="string", example="Assessment record not found")
+     *             @OA\Property(property="error", type="string", example="Something went wrong")
      *         )
      *     )
      * )
@@ -303,16 +256,16 @@ class EvaluerController extends Controller {
 
         if (!$evaluation) {
             return response()->json([
-                'message' => 'Evaluer record not found'
+                'message' => 'Assessment record not found'
             ], 404);
         }
 
         $evaluation->update([
-            'SEA_ID' => $request->input('SEA_ID'),
+            'SEA_ID' => $request->input('SESS_ID'),
             'APT_CODE' => $request->input('APT_CODE'),
-            'UTI_ID' => $request->input('UTI_ID'),
-            'EVA_COMMENTAIRE' => $request->input('EVA_COMMENTAIRE'),
-            'EVA_RESULTAT' => $request->input('EVA_RESULTAT'),
+            'UTI_ID' => $request->input('STUD_ID'),
+            'EVA_COMMENTAIRE' => $request->input('COMMENT'),
+            'EVA_RESULTAT' => $request->input('RESULT'),
         ]);
 
         return response()->json([
@@ -321,51 +274,19 @@ class EvaluerController extends Controller {
         ]);
     }
 
-/**
- * @OA\Delete(
- *     path="/api/assessment/{id}",
- *     summary="Delete an Assessment record",
- *     description="This API allows you to delete an existing Assessment record by providing its ID.",
- *     tags={"Assessment"},
- *     @OA\Parameter(
- *         name="id",
- *         in="path",
- *         description="ID of the Assessment record to be deleted",
- *         required=true,
- *         @OA\Schema(type="integer", example=1)
- *     ),
- *     @OA\Response(
- *         response=200,
- *         description="Assessment record deleted successfully",
- *         @OA\JsonContent(
- *             @OA\Property(property="message", type="string", example="Assessment record deleted successfully!")
- *         )
- *     ),
- *     @OA\Response(
- *         response=404,
- *         description="Assessment record not found",
- *         @OA\JsonContent(
- *             @OA\Property(property="message", type="string", example="Assessment record not found")
- *         )
- *     )
- * )
- */
-public function delete($id) {
-    $evaluation = Evaluer::find($id);
+    public function delete($id) {
+        $evaluation = Evaluer::find($id);
 
-    if (!$evaluation) {
+        if (!$evaluation) {
+            return response()->json([
+                'message' => 'Assessment record not found'
+            ], 404);
+        }
+
+        $evaluation->delete();
+
         return response()->json([
-            'message' => 'Evaluer record not found'
-        ], 404);
+            'message' => 'Assessment record deleted successfully!'
+        ]);
     }
-
-    $evaluation->delete();
-
-    return response()->json([
-        'message' => 'Evaluer record deleted successfully!'
-    ]);
-}
-
-
-
 }

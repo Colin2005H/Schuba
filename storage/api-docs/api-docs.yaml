@@ -23,7 +23,7 @@ paths:
             type: integer
             example: 123
         -
-          name: FORM_NIVEAU
+          name: LEVEL
           in: query
           description: 'Formation Level to filter the records'
           required: false
@@ -79,11 +79,11 @@ paths:
                   description: 'ID of the user who belongs to the formation'
                   type: integer
                   example: 1
-                FORM_NIVEAU:
+                LEVEL:
                   description: 'Formation level that the user belongs to'
                   type: integer
                   example: 2
-                DATE_INSCRIPTION:
+                SIGN_DATE:
                   description: 'The registration date of the formation'
                   type: string
                   format: date-time
@@ -175,13 +175,13 @@ paths:
       tags:
         - Leaders
       summary: 'Get Leader records based on filters'
-      description: 'Retrieve the Leader records filtered by USER_ID, CLUB_ID, and START_DATE.'
+      description: 'Retrieve the Leader records filtered by INIT_ID, CLUB_ID, and START_DATE.'
       operationId: getDirigerLeClubRecords
       parameters:
         -
-          name: STUD_ID
+          name: INIT_ID
           in: query
-          description: 'Filter by USER_ID'
+          description: 'Filter by INIT_ID'
           required: false
           schema:
             type: integer
@@ -242,11 +242,11 @@ paths:
           application/json:
             schema:
               required:
-                - STUD_ID
+                - INIT_ID
                 - CLUB_ID
                 - START_DATE
               properties:
-                STUD_ID:
+                INIT_ID:
                   description: 'User ID (initiator)'
                   type: integer
                   example: 1
@@ -272,7 +272,7 @@ paths:
                     example: 'DirigerLeClub record successfully created!'
                   diriger_le_club:
                     properties:
-                      STUD_ID:
+                      INIT_ID:
                         type: integer
                         example: 1
                       CLUB_ID:
@@ -500,15 +500,15 @@ paths:
   /api/assessment:
     get:
       tags:
-        - Assessment
-      summary: 'Get Assessment records'
-      description: 'Retrieve Assessment records based on optional filters: SEA_ID, APT_CODE, UTI_ID.'
-      operationId: a71d90f0b3d860f07427289ae0d66c42
+        - Assessments
+      summary: 'Get Assessment records based on filters'
+      description: 'Retrieve Assessment records filtered by session ID (SESS_ID), appointment code (APT_CODE), student ID (STUD_ID), comment (COMMENT), and result (RESULT).'
+      operationId: getAssessmentRecords
       parameters:
         -
-          name: SEA_ID
+          name: SESS_ID
           in: query
-          description: 'Session ID to filter the records'
+          description: 'Filter by session ID'
           required: false
           schema:
             type: integer
@@ -516,132 +516,53 @@ paths:
         -
           name: APT_CODE
           in: query
-          description: 'Aptitude code to filter the records'
+          description: 'Filter by appointment code'
           required: false
           schema:
             type: string
-            example: A1
+            example: APT123
         -
-          name: UTI_ID
+          name: STUD_ID
           in: query
-          description: 'User ID to filter the records'
+          description: 'Filter by student ID'
           required: false
           schema:
             type: integer
-            example: 1
+            example: 456
+        -
+          name: COMMENT
+          in: query
+          description: 'Filter by comment text (partial match)'
+          required: false
+          schema:
+            type: string
+            example: 'Good performance'
+        -
+          name: RESULT
+          in: query
+          description: 'Filter by result text (partial match)'
+          required: false
+          schema:
+            type: string
+            example: Pass
       responses:
         200:
-          description: 'Successfully retrieved Assessment records'
+          description: 'Successfully retrieved assessment records'
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  properties:
-                    SEA_ID:
-                      type: integer
-                      example: 1
-                    APT_CODE:
-                      type: string
-                      example: A1
-                    UTI_ID:
-                      type: integer
-                      example: 1
-                    EVA_COMMENTAIRE:
-                      type: string
-                      example: 'Great performance.'
-                    EVA_RESULTAT:
-                      type: string
-                      example: Passed
-                  type: object
+                  $ref: '#/components/schemas/Assessment'
         400:
-          description: 'Invalid parameters'
+          description: 'Bad Request, invalid parameters'
           content:
             application/json:
               schema:
                 properties:
-                  message:
+                  error:
                     type: string
-                    example: 'Invalid parameters'
-                type: object
-    post:
-      tags:
-        - Assessment
-      summary: 'Create a new Assessment record'
-      description: 'This API allows you to create a new Assessment record by providing the SEA_ID, APT_CODE, UTI_ID, EVA_COMMENTAIRE, and EVA_RESULTAT.'
-      operationId: 0e4c5ed1b06e008c3ab9972fc1fd30b8
-      requestBody:
-        description: 'The necessary data to create a new Assessment record'
-        required: true
-        content:
-          application/json:
-            schema:
-              required:
-                - SEA_ID
-                - APT_CODE
-                - UTI_ID
-                - EVA_COMMENTAIRE
-                - EVA_RESULTAT
-              properties:
-                SEA_ID:
-                  description: 'ID of the session being evaluated'
-                  type: integer
-                  example: 1
-                APT_CODE:
-                  description: 'Aptitude code for the assessment'
-                  type: string
-                  example: A1
-                UTI_ID:
-                  description: 'User ID being rated'
-                  type: integer
-                  example: 1
-                EVA_COMMENTAIRE:
-                  description: 'Comment on the assessment'
-                  type: string
-                  example: 'Great performance.'
-                EVA_RESULTAT:
-                  description: 'Result of the assessment'
-                  type: string
-                  example: Passed
-              type: object
-      responses:
-        200:
-          description: 'Assessment record created successfully'
-          content:
-            application/json:
-              schema:
-                properties:
-                  message:
-                    type: string
-                    example: 'Assessment successfully created!'
-                  assessment:
-                    properties:
-                      SEA_ID:
-                        type: integer
-                        example: 1
-                      APT_CODE:
-                        type: string
-                        example: A1
-                      UTI_ID:
-                        type: integer
-                        example: 1
-                      EVA_COMMENTAIRE:
-                        type: string
-                        example: 'Great performance.'
-                      EVA_RESULTAT:
-                        type: string
-                        example: Passed
-                    type: object
-                type: object
-        400:
-          description: 'Validation error in the provided data'
-          content:
-            application/json:
-              schema:
-                properties:
-                  message:
-                    type: string
-                    example: 'The provided data is invalid'
+                    example: 'Invalid parameter'
                 type: object
         500:
           description: 'Internal server error'
@@ -649,129 +570,50 @@ paths:
             application/json:
               schema:
                 properties:
-                  message:
+                  error:
                     type: string
-                    example: 'An error occurred while creating the record'
+                    example: 'Something went wrong'
                 type: object
-  '/api/assessment/{id}':
-    put:
+  /api/assessments:
+    post:
       tags:
-        - Assessment
-      summary: 'Update an Assessment record'
-      description: 'This API allows you to update an Assessment record by providing the SEA_ID, APT_CODE, UTI_ID, EVA_COMMENTAIRE, and EVA_RESULTAT.'
-      operationId: 1d9720a0aa81ef68ec0c3356b373c982
-      parameters:
-        -
-          name: id
-          in: path
-          description: 'ID of the Assessment record to be updated'
-          required: true
-          schema:
-            type: integer
-            example: 1
+        - Assessments
+      summary: 'Create a new Assessment record'
+      description: 'Create a new Assessment record by providing session ID (SEA_ID), appointment code (APT_CODE), student ID (UTI_ID), comment (EVA_COMMENTAIRE), and result (EVA_RESULTAT).'
+      operationId: createAssessmentRecord
       requestBody:
-        description: 'The data to update the Assessment record'
+        description: 'Assessment data to be created'
         required: true
         content:
           application/json:
             schema:
-              required:
-                - SEA_ID
-                - APT_CODE
-                - UTI_ID
-                - EVA_COMMENTAIRE
-                - EVA_RESULTAT
-              properties:
-                SEA_ID:
-                  type: integer
-                  example: 1
-                APT_CODE:
-                  type: string
-                  example: A1
-                UTI_ID:
-                  type: integer
-                  example: 1
-                EVA_COMMENTAIRE:
-                  type: string
-                  example: 'Improvement needed.'
-                EVA_RESULTAT:
-                  type: string
-                  example: Failed
-              type: object
+              $ref: '#/components/schemas/Assessment'
       responses:
-        200:
-          description: 'Assessment record updated successfully'
+        201:
+          description: 'Successfully created the assessment record'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Assessment'
+        400:
+          description: 'Bad Request, invalid input data'
           content:
             application/json:
               schema:
                 properties:
-                  message:
+                  error:
                     type: string
-                    example: 'Assessment successfully updated!'
-                  assessment:
-                    properties:
-                      SEA_ID:
-                        type: integer
-                        example: 1
-                      APT_CODE:
-                        type: string
-                        example: A1
-                      UTI_ID:
-                        type: integer
-                        example: 1
-                      EVA_COMMENTAIRE:
-                        type: string
-                        example: 'Improvement needed.'
-                      EVA_RESULTAT:
-                        type: string
-                        example: Failed
-                    type: object
+                    example: 'Validation failed for input parameters'
                 type: object
-        404:
-          description: 'Assessment record not found'
+        500:
+          description: 'Internal server error'
           content:
             application/json:
               schema:
                 properties:
-                  message:
+                  error:
                     type: string
-                    example: 'Assessment record not found'
-                type: object
-    delete:
-      tags:
-        - Assessment
-      summary: 'Delete an Assessment record'
-      description: 'This API allows you to delete an existing Assessment record by providing its ID.'
-      operationId: b7420b3e4abd5712e77acd8357c52d93
-      parameters:
-        -
-          name: id
-          in: path
-          description: 'ID of the Assessment record to be deleted'
-          required: true
-          schema:
-            type: integer
-            example: 1
-      responses:
-        200:
-          description: 'Assessment record deleted successfully'
-          content:
-            application/json:
-              schema:
-                properties:
-                  message:
-                    type: string
-                    example: 'Assessment record deleted successfully!'
-                type: object
-        404:
-          description: 'Assessment record not found'
-          content:
-            application/json:
-              schema:
-                properties:
-                  message:
-                    type: string
-                    example: 'Assessment record not found'
+                    example: 'Something went wrong'
                 type: object
   /api/manager:
     get:
@@ -3630,14 +3472,14 @@ components:
           description: 'The user ID of the student (PloEleve)'
           type: integer
           example: 1
-        DATE_INSCRIPTION:
+        SIGN_DATE:
           description: 'The date and time the student was enrolled in the formation'
           type: string
           format: date-time
           example: '2025-01-01T10:00:00'
-        plo_eleve:
+        Student:
           $ref: '#/components/schemas/Student'
-        plo_formation:
+        Formation:
           $ref: '#/components/schemas/Formation'
       type: object
     Leader:
@@ -3658,9 +3500,9 @@ components:
           type: string
           format: date-time
           example: '2025-01-01T10:00:00'
-        plo_club:
+        Club:
           $ref: '#/components/schemas/Club'
-        plo_initiateur:
+        Initiator:
           $ref: '#/components/schemas/Initiator'
       type: object
     Teaching:
@@ -3669,11 +3511,11 @@ components:
         - FORM_NIVEAU
       properties:
         ID:
-          description: 'The user ID of the instructor teaching the course (PloInitiateur)'
+          description: 'The user ID of the instructor teaching the course (Initiator)'
           type: integer
           example: 123
         LEVEL:
-          description: 'The formation level ID (PloFormation)'
+          description: 'The formation level ID (Formation)'
           type: integer
           example: 1
         Formation:
@@ -3699,19 +3541,19 @@ components:
           description: 'The user ID of the student being evaluated (PloEleve)'
           type: integer
           example: 123
-        EVA_COMMENTAIRE:
+        COMMENT:
           description: 'Comments regarding the evaluation'
           type: string
           example: 'Excellent performance!'
-        EVA_RESULTAT:
+        RESULT:
           description: 'The result of the evaluation'
           type: string
-          example: Pass
-        plo_aptitude:
+          example: "'Acquis' / 'Non acquis'"
+        Aptitude:
           $ref: '#/components/schemas/Aptitude'
-        plo_eleve:
+        Student:
           $ref: '#/components/schemas/Student'
-        plo_seance:
+        Session:
           $ref: '#/components/schemas/Session'
       type: object
     Manager:
@@ -4019,58 +3861,58 @@ components:
         - UTI_MDP
         - UTI_DATE_CREATION
       properties:
-        UTI_ID:
+        ID:
           description: 'The unique identifier for the user'
           type: integer
           example: 1
-        CLU_ID:
+        CLUB_ID:
           description: 'The ID of the club the user belongs to'
           type: integer
           example: 3
           nullable: true
-        UTI_NOM:
+        NAME:
           description: 'The last name of the user'
           type: string
           example: Doe
-        UTI_PRENOM:
+        FIRSTNAME:
           description: 'The first name of the user'
           type: string
           example: John
-        UTI_MAIL:
+        EMAIL:
           description: 'The email address of the user'
           type: string
           example: john.doe@example.com
-        UTI_MDP:
+        PASSWORD:
           description: 'The password of the user'
           type: string
           example: password123
-        UTI_DATE_CREATION:
+        CREATION_DATE:
           description: 'The creation date of the user account'
           type: string
           format: date-time
           example: '2025-01-08T10:00:00'
-        UTI_NIVEAU:
+        LEVEL:
           description: 'The level of the user'
           type: string
           example: admin
           nullable: true
-        UTI_DATE_NAISSANCE:
+        BIRTH_DATE:
           description: 'The birth date of the user'
           type: string
           format: date-time
           example: '1990-01-01T00:00:00'
           nullable: true
-        plo_club:
+        Club:
           oneOf:
             -
               $ref: '#/components/schemas/Club'
           nullable: true
           description: 'The club the user belongs to'
-        plo_eleve:
+        Student:
           $ref: '#/components/schemas/Student'
-        plo_initiateur:
+        Initiator:
           $ref: '#/components/schemas/Initiator'
-        validers:
+        Validate:
           description: 'The validations associated with the user'
           type: array
           items:
@@ -4103,9 +3945,6 @@ tags:
   -
     name: Aptitudes
     description: 'Manage aptitudes'
-  -
-    name: Assessment
-    description: 'Manage student assessment'
   -
     name: Clubs
     description: 'Manage clubs'
@@ -4148,3 +3987,6 @@ tags:
   -
     name: Validates
     description: 'Manage student validation of skills'
+  -
+    name: Assessments
+    description: Assessments

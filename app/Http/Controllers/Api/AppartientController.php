@@ -24,20 +24,20 @@ use App\Http\Controllers\Controller;
  *         example=1
  *     ),
  *     @OA\Property(
- *         property="DATE_INSCRIPTION",
+ *         property="SIGN_DATE",
  *         type="string",
  *         format="date-time",
  *         description="The date and time the student was enrolled in the formation",
  *         example="2025-01-01T10:00:00"
  *     ),
  *     @OA\Property(
- *         property="plo_eleve",
+ *         property="Student",
  *         type="object",
  *         description="The student (PloEleve) associated with the formation",
  *         ref="#/components/schemas/Student"
  *     ),
  *     @OA\Property(
- *         property="plo_formation",
+ *         property="Formation",
  *         type="object",
  *         description="The formation (PloFormation) associated with the training level",
  *         ref="#/components/schemas/Formation"
@@ -61,7 +61,7 @@ class AppartientController extends Controller {
      *         @OA\Schema(type="integer", example=123)
      *     ),
      *     @OA\Parameter(
-     *         name="FORM_NIVEAU",
+     *         name="LEVEL",
      *         in="query",
      *         description="Formation Level to filter the records",
      *         required=false,
@@ -95,8 +95,8 @@ class AppartientController extends Controller {
      */
     public function get(Request $request) {
         $utiId = $request->input('STUD_ID');
-        $formNiveau = $request->input('FORM_NIVEAU');
-        $dateInscription = $request->input('DATE_INSCRIPTION');
+        $formNiveau = $request->input('LEVEL');
+        $dateInscription = $request->input('SIGN_DATE');
 
         $query = Appartient::query();
 
@@ -104,10 +104,10 @@ class AppartientController extends Controller {
             $query->where('UTI_ID', $utiId);
         }
         if ($formNiveau) {
-            $query->where('FORM_NIVEAU', $formNiveau);
+            $query->where('LEVEL', $formNiveau);
         }
         if ($dateInscription) {
-            $query->whereDate('DATE_INSCRIPTION', $dateInscription);
+            $query->whereDate('SIGN_DATE', $dateInscription);
         }
 
         $appartients = $query->get();
@@ -141,13 +141,13 @@ class AppartientController extends Controller {
      *                 example=1
      *             ),
      *             @OA\Property(
-     *                 property="FORM_NIVEAU",
+     *                 property="LEVEL",
      *                 type="integer",
      *                 description="Formation level that the user belongs to",
      *                 example=2
      *             ),
      *             @OA\Property(
-     *                 property="DATE_INSCRIPTION",
+     *                 property="SIGN_DATE",
      *                 type="string",
      *                 format="date-time",
      *                 description="The registration date of the formation",
@@ -188,8 +188,8 @@ class AppartientController extends Controller {
     public function create(Request $request) {
         $validated = $request->validate([
             'STUD_ID' => 'required|integer|exists:plo_utilisateur,UTI_ID',
-            'FORM_NIVEAU' => 'required|integer|exists:plo_formation,FORM_NIVEAU',
-            'DATE_INSCRIPTION' => 'required|date',
+            'LEVEL' => 'required|integer|exists:plo_formation,FORM_NIVEAU',
+            'SIGN_DATE' => 'required|date',
         ]);
 
         $appartient = Appartient::create([
@@ -201,9 +201,9 @@ class AppartientController extends Controller {
         return response()->json([
             'message' => 'Signed successfully created!',
             'appartient' => [
-                'FORM_NIVEAU' => $appartient->FORM_NIVEAU,
                 'STUD_ID' => $appartient->UTI_ID,
-                'DATE_INSCRIPTION' => $appartient->DATE_INSCRIPTION,
+                'LEVEL' => $appartient->FORM_NIVEAU,
+                'SIGN_DATE' => $appartient->DATE_INSCRIPTION,
             ],
         ]);
     }

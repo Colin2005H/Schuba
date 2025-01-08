@@ -32,13 +32,13 @@ use App\Http\Controllers\Controller;
  *         example="2025-01-01T10:00:00"
  *     ),
  *     @OA\Property(
- *         property="plo_club",
+ *         property="Club",
  *         type="object",
  *         description="The club (PloClub) associated with the management",
  *         ref="#/components/schemas/Club"
  *     ),
  *     @OA\Property(
- *         property="plo_initiateur",
+ *         property="Initiator",
  *         type="object",
  *         description="The initiator (PloInitiateur) managing the club",
  *         ref="#/components/schemas/Initiator"
@@ -52,14 +52,14 @@ class DirigerLeClubController extends Controller {
      * @OA\Get(
      *     path="/api/leader",
      *     summary="Get Leader records based on filters",
-     *     description="Retrieve the Leader records filtered by USER_ID, CLUB_ID, and START_DATE.",
+     *     description="Retrieve the Leader records filtered by INIT_ID, CLUB_ID, and START_DATE.",
      *     operationId="getDirigerLeClubRecords",
      *     tags={"Leaders"},
      *
      *     @OA\Parameter(
-     *         name="STUD_ID",
+     *         name="INIT_ID",
      *         in="query",
-     *         description="Filter by USER_ID",
+     *         description="Filter by INIT_ID",
      *         required=false,
      *         @OA\Schema(type="integer")
      *     ),
@@ -106,7 +106,7 @@ class DirigerLeClubController extends Controller {
      */
     public function get(Request $request) {
         // Get data from the request
-        $utiId = $request->input('STUD_ID');
+        $utiId = $request->input('INIT_ID');
         $cluId = $request->input('CLUB_ID');
         $dirDateDebut = $request->input('START_DATE');
         
@@ -115,7 +115,7 @@ class DirigerLeClubController extends Controller {
         
         // Filter based on provided parameters
         if ($utiId) {
-            $query->where('STUD_ID', $utiId);
+            $query->where('INIT_ID', $utiId);
         }
         if ($cluId) {
             $query->where('CLU_ID', $cluId);
@@ -131,7 +131,7 @@ class DirigerLeClubController extends Controller {
         // Return a JSON response with the list of records
         $result = $dirigerLeClub->map(function ($ligne) {
             return [
-                'STUD_ID' => $ligne->UTI_ID,
+                'INIT_ID' => $ligne->UTI_ID,
                 'CLUB_ID' => $ligne->CLU_ID,
                 'START_DATE' => $ligne->DIR_DATE_DEBUT ? $ligne->DIR_DATE_DEBUT->toDateString() : null
             ];
@@ -151,9 +151,9 @@ class DirigerLeClubController extends Controller {
      *         required=true,
      *         description="Leader data",
      *         @OA\JsonContent(
-     *             required={"STUD_ID", "CLUB_ID", "START_DATE"},
+     *             required={"INIT_ID", "CLUB_ID", "START_DATE"},
      *             @OA\Property(
-     *                 property="STUD_ID",
+     *                 property="INIT_ID",
      *                 type="integer",
      *                 description="User ID (initiator)",
      *                 example=1
@@ -186,7 +186,7 @@ class DirigerLeClubController extends Controller {
      *                 property="diriger_le_club",
      *                 type="object",
      *                 @OA\Property(
-     *                     property="STUD_ID",
+     *                     property="INIT_ID",
      *                     type="integer",
      *                     example=1
      *                 ),
@@ -230,13 +230,13 @@ class DirigerLeClubController extends Controller {
      */
     public function create(Request $request) {
         // Get data in the request
-        $utiId = $request->input('STUD_ID');
+        $utiId = $request->input('INIT_ID');
         $cluId = $request->input('CLUB_ID');
         $dateDebut = $request->input('START_DATE');
         
         // Validate format of the data
         $validated = $request->validate([
-            'STUD_ID' => 'required|integer|exists:plo_utilisateur,UTI_ID',
+            'INIT_ID' => 'required|integer|exists:plo_utilisateur,UTI_ID',
             'CLUB_ID' => 'required|integer|exists:plo_club,CLU_ID',
             'START_DATE' => 'required|date',
         ]);

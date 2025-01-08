@@ -95,8 +95,8 @@ class ValiderController extends Controller {
      */
     public function get(Request $request) {
         $utiId = $request->input('UTI_ID');
-        $cptId = $request->input('CPT_ID');
-        $valider = $request->input('VALIDER');
+        $cptId = $request->input('SKILL_ID');
+        $valider = $request->input('VALIDATE');
 
         $query = Valider::query();
 
@@ -113,7 +113,15 @@ class ValiderController extends Controller {
 
         $validators = $query->get();
 
-        return response()->json($validators);
+        $events = $validators->map(function ($validator) {
+            return [
+                'UTI_ID' => $validator->UTI_ID,
+                'SKILL_ID' => $validator->CPT_ID,
+                'VALIDATE' =>$validator->VALDER,
+            ];
+        });
+
+        return response()->json($events);
     }
 
     /**

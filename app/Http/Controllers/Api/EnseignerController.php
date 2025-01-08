@@ -14,13 +14,13 @@ use App\Http\Controllers\Controller;
  *     @OA\Property(
  *         property="ID",
  *         type="integer",
- *         description="The user ID of the instructor teaching the course (PloInitiateur)",
+ *         description="The user ID of the instructor teaching the course (Initiator)",
  *         example=123
  *     ),
  *     @OA\Property(
  *         property="LEVEL",
  *         type="integer",
- *         description="The formation level ID (PloFormation)",
+ *         description="The formation level ID (Formation)",
  *         example=1
  *     ),
  *     @OA\Property(
