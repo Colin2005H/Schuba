@@ -6,30 +6,33 @@
     <title>Aptitudes Table Student</title>
 </head>
 <body>
+    <!--@include('header')-->
     <h1>Aptitudes List</h1>
+
     <table border="1">
         <thead>
             <tr>
-                <th>SEA_ID</th>
-                <th>SEA_DATE_DEB</th>
-                <th>UTI_NOM</th>
-                <th>APT_CODE</th>
-                <th>CPT_ID</th>
-                <th>APT_LIBELLE</th>
+            <th>Date</th>
+            @foreach($aptitudesList as $aptitude)
+                <th>{{ $aptitude->APT_CODE }}</th>
+            @endforeach
             </tr>
         </thead>
         <tbody>
-            @foreach($aptitudesList as $aptitude)
-                <tr>
-                    <td>{{ $aptitude->SEA_ID }}</td>
-                    <td>{{ $aptitude->SEA_DATE_DEB }}</td>
-                    <td>{{ $aptitude->UTI_NOM }}</td>
-                    <td>{{ $aptitude->APT_CODE }}</td>
-                    <td>{{ $aptitude->CPT_ID }}</td>
-                    <td>{{ $aptitude->APT_LIBELLE }}</td>
-                </tr>
+            @foreach($sessionsList as $session)
+            <tr>
+                <th>{{ $session->SEA_DATE_DEB }}</th>
+                @foreach($aptitudesList as $aptitude)
+                    @if($session->APT_CODE === $aptitude->APT_CODE)
+                        <th>{{ $session->EVA_RESULTAT }}</th>
+                    @else
+                    <th></th>
+                    @endif
+                @endforeach
+            </tr>
             @endforeach
         </tbody>
     </table>
+
 </body>
 </html>

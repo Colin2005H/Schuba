@@ -69,7 +69,7 @@ Route::get('/home', function() {
 });
 
 Route::get('/triche', function() {
-    return Hash::make("responsable");
+    return Hash::make("eleve");
 });
 
 Route::get('/calendar', function () {
@@ -77,5 +77,5 @@ Route::get('/calendar', function () {
 });
 
 Route::prefix('/aptitudes')->name('aptitudes.')->controller(AptitudesTableStudentController::class)->group(function(){
-    Route::get('/', 'aptitudes')->name('showListAptitudes');
+    Route::get('/', 'showListAptitudes')->name('show');
 });
