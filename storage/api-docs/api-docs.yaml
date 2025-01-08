@@ -1,0 +1,3406 @@
+openapi: 3.0.0
+info:
+  title: 'Schuba API'
+  description: 'API for managing diving club activities'
+  contact:
+    name: 'Groupe 1'
+  version: 0.5.0
+paths:
+  /api/signed:
+    get:
+      tags:
+        - Signeds
+      summary: 'Get Signed records'
+      description: 'Retrieve Signed records based on optional filters: User ID, Formation Level, and Registration Date.'
+      operationId: 0087490a916fad58cc0e1d0002f8ed00
+      parameters:
+        -
+          name: UTI_ID
+          in: query
+          description: 'User ID to filter the records'
+          required: false
+          schema:
+            type: integer
+            example: 1
+        -
+          name: FORM_NIVEAU
+          in: query
+          description: 'Formation Level to filter the records'
+          required: false
+          schema:
+            type: integer
+            example: 2
+        -
+          name: DATE_INSCRIPTION
+          in: query
+          description: 'Registration Date of the formation'
+          required: false
+          schema:
+            type: string
+            format: date-time
+            example: '2025-01-01T09:00:00'
+      responses:
+        200:
+          description: 'Successfully retrieved Appartient records'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  properties:
+                    FORM_NIVEAU:
+                      type: integer
+                      example: 2
+                    UTI_ID:
+                      type: integer
+                      example: 1
+                    DATE_INSCRIPTION:
+                      type: string
+                      format: date-time
+                      example: '2025-01-01T09:00:00'
+                  type: object
+        400:
+          description: 'Invalid parameters'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'Invalid parameters'
+                type: object
+    post:
+      tags:
+        - Signeds
+      summary: 'Create a new Signed record'
+      description: 'This API allows you to create a new Signed record by providing the User ID, Formation Level, and Registration Date.'
+      operationId: 8e7b34fcefa6574af97cbfb7c608f78e
+      requestBody:
+        description: 'The necessary data to create a new Signed record'
+        required: true
+        content:
+          application/json:
+            schema:
+              required:
+                - UTI_ID
+                - FORM_NIVEAU
+                - DATE_INSCRIPTION
+              properties:
+                UTI_ID:
+                  description: 'ID of the user who belongs to the formation'
+                  type: integer
+                  example: 1
+                FORM_NIVEAU:
+                  description: 'Formation level that the user belongs to'
+                  type: integer
+                  example: 2
+                DATE_INSCRIPTION:
+                  description: 'The registration date of the formation'
+                  type: string
+                  format: date-time
+                  example: '2025-01-01T09:00:00'
+              type: object
+      responses:
+        200:
+          description: 'Signed record created successfully'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'Appartient successfully created!'
+                  appartient:
+                    properties:
+                      FORM_NIVEAU:
+                        type: integer
+                        example: 2
+                      UTI_ID:
+                        type: integer
+                        example: 1
+                      DATE_INSCRIPTION:
+                        type: string
+                        format: date-time
+                        example: '2025-01-01T09:00:00'
+                    type: object
+                type: object
+        400:
+          description: 'Validation error in the provided data'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'The provided data is invalid'
+                type: object
+        500:
+          description: 'Internal server error'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'An error occurred while creating the record'
+                type: object
+  '/api/signed/{id}':
+    delete:
+      tags:
+        - Signeds
+      summary: 'Delete an Signed record'
+      description: 'This API allows you to delete an existing Signed record by providing its ID.'
+      operationId: 86bdf86b63c552969c5194415400f531
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'ID of the Signed record to be deleted'
+          required: true
+          schema:
+            type: integer
+            example: 1
+      responses:
+        200:
+          description: 'Signed record deleted successfully'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'Signed successfully deleted!'
+                type: object
+        404:
+          description: 'Signed record not found'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'Signed record not found.'
+                type: object
+  /api/leader:
+    get:
+      tags:
+        - Leaders
+      summary: 'Get Leader records based on filters'
+      description: 'Retrieve the Leader records filtered by USER_ID, CLUB_ID, and START_DATE.'
+      operationId: getDirigerLeClubRecords
+      parameters:
+        -
+          name: USER_ID
+          in: query
+          description: 'Filter by USER_ID'
+          required: false
+          schema:
+            type: integer
+        -
+          name: CLUB_ID
+          in: query
+          description: 'Filter by CLUB_ID'
+          required: false
+          schema:
+            type: integer
+        -
+          name: START_DATE
+          in: query
+          description: 'Filter by START_DATE (format: YYYY-MM-DD)'
+          required: false
+          schema:
+            type: string
+            format: date
+      responses:
+        200:
+          description: 'List of DirigerLeClub records matching the filters'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  properties:
+                    USER_ID:
+                      type: integer
+                    CLUB_ID:
+                      type: integer
+                    START_DATE:
+                      type: string
+                      format: date
+                  type: object
+        400:
+          description: 'Bad Request, invalid parameters'
+          content:
+            application/json:
+              schema:
+                properties:
+                  error:
+                    type: string
+                    example: 'Invalid date format'
+                type: object
+        500:
+          description: 'Internal server error'
+          content:
+            application/json:
+              schema:
+                properties:
+                  error:
+                    type: string
+                    example: 'Something went wrong'
+                type: object
+    post:
+      tags:
+        - Leaders
+      summary: 'Create a new Leader record'
+      description: 'Creates a new Leader record by providing user ID, club ID, and start date.'
+      operationId: 9762be41677f01307255f932bd6f2a5a
+      requestBody:
+        description: 'Leader data'
+        required: true
+        content:
+          application/json:
+            schema:
+              required:
+                - USER_ID
+                - CLUB_ID
+                - START_DATE
+              properties:
+                USER_ID:
+                  description: 'User ID (initiator)'
+                  type: integer
+                  example: 1
+                CLUB_ID:
+                  description: 'Club ID'
+                  type: integer
+                  example: 1
+                START_DATE:
+                  description: 'Start date of the membership'
+                  type: string
+                  format: date
+                  example: '2025-01-01'
+              type: object
+      responses:
+        201:
+          description: 'Successfully created the DirigerLeClub record'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'DirigerLeClub record successfully created!'
+                  diriger_le_club:
+                    properties:
+                      USER_ID:
+                        type: integer
+                        example: 1
+                      CLUB_ID:
+                        type: integer
+                        example: 1
+                      START_DATE:
+                        type: string
+                        format: date
+                        example: '2025-01-01'
+                    type: object
+                type: object
+        400:
+          description: 'Bad Request, validation error'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'The given data was invalid.'
+                type: object
+        500:
+          description: 'Internal server error'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'An error occurred, please try again.'
+                type: object
+  '/api/leader/{id}':
+    delete:
+      tags:
+        - Leaders
+      summary: 'Delete a Leader record'
+      description: 'Deletes a Leader record by the provided user ID and club ID.'
+      operationId: 619a8daf43726d43e62ad9ba63877c44
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'ID of the Leader record to delete (USER_ID and CLUB_ID)'
+          required: true
+          schema:
+            type: integer
+            example: 1
+      responses:
+        200:
+          description: 'Successfully deleted the Leader record'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'Leader record successfully deleted!'
+                type: object
+        404:
+          description: 'Record not found'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'Cannot find the DirigerLeClub record.'
+                type: object
+        500:
+          description: 'Internal server error'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'An error occurred, please try again.'
+                type: object
+  /api/teaching:
+    get:
+      tags:
+        - Teachings
+      summary: 'Get Teaching records'
+      description: 'Retrieve a list of Teaching records based on the provided filter criteria.'
+      operationId: 49ff76718c3034fad6ff227aa89b15dd
+      parameters:
+        -
+          name: ID
+          in: query
+          description: 'User ID to filter by'
+          required: false
+          schema:
+            type: integer
+        -
+          name: LEVEL
+          in: query
+          description: 'Teaching level to filter by'
+          required: false
+          schema:
+            type: integer
+      responses:
+        200:
+          description: 'Successfully retrieved the list of Teaching records'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  properties:
+                    ID:
+                      description: 'User ID'
+                      type: integer
+                    LEVEL:
+                      description: 'Teaching level'
+                      type: integer
+                  type: object
+        400:
+          description: 'Invalid input parameters'
+        500:
+          description: 'Internal server error'
+    post:
+      tags:
+        - Teachings
+      summary: 'Create a new Teaching record'
+      description: 'This API allows you to create a new Teaching record by providing the necessary details such as the User ID and Training Level. The record will be validated and stored in the database, and the created record details will be returned in the response.'
+      operationId: fc55f1178213144f8db7daa3f7f2be06
+      requestBody:
+        description: 'The necessary data to create a new Teaching record'
+        required: true
+        content:
+          application/json:
+            schema:
+              required:
+                - ID
+                - LEVEL
+              properties:
+                ID:
+                  description: 'ID of the user associated with the teaching record'
+                  type: integer
+                  example: 1
+                LEVEL:
+                  description: 'ID of the training level associated with the teaching record'
+                  type: integer
+                  example: 2
+              type: object
+      responses:
+        200:
+          description: 'Teaching record created successfully'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'Enseigner successfully created!'
+                  enseigner:
+                    properties:
+                      ID:
+                        type: integer
+                        example: 1
+                      LEVEL:
+                        type: integer
+                        example: 2
+                    type: object
+                type: object
+        400:
+          description: 'Validation error in the provided data'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'The provided data is invalid'
+                type: object
+        500:
+          description: 'Internal server error'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'An error occurred while creating the record'
+                type: object
+  '/api/teaching/{id}':
+    delete:
+      tags:
+        - Teachings
+      summary: 'Delete a Teaching record'
+      description: 'Deletes a specific Teaching record based on the provided ID.'
+      operationId: c2926efad1f71a3f42a58abe6aba5839
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'ID of the Teaching record to delete'
+          required: true
+          schema:
+            type: integer
+            example: 1
+      responses:
+        200:
+          description: 'Successfully deleted the Teaching record'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'Enseigner record successfully deleted!'
+                type: object
+        404:
+          description: 'Teaching record not found'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'Enseigner record not found.'
+                type: object
+        500:
+          description: 'Internal server error'
+  /api/manager:
+    get:
+      tags:
+        - Managers
+      summary: 'Get formation manager records'
+      description: 'Retrieve manager based on optional filters: User ID, Formation Level, and Start Date.'
+      operationId: 9e59b26885df298b89bac690b0e91081
+      parameters:
+        -
+          name: UTI_ID
+          in: query
+          description: 'User ID to filter the records'
+          required: false
+          schema:
+            type: integer
+            example: 1
+        -
+          name: FORM_NIVEAU
+          in: query
+          description: 'Formation Level to filter the records'
+          required: false
+          schema:
+            type: integer
+            example: 2
+        -
+          name: GER_DATE_DEBUT
+          in: query
+          description: 'Start Date of the formation'
+          required: false
+          schema:
+            type: string
+            format: date-time
+            example: '2025-01-01T09:00:00'
+      responses:
+        200:
+          description: 'Successfully retrieved GererLaFormation records'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  properties:
+                    UTI_ID:
+                      type: integer
+                      example: 1
+                    FORM_NIVEAU:
+                      type: integer
+                      example: 2
+                    GER_DATE_DEBUT:
+                      type: string
+                      format: date-time
+                      example: '2025-01-01T09:00:00'
+                  type: object
+        400:
+          description: 'Invalid parameters'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'Invalid parameters'
+                type: object
+  /api/gerer-la-formation:
+    post:
+      tags:
+        - Managers
+      summary: 'Create a new formation manager'
+      description: 'This API allows you to create a new manager by providing the User ID, Formation Level, and Start Date.'
+      operationId: 3b34be262fbad208bc05193614ecf928
+      requestBody:
+        description: 'The necessary data to create a new GererLaFormation record'
+        required: true
+        content:
+          application/json:
+            schema:
+              required:
+                - UTI_ID
+                - FORM_NIVEAU
+                - GER_DATE_DEBUT
+              properties:
+                UTI_ID:
+                  description: 'ID of the user associated with the formation record'
+                  type: integer
+                  example: 1
+                FORM_NIVEAU:
+                  description: 'Formation level associated with the GererLaFormation record'
+                  type: integer
+                  example: 2
+                GER_DATE_DEBUT:
+                  description: 'Start date and time of the formation'
+                  type: string
+                  format: date-time
+                  example: '2025-01-01T09:00:00'
+              type: object
+      responses:
+        200:
+          description: 'GererLaFormation record created successfully'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'GererLaFormation successfully created!'
+                  gerer_la_formation:
+                    properties:
+                      UTI_ID:
+                        type: integer
+                        example: 1
+                      FORM_NIVEAU:
+                        type: integer
+                        example: 2
+                      GER_DATE_DEBUT:
+                        type: string
+                        format: date-time
+                        example: '2025-01-01T09:00:00'
+                    type: object
+                type: object
+        400:
+          description: 'Validation error in the provided data'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'The provided data is invalid'
+                type: object
+        500:
+          description: 'Internal server error'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'An error occurred while creating the record'
+                type: object
+  '/api/manager/{id}':
+    delete:
+      tags:
+        - Managers
+      summary: 'Delete a formation manager record'
+      description: 'This API allows you to delete an existing manager by providing its ID.'
+      operationId: f2c734fc4e7f0075b6f630115c053dbb
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'ID of the GererLaFormation record to be deleted'
+          required: true
+          schema:
+            type: integer
+            example: 1
+      responses:
+        200:
+          description: 'GererLaFormation record deleted successfully'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'GererLaFormation successfully deleted!'
+                type: object
+        404:
+          description: 'GererLaFormation record not found'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'GererLaFormation record not found.'
+                type: object
+  /api/group:
+    get:
+      tags:
+        - Groups
+      summary: 'Get group records'
+      description: 'Retrieves group records based on optional filters for user, initiator, session, and presence status.'
+      operationId: 1b29d655f5c291dba95ffff8eadfb856
+      parameters:
+        -
+          name: USER_ID
+          in: query
+          description: 'User ID to filter group by user'
+          required: false
+          schema:
+            type: integer
+            example: 1
+        -
+          name: INIT_ID
+          in: query
+          description: 'Initiator ID to filter group by initiator'
+          required: false
+          schema:
+            type: integer
+            example: 1
+        -
+          name: SESS_ID
+          in: query
+          description: 'Session ID to filter group by session'
+          required: false
+          schema:
+            type: integer
+            example: 1
+        -
+          name: PRESENT
+          in: query
+          description: 'Presence status of the user in the session'
+          required: false
+          schema:
+            type: boolean
+            example: true
+      responses:
+        200:
+          description: 'Successfully retrieved group records'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  properties:
+                    USER_ID:
+                      type: integer
+                      example: 1
+                    INIT_ID:
+                      type: integer
+                      example: 1
+                    SESS_ID:
+                      type: integer
+                      example: 1
+                    PRESENT:
+                      type: boolean
+                      example: true
+                  type: object
+        400:
+          description: 'Bad request, validation failed'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'The given data was invalid.'
+                type: object
+        500:
+          description: 'Internal server error'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'Something went wrong, please try again.'
+                type: object
+    post:
+      tags:
+        - Groups
+      summary: 'Create a group for a session'
+      description: 'Creates a group for a given session, associating a user with a session and a club. Presence is also recorded.'
+      operationId: 4a1769a10757369437f36129be04e2e3
+      parameters:
+        -
+          name: SESS_ID
+          in: query
+          description: 'Session ID associated with the group'
+          required: true
+          schema:
+            type: integer
+            example: 1
+        -
+          name: USER_ID
+          in: query
+          description: 'User ID to associate with the group'
+          required: true
+          schema:
+            type: integer
+            example: 1
+        -
+          name: INIT_ID
+          in: query
+          description: 'Club ID of the initiator for the session'
+          required: true
+          schema:
+            type: integer
+            example: 1
+        -
+          name: PRESENCE
+          in: query
+          description: 'Presence status of the user in the session'
+          required: true
+          schema:
+            type: boolean
+            example: true
+      responses:
+        200:
+          description: 'Group successfully created'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'Group successfully created!'
+                  session:
+                    properties:
+                      ID:
+                        type: integer
+                        example: 1
+                      LOCATION_ID:
+                        type: integer
+                        example: 2
+                      LEVEL:
+                        type: integer
+                        example: 3
+                      START:
+                        type: string
+                        format: date-time
+                        example: '2025-01-01T09:00:00'
+                      END:
+                        type: string
+                        format: date-time
+                        example: '2025-01-01T11:00:00'
+                    type: object
+                type: object
+        400:
+          description: 'Bad request, validation failed'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'The given data was invalid.'
+                type: object
+        500:
+          description: 'Internal server error'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'Something went wrong, please try again.'
+                type: object
+  '/api/group/{id}':
+    delete:
+      tags:
+        - Groups
+      summary: 'Delete a Group'
+      description: 'Deletes a specific Group based on the provided ID.'
+      operationId: 430deed00d0bc83ecb26bb5cde1a67ff
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'ID of the Group to delete'
+          required: true
+          schema:
+            type: integer
+            example: 1
+      responses:
+        200:
+          description: 'Successfully deleted the Group'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'Group successfully deleted!'
+                type: object
+        404:
+          description: 'Group record not found'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'Group not found.'
+                type: object
+        500:
+          description: 'Internal server error'
+  /api/aptitude:
+    get:
+      tags:
+        - Aptitudes
+      summary: 'Retrieve a list of aptitudes'
+      description: 'Fetches a list of aptitudes based on optional filters such as ID, competence ID, and name.'
+      operationId: getAptitudes
+      parameters:
+        -
+          name: ID
+          in: query
+          description: 'The ID of the aptitude to filter by'
+          required: false
+          schema:
+            type: string
+            example: APT001
+        -
+          name: SKILL_ID
+          in: query
+          description: 'The skill ID to filter by'
+          required: false
+          schema:
+            type: string
+            example: CPT01
+        -
+          name: NAME
+          in: query
+          description: 'The name or part of the name of the aptitude to filter by'
+          required: false
+          schema:
+            type: string
+            example: 'Technical Skill'
+      responses:
+        200:
+          description: 'A list of aptitudes based on the filters provided'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  properties:
+                    APT_CODE:
+                      type: string
+                      example: APT001
+                    CPT_ID:
+                      type: string
+                      example: CPT01
+                    APT_LIBELLE:
+                      type: string
+                      example: 'Technical Skill'
+                  type: object
+        400:
+          description: 'Invalid request parameters'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'Invalid request parameters'
+                type: object
+    post:
+      tags:
+        - Aptitudes
+      summary: 'Create a new aptitude'
+      description: 'Creates a new aptitude and returns the created aptitude details.'
+      operationId: createAptitude
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              required:
+                - NAME
+                - SKILL_ID
+              properties:
+                NAME:
+                  type: string
+                  example: 'Mathematics Aptitude'
+                SKILL_ID:
+                  type: string
+                  example: CPT123
+              type: object
+      responses:
+        200:
+          description: 'Aptitude created successfully'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'Aptitude successfully created!'
+                  aptitude:
+                    properties:
+                      APT_CODE:
+                        type: string
+                        example: APT001
+                      CPT_ID:
+                        type: string
+                        example: CPT123
+                      APT_LIBELLE:
+                        type: string
+                        example: 'Mathematics Aptitude'
+                    type: object
+                type: object
+        400:
+          description: 'Invalid input'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'Invalid data format or missing fields.'
+                type: object
+  '/api/aptitude/{id}':
+    put:
+      tags:
+        - Aptitudes
+      summary: 'Update an existing aptitude'
+      description: 'Updates an existing aptitude by its ID and returns the updated aptitude details.'
+      operationId: updateAptitude
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'The ID of the aptitude to update'
+          required: true
+          schema:
+            type: string
+            example: APT001
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              required:
+                - NAME
+                - COMPETENCE_ID
+              properties:
+                NAME:
+                  type: string
+                  example: 'Advanced Mathematics Aptitude'
+                COMPETENCE_ID:
+                  type: string
+                  example: CPT123
+              type: object
+      responses:
+        200:
+          description: 'Aptitude updated successfully'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'Aptitude successfully updated!'
+                  aptitude:
+                    properties:
+                      APT_CODE:
+                        type: string
+                        example: APT001
+                      CPT_ID:
+                        type: string
+                        example: CPT123
+                      APT_LIBELLE:
+                        type: string
+                        example: 'Advanced Mathematics Aptitude'
+                    type: object
+                type: object
+        404:
+          description: 'Aptitude not found'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'Aptitude not found.'
+                type: object
+        400:
+          description: 'Invalid input'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'Invalid data format or missing fields.'
+                type: object
+    delete:
+      tags:
+        - Aptitudes
+      summary: 'Delete an aptitude'
+      description: 'Deletes an existing aptitude by its ID and returns a confirmation message.'
+      operationId: deleteAptitude
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'The ID of the aptitude to delete'
+          required: true
+          schema:
+            type: string
+            example: APT001
+      responses:
+        200:
+          description: 'Aptitude deleted successfully'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'Aptitude successfully deleted!'
+                type: object
+        404:
+          description: 'Aptitude not found'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'Cannot find the aptitude.'
+                type: object
+  /api/club:
+    get:
+      tags:
+        - Clubs
+      summary: 'Get a list of clubs'
+      description: 'Fetches clubs based on the provided filters (ID or Name).'
+      operationId: getClubs
+      parameters:
+        -
+          name: ID
+          in: query
+          description: 'The ID of the club'
+          required: false
+          schema:
+            type: integer
+            format: int64
+        -
+          name: NAME
+          in: query
+          description: 'Partial name of the club to search for'
+          required: false
+          schema:
+            type: string
+            example: 'Sports Club'
+      responses:
+        200:
+          description: 'List of clubs successfully fetched'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  properties:
+                    CLU_ID:
+                      type: integer
+                      example: 1
+                    CLU_NOM:
+                      type: string
+                      example: 'Sports Club'
+                  type: object
+        400:
+          description: 'Bad request, invalid parameters'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'Invalid request parameters'
+                type: object
+    post:
+      tags:
+        - Clubs
+      summary: 'Create a new club'
+      description: 'Creates a new club with the specified name.'
+      operationId: createClub
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              required:
+                - NAME
+              properties:
+                NAME:
+                  description: 'The name of the club'
+                  type: string
+                  example: 'New Club'
+              type: object
+      responses:
+        201:
+          description: 'Club successfully created'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'Club successfully created!'
+                  club:
+                    properties:
+                      CLU_ID:
+                        type: integer
+                        example: 1
+                      CLU_NOM:
+                        type: string
+                        example: 'New Club'
+                    type: object
+                type: object
+        400:
+          description: 'Invalid input'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'The given data was invalid.'
+                type: object
+  '/api/club/{id}':
+    put:
+      tags:
+        - Clubs
+      summary: 'Update an existing club'
+      description: "Updates a club's name by its ID."
+      operationId: updateClub
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'ID of the club to update'
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              required:
+                - NAME
+              properties:
+                NAME:
+                  description: 'The name of the club'
+                  type: string
+                  example: 'New Club Name'
+              type: object
+      responses:
+        200:
+          description: 'Club successfully updated'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'Club successfully updated!'
+                  club:
+                    properties:
+                      CLU_ID:
+                        type: integer
+                        example: 1
+                      CLU_NOM:
+                        type: string
+                        example: 'New Club Name'
+                    type: object
+                type: object
+        404:
+          description: 'Club not found'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'Club not found.'
+                type: object
+    delete:
+      tags:
+        - Clubs
+      summary: 'Delete a club'
+      description: 'Deletes a club by its ID.'
+      operationId: deleteClub
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'ID of the club to delete'
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        200:
+          description: 'Club successfully deleted'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'Club successfully deleted!'
+                type: object
+        404:
+          description: 'Club not found'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'Club not found.'
+                type: object
+  /api/skill:
+    get:
+      tags:
+        - Skills
+      summary: 'Get a list of skills'
+      description: 'Retrieves a list of skills based on the provided filters.'
+      operationId: getSkills
+      parameters:
+        -
+          name: ID
+          in: query
+          description: 'The ID of the skill to search for'
+          required: false
+          schema:
+            type: string
+            example: C1
+        -
+          name: LEVEL
+          in: query
+          description: 'The level of the skill to filter by'
+          required: false
+          schema:
+            type: integer
+            example: 2
+        -
+          name: NAME
+          in: query
+          description: 'The name or part of the name of the skill to search for'
+          required: false
+          schema:
+            type: string
+            example: 'Scuba Diving'
+      responses:
+        200:
+          description: 'List of skills'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  properties:
+                    CPT_ID:
+                      type: string
+                      example: '123'
+                    LEVEL:
+                      type: integer
+                      example: 2
+                    NAME:
+                      type: string
+                      example: 'Basic Scuba Diving'
+                  type: object
+        400:
+          description: 'Invalid input data'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'Validation errors'
+                type: object
+    post:
+      tags:
+        - Skills
+      summary: 'Create a new skill'
+      description: 'Creates a new skill with the specified level and name.'
+      operationId: createSkill
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              required:
+                - LEVEL
+                - NAME
+              properties:
+                LEVEL:
+                  description: 'The level associated with the skill'
+                  type: integer
+                  example: 2
+                NAME:
+                  description: 'The name of the skill'
+                  type: string
+                  example: 'Basic Scuba Diving'
+              type: object
+      responses:
+        201:
+          description: 'Skill successfully created'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'Skill successfully created!'
+                  skill:
+                    properties:
+                      CPT_ID:
+                        type: string
+                        example: '123'
+                      LEVEL:
+                        type: integer
+                        example: 2
+                      NAME:
+                        type: string
+                        example: 'Basic Scuba Diving'
+                    type: object
+                type: object
+        400:
+          description: 'Invalid input data'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'Validation errors'
+                type: object
+  '/api/skill/{id}':
+    put:
+      tags:
+        - Skills
+      summary: 'Update a skill'
+      description: 'Updates the details of an existing skill by its ID.'
+      operationId: updateSkill
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'ID of the skill to update'
+          required: true
+          schema:
+            type: string
+            example: C1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              required:
+                - LEVEL
+                - NAME
+              properties:
+                LEVEL:
+                  description: 'The level associated with the skill'
+                  type: integer
+                  example: 3
+                NAME:
+                  description: 'The name of the skill'
+                  type: string
+                  example: 'Advanced Scuba Diving'
+              type: object
+      responses:
+        200:
+          description: 'Skill successfully updated'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'Skill successfully updated!'
+                  skill:
+                    properties:
+                      CPT_ID:
+                        type: string
+                        example: '123'
+                      LEVEL:
+                        type: integer
+                        example: 3
+                      NAME:
+                        type: string
+                        example: 'Advanced Scuba Diving'
+                    type: object
+                type: object
+        404:
+          description: 'Skill not found'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'Skill not found.'
+                type: object
+        400:
+          description: 'Invalid input data'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'Validation errors'
+                type: object
+    delete:
+      tags:
+        - Skills
+      summary: 'Delete a competence'
+      description: 'Deletes a competence by its ID.'
+      operationId: deleteCompetence
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'ID of the competence to delete'
+          required: true
+          schema:
+            type: string
+            example: C1
+      responses:
+        200:
+          description: 'Competence successfully deleted'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'Competence successfully deleted!'
+                type: object
+        404:
+          description: 'Competence not found'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'Competence not found.'
+                type: object
+  /api/student:
+    get:
+      tags:
+        - Students
+      summary: 'Get a list of students'
+      description: 'Fetch a list of students based on optional filters (ID). If no filters are provided, it returns all students.'
+      operationId: 3095f235203a754e7d003f11b4b4466d
+      parameters:
+        -
+          name: ID
+          in: query
+          description: 'User ID to filter the students'
+          required: false
+          schema:
+            type: integer
+            example: 1
+      responses:
+        200:
+          description: 'Successfully fetched the list of students'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  properties:
+                    ID:
+                      description: 'User ID of the student'
+                      type: integer
+                      example: 1
+                  type: object
+        400:
+          description: 'Bad Request, invalid input parameters'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'Invalid parameters'
+                type: object
+        404:
+          description: 'No students found'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'No students found matching the criteria.'
+                type: object
+        500:
+          description: 'Internal server error'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'Something went wrong, please try again.'
+                type: object
+    post:
+      tags:
+        - Students
+      summary: 'Create a new student'
+      description: 'Creates a new student by providing the user ID and returns the details of the created student.'
+      operationId: b980872a2fb3e44b7111139a7db85e63
+      requestBody:
+        description: 'Student data'
+        required: true
+        content:
+          application/json:
+            schema:
+              required:
+                - ID
+              properties:
+                ID:
+                  description: 'User ID associated with the student'
+                  type: integer
+                  example: 1
+              type: object
+      responses:
+        201:
+          description: 'Successfully created the student'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'Student successfully created!'
+                  session:
+                    properties:
+                      ID:
+                        type: integer
+                        example: 1
+                    type: object
+                type: object
+        400:
+          description: 'Bad Request, validation error'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'The given data was invalid.'
+                type: object
+        404:
+          description: 'User not found'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'User ID does not exist in the database.'
+                type: object
+        500:
+          description: 'Internal server error'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'An error occurred, please try again.'
+                type: object
+  '/api/student/{id}':
+    delete:
+      tags:
+        - Students
+      summary: 'Delete a student'
+      description: 'Deletes a student by the given ID and returns a confirmation message.'
+      operationId: f4ac0dd7ad6752ce821010cdc9da7833
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'ID of the student to delete'
+          required: true
+          schema:
+            type: integer
+            example: 1
+      responses:
+        200:
+          description: 'Successfully deleted the student'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'Student successfully deleted!'
+                type: object
+        404:
+          description: 'Student not found'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'Cannot find the student.'
+                type: object
+        500:
+          description: 'Internal server error'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'An error occurred, please try again.'
+                type: object
+  /api/formation:
+    get:
+      tags:
+        - Formations
+      summary: 'List filtered formations'
+      description: 'Retrieve a list of formations filtered by criteria such as formation level, name, description, and maximum number of professors.'
+      operationId: listFormations
+      parameters:
+        -
+          name: ID
+          in: query
+          description: 'Formation level ID to filter the results'
+          required: false
+          schema:
+            type: integer
+            example: 2
+        -
+          name: NAME
+          in: query
+          description: "Formation name (uses LIKE 'name%')"
+          required: false
+          schema:
+            type: string
+            example: 'Niveau 1 Plongée'
+        -
+          name: DESCRIPTION
+          in: query
+          description: "Formation description (uses LIKE 'description%')"
+          required: false
+          schema:
+            type: string
+            example: 'Formation de plongée pour débutants'
+        -
+          name: MAX_TEACHERS
+          in: query
+          description: 'Maximum number of professors for the formation'
+          required: false
+          schema:
+            type: integer
+            example: 3
+      responses:
+        200:
+          description: 'Successfully fetched the formations matching the criteria'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  properties:
+                    FORM_NIVEAU:
+                      description: 'Formation level'
+                      type: integer
+                      example: 2
+                    FORM_LIBELLE:
+                      description: 'Formation name'
+                      type: string
+                      example: 'Niveau 1 Plongée'
+                    FORM_DESCRIPTION:
+                      description: 'Formation description'
+                      type: string
+                      example: 'Formation de plongée pour débutants'
+                    FORM_PROF_MAX:
+                      description: 'Maximum number of professors'
+                      type: integer
+                      example: 3
+                  type: object
+        400:
+          description: 'Incorrect parameters'
+          content:
+            application/json:
+              schema:
+                properties:
+                  error:
+                    type: string
+                    example: 'Invalid parameters'
+                type: object
+    post:
+      tags:
+        - Formations
+      summary: 'Create a new formation'
+      description: 'Creates a new formation with the provided name, description, and maximum number of professors.'
+      operationId: createFormation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              required:
+                - NAME
+                - MAX_TEACHERS
+              properties:
+                NAME:
+                  description: 'The name of the formation'
+                  type: string
+                  example: 'Niveau 1 Plongée'
+                DESCRIPTION:
+                  description: 'The description of the formation'
+                  type: string
+                  example: 'Formation de plongée pour débutants'
+                MAX_TEACHERS:
+                  description: 'The maximum number of professors for the formation'
+                  type: integer
+                  example: 3
+              type: object
+      responses:
+        201:
+          description: 'Formation successfully created'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'Formation successfully created!'
+                  formation:
+                    properties:
+                      ID:
+                        type: integer
+                        example: 1
+                      NAME:
+                        type: string
+                        example: 'Niveau 1 Plongée'
+                      DESCRIPTION:
+                        type: string
+                        example: 'Formation de plongée pour débutants'
+                      MAX_TEACHERS:
+                        type: integer
+                        example: 3
+                    type: object
+                type: object
+        400:
+          description: 'Invalid input data'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'Validation errors'
+                type: object
+  '/api/formation/{id}':
+    put:
+      tags:
+        - Formations
+      summary: 'Update a formation'
+      description: 'Updates the details of an existing formation by its level ID (FORM_NIVEAU).'
+      operationId: updateFormation
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'ID of the formation to update'
+          required: true
+          schema:
+            type: integer
+            example: 1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              required:
+                - NAME
+                - DESCRIPTION
+                - MAX_TEACHERS
+              properties:
+                NAME:
+                  description: 'The name of the formation'
+                  type: string
+                  example: 'Niveau 1 Plongée'
+                DESCRIPTION:
+                  description: 'The description of the formation'
+                  type: string
+                  example: 'Formation de plongée pour débutants'
+                MAX_TEACHERS:
+                  description: 'The maximum number of professors for the formation'
+                  type: integer
+                  example: 3
+              type: object
+      responses:
+        200:
+          description: 'Formation successfully updated'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'Formation successfully updated!'
+                  formation:
+                    properties:
+                      ID:
+                        type: integer
+                        example: 1
+                      NAME:
+                        type: string
+                        example: 'Niveau 1 Plongée'
+                      DESCRIPTION:
+                        type: string
+                        example: 'Formation de plongée pour débutants'
+                      MAX_TEACHERS:
+                        type: integer
+                        example: 3
+                    type: object
+                type: object
+        404:
+          description: 'Formation not found'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'Formation not found.'
+                type: object
+        400:
+          description: 'Invalid input data'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'Validation errors'
+                type: object
+    delete:
+      tags:
+        - Formations
+      summary: 'Delete a formation'
+      description: 'Deletes a formation by its level ID (FORM_NIVEAU).'
+      operationId: deleteFormation
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'ID of the formation to delete'
+          required: true
+          schema:
+            type: integer
+            example: 1
+      responses:
+        200:
+          description: 'Formation successfully deleted'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'Formation successfully deleted!'
+                type: object
+        404:
+          description: 'Formation not found'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'Formation not found.'
+                type: object
+  /api/initiator:
+    get:
+      tags:
+        - Initiators
+      summary: 'Get Initiator information'
+      description: 'Retrieve information about one or more initiators. Optionally filter by ID.'
+      operationId: getInitiateur
+      parameters:
+        -
+          name: ID
+          in: query
+          description: 'The ID of the initiator to filter by'
+          required: false
+          schema:
+            type: integer
+            example: 1
+      responses:
+        200:
+          description: 'List of initiators or specific initiator if ID is provided'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  properties:
+                    ID:
+                      type: integer
+                      example: 1
+                  type: object
+        400:
+          description: 'Bad request'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'Invalid parameter'
+                type: object
+        500:
+          description: 'Internal server error'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'Something went wrong, please try again.'
+                type: object
+    post:
+      tags:
+        - Initiators
+      summary: 'Create a new initiator'
+      description: 'Create an initiator by associating an existing user with the initiator role using their ID.'
+      operationId: createInitiateur
+      requestBody:
+        description: 'Initiator data to be created'
+        required: true
+        content:
+          application/json:
+            schema:
+              required:
+                - ID
+              properties:
+                ID:
+                  description: 'The ID of the existing user (PloUtilisateur) to associate as the initiator'
+                  type: integer
+                  example: 1
+              type: object
+      responses:
+        200:
+          description: 'Successfully created the initiator'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'Initiator successfully created!'
+                  session:
+                    properties:
+                      ID:
+                        type: integer
+                        example: 1
+                    type: object
+                type: object
+        400:
+          description: 'Invalid input data'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'Validation error'
+                type: object
+        404:
+          description: 'User not found'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'User not found.'
+                type: object
+        500:
+          description: 'Internal server error'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'Something went wrong, please try again.'
+                type: object
+  '/api/initiator/{id}':
+    delete:
+      tags:
+        - Initiators
+      summary: 'Delete an initiator'
+      description: 'Delete an initiator by their ID.'
+      operationId: deleteInitiateur
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'The ID of the initiator to delete'
+          required: true
+          schema:
+            type: integer
+            example: 1
+      responses:
+        200:
+          description: 'Successfully deleted the initiator'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'Initiator successfully deleted!'
+                type: object
+        404:
+          description: 'Initiator not found'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'Cannot find the initiator.'
+                type: object
+        500:
+          description: 'Internal server error'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'Something went wrong, please try again.'
+                type: object
+  /api/location:
+    get:
+      tags:
+        - Locations
+      summary: 'Get locations based on filters'
+      description: 'This API allows you to retrieve a list of locations based on optional filters like ID, name, and type.'
+      operationId: 9e549a3ff77400108eb891e2d7c542b8
+      parameters:
+        -
+          name: ID
+          in: query
+          description: 'ID of the location'
+          required: false
+          schema:
+            type: integer
+        -
+          name: NAME
+          in: query
+          description: "Name of the location. Use partial matching with '%' for wildcards."
+          required: false
+          schema:
+            type: string
+        -
+          name: TYPE
+          in: query
+          description: "Type of the location. Use partial matching with '%' for wildcards."
+          required: false
+          schema:
+            type: string
+      responses:
+        200:
+          description: 'List of locations retrieved successfully.'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  properties:
+                    ID:
+                      type: integer
+                      example: 1
+                    NAME:
+                      type: string
+                      example: 'Location Name'
+                    TYPE:
+                      type: string
+                      example: 'Location Type'
+                  type: object
+        404:
+          description: 'No locations found matching the criteria'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'No locations found'
+                type: object
+    post:
+      tags:
+        - Locations
+      summary: 'Create a new location'
+      description: 'This API allows you to create a new location by providing the necessary details such as the name and type of the location.'
+      operationId: ecf2e09da814057f2da7594e8bed3a29
+      requestBody:
+        description: 'The necessary data to create a new location'
+        required: true
+        content:
+          application/json:
+            schema:
+              required:
+                - NAME
+                - TYPE
+              properties:
+                NAME:
+                  description: 'The name of the location'
+                  type: string
+                  example: 'Room 101'
+                TYPE:
+                  description: 'The type of the location'
+                  type: string
+                  example: Classroom
+              type: object
+      responses:
+        200:
+          description: 'Location created successfully'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'Location created successfully!'
+                  location:
+                    properties:
+                      ID:
+                        type: integer
+                        example: 1
+                      NAME:
+                        type: string
+                        example: 'Room 101'
+                      TYPE:
+                        type: string
+                        example: Classroom
+                    type: object
+                type: object
+        400:
+          description: 'Validation error in the provided data'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'The provided data is invalid'
+                type: object
+  '/api/location/{id}':
+    put:
+      tags:
+        - Locations
+      summary: 'Update an existing location'
+      description: "This API allows you to update an existing location's details (name and type) by providing the location's ID."
+      operationId: 720b8adf7dd249484a1050c6a094168c
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'The ID of the location to be updated'
+          required: true
+          schema:
+            type: integer
+            example: 1
+      requestBody:
+        description: 'The new data to update the location'
+        required: true
+        content:
+          application/json:
+            schema:
+              required:
+                - NAME
+                - TYPE
+              properties:
+                NAME:
+                  description: 'The new name of the location'
+                  type: string
+                  example: 'Room 202'
+                TYPE:
+                  description: 'The new type of the location'
+                  type: string
+                  example: 'Lecture Hall'
+              type: object
+      responses:
+        200:
+          description: 'Location updated successfully'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'Location successfully updated!'
+                  location:
+                    properties:
+                      ID:
+                        type: integer
+                        example: 1
+                      NAME:
+                        type: string
+                        example: 'Room 202'
+                      TYPE:
+                        type: string
+                        example: 'Lecture Hall'
+                    type: object
+                type: object
+        404:
+          description: 'Location not found'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'Cannot find the location.'
+                type: object
+        400:
+          description: 'Validation error in the provided data'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'The provided data is invalid'
+                type: object
+    delete:
+      tags:
+        - Locations
+      summary: 'Delete a location'
+      description: "This API allows you to delete an existing location by providing the location's ID."
+      operationId: bcb3db1c38318947a216ad4e32d7ecc9
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'The ID of the location to be deleted'
+          required: true
+          schema:
+            type: integer
+            example: 1
+      responses:
+        200:
+          description: 'Location deleted successfully'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'Location deleted successfully'
+                type: object
+        404:
+          description: 'Location not found'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'Cannot find the location.'
+                type: object
+        400:
+          description: 'Bad request or validation error'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'The provided data is invalid'
+                type: object
+  /api/session:
+    get:
+      tags:
+        - Sessions
+      summary: 'Get sessions based on filters'
+      description: 'Fetch a list of sessions by filtering on session ID, location ID, and start and end dates.'
+      operationId: 606addeb37c766d37032d78b33a121a6
+      parameters:
+        -
+          name: ID
+          in: query
+          description: 'Session ID to filter the results'
+          required: false
+          schema:
+            type: integer
+            example: 1
+        -
+          name: LOCATION_ID
+          in: query
+          description: 'Location ID to filter the sessions'
+          required: false
+          schema:
+            type: integer
+            example: 1
+        -
+          name: START
+          in: query
+          description: 'Start date to filter the sessions (format: yyyy-mm-dd or yyyy-mm-ddThh:mm:ss)'
+          required: false
+          schema:
+            type: string
+            format: date-time
+            example: '2025-01-01T09:00:00'
+        -
+          name: END
+          in: query
+          description: 'End date to filter the sessions (format: yyyy-mm-dd or yyyy-mm-ddThh:mm:ss)'
+          required: false
+          schema:
+            type: string
+            format: date-time
+            example: '2025-01-10T11:00:00'
+      responses:
+        200:
+          description: 'Successfully fetched the sessions'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  properties:
+                    ID:
+                      description: 'Session ID'
+                      type: integer
+                      example: 1
+                    LOCATION_ID:
+                      description: 'Location ID'
+                      type: integer
+                      example: 1
+                    LEVEL:
+                      description: 'Training level ID'
+                      type: integer
+                      example: 1
+                    START:
+                      description: 'Session start date'
+                      type: string
+                      format: date-time
+                      example: '2025-01-07T11:43:52+00:00'
+                    END:
+                      description: 'Session end date'
+                      type: string
+                      format: date-time
+                      example: '2025-02-01T12:43:52+00:00'
+                  type: object
+        400:
+          description: 'Bad Request, invalid input parameters'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'Invalid parameters'
+                type: object
+        500:
+          description: 'Internal server error'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'Something went wrong, please try again.'
+                type: object
+    post:
+      tags:
+        - Sessions
+      summary: 'Create a new session'
+      description: 'This API allows you to create a new session by providing the necessary details such as the location, training level, and start and end dates. The session will be validated and stored in the database, and the created session details will be returned in the response.'
+      operationId: 9a8c7631454e6f0814974fd7d9df18f7
+      requestBody:
+        description: 'The necessary data to create a new session'
+        required: true
+        content:
+          application/json:
+            schema:
+              required:
+                - LOCATION_ID
+                - LEVEL
+                - START
+                - END
+              properties:
+                LOCATION_ID:
+                  description: 'ID of the location where the session is held'
+                  type: integer
+                  example: 1
+                LEVEL:
+                  description: 'ID of the training level'
+                  type: integer
+                  example: 1
+                START:
+                  description: 'Start date and time of the session'
+                  type: string
+                  format: date-time
+                  example: '2025-01-01T09:00:00'
+                END:
+                  description: 'End date and time of the session'
+                  type: string
+                  format: date-time
+                  example: '2025-02-01T11:00:00'
+              type: object
+      responses:
+        200:
+          description: 'Session created successfully'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'Session created successfully!'
+                  session:
+                    properties:
+                      ID:
+                        type: integer
+                        example: 123
+                      LOCATION_ID:
+                        type: integer
+                        example: 1
+                      LEVEL:
+                        type: integer
+                        example: 2
+                      START:
+                        type: string
+                        format: date-time
+                        example: '2025-02-10T09:00:00'
+                      END:
+                        type: string
+                        format: date-time
+                        example: '2025-02-10T11:00:00'
+                    type: object
+                type: object
+        400:
+          description: 'Validation error in the provided data'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'The provided data is invalid'
+                type: object
+  '/api/session/{id}':
+    put:
+      tags:
+        - Sessions
+      summary: 'Update an existing session'
+      description: 'This API allows you to update an existing session by providing the session ID and the details you want to modify (location, training level, start date, and end date). If no data is provided for a particular field, it will remain unchanged.'
+      operationId: ab30209bd36e6d64d0af6928efbe558c
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'The ID of the session to update'
+          required: true
+          schema:
+            type: integer
+            example: 1
+      requestBody:
+        description: 'The data to update the session. You can provide any of the following fields. If not provided, they will remain unchanged.'
+        required: false
+        content:
+          application/json:
+            schema:
+              required: []
+              properties:
+                LOCATION_ID:
+                  description: 'ID of the location where the session is held'
+                  type: integer
+                  example: 1
+                LEVEL:
+                  description: 'ID of the training level'
+                  type: integer
+                  example: 1
+                START:
+                  description: 'Start date and time of the session'
+                  type: string
+                  format: date-time
+                  example: '2025-01-01T09:00:00'
+                END:
+                  description: 'End date and time of the session'
+                  type: string
+                  format: date-time
+                  example: '2025-01-01T11:00:00'
+              type: object
+      responses:
+        200:
+          description: 'Session updated successfully'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'Session updated successfully!'
+                  session:
+                    properties:
+                      ID:
+                        type: integer
+                        example: 123
+                      LOCATION_ID:
+                        type: integer
+                        example: 1
+                      LEVEL:
+                        type: integer
+                        example: 2
+                      START:
+                        type: string
+                        format: date-time
+                        example: '2025-02-10T09:00:00'
+                      END:
+                        type: string
+                        format: date-time
+                        example: '2025-02-10T11:00:00'
+                    type: object
+                type: object
+        404:
+          description: 'Session not found'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'Cannot find the session.'
+                type: object
+        400:
+          description: 'Validation error in the provided data'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'The provided data is invalid'
+                type: object
+    delete:
+      tags:
+        - Sessions
+      summary: 'Delete an existing session'
+      description: 'This API allows you to delete an existing session by providing the session ID. If the session with the specified ID does not exist, a 404 error is returned.'
+      operationId: daf79a1a7d42782e46957f96db02d563
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'The ID of the session to delete'
+          required: true
+          schema:
+            type: integer
+            example: 3
+      responses:
+        200:
+          description: 'Session deleted successfully'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'Session successfully deleted!'
+                type: object
+        404:
+          description: 'Session not found'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'Cannot find the session.'
+                type: object
+  /api/user:
+    get:
+      tags:
+        - Users
+      summary: 'List filtered users'
+      description: 'Retrieve a list of users filtered by various criteria such as user ID, last name, first name, email, creation date, etc.'
+      operationId: listUsers
+      parameters:
+        -
+          name: u_id
+          in: query
+          description: 'User ID to filter the results'
+          required: false
+          schema:
+            type: integer
+            example: 1
+        -
+          name: c_id
+          in: query
+          description: 'Club ID to filter the users'
+          required: false
+          schema:
+            type: integer
+            example: 1
+        -
+          name: name
+          in: query
+          description: "User's last name (uses LIKE 'name%')"
+          required: false
+          schema:
+            type: string
+            example: Doe
+        -
+          name: firstname
+          in: query
+          description: "User's first name (uses LIKE 'firstname%')"
+          required: false
+          schema:
+            type: string
+            example: John
+        -
+          name: email
+          in: query
+          description: "User's email address (uses LIKE 'email%')"
+          required: false
+          schema:
+            type: string
+            example: john.doe@example.com
+        -
+          name: creation_date
+          in: query
+          description: 'Filter users by creation date (format: yyyy-mm-dd)'
+          required: false
+          schema:
+            type: string
+            format: date
+            example: '2023-01-01'
+        -
+          name: birth_date
+          in: query
+          description: 'Filter users by date of birth (format: yyyy-mm-dd)'
+          required: false
+          schema:
+            type: string
+            format: date
+            example: '1990-01-01'
+        -
+          name: level
+          in: query
+          description: "User's level"
+          required: false
+          schema:
+            type: integer
+            example: 2
+      responses:
+        200:
+          description: 'Successfully fetched the users matching the criteria'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  properties:
+                    ID:
+                      description: 'User ID'
+                      type: integer
+                      example: 1
+                    CLUB_ID:
+                      description: 'Club ID'
+                      type: integer
+                      example: 1
+                    NAME:
+                      description: "User's last name"
+                      type: string
+                      example: Doe
+                    FIRSTNAME:
+                      description: "User's first name"
+                      type: string
+                      example: John
+                    EMAIL:
+                      description: "User's email address"
+                      type: string
+                      example: john.doe@example.com
+                    LEVEL:
+                      description: "User's level"
+                      type: integer
+                      example: 2
+                    BIRTH_DATE:
+                      description: "User's date of birth"
+                      type: string
+                      format: date-time
+                      example: '1990-01-01T00:00:00'
+                    CREATION_DATE:
+                      description: "User's account creation date"
+                      type: string
+                      format: date-time
+                      example: '2023-01-01T12:00:00'
+                  type: object
+        400:
+          description: 'Incorrect or invalid parameters'
+          content:
+            application/json:
+              schema:
+                properties:
+                  error:
+                    type: string
+                    example: 'Invalid parameters'
+                type: object
+        500:
+          description: 'Internal server error'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'Something went wrong, please try again.'
+                type: object
+    post:
+      tags:
+        - Users
+      summary: 'Create a new user'
+      description: 'Create a new user in the system by providing user details.'
+      operationId: createUser
+      requestBody:
+        description: 'User object that needs to be created'
+        required: true
+        content:
+          application/json:
+            schema:
+              required:
+                - NAME
+                - FIRSTNAME
+                - EMAIL
+                - PASSWORD
+              properties:
+                CLUB_ID:
+                  description: 'The ID of the club the user belongs to'
+                  type: integer
+                  example: 1
+                NAME:
+                  description: 'The last name of the user'
+                  type: string
+                  example: Doe
+                FIRSTNAME:
+                  description: 'The first name of the user'
+                  type: string
+                  example: John
+                EMAIL:
+                  description: 'The email of the user'
+                  type: string
+                  example: johndoe@example.com
+                PASSWORD:
+                  description: 'The password of the user'
+                  type: string
+                  example: password123
+                LEVEL:
+                  description: 'The level of the user'
+                  type: string
+                  example: Beginner
+                BIRTH_DATE:
+                  description: 'The birth date of the user'
+                  type: string
+                  format: date
+                  example: '1990-01-01'
+              type: object
+      responses:
+        200:
+          description: 'User successfully created'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'User successfully created!'
+                  session:
+                    properties:
+                      ID:
+                        type: integer
+                        example: 123
+                      CLUB_ID:
+                        type: integer
+                        example: 1
+                      NAME:
+                        type: string
+                        example: Doe
+                      FIRSTNAME:
+                        type: string
+                        example: John
+                      EMAIL:
+                        type: string
+                        example: johndoe@example.com
+                      PASSWORD:
+                        type: string
+                        example: hashed_password
+                      LEVEL:
+                        type: string
+                        example: Beginner
+                      BIRTH_DATE:
+                        type: string
+                        format: date
+                        example: '1990-01-01'
+                      CREATION_DATE:
+                        type: string
+                        format: date-time
+                        example: '2022-01-01T12:00:00Z'
+                    type: object
+                type: object
+        400:
+          description: 'Bad Request, if the provided data is invalid'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'Validation error: Email is required.'
+                type: object
+        409:
+          description: 'Conflict, if the email already exists'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'Email already exists.'
+                type: object
+        500:
+          description: 'Internal server error'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'Something went wrong, please try again.'
+                type: object
+  '/api/user/{id}':
+    put:
+      tags:
+        - Users
+      summary: 'Update an existing user'
+      description: 'Update the details of an existing user by providing their ID and the required fields.'
+      operationId: updateUser
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'The ID of the user to update'
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        description: 'User object that needs to be updated'
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                CLUB_ID:
+                  description: 'The ID of the club the user belongs to'
+                  type: integer
+                  example: 1
+                NAME:
+                  description: 'The last name of the user'
+                  type: string
+                  example: Doe
+                FIRSTNAME:
+                  description: 'The first name of the user'
+                  type: string
+                  example: John
+                EMAIL:
+                  description: 'The email of the user'
+                  type: string
+                  example: johndoe@example.com
+                PASSWORD:
+                  description: 'The password of the user (only required if updating)'
+                  type: string
+                  example: newpassword123
+                LEVEL:
+                  description: 'The level of the user'
+                  type: string
+                  example: Beginner
+                BIRTH_DATE:
+                  description: 'The birth date of the user'
+                  type: string
+                  format: date
+                  example: '2000-01-01'
+              type: object
+      responses:
+        200:
+          description: 'User successfully updated'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'User successfully updated!'
+                  user:
+                    properties:
+                      ID:
+                        type: integer
+                        example: 123
+                      CLUB_ID:
+                        type: integer
+                        example: 1
+                      NAME:
+                        type: string
+                        example: Doe
+                      FIRSTNAME:
+                        type: string
+                        example: John
+                      EMAIL:
+                        type: string
+                        example: johndoe@example.com
+                      PASSWORD:
+                        type: string
+                        example: hashed_password
+                      LEVEL:
+                        type: string
+                        example: Beginner
+                      BIRTH_DATE:
+                        type: string
+                        format: date
+                        example: '2000-01-01'
+                      CREATION_DATE:
+                        type: string
+                        format: date-time
+                        example: '2022-01-01T12:00:00Z'
+                    type: object
+                type: object
+        400:
+          description: 'Bad Request, if the provided data is invalid'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'Validation error: Email is required.'
+                type: object
+        404:
+          description: 'User not found'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'User not found.'
+                type: object
+        500:
+          description: 'Internal server error'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'Something went wrong, please try again.'
+                type: object
+    delete:
+      tags:
+        - Users
+      summary: 'Delete a user'
+      description: 'Delete a user from the system by providing their ID.'
+      operationId: deleteUser
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'The ID of the user to delete'
+          required: true
+          schema:
+            type: integer
+            example: 1
+      responses:
+        200:
+          description: 'User successfully deleted'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'User successfully deleted!'
+                type: object
+        404:
+          description: 'User not found'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'User not found.'
+                type: object
+        500:
+          description: 'Internal server error'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'Something went wrong, please try again.'
+                type: object
+  /api/validate:
+    get:
+      tags:
+        - Validates
+      summary: 'Get Validate records'
+      description: 'Retrieve Validate records based on the optional filters: User ID, Competence ID, and Validation Status.'
+      operationId: 956e3c454b77bc10f39d516693d761b4
+      parameters:
+        -
+          name: UTI_ID
+          in: query
+          description: 'User ID to filter the records'
+          required: false
+          schema:
+            type: integer
+            example: 1
+        -
+          name: CPT_ID
+          in: query
+          description: 'Competence ID to filter the records'
+          required: false
+          schema:
+            type: string
+            example: CPT123
+        -
+          name: VALIDER
+          in: query
+          description: 'Validation status (true/false) to filter the records'
+          required: false
+          schema:
+            type: boolean
+            example: true
+      responses:
+        200:
+          description: 'Successfully retrieved Valider records'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  properties:
+                    UTI_ID:
+                      type: integer
+                      example: 1
+                    CPT_ID:
+                      type: string
+                      example: CPT123
+                    VALIDER:
+                      type: boolean
+                      example: true
+                  type: object
+        400:
+          description: 'Invalid parameters'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'Invalid parameters'
+                type: object
+    post:
+      tags:
+        - Validates
+      summary: 'Create a new Validate record'
+      description: 'This API allows you to create a new Validate record by providing the User ID, Competence ID, and Validation Status.'
+      operationId: d22f153c45ce1118a385e0b6946bbeb1
+      requestBody:
+        description: 'The necessary data to create a new Validate record'
+        required: true
+        content:
+          application/json:
+            schema:
+              required:
+                - UTI_ID
+                - CPT_ID
+                - VALIDER
+              properties:
+                UTI_ID:
+                  description: 'ID of the user associated with the Validate record'
+                  type: integer
+                  example: 1
+                CPT_ID:
+                  description: 'Competence ID associated with the Validate record'
+                  type: string
+                  example: CPT123
+                VALIDER:
+                  description: 'Validation status'
+                  type: boolean
+                  example: true
+              type: object
+      responses:
+        200:
+          description: 'Valider record created successfully'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'Validation successfully created!'
+                  valider:
+                    properties:
+                      UTI_ID:
+                        type: integer
+                        example: 1
+                      CPT_ID:
+                        type: string
+                        example: CPT123
+                      VALIDER:
+                        type: boolean
+                        example: true
+                    type: object
+                type: object
+        400:
+          description: 'Validation error in the provided data'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'The provided data is invalid'
+                type: object
+        500:
+          description: 'Internal server error'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'An error occurred while creating the record'
+                type: object
+  '/api/validate/{id}':
+    put:
+      tags:
+        - Validates
+      summary: 'Update an existing Validate record'
+      description: 'This API allows you to update an existing Validate record by providing the User ID, Competence ID, and Validation Status.'
+      operationId: ecd9fe4626e7f4a39ae7127d4bf9f72a
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'ID of the Validate record to be updated'
+          required: true
+          schema:
+            type: integer
+            example: 1
+      requestBody:
+        description: 'The updated data for the Validate record'
+        required: true
+        content:
+          application/json:
+            schema:
+              required:
+                - VALIDER
+              properties:
+                VALIDER:
+                  description: 'Validation status'
+                  type: boolean
+                  example: true
+              type: object
+      responses:
+        200:
+          description: 'Valider record updated successfully'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'Valider successfully updated!'
+                  valider:
+                    properties:
+                      UTI_ID:
+                        type: integer
+                        example: 1
+                      CPT_ID:
+                        type: string
+                        example: CPT123
+                      VALIDER:
+                        type: boolean
+                        example: true
+                    type: object
+                type: object
+        400:
+          description: 'Validation error in the provided data'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'The provided data is invalid'
+                type: object
+    delete:
+      tags:
+        - Validates
+      summary: 'Delete a Validate record'
+      description: 'This API allows you to delete an existing Validate record by providing its ID.'
+      operationId: 7bd6379c324538289ef441e6fde7b28d
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'ID of the Validate record to be deleted'
+          required: true
+          schema:
+            type: integer
+            example: 1
+      responses:
+        200:
+          description: 'Validate record deleted successfully'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'Validate successfully deleted!'
+                type: object
+        404:
+          description: 'Validate record not found'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'Validate record not found.'
+                type: object
+tags:
+  -
+    name: Aptitudes
+    description: 'Manage aptitudes'
+  -
+    name: Clubs
+    description: 'Manage clubs'
+  -
+    name: Formations
+    description: 'Manage formations'
+  -
+    name: Groups
+    description: 'Manage group (initiator with student in location)'
+  -
+    name: Initiators
+    description: 'Manage initiators/teachers'
+  -
+    name: Leaders
+    description: 'Manage club leaders'
+  -
+    name: Locations
+    description: 'Manage diving locations'
+  -
+    name: Managers
+    description: 'Manage formation managers'
+  -
+    name: Sessions
+    description: 'Manage training sessions'
+  -
+    name: Signeds
+    description: 'Manage signeds student in formation'
+  -
+    name: Skills
+    description: 'Manage skills (group of aptitudes)'
+  -
+    name: Students
+    description: 'Manage students'
+  -
+    name: Teachings
+    description: 'Manage teachings (initiator formation afectation)'
+  -
+    name: Users
+    description: 'Manage users'
+  -
+    name: Validates
+    description: 'Manage student validation of skills'

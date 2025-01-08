@@ -75,3 +75,6 @@ Route::get('/calendar', function () {
     return view('calendar');
 });
 
+Route::get('/footer', function () {
+    return view('footer');
+});
