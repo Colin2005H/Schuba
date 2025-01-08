@@ -6,6 +6,8 @@ use App\Http\Controllers\FormationController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\listCommentariesController;
+use App\Http\Controllers\listUserController;
+use App\Http\Controllers\ModifierCompteController;
 
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
@@ -29,6 +31,12 @@ Route::post('/formations', [FormationController::class, 'createFormation']);
 Route::get('/', function () {
     return view('login-page');
 });
+
+
+Route::get('/listUser',[listUserController::class, 'showListUser']);
+Route::get('/modifierCompte/{id}', [ModifierCompteController::class, 'edit'])->name('modifierCompte');
+Route::post('/modifierCompte/{id}', [ModifierCompteController::class, 'update'])->name('modifierCompte');
+
 
 
 
