@@ -11,7 +11,7 @@ use OpenApi\Annotations as OA;
  * @OA\Info(
  *     title="Schuba API",
  *     description="API for managing diving club activities",
- *     version="0.9.0",
+ *     version="1.0.0",
  *     @OA\Contact(
  *         name="Groupe 1"
  *     )
@@ -22,7 +22,7 @@ use OpenApi\Annotations as OA;
  *     description="Manage aptitudes"
  * )
  * @OA\Tag(
- *     name="Assessment",
+ *     name="Assessments",
  *     description="Manage student assessment"
  * )
  * @OA\Tag(

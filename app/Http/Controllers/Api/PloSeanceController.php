@@ -13,55 +13,55 @@ use App\Http\Controllers\Controller;
  *     type="object",
  *     required={"SEA_ID", "LI_ID", "FORM_NIVEAU"},
  *     @OA\Property(
- *         property="SEA_ID",
+ *         property="LOCATION_ID",
  *         type="integer",
  *         description="The unique identifier for the session",
  *         example=1
  *     ),
  *     @OA\Property(
- *         property="LI_ID",
+ *         property="ID",
  *         type="integer",
  *         description="The location ID where the session takes place",
  *         example=2
  *     ),
  *     @OA\Property(
- *         property="FORM_NIVEAU",
+ *         property="LEVEL",
  *         type="integer",
  *         description="The formation level associated with the session",
  *         example=101
  *     ),
  *     @OA\Property(
- *         property="SEA_DATE_DEB",
+ *         property="START",
  *         type="string",
  *         format="date-time",
  *         description="The start date and time of the session",
  *         example="2025-01-10T09:00:00"
  *     ),
  *     @OA\Property(
- *         property="SEA_DATE_FIN",
+ *         property="END",
  *         type="string",
  *         format="date-time",
  *         description="The end date and time of the session",
  *         example="2025-01-10T12:00:00"
  *     ),
  *     @OA\Property(
- *         property="plo_formation",
+ *         property="Formation",
  *         ref="#/components/schemas/Formation",
  *         description="The formation associated with the session"
  *     ),
  *     @OA\Property(
- *         property="plo_lieu",
+ *         property="Location",
  *         ref="#/components/schemas/Location",
  *         description="The location where the session is held"
  *     ),
  *     @OA\Property(
- *         property="evaluers",
+ *         property="Assessement",
  *         type="array",
  *         description="The evaluations for the session",
  *         @OA\Items(ref="#/components/schemas/Assessment")
  *     ),
  *     @OA\Property(
- *         property="groupers",
+ *         property="Group",
  *         type="array",
  *         description="The groupings for the session",
  *         @OA\Items(ref="#/components/schemas/Group")
@@ -74,78 +74,60 @@ class PloSeanceController extends Controller {
     /**
      * @OA\Get(
      *     path="/api/session",
-     *     summary="Get sessions based on filters",
-     *     description="Fetch a list of sessions by filtering on session ID, location ID, and start and end dates.",
+     *     summary="Get a list of sessions",
+     *     description="Retrieve a list of sessions based on provided filters.",
+     *     operationId="getSessions",
      *     tags={"Sessions"},
+     *     
      *     @OA\Parameter(
      *         name="ID",
      *         in="query",
-     *         description="Session ID to filter the results",
      *         required=false,
-     *         @OA\Schema(
-     *             type="integer",
-     *             example=1
-     *         )
+     *         description="The ID of the session",
+     *         @OA\Schema(type="integer")
      *     ),
      *     @OA\Parameter(
      *         name="LOCATION_ID",
      *         in="query",
-     *         description="Location ID to filter the sessions",
      *         required=false,
-     *         @OA\Schema(
-     *             type="integer",
-     *             example=1
-     *         )
+     *         description="The location ID of the session",
+     *         @OA\Schema(type="integer")
      *     ),
      *     @OA\Parameter(
      *         name="START",
      *         in="query",
-     *         description="Start date to filter the sessions (format: yyyy-mm-dd or yyyy-mm-ddThh:mm:ss)",
      *         required=false,
-     *         @OA\Schema(
-     *             type="string",
-     *             format="date-time",
-     *             example="2025-01-01T09:00:00"
-     *         )
+     *         description="The start date of the session (ISO 8601 format)",
+     *         @OA\Schema(type="string", format="date-time")
      *     ),
      *     @OA\Parameter(
      *         name="END",
      *         in="query",
-     *         description="End date to filter the sessions (format: yyyy-mm-dd or yyyy-mm-ddThh:mm:ss)",
      *         required=false,
-     *         @OA\Schema(
-     *             type="string",
-     *             format="date-time",
-     *             example="2025-01-10T11:00:00"
-     *         )
+     *         description="The end date of the session (ISO 8601 format)",
+     *         @OA\Schema(type="string", format="date-time")
      *     ),
+     *     
      *     @OA\Response(
      *         response=200,
-     *         description="Successfully fetched the sessions",
+     *         description="A list of sessions based on the filters",
      *         @OA\JsonContent(
      *             type="array",
-     *             @OA\Items(
-     *                 type="object",
-     *                 @OA\Property(property="ID", type="integer", description="Session ID", example=1),
-     *                 @OA\Property(property="LOCATION_ID", type="integer", description="Location ID", example=1),
-     *                 @OA\Property(property="LEVEL", type="integer", description="Training level ID", example=1),
-     *                 @OA\Property(property="START", type="string", format="date-time", description="Session start date", example="2025-01-07T11:43:52+00:00"),
-     *                 @OA\Property(property="END", type="string", format="date-time", description="Session end date", example="2025-02-01T12:43:52+00:00")
-     *             )
+     *             @OA\Items(ref="#/components/schemas/Session")
      *         )
      *     ),
      *     @OA\Response(
      *         response=400,
-     *         description="Bad Request, invalid input parameters",
+     *         description="Invalid parameters",
      *         @OA\JsonContent(
-     *             @OA\Property(property="message", type="string", example="Invalid parameters")
+     *             @OA\Property(property="message", type="string", example="Invalid parameters provided.")
      *         )
      *     ),
      *     @OA\Response(
      *         response=500,
      *         description="Internal server error",
      *         @OA\JsonContent(
-     *             @OA\Property(property="message", type="string", example="Something went wrong, please try again.")
+     *             @OA\Property(property="error", type="string", example="Something went wrong")
      *         )
      *     )
      * )

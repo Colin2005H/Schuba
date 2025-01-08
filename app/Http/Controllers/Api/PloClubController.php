@@ -12,13 +12,13 @@ use Illuminate\Http\Request;
  *     type="object",
  *     required={"CLU_ID"},
  *     @OA\Property(
- *         property="CLU_ID",
+ *         property="ID",
  *         type="integer",
  *         description="The ID of the club",
  *         example=1
  *     ),
  *     @OA\Property(
- *         property="CLU_NOM",
+ *         property="Name",
  *         type="string",
  *         description="The name of the club",
  *         example="Schuba Diving Club"
@@ -47,51 +47,48 @@ class PloClubController extends Controller {
     /**
      * @OA\Get(
      *     path="/api/club",
-     *     summary="Get a list of clubs",
-     *     description="Fetches clubs based on the provided filters (ID or Name).",
-     *     operationId="getClubs",
+     *     summary="Retrieve clubs based on optional filters",
+     *     description="Retrieve clubs based on filters such as CLUB_ID and NAME.",
+     *     operationId="getClubRecords",
      *     tags={"Clubs"},
+     *
      *     @OA\Parameter(
      *         name="ID",
      *         in="query",
-     *         description="The ID of the club",
+     *         description="Filter by club ID (CLU_ID)",
      *         required=false,
-     *         @OA\Schema(
-     *             type="integer",
-     *             format="int64"
-     *         )
+     *         @OA\Schema(type="integer")
      *     ),
      *     @OA\Parameter(
      *         name="NAME",
      *         in="query",
-     *         description="Partial name of the club to search for",
+     *         description="Filter by club name (CLU_NOM)",
      *         required=false,
-     *         @OA\Schema(
-     *             type="string",
-     *             example="Sports Club"
-     *         )
+     *         @OA\Schema(type="string")
      *     ),
+     *
      *     @OA\Response(
      *         response=200,
-     *         description="List of clubs successfully fetched",
+     *         description="List of clubs matching the filters",
      *         @OA\JsonContent(
      *             type="array",
      *             @OA\Items(
-     *                 type="object",
-     *                 @OA\Property(property="CLU_ID", type="integer", example=1),
-     *                 @OA\Property(property="CLU_NOM", type="string", example="Sports Club")
+     *                 ref="#/components/schemas/Club"
      *             )
      *         )
      *     ),
      *     @OA\Response(
      *         response=400,
-     *         description="Bad request, invalid parameters",
+     *         description="Bad Request, invalid parameters",
      *         @OA\JsonContent(
-     *             @OA\Property(
-     *                 property="message",
-     *                 type="string",
-     *                 example="Invalid request parameters"
-     *             )
+     *             @OA\Property(property="error", type="string", example="Invalid input data")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Internal server error",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="error", type="string", example="Something went wrong")
      *         )
      *     )
      * )

@@ -10,15 +10,15 @@ use App\Http\Controllers\Controller;
  * @OA\Schema(
  *     schema="Initiator",
  *     type="object",
- *     required={"UTI_ID"},
+ *     required={"ID"},
  *     @OA\Property(
- *         property="UTI_ID",
+ *         property="ID",
  *         type="integer",
  *         description="The unique identifier for the initiator",
  *         example=123
  *     ),
  *     @OA\Property(
- *         property="diriger_le_clubs",
+ *         property="Leader",
  *         type="array",
  *         description="The clubs directed by this initiator",
  *         @OA\Items(
@@ -26,7 +26,7 @@ use App\Http\Controllers\Controller;
  *         )
  *     ),
  *     @OA\Property(
- *         property="enseigners",
+ *         property="Teaching",
  *         type="array",
  *         description="The formations taught by this initiator",
  *         @OA\Items(
@@ -34,7 +34,7 @@ use App\Http\Controllers\Controller;
  *         )
  *     ),
  *     @OA\Property(
- *         property="gerer_la_formations",
+ *         property="Manager",
  *         type="array",
  *         description="The formations managed by this initiator",
  *         @OA\Items(
@@ -42,7 +42,7 @@ use App\Http\Controllers\Controller;
  *         )
  *     ),
  *     @OA\Property(
- *         property="groupers",
+ *         property="Group",
  *         type="array",
  *         description="The groups that this initiator is part of",
  *         @OA\Items(
@@ -50,7 +50,7 @@ use App\Http\Controllers\Controller;
  *         )
  *     ),
  *     @OA\Property(
- *         property="plo_utilisateur",
+ *         property="User",
  *         ref="#/components/schemas/User",
  *         description="The associated user for the initiator"
  *     )
@@ -62,67 +62,42 @@ class PloInitiateurController extends Controller {
     /**
      * @OA\Get(
      *     path="/api/initiator",
-     *     summary="Get Initiator information",
-     *     description="Retrieve information about one or more initiators. Optionally filter by ID.",
-     *     operationId="getInitiateur",
+     *     summary="Retrieve Initiators based on optional filters",
+     *     description="Retrieve Initiator records filtered by ID (UTI_ID).",
+     *     operationId="getInitiatorRecords",
      *     tags={"Initiators"},
+     *
      *     @OA\Parameter(
      *         name="ID",
      *         in="query",
+     *         description="Filter by initiator ID (UTI_ID)",
      *         required=false,
-     *         description="The ID of the initiator to filter by",
-     *         @OA\Schema(
-     *             type="integer",
-     *             example=1
+     *         @OA\Schema(type="integer")
+     *     ),
+     *
+     *     @OA\Response(
+     *         response=200,
+     *         description="List of Initiator records matching the filters",
+     *         @OA\JsonContent(
+     *             type="array",
+     *             @OA\Items(
+     *                 ref="#/components/schemas/Initiator"
+     *             )
      *         )
      *     ),
      *     @OA\Response(
-     *         response=200,
-     *         description="List of initiators or specific initiator if ID is provided",
-     *         content={
-     *             @OA\MediaType(
-     *                 mediaType="application/json",
-     *                 @OA\Schema(
-     *                     type="array",
-     *                     @OA\Items(
-     *                         type="object",
-     *                         properties={
-     *                             @OA\Property(property="ID", type="integer", example=1)
-     *                         }
-     *                     )
-     *                 )
-     *             )
-     *         }
-     *     ),
-     *     @OA\Response(
      *         response=400,
-     *         description="Bad request",
-     *         content={
-     *             @OA\MediaType(
-     *                 mediaType="application/json",
-     *                 @OA\Schema(
-     *                     type="object",
-     *                     properties={
-     *                         @OA\Property(property="message", type="string", example="Invalid parameter")
-     *                     }
-     *                 )
-     *             )
-     *         }
+     *         description="Bad Request, invalid parameters",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="error", type="string", example="Invalid input data")
+     *         )
      *     ),
      *     @OA\Response(
      *         response=500,
      *         description="Internal server error",
-     *         content={
-     *             @OA\MediaType(
-     *                 mediaType="application/json",
-     *                 @OA\Schema(
-     *                     type="object",
-     *                     properties={
-     *                         @OA\Property(property="message", type="string", example="Something went wrong, please try again.")
-     *                     }
-     *                 )
-     *             )
-     *         }
+     *         @OA\JsonContent(
+     *             @OA\Property(property="error", type="string", example="Something went wrong")
+     *         )
      *     )
      * )
      */

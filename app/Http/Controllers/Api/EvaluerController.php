@@ -205,7 +205,7 @@ class EvaluerController extends Controller {
 
     /**
      * @OA\Post(
-     *     path="/api/assessments",
+     *     path="/api/assessment",
      *     summary="Create a new Assessment record",
      *     description="Create a new Assessment record by providing session ID (SEA_ID), appointment code (APT_CODE), student ID (UTI_ID), comment (EVA_COMMENTAIRE), and result (EVA_RESULTAT).",
      *     operationId="createAssessmentRecord",

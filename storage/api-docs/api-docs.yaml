@@ -355,44 +355,53 @@ paths:
     get:
       tags:
         - Teachings
-      summary: 'Get Teaching records'
-      description: 'Retrieve a list of Teaching records based on the provided filter criteria.'
-      operationId: 49ff76718c3034fad6ff227aa89b15dd
+      summary: 'Get a list of teaching records'
+      description: 'Retrieve a list of teaching records based on the provided filters.'
+      operationId: getTeachings
       parameters:
         -
           name: ID
           in: query
-          description: 'User ID to filter by'
+          description: 'The ID of the teacher (user).'
           required: false
           schema:
             type: integer
         -
           name: LEVEL
           in: query
-          description: 'Teaching level to filter by'
+          description: 'The level of the teaching record.'
           required: false
           schema:
             type: integer
       responses:
         200:
-          description: 'Successfully retrieved the list of Teaching records'
+          description: 'A list of teaching records based on the filters'
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  properties:
-                    ID:
-                      description: 'User ID'
-                      type: integer
-                    LEVEL:
-                      description: 'Teaching level'
-                      type: integer
-                  type: object
+                  $ref: '#/components/schemas/Teaching'
         400:
-          description: 'Invalid input parameters'
+          description: 'Invalid parameters'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'Invalid parameters provided.'
+                type: object
         500:
           description: 'Internal server error'
+          content:
+            application/json:
+              schema:
+                properties:
+                  error:
+                    type: string
+                    example: 'Something went wrong'
+                type: object
     post:
       tags:
         - Teachings
@@ -574,7 +583,6 @@ paths:
                     type: string
                     example: 'Something went wrong'
                 type: object
-  /api/assessments:
     post:
       tags:
         - Assessments
@@ -619,130 +627,125 @@ paths:
     get:
       tags:
         - Managers
-      summary: 'Get formation manager records'
-      description: 'Retrieve manager based on optional filters: User ID, Formation Level, and Start Date.'
-      operationId: 9e59b26885df298b89bac690b0e91081
+      summary: 'Retrieve Managers based on optional filters'
+      description: 'Retrieve records of managers filtered by INIT_ID, LEVEL, and START date.'
+      operationId: getManagerRecords
       parameters:
         -
-          name: UTI_ID
+          name: INIT_ID
           in: query
-          description: 'User ID to filter the records'
+          description: 'Filter by the ID of the initiator (INIT_ID)'
           required: false
           schema:
             type: integer
-            example: 1
         -
-          name: FORM_NIVEAU
+          name: LEVEL
           in: query
-          description: 'Formation Level to filter the records'
+          description: 'Filter by formation level (LEVEL)'
           required: false
           schema:
             type: integer
-            example: 2
         -
-          name: GER_DATE_DEBUT
+          name: START
           in: query
-          description: 'Start Date of the formation'
+          description: 'Filter by start date of the formation (START)'
           required: false
           schema:
             type: string
-            format: date-time
-            example: '2025-01-01T09:00:00'
+            format: date
+            example: '2025-01-01'
       responses:
         200:
-          description: 'Successfully retrieved GererLaFormation records'
+          description: 'List of Manager records matching the filters'
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  properties:
-                    UTI_ID:
-                      type: integer
-                      example: 1
-                    FORM_NIVEAU:
-                      type: integer
-                      example: 2
-                    GER_DATE_DEBUT:
-                      type: string
-                      format: date-time
-                      example: '2025-01-01T09:00:00'
-                  type: object
+                  $ref: '#/components/schemas/Manager'
         400:
-          description: 'Invalid parameters'
+          description: 'Bad Request, invalid parameters'
           content:
             application/json:
               schema:
                 properties:
-                  message:
+                  error:
                     type: string
-                    example: 'Invalid parameters'
+                    example: 'Invalid input data'
                 type: object
-  /api/gerer-la-formation:
+        500:
+          description: 'Internal server error'
+          content:
+            application/json:
+              schema:
+                properties:
+                  error:
+                    type: string
+                    example: 'Something went wrong'
+                type: object
     post:
       tags:
         - Managers
-      summary: 'Create a new formation manager'
-      description: 'This API allows you to create a new manager by providing the User ID, Formation Level, and Start Date.'
-      operationId: 3b34be262fbad208bc05193614ecf928
+      summary: 'Create a new Manager record'
+      description: 'Creates a new manager record with the provided INIT_ID, LEVEL, and START date.'
+      operationId: createManager
       requestBody:
-        description: 'The necessary data to create a new GererLaFormation record'
         required: true
         content:
           application/json:
             schema:
               required:
-                - UTI_ID
-                - FORM_NIVEAU
-                - GER_DATE_DEBUT
+                - INIT_ID
+                - LEVEL
+                - START
               properties:
-                UTI_ID:
-                  description: 'ID of the user associated with the formation record'
+                INIT_ID:
+                  description: 'The ID of the initiator'
+                  type: integer
+                  example: 123
+                LEVEL:
+                  description: 'The level of the formation'
                   type: integer
                   example: 1
-                FORM_NIVEAU:
-                  description: 'Formation level associated with the GererLaFormation record'
-                  type: integer
-                  example: 2
-                GER_DATE_DEBUT:
-                  description: 'Start date and time of the formation'
+                START:
+                  description: 'The start date of the formation'
                   type: string
-                  format: date-time
-                  example: '2025-01-01T09:00:00'
+                  format: date
+                  example: '2025-01-01'
               type: object
       responses:
-        200:
-          description: 'GererLaFormation record created successfully'
+        201:
+          description: 'Manager record successfully created'
           content:
             application/json:
               schema:
                 properties:
                   message:
                     type: string
-                    example: 'GererLaFormation successfully created!'
-                  gerer_la_formation:
+                    example: 'Manager successfully created!'
+                  Manager:
                     properties:
-                      UTI_ID:
+                      INIT_ID:
+                        type: integer
+                        example: 123
+                      LEVEL:
                         type: integer
                         example: 1
-                      FORM_NIVEAU:
-                        type: integer
-                        example: 2
-                      GER_DATE_DEBUT:
+                      START:
                         type: string
-                        format: date-time
-                        example: '2025-01-01T09:00:00'
+                        format: date
+                        example: '2025-01-01'
                     type: object
                 type: object
         400:
-          description: 'Validation error in the provided data'
+          description: 'Bad Request, validation errors'
           content:
             application/json:
               schema:
                 properties:
-                  message:
+                  error:
                     type: string
-                    example: 'The provided data is invalid'
+                    example: 'Invalid input data'
                 type: object
         500:
           description: 'Internal server error'
@@ -750,118 +753,46 @@ paths:
             application/json:
               schema:
                 properties:
-                  message:
+                  error:
                     type: string
-                    example: 'An error occurred while creating the record'
+                    example: 'Something went wrong'
                 type: object
   '/api/manager/{id}':
     delete:
       tags:
         - Managers
-      summary: 'Delete a formation manager record'
-      description: 'This API allows you to delete an existing manager by providing its ID.'
-      operationId: f2c734fc4e7f0075b6f630115c053dbb
+      summary: 'Delete a Manager record'
+      description: 'Deletes a manager record by the provided ID.'
+      operationId: deleteManager
       parameters:
         -
           name: id
           in: path
-          description: 'ID of the GererLaFormation record to be deleted'
+          description: 'The ID of the Manager record to delete'
           required: true
           schema:
             type: integer
-            example: 1
+            example: 123
       responses:
         200:
-          description: 'GererLaFormation record deleted successfully'
+          description: 'Manager record successfully deleted'
           content:
             application/json:
               schema:
                 properties:
                   message:
                     type: string
-                    example: 'GererLaFormation successfully deleted!'
+                    example: 'Manager successfully deleted!'
                 type: object
         404:
-          description: 'GererLaFormation record not found'
+          description: 'Manager record not found'
           content:
             application/json:
               schema:
                 properties:
                   message:
                     type: string
-                    example: 'GererLaFormation record not found.'
-                type: object
-  /api/group:
-    get:
-      tags:
-        - Groups
-      summary: 'Get group records'
-      description: 'Retrieves group records based on optional filters for user, initiator, session, and presence status.'
-      operationId: 1b29d655f5c291dba95ffff8eadfb856
-      parameters:
-        -
-          name: USER_ID
-          in: query
-          description: 'User ID to filter group by user'
-          required: false
-          schema:
-            type: integer
-            example: 1
-        -
-          name: INIT_ID
-          in: query
-          description: 'Initiator ID to filter group by initiator'
-          required: false
-          schema:
-            type: integer
-            example: 1
-        -
-          name: SESS_ID
-          in: query
-          description: 'Session ID to filter group by session'
-          required: false
-          schema:
-            type: integer
-            example: 1
-        -
-          name: PRESENT
-          in: query
-          description: 'Presence status of the user in the session'
-          required: false
-          schema:
-            type: boolean
-            example: true
-      responses:
-        200:
-          description: 'Successfully retrieved group records'
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  properties:
-                    USER_ID:
-                      type: integer
-                      example: 1
-                    INIT_ID:
-                      type: integer
-                      example: 1
-                    SESS_ID:
-                      type: integer
-                      example: 1
-                    PRESENT:
-                      type: boolean
-                      example: true
-                  type: object
-        400:
-          description: 'Bad request, validation failed'
-          content:
-            application/json:
-              schema:
-                properties:
-                  message:
-                    type: string
-                    example: 'The given data was invalid.'
+                    example: 'Manager record not found.'
                 type: object
         500:
           description: 'Internal server error'
@@ -869,9 +800,74 @@ paths:
             application/json:
               schema:
                 properties:
-                  message:
+                  error:
                     type: string
-                    example: 'Something went wrong, please try again.'
+                    example: 'Something went wrong'
+                type: object
+  /api/group:
+    get:
+      tags:
+        - Groups
+      summary: 'Retrieve Group records based on optional filters'
+      description: 'Retrieve Group records filtered by USER_ID, INIT_ID, SESS_ID, and PRESENT status.'
+      operationId: getGroupRecords
+      parameters:
+        -
+          name: USER_ID
+          in: query
+          description: 'Filter by user ID (UTI_ID)'
+          required: false
+          schema:
+            type: integer
+        -
+          name: INIT_ID
+          in: query
+          description: 'Filter by initiator ID (UTI_ID_INITIATEUR)'
+          required: false
+          schema:
+            type: integer
+        -
+          name: SESS_ID
+          in: query
+          description: 'Filter by session ID (SEA_ID)'
+          required: false
+          schema:
+            type: integer
+        -
+          name: PRESENT
+          in: query
+          description: 'Filter by presence status (GRP_PRESENCE)'
+          required: false
+          schema:
+            type: boolean
+      responses:
+        200:
+          description: 'List of Group records matching the filters'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Group'
+        400:
+          description: 'Bad Request, invalid parameters'
+          content:
+            application/json:
+              schema:
+                properties:
+                  error:
+                    type: string
+                    example: 'Invalid input data'
+                type: object
+        500:
+          description: 'Internal server error'
+          content:
+            application/json:
+              schema:
+                properties:
+                  error:
+                    type: string
+                    example: 'Something went wrong'
                 type: object
     post:
       tags:
@@ -1006,62 +1002,59 @@ paths:
     get:
       tags:
         - Aptitudes
-      summary: 'Retrieve a list of aptitudes'
-      description: 'Fetches a list of aptitudes based on optional filters such as ID, competence ID, and name.'
-      operationId: getAptitudes
+      summary: 'Retrieve aptitudes based on optional filters'
+      description: 'Retrieve aptitudes based on filters such as APT_CODE, SKILL_ID, and NAME.'
+      operationId: getAptitudeRecords
       parameters:
         -
           name: ID
           in: query
-          description: 'The ID of the aptitude to filter by'
+          description: 'Filter by aptitude code (APT_CODE)'
           required: false
           schema:
             type: string
-            example: APT001
         -
           name: SKILL_ID
           in: query
-          description: 'The skill ID to filter by'
+          description: 'Filter by skill ID (CPT_ID)'
           required: false
           schema:
-            type: string
-            example: CPT01
+            type: integer
         -
           name: NAME
           in: query
-          description: 'The name or part of the name of the aptitude to filter by'
+          description: 'Filter by aptitude name (APT_LIBELLE)'
           required: false
           schema:
             type: string
-            example: 'Technical Skill'
       responses:
         200:
-          description: 'A list of aptitudes based on the filters provided'
+          description: 'List of aptitudes matching the filters'
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  properties:
-                    APT_CODE:
-                      type: string
-                      example: APT001
-                    CPT_ID:
-                      type: string
-                      example: CPT01
-                    APT_LIBELLE:
-                      type: string
-                      example: 'Technical Skill'
-                  type: object
+                  $ref: '#/components/schemas/Aptitude'
         400:
-          description: 'Invalid request parameters'
+          description: 'Bad Request, invalid parameters'
           content:
             application/json:
               schema:
                 properties:
-                  message:
+                  error:
                     type: string
-                    example: 'Invalid request parameters'
+                    example: 'Invalid input data'
+                type: object
+        500:
+          description: 'Internal server error'
+          content:
+            application/json:
+              schema:
+                properties:
+                  error:
+                    type: string
+                    example: 'Something went wrong'
                 type: object
     post:
       tags:
@@ -1233,51 +1226,52 @@ paths:
     get:
       tags:
         - Clubs
-      summary: 'Get a list of clubs'
-      description: 'Fetches clubs based on the provided filters (ID or Name).'
-      operationId: getClubs
+      summary: 'Retrieve clubs based on optional filters'
+      description: 'Retrieve clubs based on filters such as CLUB_ID and NAME.'
+      operationId: getClubRecords
       parameters:
         -
           name: ID
           in: query
-          description: 'The ID of the club'
+          description: 'Filter by club ID (CLU_ID)'
           required: false
           schema:
             type: integer
-            format: int64
         -
           name: NAME
           in: query
-          description: 'Partial name of the club to search for'
+          description: 'Filter by club name (CLU_NOM)'
           required: false
           schema:
             type: string
-            example: 'Sports Club'
       responses:
         200:
-          description: 'List of clubs successfully fetched'
+          description: 'List of clubs matching the filters'
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  properties:
-                    CLU_ID:
-                      type: integer
-                      example: 1
-                    CLU_NOM:
-                      type: string
-                      example: 'Sports Club'
-                  type: object
+                  $ref: '#/components/schemas/Club'
         400:
-          description: 'Bad request, invalid parameters'
+          description: 'Bad Request, invalid parameters'
           content:
             application/json:
               schema:
                 properties:
-                  message:
+                  error:
                     type: string
-                    example: 'Invalid request parameters'
+                    example: 'Invalid input data'
+                type: object
+        500:
+          description: 'Internal server error'
+          content:
+            application/json:
+              schema:
+                properties:
+                  error:
+                    type: string
+                    example: 'Something went wrong'
                 type: object
     post:
       tags:
@@ -1428,61 +1422,58 @@ paths:
       tags:
         - Skills
       summary: 'Get a list of skills'
-      description: 'Retrieves a list of skills based on the provided filters.'
+      description: 'Retrieve a list of skills based on the provided filters.'
       operationId: getSkills
       parameters:
         -
           name: ID
           in: query
-          description: 'The ID of the skill to search for'
+          description: 'The ID of the skill (competence)'
           required: false
           schema:
             type: string
-            example: C1
         -
           name: LEVEL
           in: query
-          description: 'The level of the skill to filter by'
+          description: 'The level of the skill'
           required: false
           schema:
             type: integer
-            example: 2
         -
           name: NAME
           in: query
-          description: 'The name or part of the name of the skill to search for'
+          description: 'The name or label of the skill'
           required: false
           schema:
             type: string
-            example: 'Scuba Diving'
       responses:
         200:
-          description: 'List of skills'
+          description: 'A list of skills based on the filters'
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  properties:
-                    CPT_ID:
-                      type: string
-                      example: '123'
-                    LEVEL:
-                      type: integer
-                      example: 2
-                    NAME:
-                      type: string
-                      example: 'Basic Scuba Diving'
-                  type: object
+                  $ref: '#/components/schemas/Skill'
         400:
-          description: 'Invalid input data'
+          description: 'Invalid parameters'
           content:
             application/json:
               schema:
                 properties:
                   message:
                     type: string
-                    example: 'Validation errors'
+                    example: 'Invalid parameters provided.'
+                type: object
+        500:
+          description: 'Internal server error'
+          content:
+            application/json:
+              schema:
+                properties:
+                  error:
+                    type: string
+                    example: 'Something went wrong'
                 type: object
     post:
       tags:
@@ -1659,50 +1650,34 @@ paths:
       tags:
         - Students
       summary: 'Get a list of students'
-      description: 'Fetch a list of students based on optional filters (ID). If no filters are provided, it returns all students.'
-      operationId: 3095f235203a754e7d003f11b4b4466d
+      description: 'Retrieve a list of students based on the provided filters.'
+      operationId: getStudents
       parameters:
         -
           name: ID
           in: query
-          description: 'User ID to filter the students'
+          description: 'The ID of the student'
           required: false
           schema:
             type: integer
-            example: 1
       responses:
         200:
-          description: 'Successfully fetched the list of students'
+          description: 'A list of students based on the filters'
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  properties:
-                    ID:
-                      description: 'User ID of the student'
-                      type: integer
-                      example: 1
-                  type: object
+                  $ref: '#/components/schemas/Student'
         400:
-          description: 'Bad Request, invalid input parameters'
+          description: 'Invalid parameters'
           content:
             application/json:
               schema:
                 properties:
                   message:
                     type: string
-                    example: 'Invalid parameters'
-                type: object
-        404:
-          description: 'No students found'
-          content:
-            application/json:
-              schema:
-                properties:
-                  message:
-                    type: string
-                    example: 'No students found matching the criteria.'
+                    example: 'Invalid parameters provided.'
                 type: object
         500:
           description: 'Internal server error'
@@ -1710,9 +1685,9 @@ paths:
             application/json:
               schema:
                 properties:
-                  message:
+                  error:
                     type: string
-                    example: 'Something went wrong, please try again.'
+                    example: 'Something went wrong'
                 type: object
     post:
       tags:
@@ -1832,77 +1807,66 @@ paths:
     get:
       tags:
         - Formations
-      summary: 'List filtered formations'
-      description: 'Retrieve a list of formations filtered by criteria such as formation level, name, description, and maximum number of professors.'
-      operationId: listFormations
+      summary: 'Retrieve formations based on optional filters'
+      description: 'Retrieve formations based on filters such as ID, NAME, DESCRIPTION, and MAX_TEACHERS.'
+      operationId: getFormationRecords
       parameters:
         -
           name: ID
           in: query
-          description: 'Formation level ID to filter the results'
+          description: 'Filter by formation level (FORM_NIVEAU)'
           required: false
           schema:
             type: integer
-            example: 2
         -
           name: NAME
           in: query
-          description: "Formation name (uses LIKE 'name%')"
+          description: 'Filter by formation name (FORM_LIBELLE)'
           required: false
           schema:
             type: string
-            example: 'Niveau 1 Plongée'
         -
           name: DESCRIPTION
           in: query
-          description: "Formation description (uses LIKE 'description%')"
+          description: 'Filter by formation description (FORM_DESCRIPTION)'
           required: false
           schema:
             type: string
-            example: 'Formation de plongée pour débutants'
         -
           name: MAX_TEACHERS
           in: query
-          description: 'Maximum number of professors for the formation'
+          description: 'Filter by maximum number of teachers (FORM_PROF_MAX)'
           required: false
           schema:
             type: integer
-            example: 3
       responses:
         200:
-          description: 'Successfully fetched the formations matching the criteria'
+          description: 'List of formations matching the filters'
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  properties:
-                    FORM_NIVEAU:
-                      description: 'Formation level'
-                      type: integer
-                      example: 2
-                    FORM_LIBELLE:
-                      description: 'Formation name'
-                      type: string
-                      example: 'Niveau 1 Plongée'
-                    FORM_DESCRIPTION:
-                      description: 'Formation description'
-                      type: string
-                      example: 'Formation de plongée pour débutants'
-                    FORM_PROF_MAX:
-                      description: 'Maximum number of professors'
-                      type: integer
-                      example: 3
-                  type: object
+                  $ref: '#/components/schemas/Formation'
         400:
-          description: 'Incorrect parameters'
+          description: 'Bad Request, invalid parameters'
           content:
             application/json:
               schema:
                 properties:
                   error:
                     type: string
-                    example: 'Invalid parameters'
+                    example: 'Invalid input data'
+                type: object
+        500:
+          description: 'Internal server error'
+          content:
+            application/json:
+              schema:
+                properties:
+                  error:
+                    type: string
+                    example: 'Something went wrong'
                 type: object
     post:
       tags:
@@ -2093,40 +2057,35 @@ paths:
     get:
       tags:
         - Initiators
-      summary: 'Get Initiator information'
-      description: 'Retrieve information about one or more initiators. Optionally filter by ID.'
-      operationId: getInitiateur
+      summary: 'Retrieve Initiators based on optional filters'
+      description: 'Retrieve Initiator records filtered by ID (UTI_ID).'
+      operationId: getInitiatorRecords
       parameters:
         -
           name: ID
           in: query
-          description: 'The ID of the initiator to filter by'
+          description: 'Filter by initiator ID (UTI_ID)'
           required: false
           schema:
             type: integer
-            example: 1
       responses:
         200:
-          description: 'List of initiators or specific initiator if ID is provided'
+          description: 'List of Initiator records matching the filters'
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  properties:
-                    ID:
-                      type: integer
-                      example: 1
-                  type: object
+                  $ref: '#/components/schemas/Initiator'
         400:
-          description: 'Bad request'
+          description: 'Bad Request, invalid parameters'
           content:
             application/json:
               schema:
                 properties:
-                  message:
+                  error:
                     type: string
-                    example: 'Invalid parameter'
+                    example: 'Invalid input data'
                 type: object
         500:
           description: 'Internal server error'
@@ -2134,9 +2093,9 @@ paths:
             application/json:
               schema:
                 properties:
-                  message:
+                  error:
                     type: string
-                    example: 'Something went wrong, please try again.'
+                    example: 'Something went wrong'
                 type: object
     post:
       tags:
@@ -2256,59 +2215,59 @@ paths:
     get:
       tags:
         - Locations
-      summary: 'Get locations based on filters'
-      description: 'This API allows you to retrieve a list of locations based on optional filters like ID, name, and type.'
-      operationId: 9e549a3ff77400108eb891e2d7c542b8
+      summary: 'Retrieve Locations based on optional filters'
+      description: 'Retrieve Location records filtered by ID, name, and type.'
+      operationId: getLocationRecords
       parameters:
         -
           name: ID
           in: query
-          description: 'ID of the location'
+          description: 'Filter by location ID (LI_ID)'
           required: false
           schema:
             type: integer
         -
           name: NAME
           in: query
-          description: "Name of the location. Use partial matching with '%' for wildcards."
+          description: 'Filter by location name (LI_NOM)'
           required: false
           schema:
             type: string
         -
           name: TYPE
           in: query
-          description: "Type of the location. Use partial matching with '%' for wildcards."
+          description: 'Filter by location type (LI_TYPE)'
           required: false
           schema:
             type: string
       responses:
         200:
-          description: 'List of locations retrieved successfully.'
+          description: 'List of Location records matching the filters'
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  properties:
-                    ID:
-                      type: integer
-                      example: 1
-                    NAME:
-                      type: string
-                      example: 'Location Name'
-                    TYPE:
-                      type: string
-                      example: 'Location Type'
-                  type: object
-        404:
-          description: 'No locations found matching the criteria'
+                  $ref: '#/components/schemas/Location'
+        400:
+          description: 'Bad Request, invalid parameters'
           content:
             application/json:
               schema:
                 properties:
-                  message:
+                  error:
                     type: string
-                    example: 'No locations found'
+                    example: 'Invalid input data'
+                type: object
+        500:
+          description: 'Internal server error'
+          content:
+            application/json:
+              schema:
+                properties:
+                  error:
+                    type: string
+                    example: 'Something went wrong'
                 type: object
     post:
       tags:
@@ -2496,85 +2455,58 @@ paths:
     get:
       tags:
         - Sessions
-      summary: 'Get sessions based on filters'
-      description: 'Fetch a list of sessions by filtering on session ID, location ID, and start and end dates.'
-      operationId: 606addeb37c766d37032d78b33a121a6
+      summary: 'Get a list of sessions'
+      description: 'Retrieve a list of sessions based on provided filters.'
+      operationId: getSessions
       parameters:
         -
           name: ID
           in: query
-          description: 'Session ID to filter the results'
+          description: 'The ID of the session'
           required: false
           schema:
             type: integer
-            example: 1
         -
           name: LOCATION_ID
           in: query
-          description: 'Location ID to filter the sessions'
+          description: 'The location ID of the session'
           required: false
           schema:
             type: integer
-            example: 1
         -
           name: START
           in: query
-          description: 'Start date to filter the sessions (format: yyyy-mm-dd or yyyy-mm-ddThh:mm:ss)'
+          description: 'The start date of the session (ISO 8601 format)'
           required: false
           schema:
             type: string
             format: date-time
-            example: '2025-01-01T09:00:00'
         -
           name: END
           in: query
-          description: 'End date to filter the sessions (format: yyyy-mm-dd or yyyy-mm-ddThh:mm:ss)'
+          description: 'The end date of the session (ISO 8601 format)'
           required: false
           schema:
             type: string
             format: date-time
-            example: '2025-01-10T11:00:00'
       responses:
         200:
-          description: 'Successfully fetched the sessions'
+          description: 'A list of sessions based on the filters'
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  properties:
-                    ID:
-                      description: 'Session ID'
-                      type: integer
-                      example: 1
-                    LOCATION_ID:
-                      description: 'Location ID'
-                      type: integer
-                      example: 1
-                    LEVEL:
-                      description: 'Training level ID'
-                      type: integer
-                      example: 1
-                    START:
-                      description: 'Session start date'
-                      type: string
-                      format: date-time
-                      example: '2025-01-07T11:43:52+00:00'
-                    END:
-                      description: 'Session end date'
-                      type: string
-                      format: date-time
-                      example: '2025-02-01T12:43:52+00:00'
-                  type: object
+                  $ref: '#/components/schemas/Session'
         400:
-          description: 'Bad Request, invalid input parameters'
+          description: 'Invalid parameters'
           content:
             application/json:
               schema:
                 properties:
                   message:
                     type: string
-                    example: 'Invalid parameters'
+                    example: 'Invalid parameters provided.'
                 type: object
         500:
           description: 'Internal server error'
@@ -2582,9 +2514,9 @@ paths:
             application/json:
               schema:
                 properties:
-                  message:
+                  error:
                     type: string
-                    example: 'Something went wrong, please try again.'
+                    example: 'Something went wrong'
                 type: object
     post:
       tags:
@@ -2798,129 +2730,86 @@ paths:
     get:
       tags:
         - Users
-      summary: 'List filtered users'
-      description: 'Retrieve a list of users filtered by various criteria such as user ID, last name, first name, email, creation date, etc.'
-      operationId: listUsers
+      summary: 'Retrieve users based on optional filters'
+      description: 'Retrieve users based on filters such as ID, CLUB_ID, NAME, FIRSTNAME, EMAIL, LEVEL, CREATION_DATE, and BIRTH_DATE.'
+      operationId: getUserRecords
       parameters:
         -
-          name: u_id
+          name: ID
           in: query
-          description: 'User ID to filter the results'
+          description: 'Filter by user ID'
           required: false
           schema:
             type: integer
-            example: 1
         -
-          name: c_id
+          name: CLUB_ID
           in: query
-          description: 'Club ID to filter the users'
+          description: 'Filter by club ID'
           required: false
           schema:
             type: integer
-            example: 1
         -
-          name: name
+          name: NAME
           in: query
-          description: "User's last name (uses LIKE 'name%')"
+          description: 'Filter by user name'
           required: false
           schema:
             type: string
-            example: Doe
         -
-          name: firstname
+          name: FIRSTNAME
           in: query
-          description: "User's first name (uses LIKE 'firstname%')"
+          description: "Filter by user's first name"
           required: false
           schema:
             type: string
-            example: John
         -
-          name: email
+          name: EMAIL
           in: query
-          description: "User's email address (uses LIKE 'email%')"
+          description: 'Filter by user email'
           required: false
           schema:
             type: string
-            example: john.doe@example.com
         -
-          name: creation_date
+          name: LEVEL
           in: query
-          description: 'Filter users by creation date (format: yyyy-mm-dd)'
+          description: 'Filter by user level'
+          required: false
+          schema:
+            type: integer
+        -
+          name: CREATION_DATE
+          in: query
+          description: 'Filter by creation date'
           required: false
           schema:
             type: string
             format: date
-            example: '2023-01-01'
         -
-          name: birth_date
+          name: BIRTH_DATE
           in: query
-          description: 'Filter users by date of birth (format: yyyy-mm-dd)'
+          description: 'Filter by birth date'
           required: false
           schema:
             type: string
             format: date
-            example: '1990-01-01'
-        -
-          name: level
-          in: query
-          description: "User's level"
-          required: false
-          schema:
-            type: integer
-            example: 2
       responses:
         200:
-          description: 'Successfully fetched the users matching the criteria'
+          description: 'List of users matching the filters'
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  properties:
-                    ID:
-                      description: 'User ID'
-                      type: integer
-                      example: 1
-                    CLUB_ID:
-                      description: 'Club ID'
-                      type: integer
-                      example: 1
-                    NAME:
-                      description: "User's last name"
-                      type: string
-                      example: Doe
-                    FIRSTNAME:
-                      description: "User's first name"
-                      type: string
-                      example: John
-                    EMAIL:
-                      description: "User's email address"
-                      type: string
-                      example: john.doe@example.com
-                    LEVEL:
-                      description: "User's level"
-                      type: integer
-                      example: 2
-                    BIRTH_DATE:
-                      description: "User's date of birth"
-                      type: string
-                      format: date-time
-                      example: '1990-01-01T00:00:00'
-                    CREATION_DATE:
-                      description: "User's account creation date"
-                      type: string
-                      format: date-time
-                      example: '2023-01-01T12:00:00'
-                  type: object
+                  $ref: '#/components/schemas/User'
         400:
-          description: 'Incorrect or invalid parameters'
+          description: 'Bad Request, invalid parameters'
           content:
             application/json:
               schema:
                 properties:
                   error:
                     type: string
-                    example: 'Invalid parameters'
+                    example: 'Invalid input data'
                 type: object
         500:
           description: 'Internal server error'
@@ -2928,9 +2817,9 @@ paths:
             application/json:
               schema:
                 properties:
-                  message:
+                  error:
                     type: string
-                    example: 'Something went wrong, please try again.'
+                    example: 'Something went wrong'
                 type: object
     post:
       tags:
@@ -3228,53 +3117,40 @@ paths:
     get:
       tags:
         - Validates
-      summary: 'Get Validate records'
-      description: 'Retrieve Validate records based on the optional filters: User ID, Competence ID, and Validation Status.'
-      operationId: 956e3c454b77bc10f39d516693d761b4
+      summary: 'Get a list of validation records'
+      description: 'Retrieve a list of validation records based on the provided filters.'
+      operationId: getValidate
       parameters:
         -
           name: UTI_ID
           in: query
-          description: 'User ID to filter the records'
+          description: 'The ID of the user (teacher or student).'
           required: false
           schema:
             type: integer
-            example: 1
         -
-          name: CPT_ID
+          name: SKILL_ID
           in: query
-          description: 'Competence ID to filter the records'
+          description: 'The ID of the skill (competence).'
           required: false
           schema:
-            type: string
-            example: CPT123
+            type: integer
         -
-          name: VALIDER
+          name: VALIDATE
           in: query
-          description: 'Validation status (true/false) to filter the records'
+          description: 'The validation status (true/false).'
           required: false
           schema:
             type: boolean
-            example: true
       responses:
         200:
-          description: 'Successfully retrieved Valider records'
+          description: 'A list of validation records based on the filters'
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  properties:
-                    UTI_ID:
-                      type: integer
-                      example: 1
-                    CPT_ID:
-                      type: string
-                      example: CPT123
-                    VALIDER:
-                      type: boolean
-                      example: true
-                  type: object
+                  $ref: '#/components/schemas/Validate'
         400:
           description: 'Invalid parameters'
           content:
@@ -3283,7 +3159,17 @@ paths:
                 properties:
                   message:
                     type: string
-                    example: 'Invalid parameters'
+                    example: 'Invalid parameters provided.'
+                type: object
+        500:
+          description: 'Internal server error'
+          content:
+            application/json:
+              schema:
+                properties:
+                  error:
+                    type: string
+                    example: 'Something went wrong'
                 type: object
     post:
       tags:
@@ -3561,74 +3447,74 @@ components:
         - UTI_ID
         - FORM_NIVEAU
       properties:
-        UTI_ID:
+        INIT_ID:
           description: 'The user ID of the initiator/teacher (PloInitiateur)'
           type: integer
           example: 1
-        FORM_NIVEAU:
+        LEVEL:
           description: 'The formation level (PloFormation)'
           type: integer
           example: 2
-        GER_DATE_DEBUT:
+        START:
           description: 'The start date of the formation'
           type: string
           format: date-time
           example: '2025-01-01T09:00:00'
-        plo_formation:
+        Formation:
           $ref: '#/components/schemas/Formation'
-        plo_initiateur:
+        Initiator:
           $ref: '#/components/schemas/Initiator'
       type: object
     Group:
       required:
-        - SEA_ID
-        - UTI_ID_INITIATEUR
-        - UTI_ID
+        - SESS_ID
+        - INIT_ID
+        - USER_ID
       properties:
-        SEA_ID:
+        SESS_ID:
           description: 'The session ID (PloSeance)'
           type: integer
           example: 1
-        UTI_ID_INITIATEUR:
+        INIT_ID:
           description: 'The initiator (teacher) user ID (PloInitiateur)'
           type: integer
           example: 2
-        UTI_ID:
+        USER_ID:
           description: 'The student user ID (PloEleve)'
           type: integer
           example: 3
-        GRP_PRESENCE:
+        PRESENT:
           description: 'Indicates if the student was present for the session'
           type: boolean
           example: true
-        plo_eleve:
+        Student:
           $ref: '#/components/schemas/Student'
-        plo_initiateur:
+        Initiator:
           $ref: '#/components/schemas/Initiator'
-        plo_seance:
+        Session:
           $ref: '#/components/schemas/Session'
       type: object
     Aptitude:
       required:
-        - APT_CODE
-        - CPT_ID
-        - APT_LIBELLE
+        - SKILL_ID
+        - ID
+        - Name
       properties:
-        APT_CODE:
+        SKILL_ID:
           description: 'The code of the aptitude'
           type: string
           example: APT001
-        CPT_ID:
+        ID:
           description: 'The ID of the competence the aptitude belongs to'
           type: string
           example: CPT001
-        APT_LIBELLE:
+        Name:
           description: 'The label or name of the aptitude'
           type: string
           example: 'First Aid'
-        plo_competence:
+        Skill:
           $ref: '#/components/schemas/Skill'
-        evaluers:
+        Assessment:
           description: 'The evaluations (Evaluer) related to this aptitude'
           type: array
           items:
@@ -3638,11 +3524,11 @@ components:
       required:
         - CLU_ID
       properties:
-        CLU_ID:
+        ID:
           description: 'The ID of the club'
           type: integer
           example: 1
-        CLU_NOM:
+        Name:
           description: 'The name of the club'
           type: string
           example: 'Schuba Diving Club'
@@ -3661,26 +3547,26 @@ components:
       required:
         - CPT_ID
       properties:
-        CPT_ID:
+        ID:
           description: 'The ID of the competence'
           type: string
           example: CPT001
-        FORM_NIVEAU:
+        LEVEL:
           description: 'The formation level associated with this competence'
           type: integer
           example: 2
-        CPT_LIBELLE:
+        NAME:
           description: 'The label of the competence'
           type: string
           example: 'Advanced Diving'
-        plo_formation:
+        Formation:
           $ref: '#/components/schemas/Formation'
-        plo_aptitudes:
+        Aptitude:
           description: 'The aptitudes associated with this competence'
           type: array
           items:
             $ref: '#/components/schemas/Aptitude'
-        validers:
+        Validate:
           description: 'The validation records associated with this competence'
           type: array
           items:
@@ -3690,23 +3576,23 @@ components:
       required:
         - UTI_ID
       properties:
-        UTI_ID:
+        ID:
           description: 'The unique identifier for the student'
           type: integer
           example: 1
-        plo_utilisateur:
+        User:
           $ref: '#/components/schemas/User'
-        appartients:
+        Signed:
           description: 'The formations the student is associated with'
           type: array
           items:
             $ref: '#/components/schemas/Signed'
-        evaluers:
+        Assessment:
           description: 'The evaluations associated with this student'
           type: array
           items:
             $ref: '#/components/schemas/Assessment'
-        groupers:
+        Group:
           description: 'The sessions this student is grouped in'
           type: array
           items:
@@ -3716,19 +3602,19 @@ components:
       required:
         - FORM_NIVEAU
       properties:
-        FORM_NIVEAU:
+        ID:
           description: 'The unique identifier for the formation level'
           type: integer
           example: 1
-        FORM_LIBELLE:
+        NAME:
           description: 'The label/name of the formation'
           type: string
           example: 'Advanced Scuba Training'
-        FORM_DESCRIPTION:
+        DESCRIPTION:
           description: 'The description of the formation'
           type: string
           example: 'A complete training program for advanced scuba divers.'
-        FORM_PROF_MAX:
+        MAX_TEACHERS:
           description: 'The maximum number of instructors allowed for the formation'
           type: integer
           example: 5
@@ -3760,52 +3646,52 @@ components:
       type: object
     Initiator:
       required:
-        - UTI_ID
+        - ID
       properties:
-        UTI_ID:
+        ID:
           description: 'The unique identifier for the initiator'
           type: integer
           example: 123
-        diriger_le_clubs:
+        Leader:
           description: 'The clubs directed by this initiator'
           type: array
           items:
             $ref: '#/components/schemas/Leader'
-        enseigners:
+        Teaching:
           description: 'The formations taught by this initiator'
           type: array
           items:
             $ref: '#/components/schemas/Teaching'
-        gerer_la_formations:
+        Manager:
           description: 'The formations managed by this initiator'
           type: array
           items:
             $ref: '#/components/schemas/Manager'
-        groupers:
+        Group:
           description: 'The groups that this initiator is part of'
           type: array
           items:
             $ref: '#/components/schemas/Group'
-        plo_utilisateur:
+        User:
           $ref: '#/components/schemas/User'
       type: object
     Location:
       required:
         - LI_ID
       properties:
-        LI_ID:
+        ID:
           description: 'The unique identifier for the location'
           type: integer
           example: 1
-        LI_NOM:
+        NAME:
           description: 'The name of the location'
           type: string
           example: 'Diving Pool'
-        LI_TYPE:
+        TYPE:
           description: 'The type of the location (e.g., indoor, outdoor)'
           type: string
           example: Indoor
-        plo_seances:
+        Session:
           description: 'The sessions held at this location'
           type: array
           items:
@@ -3817,38 +3703,38 @@ components:
         - LI_ID
         - FORM_NIVEAU
       properties:
-        SEA_ID:
+        LOCATION_ID:
           description: 'The unique identifier for the session'
           type: integer
           example: 1
-        LI_ID:
+        ID:
           description: 'The location ID where the session takes place'
           type: integer
           example: 2
-        FORM_NIVEAU:
+        LEVEL:
           description: 'The formation level associated with the session'
           type: integer
           example: 101
-        SEA_DATE_DEB:
+        START:
           description: 'The start date and time of the session'
           type: string
           format: date-time
           example: '2025-01-10T09:00:00'
-        SEA_DATE_FIN:
+        END:
           description: 'The end date and time of the session'
           type: string
           format: date-time
           example: '2025-01-10T12:00:00'
-        plo_formation:
+        Formation:
           $ref: '#/components/schemas/Formation'
-        plo_lieu:
+        Location:
           $ref: '#/components/schemas/Location'
-        evaluers:
+        Assessement:
           description: 'The evaluations for the session'
           type: array
           items:
             $ref: '#/components/schemas/Assessment'
-        groupers:
+        Group:
           description: 'The groupings for the session'
           type: array
           items:
@@ -3928,23 +3814,26 @@ components:
           description: 'The unique identifier for the user'
           type: integer
           example: 1
-        CPT_ID:
+        SKILL_ID:
           description: 'The ID of the competence being validated'
           type: string
           example: CPT123
-        VALIDER:
+        VALIDATE:
           description: 'Indicates whether the competence has been validated by the user'
           type: boolean
           example: true
-        plo_competence:
+        Skill:
           $ref: '#/components/schemas/Skill'
-        plo_utilisateur:
+        User:
           $ref: '#/components/schemas/User'
       type: object
 tags:
   -
     name: Aptitudes
     description: 'Manage aptitudes'
+  -
+    name: Assessments
+    description: 'Manage student assessment'
   -
     name: Clubs
     description: 'Manage clubs'
@@ -3987,6 +3876,3 @@ tags:
   -
     name: Validates
     description: 'Manage student validation of skills'
-  -
-    name: Assessments
-    description: Assessments

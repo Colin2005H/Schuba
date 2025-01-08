@@ -43,54 +43,48 @@ class EnseignerController extends Controller {
     /**
      * @OA\Get(
      *     path="/api/teaching",
-     *     summary="Get Teaching records",
-     *     description="Retrieve a list of Teaching records based on the provided filter criteria.",
+     *     summary="Get a list of teaching records",
+     *     description="Retrieve a list of teaching records based on the provided filters.",
+     *     operationId="getTeachings",
      *     tags={"Teachings"},
+     *     
      *     @OA\Parameter(
      *         name="ID",
      *         in="query",
-     *         description="User ID to filter by",
      *         required=false,
-     *         @OA\Schema(
-     *             type="integer"
-     *         )
+     *         description="The ID of the teacher (user).",
+     *         @OA\Schema(type="integer")
      *     ),
+     *     
      *     @OA\Parameter(
      *         name="LEVEL",
      *         in="query",
-     *         description="Teaching level to filter by",
      *         required=false,
-     *         @OA\Schema(
-     *             type="integer"
-     *         )
+     *         description="The level of the teaching record.",
+     *         @OA\Schema(type="integer")
      *     ),
+     *     
      *     @OA\Response(
      *         response=200,
-     *         description="Successfully retrieved the list of Teaching records",
+     *         description="A list of teaching records based on the filters",
      *         @OA\JsonContent(
      *             type="array",
-     *             @OA\Items(
-     *                 type="object",
-     *                 @OA\Property(
-     *                     property="ID",
-     *                     type="integer",
-     *                     description="User ID"
-     *                 ),
-     *                 @OA\Property(
-     *                     property="LEVEL",
-     *                     type="integer",
-     *                     description="Teaching level"
-     *                 )
-     *             )
+     *             @OA\Items(ref="#/components/schemas/Teaching")
      *         )
      *     ),
      *     @OA\Response(
      *         response=400,
-     *         description="Invalid input parameters"
+     *         description="Invalid parameters",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Invalid parameters provided.")
+     *         )
      *     ),
      *     @OA\Response(
      *         response=500,
-     *         description="Internal server error"
+     *         description="Internal server error",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="error", type="string", example="Something went wrong")
+     *         )
      *     )
      * )
      */

@@ -11,33 +11,33 @@ use OpenApi\Annotations as OA;
  * @OA\Schema(
  *     schema="Aptitude",
  *     type="object",
- *     required={"APT_CODE", "CPT_ID", "APT_LIBELLE"},
+ *     required={"SKILL_ID", "ID", "Name"},
  *     @OA\Property(
- *         property="APT_CODE",
+ *         property="SKILL_ID",
  *         type="string",
  *         description="The code of the aptitude",
  *         example="APT001"
  *     ),
  *     @OA\Property(
- *         property="CPT_ID",
+ *         property="ID",
  *         type="string",
  *         description="The ID of the competence the aptitude belongs to",
  *         example="CPT001"
  *     ),
  *     @OA\Property(
- *         property="APT_LIBELLE",
+ *         property="Name",
  *         type="string",
  *         description="The label or name of the aptitude",
  *         example="First Aid"
  *     ),
  *     @OA\Property(
- *         property="plo_competence",
+ *         property="Skill",
  *         type="object",
  *         description="The competence (PloCompetence) associated with this aptitude",
  *         ref="#/components/schemas/Skill"
  *     ),
  *     @OA\Property(
- *         property="evaluers",
+ *         property="Assessment",
  *         type="array",
  *         description="The evaluations (Evaluer) related to this aptitude",
  *         @OA\Items(
@@ -52,57 +52,55 @@ class PloAptitudeController extends Controller {
     /**
      * @OA\Get(
      *     path="/api/aptitude",
-     *     summary="Retrieve a list of aptitudes",
-     *     description="Fetches a list of aptitudes based on optional filters such as ID, competence ID, and name.",
-     *     operationId="getAptitudes",
+     *     summary="Retrieve aptitudes based on optional filters",
+     *     description="Retrieve aptitudes based on filters such as APT_CODE, SKILL_ID, and NAME.",
+     *     operationId="getAptitudeRecords",
      *     tags={"Aptitudes"},
+     *
      *     @OA\Parameter(
      *         name="ID",
      *         in="query",
+     *         description="Filter by aptitude code (APT_CODE)",
      *         required=false,
-     *         @OA\Schema(
-     *             type="string",
-     *             example="APT001"
-     *         ),
-     *         description="The ID of the aptitude to filter by"
+     *         @OA\Schema(type="string")
      *     ),
      *     @OA\Parameter(
      *         name="SKILL_ID",
      *         in="query",
+     *         description="Filter by skill ID (CPT_ID)",
      *         required=false,
-     *         @OA\Schema(
-     *             type="string",
-     *             example="CPT01"
-     *         ),
-     *         description="The skill ID to filter by"
+     *         @OA\Schema(type="integer")
      *     ),
      *     @OA\Parameter(
      *         name="NAME",
      *         in="query",
+     *         description="Filter by aptitude name (APT_LIBELLE)",
      *         required=false,
-     *         @OA\Schema(
-     *             type="string",
-     *             example="Technical Skill"
-     *         ),
-     *         description="The name or part of the name of the aptitude to filter by"
+     *         @OA\Schema(type="string")
      *     ),
+     *
      *     @OA\Response(
      *         response=200,
-     *         description="A list of aptitudes based on the filters provided",
+     *         description="List of aptitudes matching the filters",
      *         @OA\JsonContent(
      *             type="array",
      *             @OA\Items(
-     *                 @OA\Property(property="APT_CODE", type="string", example="APT001"),
-     *                 @OA\Property(property="CPT_ID", type="string", example="CPT01"),
-     *                 @OA\Property(property="APT_LIBELLE", type="string", example="Technical Skill")
+     *                 ref="#/components/schemas/Aptitude"
      *             )
      *         )
      *     ),
      *     @OA\Response(
      *         response=400,
-     *         description="Invalid request parameters",
+     *         description="Bad Request, invalid parameters",
      *         @OA\JsonContent(
-     *             @OA\Property(property="message", type="string", example="Invalid request parameters")
+     *             @OA\Property(property="error", type="string", example="Invalid input data")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Internal server error",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="error", type="string", example="Something went wrong")
      *         )
      *     )
      * )

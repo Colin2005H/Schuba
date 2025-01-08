@@ -12,25 +12,25 @@ use App\Http\Controllers\Controller;
  *     type="object",
  *     required={"FORM_NIVEAU"},
  *     @OA\Property(
- *         property="FORM_NIVEAU",
+ *         property="ID",
  *         type="integer",
  *         description="The unique identifier for the formation level",
  *         example=1
  *     ),
  *     @OA\Property(
- *         property="FORM_LIBELLE",
+ *         property="NAME",
  *         type="string",
  *         description="The label/name of the formation",
  *         example="Advanced Scuba Training"
  *     ),
  *     @OA\Property(
- *         property="FORM_DESCRIPTION",
+ *         property="DESCRIPTION",
  *         type="string",
  *         description="The description of the formation",
  *         example="A complete training program for advanced scuba divers."
  *     ),
  *     @OA\Property(
- *         property="FORM_PROF_MAX",
+ *         property="MAX_TEACHERS",
  *         type="integer",
  *         description="The maximum number of instructors allowed for the formation",
  *         example=5
@@ -83,69 +83,62 @@ class PloFormationController extends Controller {
     /**
      * @OA\Get(
      *     path="/api/formation",
-     *     summary="List filtered formations",
-     *     description="Retrieve a list of formations filtered by criteria such as formation level, name, description, and maximum number of professors.",
-     *     operationId="listFormations",
+     *     summary="Retrieve formations based on optional filters",
+     *     description="Retrieve formations based on filters such as ID, NAME, DESCRIPTION, and MAX_TEACHERS.",
+     *     operationId="getFormationRecords",
      *     tags={"Formations"},
+     *
      *     @OA\Parameter(
      *         name="ID",
      *         in="query",
-     *         description="Formation level ID to filter the results",
+     *         description="Filter by formation level (FORM_NIVEAU)",
      *         required=false,
-     *         @OA\Schema(
-     *             type="integer",
-     *             example=2
-     *         )
+     *         @OA\Schema(type="integer")
      *     ),
      *     @OA\Parameter(
      *         name="NAME",
      *         in="query",
-     *         description="Formation name (uses LIKE 'name%')",
+     *         description="Filter by formation name (FORM_LIBELLE)",
      *         required=false,
-     *         @OA\Schema(
-     *             type="string",
-     *             example="Niveau 1 Plongée"
-     *         )
+     *         @OA\Schema(type="string")
      *     ),
      *     @OA\Parameter(
      *         name="DESCRIPTION",
      *         in="query",
-     *         description="Formation description (uses LIKE 'description%')",
+     *         description="Filter by formation description (FORM_DESCRIPTION)",
      *         required=false,
-     *         @OA\Schema(
-     *             type="string",
-     *             example="Formation de plongée pour débutants"
-     *         )
+     *         @OA\Schema(type="string")
      *     ),
      *     @OA\Parameter(
      *         name="MAX_TEACHERS",
      *         in="query",
-     *         description="Maximum number of professors for the formation",
+     *         description="Filter by maximum number of teachers (FORM_PROF_MAX)",
      *         required=false,
-     *         @OA\Schema(
-     *             type="integer",
-     *             example=3
-     *         )
+     *         @OA\Schema(type="integer")
      *     ),
+     *
      *     @OA\Response(
      *         response=200,
-     *         description="Successfully fetched the formations matching the criteria",
+     *         description="List of formations matching the filters",
      *         @OA\JsonContent(
      *             type="array",
      *             @OA\Items(
-     *                 type="object",
-     *                 @OA\Property(property="FORM_NIVEAU", type="integer", description="Formation level", example=2),
-     *                 @OA\Property(property="FORM_LIBELLE", type="string", description="Formation name", example="Niveau 1 Plongée"),
-     *                 @OA\Property(property="FORM_DESCRIPTION", type="string", description="Formation description", example="Formation de plongée pour débutants"),
-     *                 @OA\Property(property="FORM_PROF_MAX", type="integer", description="Maximum number of professors", example=3)
+     *                 ref="#/components/schemas/Formation"
      *             )
      *         )
      *     ),
      *     @OA\Response(
      *         response=400,
-     *         description="Incorrect parameters",
+     *         description="Bad Request, invalid parameters",
      *         @OA\JsonContent(
-     *             @OA\Property(property="error", type="string", example="Invalid parameters")
+     *             @OA\Property(property="error", type="string", example="Invalid input data")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Internal server error",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="error", type="string", example="Something went wrong")
      *         )
      *     )
      * )
