@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\PloAptitudeController;
 use App\Http\Controllers\Api\PloClubController;
 use App\Http\Controllers\Api\PloCompetenceController;
 use Illuminate\Support\Facades\Route;
@@ -43,6 +44,11 @@ Route::get('/club', [PloClubController::class, "get"]);
 Route::post('/club', [PloClubController::class, "create"]);
 Route::put('/club/{id}', [PloClubController::class, "update"]);
 Route::delete('/club/{id}', [PloClubController::class, "delete"]);
+
+Route::get('/aptitude', [PloAptitudeController::class, "get"]);
+Route::post('/aptitude', [PloAptitudeController::class, "create"]);
+Route::put('/aptitude/{id}', [PloAptitudeController::class, "update"]);
+Route::delete('/aptitude/{id}', [PloAptitudeController::class, "delete"]);
 
 /*
 |--------------------------------------------------------------------------
