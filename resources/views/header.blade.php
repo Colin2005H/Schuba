@@ -39,7 +39,7 @@
         <nav class="hidden md:flex space-x-6">
             <a href="{{ url('/') }}" class="hover:text-gray-400">Mon compte</a>
             <a href="{{ url('/') }}" class="hover:text-gray-400">Formations</a>
-            <a href="{{ url('/') }}" class="hover:text-gray-400">Comptes</a>
+            <a href="{{ url('/createAccount') }}" class="hover:text-gray-400">Comptes</a>
             <a href="{{ url('/') }}" class="hover:text-gray-400">Élèves</a>
             <a href="{{ url('/') }}" class="hover:text-gray-400">Se Déconnecter</a>
         </nav>
