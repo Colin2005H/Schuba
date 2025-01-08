@@ -723,6 +723,180 @@ paths:
                     type: string
                     example: 'Competence not found.'
                 type: object
+  /api/student:
+    get:
+      tags:
+        - Students
+      summary: 'Get a list of students'
+      description: 'Fetch a list of students based on optional filters (ID). If no filters are provided, it returns all students.'
+      operationId: 3095f235203a754e7d003f11b4b4466d
+      parameters:
+        -
+          name: ID
+          in: query
+          description: 'User ID to filter the students'
+          required: false
+          schema:
+            type: integer
+            example: 1
+      responses:
+        200:
+          description: 'Successfully fetched the list of students'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  properties:
+                    ID:
+                      description: 'User ID of the student'
+                      type: integer
+                      example: 1
+                  type: object
+        400:
+          description: 'Bad Request, invalid input parameters'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'Invalid parameters'
+                type: object
+        404:
+          description: 'No students found'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'No students found matching the criteria.'
+                type: object
+        500:
+          description: 'Internal server error'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'Something went wrong, please try again.'
+                type: object
+    post:
+      tags:
+        - Students
+      summary: 'Create a new student'
+      description: 'Creates a new student by providing the user ID and returns the details of the created student.'
+      operationId: b980872a2fb3e44b7111139a7db85e63
+      requestBody:
+        description: 'Student data'
+        required: true
+        content:
+          application/json:
+            schema:
+              required:
+                - ID
+              properties:
+                ID:
+                  description: 'User ID associated with the student'
+                  type: integer
+                  example: 1
+              type: object
+      responses:
+        201:
+          description: 'Successfully created the student'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'Student successfully created!'
+                  session:
+                    properties:
+                      ID:
+                        type: integer
+                        example: 1
+                    type: object
+                type: object
+        400:
+          description: 'Bad Request, validation error'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'The given data was invalid.'
+                type: object
+        404:
+          description: 'User not found'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'User ID does not exist in the database.'
+                type: object
+        500:
+          description: 'Internal server error'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'An error occurred, please try again.'
+                type: object
+  '/api/student/{id}':
+    delete:
+      tags:
+        - Students
+      summary: 'Delete a student'
+      description: 'Deletes a student by the given ID and returns a confirmation message.'
+      operationId: f4ac0dd7ad6752ce821010cdc9da7833
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'ID of the student to delete'
+          required: true
+          schema:
+            type: integer
+            example: 1
+      responses:
+        200:
+          description: 'Successfully deleted the student'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'Student successfully deleted!'
+                type: object
+        404:
+          description: 'Student not found'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'Cannot find the student.'
+                type: object
+        500:
+          description: 'Internal server error'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'An error occurred, please try again.'
+                type: object
   /api/formation:
     get:
       tags:
@@ -2132,6 +2306,9 @@ tags:
   -
     name: Skills
     description: Skills
+  -
+    name: Students
+    description: Students
   -
     name: Formations
     description: Formations

@@ -87,13 +87,13 @@ class PloInitiateurController extends Controller {
             $query->where('UTI_ID', $id);
         }
 
-        // Get the sessions
-        $initiateur = $query->get();
+        // Get the Initiator
+        $initiator = $query->get();
 
-        // Return a JSON response with the list of sessions
-        $events = $initiateur->map(function ($initiateur) {
+        // Return a JSON response with the list of initiators
+        $events = $initiator->map(function ($initiator) {
             return [
-                'ID' => $initiateur->UTI_ID,
+                'ID' => $initiator->UTI_ID,
             ];
         });
 
@@ -203,15 +203,15 @@ class PloInitiateurController extends Controller {
         ]);
     
         // Initiator creation
-        $initiateur = PloInitiateur::create([
+        $initiator = PloInitiateur::create([
             'UTI_ID' => $id
         ]);
     
-        // Return a JSON response with the details of the created session
+        // Return a JSON response with the details of the created initiator
         return response()->json([
             'message' => 'Initiator succesfully created !',
             'session' => [
-                'ID' => $initiateur->SEA_ID,
+                'ID' => $initiator->SEA_ID,
             ]
         ]);
     }
@@ -281,18 +281,18 @@ class PloInitiateurController extends Controller {
      * )
      */
     public function delete($id) {
-        // Get session by id in URL
-        $initiateur = PloInitiateur::find($id);
+        // Get Initiator by id in URL
+        $initiator = PloInitiateur::find($id);
     
-        // Check if session exist
-        if (!$initiateur) {
+        // Check if Initiator exist
+        if (!$initiator) {
             return response()->json([
                 'message' => 'Cannot find the initiator.'
             ], 404);
         }
     
-        // Delete session
-        $initiateur->delete();
+        // Delete Initiator
+        $initiator->delete();
     
         // ReReturn a JSON response to confirm the deletion
         return response()->json([
