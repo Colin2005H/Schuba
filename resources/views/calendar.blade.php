@@ -212,28 +212,48 @@
                     <tr>
                         <th scope="col" class="px-4 py-2 border-b border-gray-200 text-center">Initiateur</th>
                         <th scope="col" class="px-4 py-2 border-b border-gray-200 text-center">Elève</th>
+                        <th scope="col" class="px-4 py-2 border-b border-gray-200 text-center">Aptitude</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php
                     use App\Http\Controllers\CalendarController;
-                    $personTable = CalendarController::getGroupByIdSession($_COOKIE['identifier']);
+                    use App\Http\Controllers\RoleController;
+                    use Illuminate\Support\Facades\Auth;
+
+                    $roleController = new RoleController();
+                    $role = $roleController->getRole(session('user'));
+                    $personTable = CalendarController::getGroupByIdSession(1); //$_COOKIE['identifier']
                     foreach($personTable as $line){
                         echo "<tr>";
-                        echo "<td scope=\"row\" class=\"px-4 py-2 border-b border-gray-200 text-center\">".$line[0]."</td>";
-                        echo "<td class=\"px-4 py-2 border-b border-gray-200 text-center\">".$line[1]."</td>";
+                        echo "<td rowspan=\"2\" scope=\"row\" class=\"px-4 py-2 border-b border-gray-200 text-center\">".$line[0]."</td>";
+                        echo "<td class=\"px-4 py-2 border-b border-gray-200 text-center\">".$line[1][0]."</td>";
+                        echo "<td class=\"px-4 py-2 border-b border-gray-200 text-center\">".$line[2][0]."</td>"; 
+                        echo "</tr>";
+
+                        if(count($line[1]) > 1){
+                            echo "<tr>";
+                            echo "<td class=\"px-4 py-2 border-b border-gray-200 text-center\">".$line[1][1]."</td>";
+                            echo "<td class=\"px-4 py-2 border-b border-gray-200 text-center\">".$line[2][1]."</td>"; 
+                            echo "</tr>";
+                        }
                     }
                     ?>
                 </tbody>
             </table>
             <button id="close" class="mt-4 bg-blue-500 text-white px-4 py-2 rounded mx-auto">Fermer</button>
-            <button id="evaluate" class="mt-4 bg-blue-500 text-white px-4 py-2 rounded mx-auto">Evaluer</button>
+            <?php if($role === 'initiateur'){
+                echo "<button id=\"evaluate\" class=\"mt-4 bg-blue-500 text-white px-4 py-2 rounded mx-auto\">Evaluer</button>";
+            }
+
+            ?>
         </div>
     </div>
     <script>
         document.getElementById('close').addEventListener('click', function() {
             document.getElementById('popup').style.display = 'none';
         });
+        
     </script>
 </body>
 </html>

@@ -31,22 +31,30 @@ class CalendarController extends Controller
             array_push($result, $team);
         }
 
-        $names = [];
+        $valuesTable = [];
         foreach($result as $group){
             $tableLine = [];
 
             $sqlInitiator = DB::table(('plo_utilisateur'))->select('uti_nom', 'uti_prenom')->where('uti_id', '=', $group[0])->get();
             $nameInitiator = $sqlInitiator[0]->uti_nom . " " . $sqlInitiator[0]->uti_prenom;
 
-            $namesStudents = "";
+            $namesStudents = [];
+            $skillsStudent = [];
             foreach($group[1] as $student){
                 $nameStudent = DB::table(('plo_utilisateur'))->select('uti_nom', 'uti_prenom')->where('uti_id', '=', $student)->get();
-                $namesStudents .= $nameStudent[0]->uti_nom . " " . $nameStudent[0]->uti_prenom . "; ";
+                array_push($namesStudents, $nameStudent[0]->uti_nom . " " . $nameStudent[0]->uti_prenom);
+
+                $sqlSkills = DB::table(('evaluer'))->select('apt_code')->where('sea_id', '=', $id)->where('uti_id', '=', $student)->get();
+                $textSkills = "";
+                foreach($sqlSkills as $skill){
+                    $textSkills .= $skill->apt_code .", ";
+                }
+                array_push($skillsStudent, $textSkills);
             }
 
-            array_push($tableLine, $nameInitiator, $namesStudents);
-            array_push($names, $tableLine);
+            array_push($tableLine, $nameInitiator, $namesStudents, $skillsStudent);
+            array_push($valuesTable, $tableLine);
         }
-        return $names;
+        return $valuesTable;
     }
 }
