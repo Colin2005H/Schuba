@@ -14,7 +14,7 @@ class CreateAccountController extends Controller
 
     public function createAccount() {
         $clubs = DB::table('plo_club')->select('clu_id', 'clu_nom')->get();
-        return view('createAccount')->with(compact('clubs'));
+        return view('create-account')->with(compact('clubs'));
     }
 
     public function store(Request $request){

@@ -100,7 +100,7 @@
 
             <div class="mb-4">
                 <label for="uti_date_certificat">Date du certificat de santé : </label>
-                <input id="uti_date_certificat" type="date" name="uti_date_certificat" value="1950-01-01" min="1950-01-01" max="{{today()}}" class="w-full px-3 py-2 bg-white border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"/>
+                <input id="uti_date_certificat" type="date" name="uti_date_certificat" value="1950-01-01" min="1950-01-01" max="2025-" class="w-full px-3 py-2 bg-white border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"/>
                 @error("uti_date_certificat")
                     {{$message}}
                 @enderror
@@ -128,6 +128,8 @@
         var initiateur = document.getElementById("userType2");
         var studentDiv = document.getElementById("eleveDiv");
         var changeStudentRadioBtn = 0;
+        document.getElementById("uti_date_naissance").max = new Date().toLocaleDateString('fr-ca');
+        document.getElementById("uti_date_certificat").max = new Date().toLocaleDateString('fr-ca')
 
         student.addEventListener('click', function() {
             if(student.checked && changeStudentRadioBtn === 0){
@@ -149,13 +151,24 @@
         });
 
         niveau.addEventListener('input', function () {
+            if(student.checked){
+                var valueFormation = parseInt(niveau.value)+ 1
+                document.getElementById("studentFormation").textContent = 'Formation de niveau ' + valueFormation + ' pour cette année';
+            }
             if(parseInt(niveau.value) < 2){
                 initiateur.disabled = true;
+                initiateur.checked = false;
                 student.disabled = false;
             }
             if(parseInt(niveau.value) >= 3){
                 initiateur.disabled = false;
                 student.disabled = true;
+                student.checked = false;
+                if(document.getElementById('studentFormation')){
+                    var studentFormation = document.getElementById('studentFormation');
+                    studentDiv.removeChild(studentFormation);
+                    changeStudentRadioBtn = 0;
+                }
             }
         });
     </script>
