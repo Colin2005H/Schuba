@@ -60,4 +60,32 @@ class Seance extends Model
 
         return $id->SEA_ID;
     }
+
+
+    public function getEleves() {
+        $id = DB::table('PLO_SEANCE') 
+            ->join('GROUPER', 'PLO_SEANCE.SEA_ID', '=', 'GROUPER.SEA_ID') 
+            ->join('PLO_ELEVE', 'GROUPER.UTI_ID', '=', 'PLO_ELEVE.UTI_ID') 
+            ->where('PLO_SEANCE.SEA_ID', '=', $this->SEA_ID)
+            ->pluck('PLO_ELEVE.UTI_ID');
+
+        $eleves = Eleve::whereIn('UTI_ID', $id)->get();
+
+        return $eleves;
+    }
+
+    public function getAptEleve(int $eleve) {
+        $code = DB::table('PLO_APTITUDE') 
+            ->join('EVALUER', 'PLO_APTITUDE.APT_CODE', '=', 'EVALUER.APT_CODE')
+            ->join('PLO_SEANCE', 'EVALUER.SEA_ID', '=', 'PLO_SEANCE.SEA_ID') 
+            ->join('GROUPER', 'PLO_SEANCE.SEA_ID', '=', 'GROUPER.SEA_ID') 
+            ->join('PLO_ELEVE', 'GROUPER.UTI_ID', '=', 'PLO_ELEVE.UTI_ID') 
+            ->where('PLO_ELEVE.UTI_ID', '=', $eleve)
+            ->where('PLO_SEANCE.SEA_ID', '=', $this->SEA_ID)
+            ->pluck('PLO_APTITUDE.APT_CODE');
+
+            $apt = Aptitude::whereIn('APT_CODE', $code)->get();
+
+            return $apt;
+    }
 }

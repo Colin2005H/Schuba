@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FormationController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BilanSeanceController;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 
@@ -37,9 +38,17 @@ Route::get('/login-page', function () {
 // Route pour la page de authconstroller
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 
+Route::get('/recapitulatif', [BilanSeanceController::class, 'showForm']);
+
+Route::get('/recapitulatif2', [BilanSeanceController::class, 'showFormTest']);
+
 Route::get('/header', function() {
     return view('header');
 });
+
+
+
+Route::post('/showForm', [BilanSeanceController::class, 'showForm'])->name('seance-store');
 
 Route::get('/triche', function() {
     return Hash::make("supermdp");

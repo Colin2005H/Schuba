@@ -18,4 +18,6 @@ class Eleve extends Model
     public function user(): BelongsTo{
         return $this->belongsTo(User::class, 'UTI_ID', 'UTI_ID');
     }
+
+    
 }
