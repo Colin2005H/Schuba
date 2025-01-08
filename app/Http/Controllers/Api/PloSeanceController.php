@@ -12,7 +12,7 @@ use OpenApi\Annotations as OA;
  * @OA\Info(
  *     title="Schuba API",
  *     description="API for managing diving club activities",
- *     version="0.1.0"
+ *     version="0.1.5"
  * )
  */
 
@@ -31,7 +31,7 @@ class PloSeanceController extends Controller {
      *         required=false,
      *         @OA\Schema(
      *             type="integer",
-     *             example=123
+     *             example=1
      *         )
      *     ),
      *     @OA\Parameter(
@@ -52,7 +52,7 @@ class PloSeanceController extends Controller {
      *         @OA\Schema(
      *             type="string",
      *             format="date-time",
-     *             example="2025-02-10T09:00:00"
+     *             example="2025-01-01T09:00:00"
      *         )
      *     ),
      *     @OA\Parameter(
@@ -63,7 +63,7 @@ class PloSeanceController extends Controller {
      *         @OA\Schema(
      *             type="string",
      *             format="date-time",
-     *             example="2025-02-10T11:00:00"
+     *             example="2025-01-10T11:00:00"
      *         )
      *     ),
      *     @OA\Response(
@@ -73,11 +73,11 @@ class PloSeanceController extends Controller {
      *             type="array",
      *             @OA\Items(
      *                 type="object",
-     *                 @OA\Property(property="ID", type="integer", description="Session ID", example=123),
+     *                 @OA\Property(property="ID", type="integer", description="Session ID", example=1),
      *                 @OA\Property(property="LOCATION_ID", type="integer", description="Location ID", example=1),
-     *                 @OA\Property(property="LEVEL", type="integer", description="Training level ID", example=2),
-     *                 @OA\Property(property="START", type="string", format="date-time", description="Session start date", example="2025-02-10T09:00:00"),
-     *                 @OA\Property(property="END", type="string", format="date-time", description="Session end date", example="2025-02-10T11:00:00")
+     *                 @OA\Property(property="LEVEL", type="integer", description="Training level ID", example=1),
+     *                 @OA\Property(property="START", type="string", format="date-time", description="Session start date", example="2025-01-07T11:43:52+00:00"),
+     *                 @OA\Property(property="END", type="string", format="date-time", description="Session end date", example="2025-02-01T12:43:52+00:00")
      *             )
      *         )
      *     ),
@@ -143,7 +143,7 @@ class PloSeanceController extends Controller {
      *         required=true,
      *         description="The necessary data to create a new session",
      *         @OA\JsonContent(
-     *             required={"LOCATION_ID", "LEVEL", "BEGIN", "END"},
+     *             required={"LOCATION_ID", "LEVEL", "START", "END"},
      *             @OA\Property(
      *                 property="LOCATION_ID",
      *                 type="integer",
@@ -154,21 +154,21 @@ class PloSeanceController extends Controller {
      *                 property="LEVEL",
      *                 type="integer",
      *                 description="ID of the training level",
-     *                 example=2
+     *                 example=1
      *             ),
      *             @OA\Property(
-     *                 property="BEGIN",
+     *                 property="START",
      *                 type="string",
      *                 format="date-time",
      *                 description="Start date and time of the session",
-     *                 example="2025-02-10T09:00:00"
+     *                 example="2025-01-01T09:00:00"
      *             ),
      *             @OA\Property(
      *                 property="END",
      *                 type="string",
      *                 format="date-time",
      *                 description="End date and time of the session",
-     *                 example="2025-02-10T11:00:00"
+     *                 example="2025-02-01T11:00:00"
      *             )
      *         )
      *     ),
@@ -183,7 +183,7 @@ class PloSeanceController extends Controller {
      *                 @OA\Property(property="ID", type="integer", example=123),
      *                 @OA\Property(property="LOCATION_ID", type="integer", example=1),
      *                 @OA\Property(property="LEVEL", type="integer", example=2),
-     *                 @OA\Property(property="BEGIN", type="string", format="date-time", example="2025-02-10T09:00:00"),
+     *                 @OA\Property(property="START", type="string", format="date-time", example="2025-02-10T09:00:00"),
      *                 @OA\Property(property="END", type="string", format="date-time", example="2025-02-10T11:00:00")
      *             )
      *         )
@@ -201,15 +201,15 @@ class PloSeanceController extends Controller {
         // Get data in the request
         $lieuId = $request->input('LOCATION_ID');
         $niveauFormation = $request->input('LEVEL');
-        $dateDebut = $request->input('BEGIN');
+        $dateDebut = $request->input('START');
         $dateFin = $request->input('END');
     
         // Validate format of the data
         $validated = $request->validate([
-            'LI_ID' => 'required|integer|exists:plo_lieu,LI_ID',
-            'FORM_NIVEAU' => 'required|integer', //|exists:plo_formation,FORM_NIVEAU
-            'SEA_DATE_DEB' => 'required|date',
-            'SEA_DATE_FIN' => 'required|date|after_or_equal:SEA_DATE_DEB'
+            'LOCATION_ID' => 'required|integer|exists:plo_lieu,LI_ID',
+            'LEVEL' => 'required|integer', //|exists:plo_formation,FORM_NIVEAU
+            'START' => 'required|date',
+            'END' => 'required|date|after_or_equal:SEA_DATE_DEB'
         ]);
     
         // Session creation
@@ -222,95 +222,95 @@ class PloSeanceController extends Controller {
     
         // Return a JSON response with the details of the created session
         return response()->json([
-            'message' => 'Séance créée avec succès!',
-            'seance' => [
+            'message' => 'Session succesfully created !',
+            'session' => [
                 'ID' => $seance->SEA_ID,
                 'LOCATION_ID' => $seance->LI_ID,
                 'LEVEL' => $seance->FORM_NIVEAU,
-                'BEGIN' => $seance->SEA_DATE_DEB->toIso8601String(),
+                'START' => $seance->SEA_DATE_DEB->toIso8601String(),
                 'END' => $seance->SEA_DATE_FIN->toIso8601String()
             ]
         ]);
     }
 
     /**
- * @OA\Put(
- *     path="/api/session/{id}",
- *     summary="Update an existing session",
- *     description="This API allows you to update an existing session by providing the session ID and the details you want to modify (location, training level, start date, and end date). If no data is provided for a particular field, it will remain unchanged.",
- *     tags={"Sessions"},
- *     @OA\Parameter(
- *         name="id",
- *         in="path",
- *         required=true,
- *         description="The ID of the session to update",
- *         @OA\Schema(type="integer", example=123)
- *     ),
- *     @OA\RequestBody(
- *         required=false,
- *         description="The data to update the session. You can provide any of the following fields. If not provided, they will remain unchanged.",
- *         @OA\JsonContent(
- *             required={},
- *             @OA\Property(
- *                 property="LOCATION_ID",
- *                 type="integer",
- *                 description="ID of the location where the session is held",
- *                 example=1
- *             ),
- *             @OA\Property(
- *                 property="LEVEL",
- *                 type="integer",
- *                 description="ID of the training level",
- *                 example=2
- *             ),
- *             @OA\Property(
- *                 property="BEGIN",
- *                 type="string",
- *                 format="date-time",
- *                 description="Start date and time of the session",
- *                 example="2025-02-10T09:00:00"
- *             ),
- *             @OA\Property(
- *                 property="END",
- *                 type="string",
- *                 format="date-time",
- *                 description="End date and time of the session",
- *                 example="2025-02-10T11:00:00"
- *             )
- *         )
- *     ),
- *     @OA\Response(
- *         response=200,
- *         description="Session updated successfully",
- *         @OA\JsonContent(
- *             @OA\Property(property="message", type="string", example="Session updated successfully!"),
- *             @OA\Property(
- *                 property="session",
- *                 type="object",
- *                 @OA\Property(property="ID", type="integer", example=123),
- *                 @OA\Property(property="LOCATION_ID", type="integer", example=1),
- *                 @OA\Property(property="LEVEL", type="integer", example=2),
- *                 @OA\Property(property="BEGIN", type="string", format="date-time", example="2025-02-10T09:00:00"),
- *                 @OA\Property(property="END", type="string", format="date-time", example="2025-02-10T11:00:00")
- *             )
- *         )
- *     ),
- *     @OA\Response(
- *         response=404,
- *         description="Session not found",
- *         @OA\JsonContent(
- *             @OA\Property(property="message", type="string", example="Cannot find the session.")
- *         )
- *     ),
- *     @OA\Response(
- *         response=400,
- *         description="Validation error in the provided data",
- *         @OA\JsonContent(
- *             @OA\Property(property="message", type="string", example="The provided data is invalid")
- *         )
- *     )
- * )
- */
+     * @OA\Put(
+     *     path="/api/session/{id}",
+     *     summary="Update an existing session",
+     *     description="This API allows you to update an existing session by providing the session ID and the details you want to modify (location, training level, start date, and end date). If no data is provided for a particular field, it will remain unchanged.",
+     *     tags={"Sessions"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="The ID of the session to update",
+     *         @OA\Schema(type="integer", example=1)
+     *     ),
+     *     @OA\RequestBody(
+     *         required=false,
+     *         description="The data to update the session. You can provide any of the following fields. If not provided, they will remain unchanged.",
+     *         @OA\JsonContent(
+     *             required={},
+     *             @OA\Property(
+     *                 property="LOCATION_ID",
+     *                 type="integer",
+     *                 description="ID of the location where the session is held",
+     *                 example=1
+     *             ),
+     *             @OA\Property(
+     *                 property="LEVEL",
+     *                 type="integer",
+     *                 description="ID of the training level",
+     *                 example=1
+     *             ),
+     *             @OA\Property(
+     *                 property="START",
+     *                 type="string",
+     *                 format="date-time",
+     *                 description="Start date and time of the session",
+     *                 example="2025-01-01T09:00:00"
+     *             ),
+     *             @OA\Property(
+     *                 property="END",
+     *                 type="string",
+     *                 format="date-time",
+     *                 description="End date and time of the session",
+     *                 example="2025-01-01T11:00:00"
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Session updated successfully",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Session updated successfully!"),
+     *             @OA\Property(
+     *                 property="session",
+     *                 type="object",
+     *                 @OA\Property(property="ID", type="integer", example=123),
+     *                 @OA\Property(property="LOCATION_ID", type="integer", example=1),
+     *                 @OA\Property(property="LEVEL", type="integer", example=2),
+     *                 @OA\Property(property="START", type="string", format="date-time", example="2025-02-10T09:00:00"),
+     *                 @OA\Property(property="END", type="string", format="date-time", example="2025-02-10T11:00:00")
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Session not found",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Cannot find the session.")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Validation error in the provided data",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="The provided data is invalid")
+     *         )
+     *     )
+     * )
+     */
     public function update(Request $request, $id) {
         // Get the id in the URL
         $seance = PloSeance::find($id);
@@ -325,7 +325,7 @@ class PloSeanceController extends Controller {
         // Get data in the request
         $lieuId = $request->input('LOCATION_ID', $seance->LI_ID);
         $niveauFormation = $request->input('LEVEL', $seance->FORM_NIVEAU);
-        $dateDebut = $request->input('BEGIN', $seance->SEA_DATE_DEB);
+        $dateDebut = $request->input('START', $seance->SEA_DATE_DEB);
         $dateFin = $request->input('END', $seance->SEA_DATE_FIN);
     
         // Validate format of the data
@@ -352,7 +352,7 @@ class PloSeanceController extends Controller {
                 'ID' => $seance->SEA_ID,
                 'LOCATION_ID' => $seance->LI_ID,
                 'LEVEL' => $seance->FORM_NIVEAU,
-                'BEGIN' => $seance->SEA_DATE_DEB->toIso8601String(),
+                'START' => $seance->SEA_DATE_DEB->toIso8601String(),
                 'END' => $seance->SEA_DATE_FIN->toIso8601String()
             ]
         ]);
@@ -369,7 +369,7 @@ class PloSeanceController extends Controller {
      *         in="path",
      *         required=true,
      *         description="The ID of the session to delete",
-     *         @OA\Schema(type="integer", example=123)
+     *         @OA\Schema(type="integer", example=3)
      *     ),
      *     @OA\Response(
      *         response=200,

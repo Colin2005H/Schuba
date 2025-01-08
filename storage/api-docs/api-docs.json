@@ -3,7 +3,7 @@
     "info": {
         "title": "Schuba API",
         "description": "API for managing diving club activities",
-        "version": "0.1.0"
+        "version": "0.1.5"
     },
     "paths": {
         "/api/location": {
@@ -88,6 +88,278 @@
                         }
                     }
                 }
+            },
+            "post": {
+                "tags": [
+                    "Locations"
+                ],
+                "summary": "Create a new location",
+                "description": "This API allows you to create a new location by providing the necessary details such as the name and type of the location.",
+                "operationId": "ecf2e09da814057f2da7594e8bed3a29",
+                "requestBody": {
+                    "description": "The necessary data to create a new location",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "NAME",
+                                    "TYPE"
+                                ],
+                                "properties": {
+                                    "NAME": {
+                                        "description": "The name of the location",
+                                        "type": "string",
+                                        "example": "Room 101"
+                                    },
+                                    "TYPE": {
+                                        "description": "The type of the location",
+                                        "type": "string",
+                                        "example": "Classroom"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Location created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Location created successfully!"
+                                        },
+                                        "location": {
+                                            "properties": {
+                                                "ID": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "NAME": {
+                                                    "type": "string",
+                                                    "example": "Room 101"
+                                                },
+                                                "TYPE": {
+                                                    "type": "string",
+                                                    "example": "Classroom"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Validation error in the provided data",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "The provided data is invalid"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/location/{id}": {
+            "put": {
+                "tags": [
+                    "Locations"
+                ],
+                "summary": "Update an existing location",
+                "description": "This API allows you to update an existing location's details (name and type) by providing the location's ID.",
+                "operationId": "720b8adf7dd249484a1050c6a094168c",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "The ID of the location to be updated",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "The new data to update the location",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "NAME",
+                                    "TYPE"
+                                ],
+                                "properties": {
+                                    "NAME": {
+                                        "description": "The new name of the location",
+                                        "type": "string",
+                                        "example": "Room 202"
+                                    },
+                                    "TYPE": {
+                                        "description": "The new type of the location",
+                                        "type": "string",
+                                        "example": "Lecture Hall"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Location updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Location successfully updated!"
+                                        },
+                                        "location": {
+                                            "properties": {
+                                                "ID": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "NAME": {
+                                                    "type": "string",
+                                                    "example": "Room 202"
+                                                },
+                                                "TYPE": {
+                                                    "type": "string",
+                                                    "example": "Lecture Hall"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Location not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Cannot find the location."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Validation error in the provided data",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "The provided data is invalid"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Locations"
+                ],
+                "summary": "Delete a location",
+                "description": "This API allows you to delete an existing location by providing the location's ID.",
+                "operationId": "bcb3db1c38318947a216ad4e32d7ecc9",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "The ID of the location to be deleted",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Location deleted successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Location deleted successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Location not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Cannot find the location."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request or validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "The provided data is invalid"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
             }
         },
         "/api/session": {
@@ -106,7 +378,7 @@
                         "required": false,
                         "schema": {
                             "type": "integer",
-                            "example": 123
+                            "example": 1
                         }
                     },
                     {
@@ -120,14 +392,14 @@
                         }
                     },
                     {
-                        "name": "BEGIN",
+                        "name": "START",
                         "in": "query",
                         "description": "Start date to filter the sessions (format: yyyy-mm-dd or yyyy-mm-ddThh:mm:ss)",
                         "required": false,
                         "schema": {
                             "type": "string",
                             "format": "date-time",
-                            "example": "2025-02-10T09:00:00"
+                            "example": "2025-01-01T09:00:00"
                         }
                     },
                     {
@@ -138,7 +410,7 @@
                         "schema": {
                             "type": "string",
                             "format": "date-time",
-                            "example": "2025-02-10T11:00:00"
+                            "example": "2025-01-10T11:00:00"
                         }
                     }
                 ],
@@ -154,7 +426,7 @@
                                             "ID": {
                                                 "description": "Session ID",
                                                 "type": "integer",
-                                                "example": 123
+                                                "example": 1
                                             },
                                             "LOCATION_ID": {
                                                 "description": "Location ID",
@@ -164,19 +436,19 @@
                                             "LEVEL": {
                                                 "description": "Training level ID",
                                                 "type": "integer",
-                                                "example": 2
+                                                "example": 1
                                             },
                                             "START": {
                                                 "description": "Session start date",
                                                 "type": "string",
                                                 "format": "date-time",
-                                                "example": "2025-02-10T09:00:00"
+                                                "example": "2025-01-07T11:43:52+00:00"
                                             },
                                             "END": {
                                                 "description": "Session end date",
                                                 "type": "string",
                                                 "format": "date-time",
-                                                "example": "2025-02-10T11:00:00"
+                                                "example": "2025-02-01T12:43:52+00:00"
                                             }
                                         },
                                         "type": "object"
@@ -219,7 +491,7 @@
                                 "required": [
                                     "LOCATION_ID",
                                     "LEVEL",
-                                    "BEGIN",
+                                    "START",
                                     "END"
                                 ],
                                 "properties": {
@@ -231,19 +503,19 @@
                                     "LEVEL": {
                                         "description": "ID of the training level",
                                         "type": "integer",
-                                        "example": 2
+                                        "example": 1
                                     },
-                                    "BEGIN": {
+                                    "START": {
                                         "description": "Start date and time of the session",
                                         "type": "string",
                                         "format": "date-time",
-                                        "example": "2025-02-10T09:00:00"
+                                        "example": "2025-01-01T09:00:00"
                                     },
                                     "END": {
                                         "description": "End date and time of the session",
                                         "type": "string",
                                         "format": "date-time",
-                                        "example": "2025-02-10T11:00:00"
+                                        "example": "2025-02-01T11:00:00"
                                     }
                                 },
                                 "type": "object"
@@ -276,7 +548,7 @@
                                                     "type": "integer",
                                                     "example": 2
                                                 },
-                                                "BEGIN": {
+                                                "START": {
                                                     "type": "string",
                                                     "format": "date-time",
                                                     "example": "2025-02-10T09:00:00"
@@ -330,7 +602,7 @@
                         "required": true,
                         "schema": {
                             "type": "integer",
-                            "example": 123
+                            "example": 1
                         }
                     }
                 ],
@@ -350,19 +622,19 @@
                                     "LEVEL": {
                                         "description": "ID of the training level",
                                         "type": "integer",
-                                        "example": 2
+                                        "example": 1
                                     },
-                                    "BEGIN": {
+                                    "START": {
                                         "description": "Start date and time of the session",
                                         "type": "string",
                                         "format": "date-time",
-                                        "example": "2025-02-10T09:00:00"
+                                        "example": "2025-01-01T09:00:00"
                                     },
                                     "END": {
                                         "description": "End date and time of the session",
                                         "type": "string",
                                         "format": "date-time",
-                                        "example": "2025-02-10T11:00:00"
+                                        "example": "2025-01-01T11:00:00"
                                     }
                                 },
                                 "type": "object"
@@ -395,7 +667,7 @@
                                                     "type": "integer",
                                                     "example": 2
                                                 },
-                                                "BEGIN": {
+                                                "START": {
                                                     "type": "string",
                                                     "format": "date-time",
                                                     "example": "2025-02-10T09:00:00"
@@ -463,7 +735,7 @@
                         "required": true,
                         "schema": {
                             "type": "integer",
-                            "example": 123
+                            "example": 3
                         }
                     }
                 ],

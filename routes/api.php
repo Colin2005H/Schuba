@@ -19,6 +19,9 @@ Route::get('/club', [PloClubController::class, "liste"]);
 Route::get('/competence', [PloCompetenceController::class, "liste"]);
 
 Route::get('/location', [PloLieuController::class, "get"]);
+Route::post('/location', [PloLieuController::class, "create"]);
+Route::put('/location/{id}', [PloLieuController::class, "update"]);
+Route::delete('/location/{id}', [PloLieuController::class, "delete"]);
 
 Route::get('/session', [PloSeanceController::class, "get"]);
 Route::post('/session', [PloSeanceController::class, "create"]);

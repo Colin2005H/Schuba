@@ -108,7 +108,6 @@
                         try {
                             // Await the sessions response
                             const sessions = await getSession(info.start, info.end);
-                            console.log(sessions);
                             
                             const result = [];
                             
