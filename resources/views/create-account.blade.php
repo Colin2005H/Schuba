@@ -76,6 +76,10 @@
                     @endforeach
                 </select>
 
+                <!--<label class="flex items-center gap-2 text-gray-700">
+                    <input type="text" id="clu_id" name="clu_id" value="" class="w-full px-3 py-2 bg-white border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" readonly>
+                </label>-->
+
                 @error("clu_id")
                     {{$message}}
                 @enderror
