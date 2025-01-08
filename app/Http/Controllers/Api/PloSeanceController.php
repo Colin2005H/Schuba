@@ -11,8 +11,60 @@ use App\Http\Controllers\Controller;
  * @OA\Info(
  *     title="Schuba API",
  *     description="API for managing diving club activities",
- *     version="0.3.5"
+ *     version="0.5.0",
+ *     @OA\Contact(
+ *         name="Groupe 1"
+ *     )
  * )
+ * 
+ * @OA\Tag(
+ *     name="Aptitudes",
+ *     description="Manage aptitudes"
+ * )
+ * @OA\Tag(
+ *     name="Clubs",
+ *     description="Manage clubs"
+ * )
+ * @OA\Tag(
+ *     name="Formations",
+ *     description="Manage formations"
+ * )
+ * 
+ * @OA\Tag(
+ *     name="Initiators",
+ *     description="Manage initiators/teachers"
+ * )
+ * 
+ * @OA\Tag(
+ *     name="Leaders",
+ *     description="Manage club leaders"
+ * )
+ * 
+ * @OA\Tag(
+ *     name="Locations",
+ *     description="Manage diving locations"
+ * )
+ * 
+ * @OA\Tag(
+ *     name="Sessions",
+ *     description="Manage training sessions"
+ * )
+ * 
+ * @OA\Tag(
+ *     name="Skills",
+ *     description="Manage skills (group of aptitudes)"
+ * )
+ * 
+ * @OA\Tag(
+ *     name="Students",
+ *     description="Manage students"
+ * )
+ * 
+ * @OA\Tag(
+ *     name="Users",
+ *     description="Manage users"
+ * )
+ * 
  */
 
 class PloSeanceController extends Controller {

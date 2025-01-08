@@ -3,7 +3,10 @@
     "info": {
         "title": "Schuba API",
         "description": "API for managing diving club activities",
-        "version": "0.3.5"
+        "contact": {
+            "name": "Groupe 1"
+        },
+        "version": "0.5.0"
     },
     "paths": {
         "/api/leader": {
@@ -95,6 +98,188 @@
                                         "error": {
                                             "type": "string",
                                             "example": "Something went wrong"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Leaders"
+                ],
+                "summary": "Create a new Leader record",
+                "description": "Creates a new Leader record by providing user ID, club ID, and start date.",
+                "operationId": "9762be41677f01307255f932bd6f2a5a",
+                "requestBody": {
+                    "description": "Leader data",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "USER_ID",
+                                    "CLUB_ID",
+                                    "START_DATE"
+                                ],
+                                "properties": {
+                                    "USER_ID": {
+                                        "description": "User ID (initiator)",
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "CLUB_ID": {
+                                        "description": "Club ID",
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "START_DATE": {
+                                        "description": "Start date of the membership",
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2025-01-01"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successfully created the DirigerLeClub record",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "DirigerLeClub record successfully created!"
+                                        },
+                                        "diriger_le_club": {
+                                            "properties": {
+                                                "USER_ID": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "CLUB_ID": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "START_DATE": {
+                                                    "type": "string",
+                                                    "format": "date",
+                                                    "example": "2025-01-01"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request, validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "The given data was invalid."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "An error occurred, please try again."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/leader/{id}": {
+            "delete": {
+                "tags": [
+                    "Leaders"
+                ],
+                "summary": "Delete a Leader record",
+                "description": "Deletes a Leader record by the provided user ID and club ID.",
+                "operationId": "619a8daf43726d43e62ad9ba63877c44",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the Leader record to delete (USER_ID and CLUB_ID)",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully deleted the Leader record",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Leader record successfully deleted!"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Record not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Cannot find the DirigerLeClub record."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "An error occurred, please try again."
                                         }
                                     },
                                     "type": "object"
@@ -3365,44 +3550,44 @@
     },
     "tags": [
         {
-            "name": "Leaders",
-            "description": "Leaders"
-        },
-        {
             "name": "Aptitudes",
-            "description": "Aptitudes"
+            "description": "Manage aptitudes"
         },
         {
             "name": "Clubs",
-            "description": "Clubs"
-        },
-        {
-            "name": "Skills",
-            "description": "Skills"
-        },
-        {
-            "name": "Students",
-            "description": "Students"
+            "description": "Manage clubs"
         },
         {
             "name": "Formations",
-            "description": "Formations"
+            "description": "Manage formations"
         },
         {
             "name": "Initiators",
-            "description": "Initiators"
+            "description": "Manage initiators/teachers"
+        },
+        {
+            "name": "Leaders",
+            "description": "Manage club leaders"
         },
         {
             "name": "Locations",
-            "description": "Locations"
+            "description": "Manage diving locations"
         },
         {
             "name": "Sessions",
-            "description": "Sessions"
+            "description": "Manage training sessions"
+        },
+        {
+            "name": "Skills",
+            "description": "Manage skills (group of aptitudes)"
+        },
+        {
+            "name": "Students",
+            "description": "Manage students"
         },
         {
             "name": "Users",
-            "description": "Users"
+            "description": "Manage users"
         }
     ]
 }
