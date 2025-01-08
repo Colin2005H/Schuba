@@ -32,7 +32,6 @@ class PloEleve extends Model
 	protected $primaryKey = 'UTI_ID';
 	public $incrementing = false;
 	public $timestamps = false;
-	public $with = ['plo_utilisateur'];
 
 	protected $casts = [
 		'UTI_ID' => 'int'

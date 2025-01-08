@@ -6,48 +6,415 @@
         "version": "1.0.0"
     },
     "paths": {
-        "/api/session": {
+        "/api/seances": {
             "get": {
                 "tags": [
                     "Sessions"
                 ],
-                "summary": "List of sessions",
-                "description": "Retrieve the list of sessions.",
-                "operationId": "getSessions",
+                "summary": "Get sessions based on filters",
+                "description": "This API allows you to fetch a list of sessions by filtering on session ID, location ID, and start and end dates.",
+                "operationId": "1d88f5c452487679a64d9153d8e4cb87",
                 "parameters": [
                     {
-                        "name": "id",
+                        "name": "ID",
                         "in": "query",
-                        "description": "Session ID",
+                        "description": "Session ID to filter the results",
                         "required": false,
                         "schema": {
-                            "type": "integer"
+                            "type": "integer",
+                            "example": 123
                         }
                     },
                     {
-                        "name": "SEA_DATE_DEB",
+                        "name": "LOCATION_ID",
                         "in": "query",
-                        "description": "Start date",
+                        "description": "Location ID to filter the sessions",
                         "required": false,
                         "schema": {
-                            "type": "string",
-                            "format": "date-time"
+                            "type": "integer",
+                            "example": 1
                         }
                     },
                     {
-                        "name": "SEA_DATE_FIN",
+                        "name": "BEGIN",
                         "in": "query",
-                        "description": "End date",
+                        "description": "Start date to filter the sessions (format: yyyy-mm-dd or yyyy-mm-ddThh:mm:ss)",
                         "required": false,
                         "schema": {
                             "type": "string",
-                            "format": "date-time"
+                            "format": "date-time",
+                            "example": "2025-02-10T09:00:00"
+                        }
+                    },
+                    {
+                        "name": "END",
+                        "in": "query",
+                        "description": "End date to filter the sessions (format: yyyy-mm-dd or yyyy-mm-ddThh:mm:ss)",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "format": "date-time",
+                            "example": "2025-02-10T11:00:00"
                         }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "List of sessions"
+                        "description": "Successfully fetched the sessions",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "ID": {
+                                                "description": "Session ID",
+                                                "type": "integer",
+                                                "example": 123
+                                            },
+                                            "LOCATION_ID": {
+                                                "description": "Location ID",
+                                                "type": "integer",
+                                                "example": 1
+                                            },
+                                            "LEVEL": {
+                                                "description": "Training level ID",
+                                                "type": "integer",
+                                                "example": 2
+                                            },
+                                            "START": {
+                                                "description": "Session start date",
+                                                "type": "string",
+                                                "format": "date-time",
+                                                "example": "2025-02-10T09:00:00"
+                                            },
+                                            "END": {
+                                                "description": "Session end date",
+                                                "type": "string",
+                                                "format": "date-time",
+                                                "example": "2025-02-10T11:00:00"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request, invalid input parameters",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Invalid parameters"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Sessions"
+                ],
+                "summary": "Create a new session",
+                "description": "This API allows you to create a new session by providing the necessary details such as the location, training level, and start and end dates. The session will be validated and stored in the database, and the created session details will be returned in the response.",
+                "operationId": "8498a389e0bcd7da8c386cc6c6d20688",
+                "requestBody": {
+                    "description": "The necessary data to create a new session",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "LOCATION_ID",
+                                    "LEVEL",
+                                    "BEGIN",
+                                    "END"
+                                ],
+                                "properties": {
+                                    "LOCATION_ID": {
+                                        "description": "ID of the location where the session is held",
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "LEVEL": {
+                                        "description": "ID of the training level",
+                                        "type": "integer",
+                                        "example": 2
+                                    },
+                                    "BEGIN": {
+                                        "description": "Start date and time of the session",
+                                        "type": "string",
+                                        "format": "date-time",
+                                        "example": "2025-02-10T09:00:00"
+                                    },
+                                    "END": {
+                                        "description": "End date and time of the session",
+                                        "type": "string",
+                                        "format": "date-time",
+                                        "example": "2025-02-10T11:00:00"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Session created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Session created successfully!"
+                                        },
+                                        "session": {
+                                            "properties": {
+                                                "ID": {
+                                                    "type": "integer",
+                                                    "example": 123
+                                                },
+                                                "LOCATION_ID": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "LEVEL": {
+                                                    "type": "integer",
+                                                    "example": 2
+                                                },
+                                                "BEGIN": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2025-02-10T09:00:00"
+                                                },
+                                                "END": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2025-02-10T11:00:00"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Validation error in the provided data",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "The provided data is invalid"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/seances/{id}": {
+            "put": {
+                "tags": [
+                    "Sessions"
+                ],
+                "summary": "Update an existing session",
+                "description": "This API allows you to update an existing session by providing the session ID and the details you want to modify (location, training level, start date, and end date). If no data is provided for a particular field, it will remain unchanged.",
+                "operationId": "2fcc3fe198ddf730147052527b16ed40",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "The ID of the session to update",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 123
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "The data to update the session. You can provide any of the following fields. If not provided, they will remain unchanged.",
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [],
+                                "properties": {
+                                    "LOCATION_ID": {
+                                        "description": "ID of the location where the session is held",
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "LEVEL": {
+                                        "description": "ID of the training level",
+                                        "type": "integer",
+                                        "example": 2
+                                    },
+                                    "BEGIN": {
+                                        "description": "Start date and time of the session",
+                                        "type": "string",
+                                        "format": "date-time",
+                                        "example": "2025-02-10T09:00:00"
+                                    },
+                                    "END": {
+                                        "description": "End date and time of the session",
+                                        "type": "string",
+                                        "format": "date-time",
+                                        "example": "2025-02-10T11:00:00"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Session updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Session updated successfully!"
+                                        },
+                                        "session": {
+                                            "properties": {
+                                                "ID": {
+                                                    "type": "integer",
+                                                    "example": 123
+                                                },
+                                                "LOCATION_ID": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "LEVEL": {
+                                                    "type": "integer",
+                                                    "example": 2
+                                                },
+                                                "BEGIN": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2025-02-10T09:00:00"
+                                                },
+                                                "END": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2025-02-10T11:00:00"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Session not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Cannot find the session."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Validation error in the provided data",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "The provided data is invalid"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Sessions"
+                ],
+                "summary": "Delete an existing session",
+                "description": "This API allows you to delete an existing session by providing the session ID. If the session with the specified ID does not exist, a 404 error is returned.",
+                "operationId": "95edcc1d9efd5eb8a661ab2e1f3c4cd7",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "The ID of the session to delete",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 123
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Session deleted successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Session successfully deleted!"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Session not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Cannot find the session."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     }
                 }
             }
