@@ -9,23 +9,23 @@ use App\Http\Controllers\Controller;
 
 /**
  * @OA\Schema(
- *     schema="DirigerLeClub",
+ *     schema="Leader",
  *     type="object",
- *     required={"UTI_ID", "CLU_ID"},
+ *     required={"STUD_ID", "CLUB_ID"},
  *     @OA\Property(
- *         property="UTI_ID",
+ *         property="STUD_ID",
  *         type="integer",
  *         description="The user ID of the initiator managing the club (PloInitiateur)",
  *         example=123
  *     ),
  *     @OA\Property(
- *         property="CLU_ID",
+ *         property="CLUB_ID",
  *         type="integer",
  *         description="The club ID (PloClub)",
  *         example=1
  *     ),
  *     @OA\Property(
- *         property="DIR_DATE_DEBUT",
+ *         property="START_DATE",
  *         type="string",
  *         format="date-time",
  *         description="The start date of the management of the club",
@@ -35,13 +35,13 @@ use App\Http\Controllers\Controller;
  *         property="plo_club",
  *         type="object",
  *         description="The club (PloClub) associated with the management",
- *         ref="#/components/schemas/PloClub"
+ *         ref="#/components/schemas/Club"
  *     ),
  *     @OA\Property(
  *         property="plo_initiateur",
  *         type="object",
  *         description="The initiator (PloInitiateur) managing the club",
- *         ref="#/components/schemas/PloInitiateur"
+ *         ref="#/components/schemas/Initiator"
  *     )
  * )
  */
@@ -57,7 +57,7 @@ class DirigerLeClubController extends Controller {
      *     tags={"Leaders"},
      *
      *     @OA\Parameter(
-     *         name="USER_ID",
+     *         name="STUD_ID",
      *         in="query",
      *         description="Filter by USER_ID",
      *         required=false,
@@ -84,10 +84,7 @@ class DirigerLeClubController extends Controller {
      *         @OA\JsonContent(
      *             type="array",
      *             @OA\Items(
-     *                 type="object",
-     *                 @OA\Property(property="USER_ID", type="integer"),
-     *                 @OA\Property(property="CLUB_ID", type="integer"),
-     *                 @OA\Property(property="START_DATE", type="string", format="date")
+     *                 ref="#/components/schemas/Leader"
      *             )
      *         )
      *     ),
@@ -109,7 +106,7 @@ class DirigerLeClubController extends Controller {
      */
     public function get(Request $request) {
         // Get data from the request
-        $utiId = $request->input('USER_ID');
+        $utiId = $request->input('STUD_ID');
         $cluId = $request->input('CLUB_ID');
         $dirDateDebut = $request->input('START_DATE');
         
@@ -118,7 +115,7 @@ class DirigerLeClubController extends Controller {
         
         // Filter based on provided parameters
         if ($utiId) {
-            $query->where('UTI_ID', $utiId);
+            $query->where('STUD_ID', $utiId);
         }
         if ($cluId) {
             $query->where('CLU_ID', $cluId);
@@ -134,7 +131,7 @@ class DirigerLeClubController extends Controller {
         // Return a JSON response with the list of records
         $result = $dirigerLeClub->map(function ($ligne) {
             return [
-                'USER_ID' => $ligne->UTI_ID,
+                'STUD_ID' => $ligne->UTI_ID,
                 'CLUB_ID' => $ligne->CLU_ID,
                 'START_DATE' => $ligne->DIR_DATE_DEBUT ? $ligne->DIR_DATE_DEBUT->toDateString() : null
             ];
@@ -154,9 +151,9 @@ class DirigerLeClubController extends Controller {
      *         required=true,
      *         description="Leader data",
      *         @OA\JsonContent(
-     *             required={"USER_ID", "CLUB_ID", "START_DATE"},
+     *             required={"STUD_ID", "CLUB_ID", "START_DATE"},
      *             @OA\Property(
-     *                 property="USER_ID",
+     *                 property="STUD_ID",
      *                 type="integer",
      *                 description="User ID (initiator)",
      *                 example=1
@@ -189,7 +186,7 @@ class DirigerLeClubController extends Controller {
      *                 property="diriger_le_club",
      *                 type="object",
      *                 @OA\Property(
-     *                     property="USER_ID",
+     *                     property="STUD_ID",
      *                     type="integer",
      *                     example=1
      *                 ),
@@ -233,13 +230,13 @@ class DirigerLeClubController extends Controller {
      */
     public function create(Request $request) {
         // Get data in the request
-        $utiId = $request->input('USER_ID');
+        $utiId = $request->input('STUD_ID');
         $cluId = $request->input('CLUB_ID');
         $dateDebut = $request->input('START_DATE');
         
         // Validate format of the data
         $validated = $request->validate([
-            'USER_ID' => 'required|integer|exists:plo_utilisateur,UTI_ID',
+            'STUD_ID' => 'required|integer|exists:plo_utilisateur,UTI_ID',
             'CLUB_ID' => 'required|integer|exists:plo_club,CLU_ID',
             'START_DATE' => 'required|date',
         ]);
@@ -255,7 +252,7 @@ class DirigerLeClubController extends Controller {
         return response()->json([
             'message' => 'Leader successfully created !',
             'diriger_le_club' => [
-                'USER_ID' => $dirigerLeClub->UTI_ID,
+                'STUD_ID' => $dirigerLeClub->UTI_ID,
                 'CLUB_ID' => $dirigerLeClub->CLU_ID,
                 'START_DATE' => $dirigerLeClub->DIR_DATE_DEBUT->toDateString(),
             ]

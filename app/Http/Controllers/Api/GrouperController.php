@@ -9,7 +9,7 @@ use App\Http\Controllers\Controller;
 
 /**
  * @OA\Schema(
- *     schema="Grouper",
+ *     schema="Group",
  *     type="object",
  *     required={"SEA_ID", "UTI_ID_INITIATEUR", "UTI_ID"},
  *     @OA\Property(
@@ -40,19 +40,19 @@ use App\Http\Controllers\Controller;
  *         property="plo_eleve",
  *         type="object",
  *         description="The student (PloEleve) associated with the session",
- *         ref="#/components/schemas/PloEleve"
+ *         ref="#/components/schemas/Student"
  *     ),
  *     @OA\Property(
  *         property="plo_initiateur",
  *         type="object",
  *         description="The initiator (PloInitiateur) associated with the session",
- *         ref="#/components/schemas/PloInitiateur"
+ *         ref="#/components/schemas/Initiator"
  *     ),
  *     @OA\Property(
  *         property="plo_seance",
  *         type="object",
  *         description="The session (PloSeance) associated with the grouping",
- *         ref="#/components/schemas/PloSeance"
+ *         ref="#/components/schemas/Session"
  *     )
  * )
  */

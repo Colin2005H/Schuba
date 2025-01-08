@@ -15,13 +15,13 @@ paths:
       operationId: 0087490a916fad58cc0e1d0002f8ed00
       parameters:
         -
-          name: UTI_ID
+          name: STUD_ID
           in: query
           description: 'User ID to filter the records'
           required: false
           schema:
             type: integer
-            example: 1
+            example: 123
         -
           name: FORM_NIVEAU
           in: query
@@ -29,7 +29,7 @@ paths:
           required: false
           schema:
             type: integer
-            example: 2
+            example: 1
         -
           name: DATE_INSCRIPTION
           in: query
@@ -47,18 +47,7 @@ paths:
               schema:
                 type: array
                 items:
-                  properties:
-                    FORM_NIVEAU:
-                      type: integer
-                      example: 2
-                    UTI_ID:
-                      type: integer
-                      example: 1
-                    DATE_INSCRIPTION:
-                      type: string
-                      format: date-time
-                      example: '2025-01-01T09:00:00'
-                  type: object
+                  $ref: '#/components/schemas/Signed'
         400:
           description: 'Invalid parameters'
           content:
@@ -82,11 +71,11 @@ paths:
           application/json:
             schema:
               required:
-                - UTI_ID
+                - STUD_ID
                 - FORM_NIVEAU
                 - DATE_INSCRIPTION
               properties:
-                UTI_ID:
+                STUD_ID:
                   description: 'ID of the user who belongs to the formation'
                   type: integer
                   example: 1
@@ -190,7 +179,7 @@ paths:
       operationId: getDirigerLeClubRecords
       parameters:
         -
-          name: USER_ID
+          name: STUD_ID
           in: query
           description: 'Filter by USER_ID'
           required: false
@@ -219,15 +208,7 @@ paths:
               schema:
                 type: array
                 items:
-                  properties:
-                    USER_ID:
-                      type: integer
-                    CLUB_ID:
-                      type: integer
-                    START_DATE:
-                      type: string
-                      format: date
-                  type: object
+                  $ref: '#/components/schemas/Leader'
         400:
           description: 'Bad Request, invalid parameters'
           content:
@@ -261,11 +242,11 @@ paths:
           application/json:
             schema:
               required:
-                - USER_ID
+                - STUD_ID
                 - CLUB_ID
                 - START_DATE
               properties:
-                USER_ID:
+                STUD_ID:
                   description: 'User ID (initiator)'
                   type: integer
                   example: 1
@@ -291,7 +272,7 @@ paths:
                     example: 'DirigerLeClub record successfully created!'
                   diriger_le_club:
                     properties:
-                      USER_ID:
+                      STUD_ID:
                         type: integer
                         example: 1
                       CLUB_ID:
@@ -3634,6 +3615,490 @@ paths:
                     type: string
                     example: 'Validate record not found.'
                 type: object
+components:
+  schemas:
+    Signed:
+      required:
+        - FORM_NIVEAU
+        - UTI_ID
+      properties:
+        FORM_NIVEAU:
+          description: 'The training level ID associated with the formation (PloFormation) '
+          type: integer
+          example: 1
+        STUD_ID:
+          description: 'The user ID of the student (PloEleve)'
+          type: integer
+          example: 1
+        DATE_INSCRIPTION:
+          description: 'The date and time the student was enrolled in the formation'
+          type: string
+          format: date-time
+          example: '2025-01-01T10:00:00'
+        plo_eleve:
+          $ref: '#/components/schemas/Student'
+        plo_formation:
+          $ref: '#/components/schemas/Formation'
+      type: object
+    Leader:
+      required:
+        - STUD_ID
+        - CLUB_ID
+      properties:
+        STUD_ID:
+          description: 'The user ID of the initiator managing the club (PloInitiateur)'
+          type: integer
+          example: 123
+        CLUB_ID:
+          description: 'The club ID (PloClub)'
+          type: integer
+          example: 1
+        START_DATE:
+          description: 'The start date of the management of the club'
+          type: string
+          format: date-time
+          example: '2025-01-01T10:00:00'
+        plo_club:
+          $ref: '#/components/schemas/Club'
+        plo_initiateur:
+          $ref: '#/components/schemas/Initiator'
+      type: object
+    Teaching:
+      required:
+        - UTI_ID
+        - FORM_NIVEAU
+      properties:
+        ID:
+          description: 'The user ID of the instructor teaching the course (PloInitiateur)'
+          type: integer
+          example: 123
+        LEVEL:
+          description: 'The formation level ID (PloFormation)'
+          type: integer
+          example: 1
+        Formation:
+          $ref: '#/components/schemas/Formation'
+        Initiator:
+          $ref: '#/components/schemas/Initiator'
+      type: object
+    Assessment:
+      required:
+        - SEA_ID
+        - APT_CODE
+        - UTI_ID
+      properties:
+        SEA_ID:
+          description: 'The session ID associated with the evaluation (PloSeance)'
+          type: integer
+          example: 1
+        APT_CODE:
+          description: 'The aptitude code associated with the evaluation (PloAptitude)'
+          type: string
+          example: DIVE_1
+        UTI_ID:
+          description: 'The user ID of the student being evaluated (PloEleve)'
+          type: integer
+          example: 123
+        EVA_COMMENTAIRE:
+          description: 'Comments regarding the evaluation'
+          type: string
+          example: 'Excellent performance!'
+        EVA_RESULTAT:
+          description: 'The result of the evaluation'
+          type: string
+          example: Pass
+        plo_aptitude:
+          $ref: '#/components/schemas/Aptitude'
+        plo_eleve:
+          $ref: '#/components/schemas/Student'
+        plo_seance:
+          $ref: '#/components/schemas/Session'
+      type: object
+    Manager:
+      required:
+        - UTI_ID
+        - FORM_NIVEAU
+      properties:
+        UTI_ID:
+          description: 'The user ID of the initiator/teacher (PloInitiateur)'
+          type: integer
+          example: 1
+        FORM_NIVEAU:
+          description: 'The formation level (PloFormation)'
+          type: integer
+          example: 2
+        GER_DATE_DEBUT:
+          description: 'The start date of the formation'
+          type: string
+          format: date-time
+          example: '2025-01-01T09:00:00'
+        plo_formation:
+          $ref: '#/components/schemas/Formation'
+        plo_initiateur:
+          $ref: '#/components/schemas/Initiator'
+      type: object
+    Group:
+      required:
+        - SEA_ID
+        - UTI_ID_INITIATEUR
+        - UTI_ID
+      properties:
+        SEA_ID:
+          description: 'The session ID (PloSeance)'
+          type: integer
+          example: 1
+        UTI_ID_INITIATEUR:
+          description: 'The initiator (teacher) user ID (PloInitiateur)'
+          type: integer
+          example: 2
+        UTI_ID:
+          description: 'The student user ID (PloEleve)'
+          type: integer
+          example: 3
+        GRP_PRESENCE:
+          description: 'Indicates if the student was present for the session'
+          type: boolean
+          example: true
+        plo_eleve:
+          $ref: '#/components/schemas/Student'
+        plo_initiateur:
+          $ref: '#/components/schemas/Initiator'
+        plo_seance:
+          $ref: '#/components/schemas/Session'
+      type: object
+    Aptitude:
+      required:
+        - APT_CODE
+        - CPT_ID
+        - APT_LIBELLE
+      properties:
+        APT_CODE:
+          description: 'The code of the aptitude'
+          type: string
+          example: APT001
+        CPT_ID:
+          description: 'The ID of the competence the aptitude belongs to'
+          type: string
+          example: CPT001
+        APT_LIBELLE:
+          description: 'The label or name of the aptitude'
+          type: string
+          example: 'First Aid'
+        plo_competence:
+          $ref: '#/components/schemas/Skill'
+        evaluers:
+          description: 'The evaluations (Evaluer) related to this aptitude'
+          type: array
+          items:
+            $ref: '#/components/schemas/Assessment'
+      type: object
+    Club:
+      required:
+        - CLU_ID
+      properties:
+        CLU_ID:
+          description: 'The ID of the club'
+          type: integer
+          example: 1
+        CLU_NOM:
+          description: 'The name of the club'
+          type: string
+          example: 'Schuba Diving Club'
+        Leader:
+          description: 'The club leadership records associated with the club'
+          type: array
+          items:
+            $ref: '#/components/schemas/Leader'
+        plo_utilisateurs:
+          description: 'The users associated with this club'
+          type: array
+          items:
+            $ref: '#/components/schemas/User'
+      type: object
+    Skill:
+      required:
+        - CPT_ID
+      properties:
+        CPT_ID:
+          description: 'The ID of the competence'
+          type: string
+          example: CPT001
+        FORM_NIVEAU:
+          description: 'The formation level associated with this competence'
+          type: integer
+          example: 2
+        CPT_LIBELLE:
+          description: 'The label of the competence'
+          type: string
+          example: 'Advanced Diving'
+        plo_formation:
+          $ref: '#/components/schemas/Formation'
+        plo_aptitudes:
+          description: 'The aptitudes associated with this competence'
+          type: array
+          items:
+            $ref: '#/components/schemas/Aptitude'
+        validers:
+          description: 'The validation records associated with this competence'
+          type: array
+          items:
+            $ref: '#/components/schemas/Validate'
+      type: object
+    Student:
+      required:
+        - UTI_ID
+      properties:
+        UTI_ID:
+          description: 'The unique identifier for the student'
+          type: integer
+          example: 1
+        plo_utilisateur:
+          $ref: '#/components/schemas/User'
+        appartients:
+          description: 'The formations the student is associated with'
+          type: array
+          items:
+            $ref: '#/components/schemas/Signed'
+        evaluers:
+          description: 'The evaluations associated with this student'
+          type: array
+          items:
+            $ref: '#/components/schemas/Assessment'
+        groupers:
+          description: 'The sessions this student is grouped in'
+          type: array
+          items:
+            $ref: '#/components/schemas/Group'
+      type: object
+    Formation:
+      required:
+        - FORM_NIVEAU
+      properties:
+        FORM_NIVEAU:
+          description: 'The unique identifier for the formation level'
+          type: integer
+          example: 1
+        FORM_LIBELLE:
+          description: 'The label/name of the formation'
+          type: string
+          example: 'Advanced Scuba Training'
+        FORM_DESCRIPTION:
+          description: 'The description of the formation'
+          type: string
+          example: 'A complete training program for advanced scuba divers.'
+        FORM_PROF_MAX:
+          description: 'The maximum number of instructors allowed for the formation'
+          type: integer
+          example: 5
+        appartients:
+          description: 'The students associated with this formation'
+          type: array
+          items:
+            $ref: '#/components/schemas/Signed'
+        enseigners:
+          description: 'The instructors for this formation'
+          type: array
+          items:
+            $ref: '#/components/schemas/Assessment'
+        gerer_la_formations:
+          description: 'The management of this formation'
+          type: array
+          items:
+            $ref: '#/components/schemas/Manager'
+        plo_competences:
+          description: 'The competencies associated with this formation'
+          type: array
+          items:
+            $ref: '#/components/schemas/Skill'
+        plo_seances:
+          description: 'The sessions scheduled for this formation'
+          type: array
+          items:
+            $ref: '#/components/schemas/Session'
+      type: object
+    Initiator:
+      required:
+        - UTI_ID
+      properties:
+        UTI_ID:
+          description: 'The unique identifier for the initiator'
+          type: integer
+          example: 123
+        diriger_le_clubs:
+          description: 'The clubs directed by this initiator'
+          type: array
+          items:
+            $ref: '#/components/schemas/Leader'
+        enseigners:
+          description: 'The formations taught by this initiator'
+          type: array
+          items:
+            $ref: '#/components/schemas/Teaching'
+        gerer_la_formations:
+          description: 'The formations managed by this initiator'
+          type: array
+          items:
+            $ref: '#/components/schemas/Manager'
+        groupers:
+          description: 'The groups that this initiator is part of'
+          type: array
+          items:
+            $ref: '#/components/schemas/Group'
+        plo_utilisateur:
+          $ref: '#/components/schemas/User'
+      type: object
+    Location:
+      required:
+        - LI_ID
+      properties:
+        LI_ID:
+          description: 'The unique identifier for the location'
+          type: integer
+          example: 1
+        LI_NOM:
+          description: 'The name of the location'
+          type: string
+          example: 'Diving Pool'
+        LI_TYPE:
+          description: 'The type of the location (e.g., indoor, outdoor)'
+          type: string
+          example: Indoor
+        plo_seances:
+          description: 'The sessions held at this location'
+          type: array
+          items:
+            $ref: '#/components/schemas/Session'
+      type: object
+    Session:
+      required:
+        - SEA_ID
+        - LI_ID
+        - FORM_NIVEAU
+      properties:
+        SEA_ID:
+          description: 'The unique identifier for the session'
+          type: integer
+          example: 1
+        LI_ID:
+          description: 'The location ID where the session takes place'
+          type: integer
+          example: 2
+        FORM_NIVEAU:
+          description: 'The formation level associated with the session'
+          type: integer
+          example: 101
+        SEA_DATE_DEB:
+          description: 'The start date and time of the session'
+          type: string
+          format: date-time
+          example: '2025-01-10T09:00:00'
+        SEA_DATE_FIN:
+          description: 'The end date and time of the session'
+          type: string
+          format: date-time
+          example: '2025-01-10T12:00:00'
+        plo_formation:
+          $ref: '#/components/schemas/Formation'
+        plo_lieu:
+          $ref: '#/components/schemas/Location'
+        evaluers:
+          description: 'The evaluations for the session'
+          type: array
+          items:
+            $ref: '#/components/schemas/Assessment'
+        groupers:
+          description: 'The groupings for the session'
+          type: array
+          items:
+            $ref: '#/components/schemas/Group'
+      type: object
+    User:
+      required:
+        - UTI_ID
+        - UTI_MAIL
+        - UTI_MDP
+        - UTI_DATE_CREATION
+      properties:
+        UTI_ID:
+          description: 'The unique identifier for the user'
+          type: integer
+          example: 1
+        CLU_ID:
+          description: 'The ID of the club the user belongs to'
+          type: integer
+          example: 3
+          nullable: true
+        UTI_NOM:
+          description: 'The last name of the user'
+          type: string
+          example: Doe
+        UTI_PRENOM:
+          description: 'The first name of the user'
+          type: string
+          example: John
+        UTI_MAIL:
+          description: 'The email address of the user'
+          type: string
+          example: john.doe@example.com
+        UTI_MDP:
+          description: 'The password of the user'
+          type: string
+          example: password123
+        UTI_DATE_CREATION:
+          description: 'The creation date of the user account'
+          type: string
+          format: date-time
+          example: '2025-01-08T10:00:00'
+        UTI_NIVEAU:
+          description: 'The level of the user'
+          type: string
+          example: admin
+          nullable: true
+        UTI_DATE_NAISSANCE:
+          description: 'The birth date of the user'
+          type: string
+          format: date-time
+          example: '1990-01-01T00:00:00'
+          nullable: true
+        plo_club:
+          oneOf:
+            -
+              $ref: '#/components/schemas/Club'
+          nullable: true
+          description: 'The club the user belongs to'
+        plo_eleve:
+          $ref: '#/components/schemas/Student'
+        plo_initiateur:
+          $ref: '#/components/schemas/Initiator'
+        validers:
+          description: 'The validations associated with the user'
+          type: array
+          items:
+            $ref: '#/components/schemas/Validate'
+      type: object
+    Validate:
+      required:
+        - UTI_ID
+        - CPT_ID
+        - VALIDER
+      properties:
+        UTI_ID:
+          description: 'The unique identifier for the user'
+          type: integer
+          example: 1
+        CPT_ID:
+          description: 'The ID of the competence being validated'
+          type: string
+          example: CPT123
+        VALIDER:
+          description: 'Indicates whether the competence has been validated by the user'
+          type: boolean
+          example: true
+        plo_competence:
+          $ref: '#/components/schemas/Skill'
+        plo_utilisateur:
+          $ref: '#/components/schemas/User'
+      type: object
 tags:
   -
     name: Aptitudes

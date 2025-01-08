@@ -9,7 +9,7 @@ use App\Http\Controllers\Controller;
 
 /**
  * @OA\Schema(
- *     schema="PloLieu",
+ *     schema="Location",
  *     type="object",
  *     required={"LI_ID"},
  *     @OA\Property(
@@ -35,7 +35,7 @@ use App\Http\Controllers\Controller;
  *         type="array",
  *         description="The sessions held at this location",
  *         @OA\Items(
- *             ref="#/components/schemas/PloSeance"
+ *             ref="#/components/schemas/Session"
  *         )
  *     )
  * )

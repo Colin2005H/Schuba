@@ -9,7 +9,7 @@ use OpenApi\Annotations as OA;
 
 /**
  * @OA\Schema(
- *     schema="PloAptitude",
+ *     schema="Aptitude",
  *     type="object",
  *     required={"APT_CODE", "CPT_ID", "APT_LIBELLE"},
  *     @OA\Property(
@@ -34,14 +34,14 @@ use OpenApi\Annotations as OA;
  *         property="plo_competence",
  *         type="object",
  *         description="The competence (PloCompetence) associated with this aptitude",
- *         ref="#/components/schemas/PloCompetence"
+ *         ref="#/components/schemas/Skill"
  *     ),
  *     @OA\Property(
  *         property="evaluers",
  *         type="array",
  *         description="The evaluations (Evaluer) related to this aptitude",
  *         @OA\Items(
- *             ref="#/components/schemas/Evaluer"
+ *             ref="#/components/schemas/Assessment"
  *         )
  *     )
  * )

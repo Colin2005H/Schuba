@@ -9,7 +9,7 @@ use App\Http\Controllers\Controller;
 
 /**
  * @OA\Schema(
- *     schema="PloSeance",
+ *     schema="Session",
  *     type="object",
  *     required={"SEA_ID", "LI_ID", "FORM_NIVEAU"},
  *     @OA\Property(
@@ -46,25 +46,25 @@ use App\Http\Controllers\Controller;
  *     ),
  *     @OA\Property(
  *         property="plo_formation",
- *         ref="#/components/schemas/PloFormation",
+ *         ref="#/components/schemas/Formation",
  *         description="The formation associated with the session"
  *     ),
  *     @OA\Property(
  *         property="plo_lieu",
- *         ref="#/components/schemas/PloLieu",
+ *         ref="#/components/schemas/Location",
  *         description="The location where the session is held"
  *     ),
  *     @OA\Property(
  *         property="evaluers",
  *         type="array",
  *         description="The evaluations for the session",
- *         @OA\Items(ref="#/components/schemas/Evaluer")
+ *         @OA\Items(ref="#/components/schemas/Assessment")
  *     ),
  *     @OA\Property(
  *         property="groupers",
  *         type="array",
  *         description="The groupings for the session",
- *         @OA\Items(ref="#/components/schemas/Grouper")
+ *         @OA\Items(ref="#/components/schemas/Group")
  *     )
  * )
  */

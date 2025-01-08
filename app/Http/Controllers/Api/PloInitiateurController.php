@@ -8,7 +8,7 @@ use App\Http\Controllers\Controller;
 
 /**
  * @OA\Schema(
- *     schema="PloInitiateur",
+ *     schema="Initiator",
  *     type="object",
  *     required={"UTI_ID"},
  *     @OA\Property(
@@ -22,7 +22,7 @@ use App\Http\Controllers\Controller;
  *         type="array",
  *         description="The clubs directed by this initiator",
  *         @OA\Items(
- *             ref="#/components/schemas/DirigerLeClub"
+ *             ref="#/components/schemas/Leader"
  *         )
  *     ),
  *     @OA\Property(
@@ -30,7 +30,7 @@ use App\Http\Controllers\Controller;
  *         type="array",
  *         description="The formations taught by this initiator",
  *         @OA\Items(
- *             ref="#/components/schemas/Enseigner"
+ *             ref="#/components/schemas/Teaching"
  *         )
  *     ),
  *     @OA\Property(
@@ -38,7 +38,7 @@ use App\Http\Controllers\Controller;
  *         type="array",
  *         description="The formations managed by this initiator",
  *         @OA\Items(
- *             ref="#/components/schemas/GererLaFormation"
+ *             ref="#/components/schemas/Manager"
  *         )
  *     ),
  *     @OA\Property(
@@ -46,12 +46,12 @@ use App\Http\Controllers\Controller;
  *         type="array",
  *         description="The groups that this initiator is part of",
  *         @OA\Items(
- *             ref="#/components/schemas/Grouper"
+ *             ref="#/components/schemas/Group"
  *         )
  *     ),
  *     @OA\Property(
  *         property="plo_utilisateur",
- *         ref="#/components/schemas/PloUtilisateur",
+ *         ref="#/components/schemas/User",
  *         description="The associated user for the initiator"
  *     )
  * )

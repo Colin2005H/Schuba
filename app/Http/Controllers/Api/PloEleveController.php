@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 /**
  * @OA\Schema(
- *     schema="PloEleve",
+ *     schema="Student",
  *     type="object",
  *     required={"UTI_ID"},
  *     @OA\Property(
@@ -20,14 +20,14 @@ use Illuminate\Http\Request;
  *     @OA\Property(
  *         property="plo_utilisateur",
  *         description="The user associated with this student",
- *         ref="#/components/schemas/PloUtilisateur"
+ *         ref="#/components/schemas/User"
  *     ),
  *     @OA\Property(
  *         property="appartients",
  *         type="array",
  *         description="The formations the student is associated with",
  *         @OA\Items(
- *             ref="#/components/schemas/Appartient"
+ *             ref="#/components/schemas/Signed"
  *         )
  *     ),
  *     @OA\Property(
@@ -35,7 +35,7 @@ use Illuminate\Http\Request;
  *         type="array",
  *         description="The evaluations associated with this student",
  *         @OA\Items(
- *             ref="#/components/schemas/Evaluer"
+ *             ref="#/components/schemas/Assessment"
  *         )
  *     ),
  *     @OA\Property(
@@ -43,7 +43,7 @@ use Illuminate\Http\Request;
  *         type="array",
  *         description="The sessions this student is grouped in",
  *         @OA\Items(
- *             ref="#/components/schemas/Grouper"
+ *             ref="#/components/schemas/Group"
  *         )
  *     )
  * )

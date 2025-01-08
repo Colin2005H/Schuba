@@ -9,7 +9,7 @@ use App\Http\Controllers\Controller;
 
 /**
  * @OA\Schema(
- *     schema="PloUtilisateur",
+ *     schema="User",
  *     type="object",
  *     required={"UTI_ID", "UTI_MAIL", "UTI_MDP", "UTI_DATE_CREATION"},
  *     @OA\Property(
@@ -73,25 +73,25 @@ use App\Http\Controllers\Controller;
  *     ),
  *     @OA\Property(
  *         property="plo_club",
- *         ref="#/components/schemas/PloClub",
+ *         ref="#/components/schemas/Club",
  *         nullable=true,
  *         description="The club the user belongs to"
  *     ),
  *     @OA\Property(
  *         property="plo_eleve",
- *         ref="#/components/schemas/PloEleve",
+ *         ref="#/components/schemas/Student",
  *         description="The student associated with the user"
  *     ),
  *     @OA\Property(
  *         property="plo_initiateur",
- *         ref="#/components/schemas/PloInitiateur",
+ *         ref="#/components/schemas/Initiator",
  *         description="The initiator associated with the user"
  *     ),
  *     @OA\Property(
  *         property="validers",
  *         type="array",
  *         description="The validations associated with the user",
- *         @OA\Items(ref="#/components/schemas/Valider")
+ *         @OA\Items(ref="#/components/schemas/Validate")
  *     )
  * )
  */

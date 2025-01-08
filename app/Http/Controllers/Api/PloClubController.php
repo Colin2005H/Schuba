@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 /**
  * @OA\Schema(
- *     schema="PloClub",
+ *     schema="Club",
  *     type="object",
  *     required={"CLU_ID"},
  *     @OA\Property(
@@ -24,11 +24,11 @@ use Illuminate\Http\Request;
  *         example="Schuba Diving Club"
  *     ),
  *     @OA\Property(
- *         property="diriger_le_clubs",
+ *         property="Leader",
  *         type="array",
  *         description="The club leadership records associated with the club",
  *         @OA\Items(
- *             ref="#/components/schemas/DirigerLeClub"
+ *             ref="#/components/schemas/Leader"
  *         )
  *     ),
  *     @OA\Property(
@@ -36,7 +36,7 @@ use Illuminate\Http\Request;
  *         type="array",
  *         description="The users associated with this club",
  *         @OA\Items(
- *             ref="#/components/schemas/PloUtilisateur"
+ *             ref="#/components/schemas/User"
  *         )
  *     )
  * )

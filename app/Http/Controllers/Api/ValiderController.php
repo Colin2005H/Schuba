@@ -8,7 +8,7 @@ use App\Http\Controllers\Controller;
 
 /**
  * @OA\Schema(
- *     schema="Valider",
+ *     schema="Validate",
  *     type="object",
  *     required={"UTI_ID", "CPT_ID", "VALIDER"},
  *     @OA\Property(
@@ -31,12 +31,12 @@ use App\Http\Controllers\Controller;
  *     ),
  *     @OA\Property(
  *         property="plo_competence",
- *         ref="#/components/schemas/PloCompetence",
+ *         ref="#/components/schemas/Skill",
  *         description="The competence associated with the validation"
  *     ),
  *     @OA\Property(
  *         property="plo_utilisateur",
- *         ref="#/components/schemas/PloUtilisateur",
+ *         ref="#/components/schemas/User",
  *         description="The user who validated the competence"
  *     )
  * )

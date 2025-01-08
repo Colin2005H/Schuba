@@ -8,7 +8,7 @@ use App\Http\Controllers\Controller;
 
 /**
  * @OA\Schema(
- *     schema="PloFormation",
+ *     schema="Formation",
  *     type="object",
  *     required={"FORM_NIVEAU"},
  *     @OA\Property(
@@ -40,7 +40,7 @@ use App\Http\Controllers\Controller;
  *         type="array",
  *         description="The students associated with this formation",
  *         @OA\Items(
- *             ref="#/components/schemas/Appartient"
+ *             ref="#/components/schemas/Signed"
  *         )
  *     ),
  *     @OA\Property(
@@ -48,7 +48,7 @@ use App\Http\Controllers\Controller;
  *         type="array",
  *         description="The instructors for this formation",
  *         @OA\Items(
- *             ref="#/components/schemas/Enseigner"
+ *             ref="#/components/schemas/Assessment"
  *         )
  *     ),
  *     @OA\Property(
@@ -56,7 +56,7 @@ use App\Http\Controllers\Controller;
  *         type="array",
  *         description="The management of this formation",
  *         @OA\Items(
- *             ref="#/components/schemas/GererLaFormation"
+ *             ref="#/components/schemas/Manager"
  *         )
  *     ),
  *     @OA\Property(
@@ -64,7 +64,7 @@ use App\Http\Controllers\Controller;
  *         type="array",
  *         description="The competencies associated with this formation",
  *         @OA\Items(
- *             ref="#/components/schemas/PloCompetence"
+ *             ref="#/components/schemas/Skill"
  *         )
  *     ),
  *     @OA\Property(
@@ -72,7 +72,7 @@ use App\Http\Controllers\Controller;
  *         type="array",
  *         description="The sessions scheduled for this formation",
  *         @OA\Items(
- *             ref="#/components/schemas/PloSeance"
+ *             ref="#/components/schemas/Session"
  *         )
  *     )
  * )

@@ -8,7 +8,7 @@ use App\Http\Controllers\Controller;
 
 /**
  * @OA\Schema(
- *     schema="Evaluer",
+ *     schema="Assessment",
  *     type="object",
  *     required={"SEA_ID", "APT_CODE", "UTI_ID"},
  *     @OA\Property(
@@ -45,19 +45,19 @@ use App\Http\Controllers\Controller;
  *         property="plo_aptitude",
  *         type="object",
  *         description="The aptitude (PloAptitude) associated with the evaluation",
- *         ref="#/components/schemas/PloAptitude"
+ *         ref="#/components/schemas/Aptitude"
  *     ),
  *     @OA\Property(
  *         property="plo_eleve",
  *         type="object",
  *         description="The student (PloEleve) being evaluated",
- *         ref="#/components/schemas/PloEleve"
+ *         ref="#/components/schemas/Student"
  *     ),
  *     @OA\Property(
  *         property="plo_seance",
  *         type="object",
  *         description="The session (PloSeance) associated with the evaluation",
- *         ref="#/components/schemas/PloSeance"
+ *         ref="#/components/schemas/Session"
  *     )
  * )
  */

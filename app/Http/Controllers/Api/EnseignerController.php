@@ -8,32 +8,32 @@ use App\Http\Controllers\Controller;
 
 /**
  * @OA\Schema(
- *     schema="Enseigner",
+ *     schema="Teaching",
  *     type="object",
  *     required={"UTI_ID", "FORM_NIVEAU"},
  *     @OA\Property(
- *         property="UTI_ID",
+ *         property="ID",
  *         type="integer",
  *         description="The user ID of the instructor teaching the course (PloInitiateur)",
  *         example=123
  *     ),
  *     @OA\Property(
- *         property="FORM_NIVEAU",
+ *         property="LEVEL",
  *         type="integer",
  *         description="The formation level ID (PloFormation)",
  *         example=1
  *     ),
  *     @OA\Property(
- *         property="plo_formation",
+ *         property="Formation",
  *         type="object",
- *         description="The formation level (PloFormation) associated with the teaching",
- *         ref="#/components/schemas/PloFormation"
+ *         description="The formation LEVEL (Formation) associated with the teaching",
+ *         ref="#/components/schemas/Formation"
  *     ),
  *     @OA\Property(
- *         property="plo_initiateur",
+ *         property="Initiator",
  *         type="object",
- *         description="The initiator/instructor (PloInitiateur) teaching the course",
- *         ref="#/components/schemas/PloInitiateur"
+ *         description="The initiator/instructor (Initiator) teaching the course",
+ *         ref="#/components/schemas/Initiator"
  *     )
  * )
  */

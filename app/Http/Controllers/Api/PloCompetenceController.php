@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 /**
  * @OA\Schema(
- *     schema="PloCompetence",
+ *     schema="Skill",
  *     type="object",
  *     required={"CPT_ID"},
  *     @OA\Property(
@@ -32,14 +32,14 @@ use Illuminate\Http\Request;
  *     @OA\Property(
  *         property="plo_formation",
  *         description="The formation associated with this competence",
- *         ref="#/components/schemas/PloFormation"
+ *         ref="#/components/schemas/Formation"
  *     ),
  *     @OA\Property(
  *         property="plo_aptitudes",
  *         type="array",
  *         description="The aptitudes associated with this competence",
  *         @OA\Items(
- *             ref="#/components/schemas/PloAptitude"
+ *             ref="#/components/schemas/Aptitude"
  *         )
  *     ),
  *     @OA\Property(
@@ -47,7 +47,7 @@ use Illuminate\Http\Request;
  *         type="array",
  *         description="The validation records associated with this competence",
  *         @OA\Items(
- *             ref="#/components/schemas/Valider"
+ *             ref="#/components/schemas/Validate"
  *         )
  *     )
  * )

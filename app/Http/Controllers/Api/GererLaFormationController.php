@@ -9,7 +9,7 @@ use App\Http\Controllers\Controller;
 
 /**
  * @OA\Schema(
- *     schema="GererLaFormation",
+ *     schema="Manager",
  *     type="object",
  *     required={"UTI_ID", "FORM_NIVEAU"},
  *     @OA\Property(
@@ -35,13 +35,13 @@ use App\Http\Controllers\Controller;
  *         property="plo_formation",
  *         type="object",
  *         description="The formation (PloFormation) associated with the management",
- *         ref="#/components/schemas/PloFormation"
+ *         ref="#/components/schemas/Formation"
  *     ),
  *     @OA\Property(
  *         property="plo_initiateur",
  *         type="object",
  *         description="The initiator (PloInitiateur) associated with the formation",
- *         ref="#/components/schemas/PloInitiateur"
+ *         ref="#/components/schemas/Initiator"
  *     )
  * )
  */
