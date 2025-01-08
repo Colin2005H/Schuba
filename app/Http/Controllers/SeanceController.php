@@ -11,6 +11,7 @@ use App\Models\Seance;
 use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class SeanceController extends Controller
 {
@@ -21,6 +22,18 @@ class SeanceController extends Controller
      */
     public function createSession()
     {
+        DB::beginTransaction();
+
+        $niveau = NULL;
+
+        try {
+            $niveau = DB::table('gerer_la_formation')->select('FORM_NIVEAU')->where('UTI_ID', session('user')->UTI_ID)->get()->firstOrFail();
+            
+        } catch (\Throwable $th) {
+            echo $th->getMessage();
+        }
+        DB::commit();
+
         return view('creer-seance', [
             'lieux' => Lieu::all(),
 
@@ -30,13 +43,17 @@ class SeanceController extends Controller
                 return $initiator->user()->getResults();
             })->filter(function ($user, $key) {
                 return $user != null;
-            }),
+            }), //TODO filtrer seulement ceux de la formation concernée ($niveau)
 
             'eleves' => Eleve::all()->map(function (Eleve $student) { //prends tous les eleves
                 return $student->user()->getResults();
             })->filter(function ($user, $key) {
                 return $user != null;
-            })
+            }), //TODO filtrer seulement ceux de la formation concernée ($niveau)
+            
+            'niveau' => $niveau->FORM_NIVEAU
+
+            
         ]);
     }
 

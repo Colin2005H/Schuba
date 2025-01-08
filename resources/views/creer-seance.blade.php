@@ -25,7 +25,8 @@
 
                 <div class="mb-4">
                     <label for="niv" class="block font-medium text-gray-700">Niveau de la formation :</label>
-                    <input type="number" id="niv" name="niv" min="1" max="3" value="1" class="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                    <input type="number" id="niv" name="niv" min="1" max="3" value="{{$niveau}}" class="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" disabled>
+                    {{--l'input ne sert plus qu'à stocker la valeur--}}
                 </div>
 
                 <div class="mb-4">
