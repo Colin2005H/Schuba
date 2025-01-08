@@ -23,6 +23,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::prefix('/profile')->name('profile.')->controller(\App\Http\Controllers\ProfileController::class)->group(function(){
+    Route::get('/', 'index')->name('show');
+});
+
 //Route pour la page de création de compte
 Route::prefix('/createAccount')->name('createAccount.')->controller(CreateAccountController::class)->group(function(){
     Route::get('/', 'createAccount')->name('show');
@@ -33,10 +37,6 @@ Route::prefix('/createAccount')->name('createAccount.')->controller(CreateAccoun
 Route::prefix('/createSession')->name('createSession.')->controller(\App\Http\Controllers\SeanceController::class)->group(function(){
     Route::get('/', 'createSession')->name('show');
     Route::post('/', 'store');
-});
-
-Route::get('/profile-page', function () {
-    return view('profile');
 });
 
 // Route pour la page de login
