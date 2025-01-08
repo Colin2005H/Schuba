@@ -25,7 +25,7 @@
             <a href="{{ url('/') }}" class="hover:text-gray-400">Compétences</a>
             <a href="{{ url('/') }}" class="hover:text-gray-400">Se Déconnecter</a>
         </nav>
-        @elseif($role === 'initiateur')
+        @elseif($role === 'responsable')
         <!-- Navigation initiateur/responsable-->
         <nav class="hidden md:flex space-x-6">
             <a href="{{ url('/') }}" class="hover:text-gray-400">Mon compte</a>

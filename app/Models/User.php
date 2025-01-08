@@ -68,15 +68,33 @@ public function getAuthPassword()
                 return 'eleve';
             }
 
-        $countINIT = DB::table('PLO_UTILISATEUR') 
+        $countRESP = DB::table('PLO_UTILISATEUR') 
             ->join('PLO_INITIATEUR', 'PLO_UTILISATEUR.UTI_ID', '=', 'PLO_INITIATEUR.UTI_ID')
             ->join('GERER_LA_FORMATION', 'PLO_UTILISATEUR.UTI_ID', '=', 'GERER_LA_FORMATION.UTI_ID') 
+            ->where('PLO_UTILISATEUR.UTI_MAIL', '=', $this->UTI_MAIL) ->count();
+
+
+            if($countRESP > 0){
+                return 'responsable';
+            }
+
+        $countINIT = DB::table('PLO_UTILISATEUR') 
+            ->whereIn('UTI_ID',function($query){
+                $query->select('UTI_ID')->from('PLO_INITIATEUR');
+            })
+            ->whereNotIn('UTI_ID',function($query){
+                $query->select('UTI_ID')->from('GERER_LA_FORMATION');
+            })
+            ->whereNotIn('UTI_ID',function($query){
+                $query->select('UTI_ID')->from('DIRIGER_LE_CLUB');
+            })
             ->where('PLO_UTILISATEUR.UTI_MAIL', '=', $this->UTI_MAIL) ->count();
 
 
             if($countINIT > 0){
                 return 'initiateur';
             }
+
 
         $countDT = DB::table('PLO_UTILISATEUR') 
             ->join('PLO_INITIATEUR', 'PLO_UTILISATEUR.UTI_ID', '=', 'PLO_INITIATEUR.UTI_ID')
