@@ -18,18 +18,26 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
-        'email',
-        'password',
+        'uti_nom',
+        'uti_mail',
+        'uti_mdp',
     ];
 
+//table //primary key
+
+    protected $table = 'PLO_UTILISATEUR';
+
+    protected $primaryKey = 'uti_id';
+
+
+     
     /**
      * The attributes that should be hidden for serialization.
      *
      * @var array<int, string>
      */
     protected $hidden = [
-        'password',
+        'uti_mdp',
         'remember_token',
     ];
 
@@ -41,4 +49,9 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function getAuthPassword()
+{
+    return $this->UTI_MDP;
+}
 }
