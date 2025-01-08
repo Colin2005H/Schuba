@@ -6,9 +6,9 @@
     <title>Document</title>
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
-<body>
-    <body class="h-screen bg-gray-100 flex items-center justify-center">
-
+    <body>
+    @include('header')
+      <div class="h-screen bg-gray-100 flex items-center justify-center">
         <!-- Conteneur du tableau centré -->
         <div class="w-3/4 max-w-4xl overflow-x-auto bg-white shadow-lg rounded-lg">
           <table class="min-w-full table-auto">
@@ -32,6 +32,7 @@
               
             </tbody>
           </table>
+        </div>
         </div>
 </body>
 </html>
