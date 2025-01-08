@@ -116,15 +116,17 @@
                                 try {
                                     // Fetch location data
                                     const response = await fetch(`/api/location?id=${session.LOCATION_ID}`);
+
                                     const locationData = await response.json();
                                     
                                     // Check if location data is available
                                     if (locationData && locationData.length > 0) {
                                         const location = locationData[0];
                                         return {
-                                            title: location.NAME,
+                                            title: `${location.NAME}`, 
                                             start: session.START,
-                                            end: session.END
+                                            end: session.END,
+                                            id : session.ID
                                         };
                                     } else {
                                         throw new Error('Location not found');
@@ -148,8 +150,21 @@
                             console.error('Error fetching session data:', error);
                             failureCallback(error);
                         }
+                    },
+
+                    eventClick: function(info) {
+                        var identifier = document.getElementById('identifier');
+                        var popup = document.getElementById("popup");
+                        var location = document.getElementById('location');
+                        var beginningHour = document.getElementById('beginning-hour');
+                        var endingHour = document.getElementById('ending-hour');
+                        identifier.textContent = info.event.id;
+                        location.textContent = info.event.title;
+                        beginningHour.textContent = "Début : " + info.event.start.toLocaleTimeString();
+                        endingHour.textContent = "Fin : " + info.event.end.toLocaleTimeString();
+                        popup.style.display = "block";
                     }
-                };
+              };
 
                 function resizeCaldendar() {
                     // Vérifier si l'on est en mode mobile
@@ -181,5 +196,20 @@
 </head>
 <body>
     <div id='calendar'></div>
+    <popup style = "display: none;" id="popup">
+        <p id="identifier" style="display: none;"></p>
+        <p id="location"></p>
+        <p id="beginning-hour"></p>
+        <p id="ending-hour"></p>
+        @foreach 
+
+        @endforeach
+        
+
+        <button id="close">Fermer</button>
+        
+        
+        
+    </popup>
 </body>
 </html>
