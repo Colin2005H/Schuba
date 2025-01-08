@@ -14,11 +14,14 @@ class CreateAccountController extends Controller
 {
 
     public function createAccount() {
-        $clubs = DB::table('plo_club')->select('clu_id', 'clu_nom')->get();
-        return view('create-account')->with(compact('clubs'));
+        $director = DB::table('diriger_le_club')->select('clu_id')->where('uti_id', '=', session('user')->UTI_ID)->get();
+        $clubDirector = DB::table('plo_club')->select('clu_id', 'clu_nom')->where('clu_id', '=', $director[0]->clu_id)->get();
+        return view('create-account')->with(compact('clubDirector'));
     }
 
     public function store(Request $request){
+        $director = DB::table('diriger_le_club')->select('clu_id')->where('uti_id', '=', session('user')->UTI_ID)->get();
+        $clubDirector = DB::table('plo_club')->select('clu_id', 'clu_nom')->where('clu_id', '=', $director[0]->clu_id)->get();
         $this->validate($request, [
             'uti_mail' => 'bail|required|unique:plo_utilisateur|email',
             'uti_nom' => 'bail|required',
@@ -54,7 +57,7 @@ class CreateAccountController extends Controller
         $passwd = substr(str_shuffle($chars),0, 8);
 
         $user = Utilisateur::create([
-            'clu_id' => $request->input("clu_id"),
+            'clu_id' => $clubDirector[0]->clu_id,
             'uti_nom' => $request->input('uti_nom'),
             'uti_prenom' => $request->input('uti_prenom'),
             'uti_mail' => $request->input('uti_mail'),
