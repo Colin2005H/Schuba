@@ -7,12 +7,8 @@
         <script src="https://cdn.tailwindcss.com"></script>
     </head>
     <body>
+    @include('header')
         <div class="flex flex-col min-h-screen bg-cover bg-center">
-            <div class="text-center mb-8">
-                <h1 class="text-3xl font-bold text-black flex items-center justify-center gap-2 py-2">
-                    Profil
-                </h1>
-            </div>
 
             <div class="bg-white p-6 rounded-lg shadow-md sm:w-96 items-center justify-center mx-auto my-auto">
                 <h2 class="text-xl font-semibold text-center mb-6">{{strtoupper($user->UTI_NOM) ." ". $user->UTI_PRENOM }}</h2>

@@ -2,8 +2,11 @@
 
 use App\Http\Controllers\CreateAccountController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\FormationController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\listCommentariesController;
+
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 
@@ -18,10 +21,16 @@ use Illuminate\Support\Facades\Hash;
 |
 */
 
+
 //Route pour la page d'accueil
+Route::get('/formations', [FormationController::class, 'showFormation']);
+Route::post('/formations', [FormationController::class, 'createFormation']);
+
 Route::get('/', function () {
     return view('login-page');
 });
+
+
 
 Route::prefix('/profile')->name('profile.')->controller(\App\Http\Controllers\ProfileController::class)->group(function(){
     Route::get('/', 'index')->name('show');
@@ -34,6 +43,9 @@ Route::prefix('/createAccount')->name('createAccount.')->controller(CreateAccoun
 });
 
 //Route pour la page de création de session
+Route::get('/listCommentaries',[listCommentariesController::class, 'showListCommentaries']);
+
+
 Route::prefix('/createSession')->name('createSession.')->controller(\App\Http\Controllers\SeanceController::class)->group(function(){
     Route::get('/', 'createSession')->name('show');
     Route::post('/', 'store');
@@ -58,3 +70,8 @@ Route::get('/home', function() {
 Route::get('/triche', function() {
     return Hash::make("admin");
 });
+
+Route::get('/calendar', function () {
+    return view('calendar');
+});
+
