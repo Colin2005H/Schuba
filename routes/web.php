@@ -27,6 +27,7 @@ Route::get('/', function () {
     return view('login-page');
 });
 
+
 //Route pour la page de création de compte
 Route::prefix('/createAccount')->name('createAccount.')->controller(CreateAccountController::class)->group(function(){
     Route::get('/', 'createAccount')->name('show');
@@ -57,5 +58,9 @@ Route::get('/home', function() {
 
 Route::get('/triche', function() {
     return Hash::make("admin");
+});
+
+Route::get('/calendar', function () {
+    return view('calendar');
 });
 
