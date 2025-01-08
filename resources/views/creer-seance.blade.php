@@ -63,29 +63,32 @@
                 <div id="groupGlobalContainer" class="mb-4">
                     <div id="groupContainer1" class="mb-4 border p-4 rounded-md bg-gray-50">
                         <div class="mb-2">
-                            <label for="initiateur" class="block font-medium text-gray-700">Initiateur :</label>
-                            <select name="group[1][initiateur]" id="initiateur" class="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                            <label for="initiateur1" class="block font-medium text-gray-700">Initiateur :</label>
+                            <select name="group[1][initiateur]" id="initiateur1" class="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                                onchange="onInitiatorSelect(1)">
                                 @foreach($initiateurs as $init)
-                                    <option value="{{$init->UTI_ID}}">{{$init->UTI_NOM}} {{$init->UTI_PRENOM}}</option>
+                                    <option value="{{$init->UTI_ID}}" id="{{$init->UTI_ID}}">{{$init->UTI_NOM}} {{$init->UTI_PRENOM}}</option>
                                 @endforeach
                             </select>
                         </div>
 
                         <div class="mb-2">
-                            <label for="eleve1" class="block font-medium text-gray-700">Eleve 1 :</label>
-                            <select name="group[1][eleve1]" id="eleve1" required class="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                            <label for="eleve1_1" class="block font-medium text-gray-700">Eleve 1 :</label>
+                            <select name="group[1][eleve1]" id="eleve1_1" required class="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                                onchange="onStudentSelect(1, 1)">
                                 @foreach($eleves as $eleve)
-                                    <option value="{{$eleve->UTI_ID}}">{{$eleve->UTI_NOM}} {{$eleve->UTI_PRENOM}}</option>
+                                    <option value="{{$eleve->UTI_ID}}" id="{{$eleve->UTI_ID}}">{{$eleve->UTI_NOM}} {{$eleve->UTI_PRENOM}}</option>
                                 @endforeach
                             </select>
                         </div>
 
                         <div>
-                            <label for="eleve2" class="block font-medium text-gray-700">Eleve 2 :</label>
-                            <select name="group[1][eleve2]" id="eleve2" class="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-                                <option value="null">Aucun</option>
+                            <label for="eleve2_1" class="block font-medium text-gray-700">Eleve 2 :</label>
+                            <select name="group[1][eleve2]" id="eleve2_1" class="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                                onchange="onStudentSelect(1, 2)">
+                                <option value="null" id="">Aucun</option>
                                 @foreach($eleves as $eleve)
-                                    <option value="{{$eleve->UTI_ID}}">{{$eleve->UTI_NOM}} {{$eleve->UTI_PRENOM}}</option>
+                                    <option value="{{$eleve->UTI_ID}}" id="{{$eleve->UTI_ID}}">{{$eleve->UTI_NOM}} {{$eleve->UTI_PRENOM}}</option>
                                 @endforeach
                             </select>
                         </div>

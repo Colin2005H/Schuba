@@ -1,8 +1,8 @@
 const groupContainer = document.getElementById("groupGlobalContainer");
 
-const initiators = document.getElementById("initiateur"); //changer le nom
-const student1 = document.getElementById("eleve1"); //changer le nom
-const student2 = document.getElementById("eleve2"); //changer le nom;
+const initiators = document.getElementById("initiateur1"); //changer le nom
+const student1 = document.getElementById("eleve1_1"); //changer le nom
+const student2 = document.getElementById("eleve2_1"); //changer le nom;
 
 
 let groupNb = 1;
@@ -14,6 +14,7 @@ function addGroupInput(){
     groupNb ++;
 
     let newContainer = document.createElement("div");
+    newContainer.setAttribute("class", "mb-4 border p-4 rounded-md bg-gray-50"); 
 
     newContainer.id = "groupContainer" + groupNb;
 
@@ -24,6 +25,7 @@ function addGroupInput(){
     let newInitiator = initiators.cloneNode(true);
     newInitiator.id = "initiateur" + groupNb;
     newInitiator.setAttribute("name", 'group['+groupNb+'][initiateur]');
+    newInitiator.setAttribute('onchange', `onInitiatorSelect(${groupNb})`) ;
 
     let labelStu1 = document.createElement("label");
     labelStu1.setAttribute("for", "eleve1_" + groupNb);
@@ -32,6 +34,7 @@ function addGroupInput(){
     let newStudent1 = student1.cloneNode(true);
     newStudent1.id = "eleve1_" + groupNb;
     newStudent1.setAttribute("name", 'group['+groupNb+'][eleve1]');
+    newStudent1.setAttribute('onchange', `onStudentSelect(${groupNb}, 1)`) ;
 
     let labelStu2 = document.createElement("label");
     labelStu2.setAttribute("for", "eleve2_" + groupNb);
@@ -40,6 +43,7 @@ function addGroupInput(){
     let newStudent2 = student2.cloneNode(true);
     newStudent2.id = "eleve2_" + groupNb;
     newStudent2.setAttribute("name", 'group['+groupNb+'][eleve2]');
+    newStudent2.setAttribute('onchange', `onStudentSelect(${groupNb}, 2)`) ;
 
     
 
@@ -54,7 +58,6 @@ function addGroupInput(){
 
     groupContainer.appendChild(newContainer);
     
-    console.log("+");
 }
 
 /**
@@ -71,3 +74,69 @@ function removeGroupInput(){
     }
 }
 
+function onInitiatorSelect(groupId){
+    console.log("init" + groupId);
+    const id = "initiateur"+groupId;
+
+    const selector = document.getElementById(id);
+
+    disableId = selector.value;
+
+    for(i = 1; i <= groupNb; i++){
+        //pour tout containeur
+        if(i != groupId){
+            const currentSelector = document.getElementById("initiateur"+i);
+
+            for(opt of currentSelector.children){
+                console.log("non "+opt.value + "vs" + disableId);
+                if(opt.value == disableId){
+                    console.log("oui");
+                    opt.disabled = true;
+                } else {
+                    opt.disabled = false;
+                }
+            }
+        }
+    
+    }
+}
+
+function onStudentSelect(groupId, studentNb){
+    console.log("stu" + groupId + " WIP");
+    const id = "eleve"+studentNb+"_"+groupId;
+
+    const selector = document.getElementById(id);
+
+    disableId = selector.value;
+
+    for(i = 1; i <= groupNb; i++){
+        //pour tout containeur
+        if(i != groupId || studentNb != 1){
+            const currentSelector = document.getElementById("eleve1_"+i);
+
+            for(opt of currentSelector.children){
+                console.log("non "+opt.value + "vs" + disableId);
+                if(opt.value == disableId){
+                    console.log("oui");
+                    opt.disabled = true;
+                } else {
+                    opt.disabled = false;
+                }
+            }
+        }
+        
+        if(i != groupId || studentNb != 2){
+            const currentSelector = document.getElementById("eleve2_"+i);
+
+            for(opt of currentSelector.children){
+                console.log("non "+opt.value + "vs" + disableId);
+                if(opt.value == disableId){
+                    console.log("oui");
+                    opt.disabled = true;
+                } else {
+                    opt.disabled = false;
+                }
+            }
+        }
+    }
+}
