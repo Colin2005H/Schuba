@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\Hash;
 
 //Route pour la page d'accueil
 Route::get('/', function () {
-    return view('welcome');
+    return view('login-page');
 });
 
 Route::prefix('/profile')->name('profile.')->controller(\App\Http\Controllers\ProfileController::class)->group(function(){
@@ -51,6 +51,10 @@ Route::get('/header', function() {
     return view('header');
 });
 
+Route::get('/home', function() {
+    return view('home');
+});
+
 Route::get('/triche', function() {
-    return Hash::make("supermdp");
+    return Hash::make("admin");
 });

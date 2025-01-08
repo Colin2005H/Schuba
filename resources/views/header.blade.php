@@ -3,7 +3,7 @@
 <header class="bg-gray-800 text-white shadow">
     <div class="container mx-auto flex items-center justify-between py-4 px-6">
         <!-- Logo -->
-        <a href="{{ url('/') }}" class="text-lg font-bold">
+        <a href="{{ url('/home') }}" class="text-lg font-bold">
             <img src="{{ asset('images/logo.png') }}" alt="Logo" class="h-8">
         </a>
         @php
@@ -25,7 +25,7 @@
             <a href="{{ url('/') }}" class="hover:text-gray-400">Compétences</a>
             <a href="{{ url('/') }}" class="hover:text-gray-400">Se Déconnecter</a>
         </nav>
-        @elseif($role === 'initiateur')
+        @elseif($role === 'responsable'||$role === 'initiateur')
         <!-- Navigation initiateur/responsable-->
         <nav class="hidden md:flex space-x-6">
             <a href="{{ url('/') }}" class="hover:text-gray-400">Mon compte</a>
@@ -39,7 +39,7 @@
         <nav class="hidden md:flex space-x-6">
             <a href="{{ url('/') }}" class="hover:text-gray-400">Mon compte</a>
             <a href="{{ url('/') }}" class="hover:text-gray-400">Formations</a>
-            <a href="{{ url('/') }}" class="hover:text-gray-400">Comptes</a>
+            <a href="{{ url('/createAccount') }}" class="hover:text-gray-400">Comptes</a>
             <a href="{{ url('/') }}" class="hover:text-gray-400">Élèves</a>
             <a href="{{ url('/') }}" class="hover:text-gray-400">Se Déconnecter</a>
         </nav>
