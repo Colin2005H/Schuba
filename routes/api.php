@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\DirigerLeClubController;
 use App\Http\Controllers\Api\PloAptitudeController;
 use App\Http\Controllers\Api\PloClubController;
 use App\Http\Controllers\Api\PloCompetenceController;
@@ -9,6 +10,7 @@ use App\Http\Controllers\Api\PloInitiateurController;
 use App\Http\Controllers\Api\PloLieuController;
 use App\Http\Controllers\Api\PloSeanceController;
 use App\Http\Controllers\Api\PloUtilisateurController;
+use App\Models\GererLaFormation;
 
 Route::get('/location', [PloLieuController::class, "get"]);
 Route::post('/location', [PloLieuController::class, "create"]);
@@ -49,6 +51,11 @@ Route::get('/aptitude', [PloAptitudeController::class, "get"]);
 Route::post('/aptitude', [PloAptitudeController::class, "create"]);
 Route::put('/aptitude/{id}', [PloAptitudeController::class, "update"]);
 Route::delete('/aptitude/{id}', [PloAptitudeController::class, "delete"]);
+
+Route::get('/leader', [DirigerLeClubController::class, "get"]);
+Route::post('/leader', [DirigerLeClubController::class, "create"]);
+Route::put('/leader/{id}', [DirigerLeClubController::class, "update"]);
+Route::delete('/leader/{id}', [DirigerLeClubController::class, "delete"]);
 
 /*
 |--------------------------------------------------------------------------

@@ -4,6 +4,73 @@ info:
   description: 'API for managing diving club activities'
   version: 0.3.5
 paths:
+  /api/leader:
+    get:
+      tags:
+        - Leaders
+      summary: 'Get Leader records based on filters'
+      description: 'Retrieve the Leader records filtered by USER_ID, CLUB_ID, and START_DATE.'
+      operationId: getDirigerLeClubRecords
+      parameters:
+        -
+          name: USER_ID
+          in: query
+          description: 'Filter by USER_ID'
+          required: false
+          schema:
+            type: integer
+        -
+          name: CLUB_ID
+          in: query
+          description: 'Filter by CLUB_ID'
+          required: false
+          schema:
+            type: integer
+        -
+          name: START_DATE
+          in: query
+          description: 'Filter by START_DATE (format: YYYY-MM-DD)'
+          required: false
+          schema:
+            type: string
+            format: date
+      responses:
+        200:
+          description: 'List of DirigerLeClub records matching the filters'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  properties:
+                    USER_ID:
+                      type: integer
+                    CLUB_ID:
+                      type: integer
+                    START_DATE:
+                      type: string
+                      format: date
+                  type: object
+        400:
+          description: 'Bad Request, invalid parameters'
+          content:
+            application/json:
+              schema:
+                properties:
+                  error:
+                    type: string
+                    example: 'Invalid date format'
+                type: object
+        500:
+          description: 'Internal server error'
+          content:
+            application/json:
+              schema:
+                properties:
+                  error:
+                    type: string
+                    example: 'Something went wrong'
+                type: object
   /api/aptitude:
     get:
       tags:
@@ -2053,6 +2120,9 @@ paths:
                     example: 'Something went wrong, please try again.'
                 type: object
 tags:
+  -
+    name: Leaders
+    description: Leaders
   -
     name: Aptitudes
     description: Aptitudes
