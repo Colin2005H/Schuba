@@ -28,14 +28,14 @@ class PloAptitudeController extends Controller {
      *         description="The ID of the aptitude to filter by"
      *     ),
      *     @OA\Parameter(
-     *         name="COMPETENCE_ID",
+     *         name="SKILL_ID",
      *         in="query",
      *         required=false,
      *         @OA\Schema(
      *             type="string",
      *             example="CPT01"
      *         ),
-     *         description="The competence ID to filter by"
+     *         description="The skill ID to filter by"
      *     ),
      *     @OA\Parameter(
      *         name="NAME",
@@ -71,7 +71,7 @@ class PloAptitudeController extends Controller {
     public function get(Request $request) {
         // Get data from the request
         $id = $request->input('ID');
-        $cptId = $request->input('COMPETENCE_ID');
+        $cptId = $request->input('SKILL_ID');
         $libelle = $request->input('NAME');
         
         // Query to get the aptitudes
@@ -113,9 +113,9 @@ class PloAptitudeController extends Controller {
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
-     *             required={"NAME", "COMPETENCE_ID"},
+     *             required={"NAME", "SKILL_ID"},
      *             @OA\Property(property="NAME", type="string", example="Mathematics Aptitude"),
-     *             @OA\Property(property="COMPETENCE_ID", type="string", example="CPT123")
+     *             @OA\Property(property="SKILL_ID", type="string", example="CPT123")
      *         )
      *     ),
      *     @OA\Response(
@@ -142,12 +142,12 @@ class PloAptitudeController extends Controller {
     public function create(Request $request) {
         // Get data from the request
         $nom = $request->input('NAME');
-        $competenceId = $request->input('COMPETENCE_ID');
+        $competenceId = $request->input('SKILL_ID');
 
         // Validate the format of the data
         $validated = $request->validate([
             'NAME' => 'required|string|max:255',
-            'COMPETENCE_ID' => 'required|string|exists:plo_competence,CPT_ID',
+            'SKILL_ID' => 'required|string|exists:plo_competence,CPT_ID',
         ]);
 
         // Aptitude creation

@@ -1,6 +1,10 @@
 <?php
 
+use App\Http\Controllers\Api\AppartientController;
 use App\Http\Controllers\Api\DirigerLeClubController;
+use App\Http\Controllers\Api\EnseignerController;
+use App\Http\Controllers\Api\GererLaFormationController;
+use App\Http\Controllers\Api\GrouperController;
 use App\Http\Controllers\Api\PloAptitudeController;
 use App\Http\Controllers\Api\PloClubController;
 use App\Http\Controllers\Api\PloCompetenceController;
@@ -11,7 +15,7 @@ use App\Http\Controllers\Api\PloInitiateurController;
 use App\Http\Controllers\Api\PloLieuController;
 use App\Http\Controllers\Api\PloSeanceController;
 use App\Http\Controllers\Api\PloUtilisateurController;
-use App\Models\GererLaFormation;
+use App\Http\Controllers\Api\ValiderController;
 
 Route::get('/location', [PloLieuController::class, "get"]);
 Route::post('/location', [PloLieuController::class, "create"]);
@@ -55,13 +59,32 @@ Route::delete('/aptitude/{id}', [PloAptitudeController::class, "delete"]);
 
 Route::get('/leader', [DirigerLeClubController::class, "get"]);
 Route::post('/leader', [DirigerLeClubController::class, "create"]);
-Route::put('/leader/{id}', [DirigerLeClubController::class, "update"]);
 Route::delete('/leader/{id}', [DirigerLeClubController::class, "delete"]);
 
 Route::get('/student', [PloEleveController::class, "get"]);
 Route::post('/student', [PloEleveController::class, "create"]);
-Route::put('/student/{id}', [PloEleveController::class, "update"]);
 Route::delete('/student/{id}', [PloEleveController::class, "delete"]);
+
+Route::get('/group', [GrouperController::class, "get"]);
+Route::post('/group', [GrouperController::class, "create"]);
+Route::delete('/group/{id}', [GrouperController::class, "delete"]);
+
+Route::get('/teaching', [EnseignerController::class, "get"]);
+Route::post('/teaching', [EnseignerController::class, "create"]);
+Route::delete('/teaching/{id}', [EnseignerController::class, "delete"]);
+
+Route::get('/validate', [ValiderController::class, "get"]);
+Route::post('/validate', [ValiderController::class, "create"]);
+Route::put('/validate/{id}', [ValiderController::class, "update"]);
+Route::delete('/validate/{id}', [ValiderController::class, "delete"]);
+
+Route::get('/manager', [GererLaFormationController::class, "get"]);
+Route::post('/manager', [GererLaFormationController::class, "create"]);
+Route::delete('/manager/{id}', [GererLaFormationController::class, "delete"]);
+
+Route::get('/signed', [AppartientController::class, "get"]);
+Route::post('/signed', [AppartientController::class, "create"]);
+Route::delete('/signed/{id}', [AppartientController::class, "delete"]);
 
 /*
 |--------------------------------------------------------------------------

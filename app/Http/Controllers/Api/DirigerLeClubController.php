@@ -105,4 +105,193 @@ class DirigerLeClubController extends Controller {
         // Return the JSON response
         return response()->json($result);
     }
+
+    /**
+     * @OA\Post(
+     *     path="/api/leader",
+     *     summary="Create a new Leader record",
+     *     description="Creates a new Leader record by providing user ID, club ID, and start date.",
+     *     tags={"Leaders"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         description="Leader data",
+     *         @OA\JsonContent(
+     *             required={"USER_ID", "CLUB_ID", "START_DATE"},
+     *             @OA\Property(
+     *                 property="USER_ID",
+     *                 type="integer",
+     *                 description="User ID (initiator)",
+     *                 example=1
+     *             ),
+     *             @OA\Property(
+     *                 property="CLUB_ID",
+     *                 type="integer",
+     *                 description="Club ID",
+     *                 example=1
+     *             ),
+     *             @OA\Property(
+     *                 property="START_DATE",
+     *                 type="string",
+     *                 format="date",
+     *                 description="Start date of the membership",
+     *                 example="2025-01-01"
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Successfully created the DirigerLeClub record",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="message",
+     *                 type="string",
+     *                 example="DirigerLeClub record successfully created!"
+     *             ),
+     *             @OA\Property(
+     *                 property="diriger_le_club",
+     *                 type="object",
+     *                 @OA\Property(
+     *                     property="USER_ID",
+     *                     type="integer",
+     *                     example=1
+     *                 ),
+     *                 @OA\Property(
+     *                     property="CLUB_ID",
+     *                     type="integer",
+     *                     example=1
+     *                 ),
+     *                 @OA\Property(
+     *                     property="START_DATE",
+     *                     type="string",
+     *                     format="date",
+     *                     example="2025-01-01"
+     *                 )
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Bad Request, validation error",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="message",
+     *                 type="string",
+     *                 example="The given data was invalid."
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Internal server error",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="message",
+     *                 type="string",
+     *                 example="An error occurred, please try again."
+     *             )
+     *         )
+     *     )
+     * )
+     */
+    public function create(Request $request) {
+        // Get data in the request
+        $utiId = $request->input('USER_ID');
+        $cluId = $request->input('CLUB_ID');
+        $dateDebut = $request->input('START_DATE');
+        
+        // Validate format of the data
+        $validated = $request->validate([
+            'USER_ID' => 'required|integer|exists:plo_utilisateur,UTI_ID',
+            'CLUB_ID' => 'required|integer|exists:plo_club,CLU_ID',
+            'START_DATE' => 'required|date',
+        ]);
+
+        // DirigerLeClub creation
+        $dirigerLeClub = DirigerLeClub::create([
+            'UTI_ID' => $utiId,
+            'CLU_ID' => $cluId,
+            'DIR_DATE_DEBUT' => Carbon::parse($dateDebut)
+        ]);
+
+        // Return a JSON response with the details of the created DirigerLeClub record
+        return response()->json([
+            'message' => 'Leader successfully created !',
+            'diriger_le_club' => [
+                'USER_ID' => $dirigerLeClub->UTI_ID,
+                'CLUB_ID' => $dirigerLeClub->CLU_ID,
+                'START_DATE' => $dirigerLeClub->DIR_DATE_DEBUT->toDateString(),
+            ]
+        ]);
+    }
+
+    /**
+     * @OA\Delete(
+     *     path="/api/leader/{id}",
+     *     summary="Delete a Leader record",
+     *     description="Deletes a Leader record by the provided user ID and club ID.",
+     *     tags={"Leaders"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="ID of the Leader record to delete (USER_ID and CLUB_ID)",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="integer",
+     *             example=1
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successfully deleted the Leader record",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="message",
+     *                 type="string",
+     *                 example="Leader record successfully deleted!"
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Record not found",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="message",
+     *                 type="string",
+     *                 example="Cannot find the DirigerLeClub record."
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Internal server error",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="message",
+     *                 type="string",
+     *                 example="An error occurred, please try again."
+     *             )
+     *         )
+     *     )
+     * )
+     */
+    public function delete($id) {
+        // Get DirigerLeClub record by ID (both USER_ID and CLUB_ID)
+        $dirigerLeClub = DirigerLeClub::find($id);
+
+        // Check if record exists
+        if (!$dirigerLeClub) {
+            return response()->json([
+                'message' => 'Cannot find the Leader record.'
+            ], 404);
+        }
+
+        // Delete the record
+        $dirigerLeClub->delete();
+
+        // Return a JSON response to confirm the deletion
+        return response()->json([
+            'message' => 'Leader record successfully deleted!'
+        ]);
+    }
 }
