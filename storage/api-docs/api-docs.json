@@ -21,8 +21,8 @@
                         "description": "The ID of the skill to search for",
                         "required": false,
                         "schema": {
-                            "type": "integer",
-                            "example": 1
+                            "type": "string",
+                            "example": "C1"
                         }
                     },
                     {
@@ -193,8 +193,8 @@
                         "description": "ID of the skill to update",
                         "required": true,
                         "schema": {
-                            "type": "integer",
-                            "example": 1
+                            "type": "string",
+                            "example": "C1"
                         }
                     }
                 ],
@@ -306,8 +306,8 @@
                         "description": "ID of the competence to delete",
                         "required": true,
                         "schema": {
-                            "type": "integer",
-                            "example": 1
+                            "type": "string",
+                            "example": "C1"
                         }
                     }
                 ],

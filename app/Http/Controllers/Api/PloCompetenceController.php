@@ -21,8 +21,8 @@ class PloCompetenceController extends Controller {
      *         description="The ID of the skill to search for",
      *         required=false,
      *         @OA\Schema(
-     *             type="integer",
-     *             example=1
+     *             type="string",
+     *             example="C1"
      *         )
      *     ),
      *     @OA\Parameter(
@@ -79,7 +79,7 @@ class PloCompetenceController extends Controller {
     
         // Filter the competences
         if ($id) {
-            $query->where('CPT_ID', $id);
+            $query->where('CPT_ID', 'LIKE', $id, '%');
         }
         if ($niveau) {
             $query->where('FORM_NIVEAU', $niveau);
@@ -182,8 +182,8 @@ class PloCompetenceController extends Controller {
      *         description="ID of the skill to update",
      *         required=true,
      *         @OA\Schema(
-     *             type="integer",
-     *             example=1
+     *             type="string",
+     *             example="C1"
      *         )
      *     ),
      *     @OA\RequestBody(
@@ -277,8 +277,8 @@ class PloCompetenceController extends Controller {
      *         description="ID of the competence to delete",
      *         required=true,
      *         @OA\Schema(
-     *             type="integer",
-     *             example=1
+     *             type="string",
+     *             example="C1"
      *         )
      *     ),
      *     @OA\Response(
