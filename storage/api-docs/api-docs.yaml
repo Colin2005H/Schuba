@@ -516,6 +516,282 @@ paths:
                 type: object
         500:
           description: 'Internal server error'
+  /api/assessment:
+    get:
+      tags:
+        - Assessment
+      summary: 'Get Assessment records'
+      description: 'Retrieve Assessment records based on optional filters: SEA_ID, APT_CODE, UTI_ID.'
+      operationId: a71d90f0b3d860f07427289ae0d66c42
+      parameters:
+        -
+          name: SEA_ID
+          in: query
+          description: 'Session ID to filter the records'
+          required: false
+          schema:
+            type: integer
+            example: 1
+        -
+          name: APT_CODE
+          in: query
+          description: 'Aptitude code to filter the records'
+          required: false
+          schema:
+            type: string
+            example: A1
+        -
+          name: UTI_ID
+          in: query
+          description: 'User ID to filter the records'
+          required: false
+          schema:
+            type: integer
+            example: 1
+      responses:
+        200:
+          description: 'Successfully retrieved Assessment records'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  properties:
+                    SEA_ID:
+                      type: integer
+                      example: 1
+                    APT_CODE:
+                      type: string
+                      example: A1
+                    UTI_ID:
+                      type: integer
+                      example: 1
+                    EVA_COMMENTAIRE:
+                      type: string
+                      example: 'Great performance.'
+                    EVA_RESULTAT:
+                      type: string
+                      example: Passed
+                  type: object
+        400:
+          description: 'Invalid parameters'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'Invalid parameters'
+                type: object
+    post:
+      tags:
+        - Assessment
+      summary: 'Create a new Assessment record'
+      description: 'This API allows you to create a new Assessment record by providing the SEA_ID, APT_CODE, UTI_ID, EVA_COMMENTAIRE, and EVA_RESULTAT.'
+      operationId: 0e4c5ed1b06e008c3ab9972fc1fd30b8
+      requestBody:
+        description: 'The necessary data to create a new Assessment record'
+        required: true
+        content:
+          application/json:
+            schema:
+              required:
+                - SEA_ID
+                - APT_CODE
+                - UTI_ID
+                - EVA_COMMENTAIRE
+                - EVA_RESULTAT
+              properties:
+                SEA_ID:
+                  description: 'ID of the session being evaluated'
+                  type: integer
+                  example: 1
+                APT_CODE:
+                  description: 'Aptitude code for the assessment'
+                  type: string
+                  example: A1
+                UTI_ID:
+                  description: 'User ID being rated'
+                  type: integer
+                  example: 1
+                EVA_COMMENTAIRE:
+                  description: 'Comment on the assessment'
+                  type: string
+                  example: 'Great performance.'
+                EVA_RESULTAT:
+                  description: 'Result of the assessment'
+                  type: string
+                  example: Passed
+              type: object
+      responses:
+        200:
+          description: 'Assessment record created successfully'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'Assessment successfully created!'
+                  assessment:
+                    properties:
+                      SEA_ID:
+                        type: integer
+                        example: 1
+                      APT_CODE:
+                        type: string
+                        example: A1
+                      UTI_ID:
+                        type: integer
+                        example: 1
+                      EVA_COMMENTAIRE:
+                        type: string
+                        example: 'Great performance.'
+                      EVA_RESULTAT:
+                        type: string
+                        example: Passed
+                    type: object
+                type: object
+        400:
+          description: 'Validation error in the provided data'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'The provided data is invalid'
+                type: object
+        500:
+          description: 'Internal server error'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'An error occurred while creating the record'
+                type: object
+  '/api/assessment/{id}':
+    put:
+      tags:
+        - Assessment
+      summary: 'Update an Assessment record'
+      description: 'This API allows you to update an Assessment record by providing the SEA_ID, APT_CODE, UTI_ID, EVA_COMMENTAIRE, and EVA_RESULTAT.'
+      operationId: 1d9720a0aa81ef68ec0c3356b373c982
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'ID of the Assessment record to be updated'
+          required: true
+          schema:
+            type: integer
+            example: 1
+      requestBody:
+        description: 'The data to update the Assessment record'
+        required: true
+        content:
+          application/json:
+            schema:
+              required:
+                - SEA_ID
+                - APT_CODE
+                - UTI_ID
+                - EVA_COMMENTAIRE
+                - EVA_RESULTAT
+              properties:
+                SEA_ID:
+                  type: integer
+                  example: 1
+                APT_CODE:
+                  type: string
+                  example: A1
+                UTI_ID:
+                  type: integer
+                  example: 1
+                EVA_COMMENTAIRE:
+                  type: string
+                  example: 'Improvement needed.'
+                EVA_RESULTAT:
+                  type: string
+                  example: Failed
+              type: object
+      responses:
+        200:
+          description: 'Assessment record updated successfully'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'Assessment successfully updated!'
+                  assessment:
+                    properties:
+                      SEA_ID:
+                        type: integer
+                        example: 1
+                      APT_CODE:
+                        type: string
+                        example: A1
+                      UTI_ID:
+                        type: integer
+                        example: 1
+                      EVA_COMMENTAIRE:
+                        type: string
+                        example: 'Improvement needed.'
+                      EVA_RESULTAT:
+                        type: string
+                        example: Failed
+                    type: object
+                type: object
+        404:
+          description: 'Assessment record not found'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'Assessment record not found'
+                type: object
+    delete:
+      tags:
+        - Assessment
+      summary: 'Delete an Assessment record'
+      description: 'This API allows you to delete an existing Assessment record by providing its ID.'
+      operationId: b7420b3e4abd5712e77acd8357c52d93
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'ID of the Assessment record to be deleted'
+          required: true
+          schema:
+            type: integer
+            example: 1
+      responses:
+        200:
+          description: 'Assessment record deleted successfully'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'Assessment record deleted successfully!'
+                type: object
+        404:
+          description: 'Assessment record not found'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'Assessment record not found'
+                type: object
   /api/manager:
     get:
       tags:
@@ -3362,6 +3638,9 @@ tags:
   -
     name: Aptitudes
     description: 'Manage aptitudes'
+  -
+    name: Assessment
+    description: 'Manage student assessment'
   -
     name: Clubs
     description: 'Manage clubs'

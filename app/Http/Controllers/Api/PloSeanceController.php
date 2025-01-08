@@ -22,6 +22,10 @@ use App\Http\Controllers\Controller;
  *     description="Manage aptitudes"
  * )
  * @OA\Tag(
+ *     name="Assessment",
+ *     description="Manage student assessment"
+ * )
+ * @OA\Tag(
  *     name="Clubs",
  *     description="Manage clubs"
  * )
