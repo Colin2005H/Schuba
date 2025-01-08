@@ -5,8 +5,6 @@
             let selectedN2="";
             let selectedN3="";
 
-
-
             document.addEventListener("DOMContentLoaded", function() {
                 @foreach($optionsManager as $option)
                     @if ($n1Exist===1 && $n1ExistManager->first()->UTI_ID==$option->UTI_ID)
@@ -110,16 +108,16 @@
 @section('title','Formation')
 
 @section('content')
-    <div class="bg-[rgb(255,255,255,0.8)] px-40 py-10 m-10 justify-items-center rounded">
-        <h1 class="font-bold text-[#004B85] text-center text-2xl">Création de formation</h1>
+    <div class="bg-[rgb(255,255,255,1)] px-16 py-10 m-10 justify-items-center rounded">
+        <h1 class="font-bold text-[#004B85] text-center text-2xl m-4">Création de formation</h1>
 
     <!-- -------------------------------------------------------------------------------------------------------------------------------------------------------- -->
         <div class="flex">
-            <form action="/formations" method="post" class="my-6 max-w-96 flex flex-col">
+            <form action="/formations" method="post" class="mx-4 my-6 max-w-96 flex flex-col border-2 border-[#004B85] rounded">
                 @csrf
 
                 <div class="flex m-3">
-                    <label for="category-select" class="font-bold mr-6">Niveau&nbsp;:&nbsp;N1</label>
+                    <label for="category-select" class="font-bold mr-6 text-xl">Niveau&nbsp;:&nbsp;N1</label>
                     <select name="category" id="category-select" class="rounded max-w-64 drop-shadow-lg hidden" required>
                         <option value="1">N1</option>
                     </select>
@@ -180,19 +178,19 @@
 
 
 
-                @if (session('success'))
-                    <div class=""> {{ session('success') }} </div>
+                @if (session('success1'))
+                    <div class="text-center"> {{ session('success1') }} </div>
                 @endif
 
             </form>
 
         <!-- -------------------------------------------------------------------------------------------------------------------------------------------------------- -->
 
-            <form action="/formations" method="post" class="my-6 max-w-96 flex flex-col">
+            <form action="/formations" method="post" class="mx-4 my-6 max-w-96 flex flex-col border-2 border-[#004B85] rounded">
                 @csrf
 
                 <div class="flex m-3">
-                    <label for="category-select" class="font-bold mr-6">Niveau&nbsp;:&nbsp;N2</label>
+                    <label for="category-select" class="font-bold mr-6 text-xl">Niveau&nbsp;:&nbsp;N2</label>
                     <select name="category" id="category-select" class="rounded max-w-64 drop-shadow-lg hidden" required>
                         <option value="2">N2</option>
                     </select>
@@ -255,19 +253,19 @@
                         <input type="submit" name="action" value="Supprimer" class="bg-[#000000] py-2 px-4 rounded text-white" />
                 @endif
 
-                @if (session('success'))
-                    <div class=""> {{ session('success') }} </div>
+                @if (session('success2'))
+                    <div class="text-center"> {{ session('success2') }} </div>
                 @endif
 
             </form>
 
         <!-- -------------------------------------------------------------------------------------------------------------------------------------------------------- -->
 
-            <form action="/formations" method="post" class="my-6 max-w-96 flex flex-col">
+            <form action="/formations" method="post" class="mx-4 my-6 max-w-96 flex flex-col border-2 border-[#004B85] rounded">
                 @csrf
 
                 <div class="flex m-3">
-                    <label for="category-select" class="font-bold mr-6">Niveau&nbsp;:&nbsp;N3</label>
+                    <label for="category-select" class="font-bold mr-6 text-xl">Niveau&nbsp;:&nbsp;N3</label>
                     <select name="category" id="category-select" class="rounded max-w-64 drop-shadow-lg hidden" required>
                         <option value="3">N3</option>
                     </select>
@@ -329,8 +327,8 @@
                         <input type="submit" name="action" value="Supprimer" class="bg-[#000000] py-2 px-4 rounded text-white" />
                 @endif
 
-                @if (session('success'))
-                    <div class=""> {{ session('success') }} </div>
+                @if (session('success3'))
+                    <div class="text-center"> {{ session('success3') }} </div>
                 @endif
 
             </form>

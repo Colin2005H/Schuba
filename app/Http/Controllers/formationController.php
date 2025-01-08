@@ -176,7 +176,7 @@ class FormationController extends Controller
             $deleted = DB::table('GERER_LA_FORMATION')->where('FORM_NIVEAU',$validated['category'])->delete();
             $deleted = DB::table('ENSEIGNER')->where('FORM_NIVEAU',$validated['category'])->delete();
             $deleted = DB::table('APPARTIENT')->where('FORM_NIVEAU',$validated['category'])->delete();
-            return redirect()->back()->with('success', 'Formation supprimée.');
+            return redirect()->back()->with('success'.$validated['category'], 'Formation supprimée.');
         }
         else{
 
@@ -188,7 +188,7 @@ class FormationController extends Controller
             $studentSize = count($validated['student']);
 
             if ($studentSize/2 > $initiatorSize){
-                return redirect()->back()->with('success', 'Il n\'y a pas assez d\'initiateurs pour le nombre d\'élèves!');
+                return redirect()->back()->with('success'.$validated['category'], 'Il n\'y a pas assez d\'initiateurs pour le nombre d\'élèves!');
             }
             else if ($nExist == 0){
 
@@ -218,7 +218,7 @@ class FormationController extends Controller
                     ]);
                 }
 
-                return redirect()->back()->with('success', 'Formation créée avec succès !');
+                return redirect()->back()->with('success'.$validated['category'], 'Formation créée avec succès !');
             }
             else{
 
@@ -255,7 +255,7 @@ class FormationController extends Controller
 
                 }
 
-                return redirect()->back()->with('success', 'Formation modifiée avec succès !');
+                return redirect()->back()->with('success'.$validated['category'], 'Formation modifiée avec succès !');
 
             }
 
