@@ -23,7 +23,7 @@
                     <input type="text" id="uti_nom" name="uti_nom" value="" placeholder="Nom" class="w-full px-3 py-2 bg-white border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400">
                 </label>
                 @error("uti_nom")
-                    {{$message}}
+                    <span class="text-red-500 text-sm">{{$message}}</span>
                 @enderror
             </div>
 
@@ -32,7 +32,7 @@
                     <input type="text" id="uti_prenom" name="uti_prenom" value="" placeholder="Prénom" class="w-full px-3 py-2 bg-white border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400">
                 </label>
                 @error("uti_prenom")
-                    {{$message}}
+                    <span class="text-red-500 text-sm">{{$message}}</span>
                 @enderror
             </div>
 
@@ -41,21 +41,21 @@
                     <input type="text" id="uti_code_postal" name="uti_code_postal" value="" placeholder="Code Postal" class="w-full px-3 py-2 bg-white border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400">
                 </label>
                 @error("uti_code_postal")
-                    {{$message}}
+                    <span class="text-red-500 text-sm">{{$message}}</span>
                 @enderror
 
                 <label class="flex items-center gap-2 text-gray-700">
                     <input type="text" id="uti_adresse" name="uti_adresse" value="" placeholder="Adresse" class="w-full px-3 py-2 bg-white border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400">
                 </label>
                 @error("uti_adresse")
-                    {{$message}}
+                    <span class="text-red-500 text-sm">{{$message}}</span>
                 @enderror
 
                 <label class="flex items-center gap-2 text-gray-700">
                     <input type="text" id="uti_ville" name="uti_ville" value="" placeholder="Ville" class="w-full px-3 py-2 bg-white border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400">
                 </label>
                 @error("uti_ville")
-                    {{$message}}
+                    <span class="text-red-500 text-sm">{{$message}}</span>
                 @enderror
             </div>
 
@@ -64,24 +64,16 @@
                     <input type="text" id="uti_mail" name="uti_mail" value="" placeholder="Adresse email" class="w-full px-3 py-2 bg-white border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400">
                 </label>
                 @error("uti_mail")
-                    {{$message}}
+                    <span class="text-red-500 text-sm">{{$message}}</span>
                 @enderror
             </div>
 
             <div class="mb-4">
-                <label for="clu_id" class="flex items-center gap-2 text-gray-700">Club : </label>
-                <select id="clu_id" name="clu_id" class="w-full px-3 py-2 bg-white border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400">
-                    @foreach ($clubs as $club)
-                        <option value="{{ $club->clu_id }}">{{ $club->clu_nom }}</option>
-                    @endforeach
-                </select>
-
-                <!--<label class="flex items-center gap-2 text-gray-700">
-                    <input type="text" id="clu_id" name="clu_id" value="" class="w-full px-3 py-2 bg-white border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" readonly>
-                </label>-->
+                <label for="clu_id">Club :</label>
+                <input type="text" id="clu_id" name="clu_id" value="{{$clubDirector[0]->clu_nom}}" class="w-full px-3 py-2 bg-white border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" readonly>
 
                 @error("clu_id")
-                    {{$message}}
+                    <span class="text-red-500 text-sm">{{$message}}</span>
                 @enderror
             </div>
 
@@ -90,7 +82,7 @@
                     <input id="niveauUser" type="text" name="uti_niveau" value="" placeholder="Niveau de plongée" class="w-full px-3 py-2 bg-white border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400">
                 </label>
                 @error("uti_niveau")
-                    {{$message}}
+                    <span class="text-red-500 text-sm">{{$message}}</span>
                 @enderror
             </div>
 
@@ -98,7 +90,7 @@
                 <label for="uti_date_naissance">Date de naissance : </label>
                 <input id="uti_date_naissance" type="date" name="uti_date_naissance" value="1950-01-01" min="1950-01-01" max="{{today()}}" class="w-full px-3 py-2 bg-white border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"/>
                 @error("uti_date_naissance")
-                    {{$message}}
+                    <span class="text-red-500 text-sm">{{$message}}</span>
                 @enderror
             </div>
 
@@ -106,7 +98,7 @@
                 <label for="uti_date_certificat">Date du certificat de santé : </label>
                 <input id="uti_date_certificat" type="date" name="uti_date_certificat" value="1950-01-01" min="1950-01-01" max="2025-" class="w-full px-3 py-2 bg-white border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"/>
                 @error("uti_date_certificat")
-                    {{$message}}
+                    <span class="text-red-500 text-sm">{{$message}}</span>
                 @enderror
             </div>
 
