@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CreateAccountController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\FormationController;
 use App\Http\Controllers\AuthController;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
@@ -17,7 +18,11 @@ use Illuminate\Support\Facades\Hash;
 |
 */
 
+
 //Route pour la page d'accueil
+Route::get('/formations', [FormationController::class, 'showFormation']);
+Route::post('/formations', [FormationController::class, 'createFormation']);
+
 Route::get('/', function () {
     return view('login-page');
 });
@@ -53,3 +58,4 @@ Route::get('/home', function() {
 Route::get('/triche', function() {
     return Hash::make("admin");
 });
+

@@ -31,7 +31,7 @@ class User extends Authenticatable
     protected $primaryKey = 'uti_id';
 
 
-     
+    
     /**
      * The attributes that should be hidden for serialization.
      *
