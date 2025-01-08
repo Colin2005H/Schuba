@@ -24,3 +24,12 @@ Route::get('/calendar', function () {
 Route::get('/footer', function () {
     return view('footer');
 });
+
+use App\Http\Controllers\CsvController;
+Route::get('/generate-csv-users', [CsvController::class, 'createCsvUsersFromApi']);
+
+    
+
+
+
+
