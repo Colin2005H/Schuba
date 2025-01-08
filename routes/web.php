@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\listCommentariesController;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 
@@ -19,6 +20,8 @@ use Illuminate\Support\Facades\Hash;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/listCommentaries',[listCommentariesController::class, 'showListCommentaries']);
 
 Route::prefix('/createSession')->name('createSession.')->controller(\App\Http\Controllers\SeanceController::class)->group(function(){
 Route::get('/', 'createSession')->name('show');
