@@ -4,15 +4,11 @@ use App\Http\Controllers\Api\DirigerLeClubController;
 use App\Http\Controllers\Api\PloAptitudeController;
 use App\Http\Controllers\Api\PloClubController;
 use App\Http\Controllers\Api\PloCompetenceController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Api\PloEleveController;
 use App\Http\Controllers\Api\PloFormationController;
-use App\Http\Controllers\Api\PloInitiateurController;
 use App\Http\Controllers\Api\PloLieuController;
 use App\Http\Controllers\Api\PloSeanceController;
 use App\Http\Controllers\Api\PloUtilisateurController;
-use App\Models\PloInitiateur;
 
 Route::get('/training', [PloFormationController::class, "liste"]);
 

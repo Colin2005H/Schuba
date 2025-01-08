@@ -11,15 +11,16 @@ use OpenApi\Annotations as OA;
 /**
  * @OA\Info(
  *     title="Schuba API",
- *     description="API pour la gestion des séances de formation",
- *     version="1.0.0"
+ *     description="API for managing diving club activities",
+ *     version="0.1.0"
  * )
  */
+
 class PloSeanceController extends Controller {
 
     /**
      * @OA\Get(
-     *     path="/api/seances",
+     *     path="/api/session",
      *     summary="Get sessions based on filters",
      *     description="This API allows you to fetch a list of sessions by filtering on session ID, location ID, and start and end dates.",
      *     tags={"Sessions"},
@@ -134,7 +135,7 @@ class PloSeanceController extends Controller {
 
     /**
      * @OA\Post(
-     *     path="/api/seances",
+     *     path="/api/session",
      *     summary="Create a new session",
      *     description="This API allows you to create a new session by providing the necessary details such as the location, training level, and start and end dates. The session will be validated and stored in the database, and the created session details will be returned in the response.",
      *     tags={"Sessions"},
@@ -234,7 +235,7 @@ class PloSeanceController extends Controller {
 
     /**
  * @OA\Put(
- *     path="/api/seances/{id}",
+ *     path="/api/session/{id}",
  *     summary="Update an existing session",
  *     description="This API allows you to update an existing session by providing the session ID and the details you want to modify (location, training level, start date, and end date). If no data is provided for a particular field, it will remain unchanged.",
  *     tags={"Sessions"},
@@ -359,7 +360,7 @@ class PloSeanceController extends Controller {
 
     /**
      * @OA\Delete(
-     *     path="/api/seances/{id}",
+     *     path="/api/session/{id}",
      *     summary="Delete an existing session",
      *     description="This API allows you to delete an existing session by providing the session ID. If the session with the specified ID does not exist, a 404 error is returned.",
      *     tags={"Sessions"},

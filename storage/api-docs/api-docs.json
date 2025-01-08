@@ -2,18 +2,18 @@
     "openapi": "3.0.0",
     "info": {
         "title": "Schuba API",
-        "description": "API pour la gestion des séances de formation",
-        "version": "1.0.0"
+        "description": "API for managing diving club activities",
+        "version": "0.1.0"
     },
     "paths": {
-        "/api/seances": {
+        "/api/session": {
             "get": {
                 "tags": [
                     "Sessions"
                 ],
                 "summary": "Get sessions based on filters",
                 "description": "This API allows you to fetch a list of sessions by filtering on session ID, location ID, and start and end dates.",
-                "operationId": "1d88f5c452487679a64d9153d8e4cb87",
+                "operationId": "606addeb37c766d37032d78b33a121a6",
                 "parameters": [
                     {
                         "name": "ID",
@@ -125,7 +125,7 @@
                 ],
                 "summary": "Create a new session",
                 "description": "This API allows you to create a new session by providing the necessary details such as the location, training level, and start and end dates. The session will be validated and stored in the database, and the created session details will be returned in the response.",
-                "operationId": "8498a389e0bcd7da8c386cc6c6d20688",
+                "operationId": "9a8c7631454e6f0814974fd7d9df18f7",
                 "requestBody": {
                     "description": "The necessary data to create a new session",
                     "required": true,
@@ -230,14 +230,14 @@
                 }
             }
         },
-        "/api/seances/{id}": {
+        "/api/session/{id}": {
             "put": {
                 "tags": [
                     "Sessions"
                 ],
                 "summary": "Update an existing session",
                 "description": "This API allows you to update an existing session by providing the session ID and the details you want to modify (location, training level, start date, and end date). If no data is provided for a particular field, it will remain unchanged.",
-                "operationId": "2fcc3fe198ddf730147052527b16ed40",
+                "operationId": "ab30209bd36e6d64d0af6928efbe558c",
                 "parameters": [
                     {
                         "name": "id",
@@ -370,7 +370,7 @@
                 ],
                 "summary": "Delete an existing session",
                 "description": "This API allows you to delete an existing session by providing the session ID. If the session with the specified ID does not exist, a 404 error is returned.",
-                "operationId": "95edcc1d9efd5eb8a661ab2e1f3c4cd7",
+                "operationId": "daf79a1a7d42782e46957f96db02d563",
                 "parameters": [
                     {
                         "name": "id",
