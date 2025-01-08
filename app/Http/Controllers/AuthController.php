@@ -21,7 +21,7 @@ class AuthController extends Controller
             $request->session()->regenerate();
             $user = Auth::user();  // Récupérer l'utilisateur actuellement authentifié
             session(['user' => $user]);  // Stocker l'utilisateur dans la session
-            return redirect('/header'); //azjajf
+            return redirect('/home'); //azjajf
         }
 
         return back()->withErrors([

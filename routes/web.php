@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Hash;
 
 //Route pour la page d'accueil
 Route::get('/', function () {
-    return view('welcome');
+    return view('login-page');
 });
 
 //Route pour la page de création de compte

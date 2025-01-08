@@ -3,7 +3,7 @@
 <header class="bg-gray-800 text-white shadow">
     <div class="container mx-auto flex items-center justify-between py-4 px-6">
         <!-- Logo -->
-        <a href="{{ url('/') }}" class="text-lg font-bold">
+        <a href="{{ url('/home') }}" class="text-lg font-bold">
             <img src="{{ asset('images/logo.png') }}" alt="Logo" class="h-8">
         </a>
         @php
