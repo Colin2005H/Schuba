@@ -45,7 +45,7 @@ class PloSeanceController extends Controller {
      *         )
      *     ),
      *     @OA\Parameter(
-     *         name="BEGIN",
+     *         name="START",
      *         in="query",
      *         description="Start date to filter the sessions (format: yyyy-mm-dd or yyyy-mm-ddThh:mm:ss)",
      *         required=false,
@@ -94,7 +94,7 @@ class PloSeanceController extends Controller {
         // Get data in the request
         $id = $request->input('ID');
         $loc = $request->input('LOCATION_ID');
-        $dateDebut = $request->input('BEGIN');
+        $dateDebut = $request->input('START');
         $dateFin = $request->input('END');
 
         // Query to get the sessions

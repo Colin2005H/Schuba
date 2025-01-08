@@ -6,6 +6,90 @@
         "version": "0.1.0"
     },
     "paths": {
+        "/api/location": {
+            "get": {
+                "tags": [
+                    "Locations"
+                ],
+                "summary": "Get locations based on filters",
+                "description": "This API allows you to retrieve a list of locations based on optional filters like ID, name, and type.",
+                "operationId": "9e549a3ff77400108eb891e2d7c542b8",
+                "parameters": [
+                    {
+                        "name": "ID",
+                        "in": "query",
+                        "description": "ID of the location",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "NAME",
+                        "in": "query",
+                        "description": "Name of the location. Use partial matching with '%' for wildcards.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "TYPE",
+                        "in": "query",
+                        "description": "Type of the location. Use partial matching with '%' for wildcards.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of locations retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "ID": {
+                                                "type": "integer",
+                                                "example": 1
+                                            },
+                                            "NAME": {
+                                                "type": "string",
+                                                "example": "Location Name"
+                                            },
+                                            "TYPE": {
+                                                "type": "string",
+                                                "example": "Location Type"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No locations found matching the criteria",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "No locations found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/session": {
             "get": {
                 "tags": [
@@ -565,6 +649,10 @@
         }
     },
     "tags": [
+        {
+            "name": "Locations",
+            "description": "Locations"
+        },
         {
             "name": "Sessions",
             "description": "Sessions"

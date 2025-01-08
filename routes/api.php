@@ -18,7 +18,7 @@ Route::get('/club', [PloClubController::class, "liste"]);
 
 Route::get('/competence', [PloCompetenceController::class, "liste"]);
 
-Route::get('/location', [PloLieuController::class, "liste"]);
+Route::get('/location', [PloLieuController::class, "get"]);
 
 Route::get('/session', [PloSeanceController::class, "get"]);
 Route::post('/session', [PloSeanceController::class, "create"]);

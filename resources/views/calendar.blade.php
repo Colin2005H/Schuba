@@ -59,6 +59,11 @@
 
                 var isMobile = window.matchMedia("(max-width: 768px)").matches;
 
+                async function getSession(start, end) {
+                    const response = await fetch(`/api/session?start=${start.toISOString()}&end=${end.toISOString()}`);
+                    return response.json();
+                }
+
                 // Définition des options et configurations du calendrier
                 var calendarTem = {
                     initialView: isMobile ? 'timeGridDay' : 'timeGridWeek', // Afficher la vue jour sur mobile
@@ -87,20 +92,63 @@
                     },
                     eventSources: [
                         {
-                            url: 'http://localhost:8000/api/session', // use the `url` property
+                            startParam: 'BEGIN',
+                            endParam: 'END',
                             color: 'blue',
                             textColor: 'white',
                             timeZoneParam: 'EU/PARIS',
-                            eventDataTransform: function(eventData) {
-                                eventData["title"] = eventData["lieu"];
-                                return eventData;
-                            }
                         }
                     ],
                     slotMinTime: "06:00:00",
                     slotMaxTime: "22:00:00",
                     windowResize: function(arg) {
                         resizeCaldendar();
+                    },
+                    events: async function(info, successCallback, failureCallback) {
+                        try {
+                            // Await the sessions response
+                            const sessions = await getSession(info.start, info.end);
+                            console.log(sessions);
+                            
+                            const result = [];
+                            
+                            // We will use Promise.all to ensure all location fetches complete before continuing
+                            const locationPromises = sessions.map(async (session) => {
+                                try {
+                                    // Fetch location data
+                                    const response = await fetch(`/api/location?id=${session.LOCATION_ID}`);
+                                    const locationData = await response.json();
+                                    
+                                    // Check if location data is available
+                                    if (locationData && locationData.length > 0) {
+                                        const location = locationData[0];
+                                        return {
+                                            title: location.NAME,
+                                            start: session.START,
+                                            end: session.END
+                                        };
+                                    } else {
+                                        throw new Error('Location not found');
+                                    }
+                                } catch (error) {
+                                    console.error('Error fetching location data:', error);
+                                }
+                            });
+
+                            // Await all location fetch promises and store the results in result
+                            const locationEvents = await Promise.all(locationPromises);
+
+                            // Fill result with valid location data (non-null items)
+                            result.push(...locationEvents.filter(event => event !== undefined));
+
+                            console.log(result);
+
+                            // Pass the final result to successCallback
+                            successCallback(result);
+                        } catch (error) {
+                            console.error('Error fetching session data:', error);
+                            failureCallback(error);
+                        }
                     }
                 };
 
