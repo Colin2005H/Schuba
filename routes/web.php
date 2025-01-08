@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FormationController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\listCommentariesController;
+
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 
@@ -41,6 +43,9 @@ Route::prefix('/createAccount')->name('createAccount.')->controller(CreateAccoun
 });
 
 //Route pour la page de création de session
+Route::get('/listCommentaries',[listCommentariesController::class, 'showListCommentaries']);
+
+
 Route::prefix('/createSession')->name('createSession.')->controller(\App\Http\Controllers\SeanceController::class)->group(function(){
     Route::get('/', 'createSession')->name('show');
     Route::post('/', 'store');
