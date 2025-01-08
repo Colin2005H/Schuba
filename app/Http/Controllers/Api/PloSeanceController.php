@@ -22,7 +22,7 @@ class PloSeanceController extends Controller {
      * @OA\Get(
      *     path="/api/session",
      *     summary="Get sessions based on filters",
-     *     description="This API allows you to fetch a list of sessions by filtering on session ID, location ID, and start and end dates.",
+     *     description="Fetch a list of sessions by filtering on session ID, location ID, and start and end dates.",
      *     tags={"Sessions"},
      *     @OA\Parameter(
      *         name="ID",
@@ -86,6 +86,13 @@ class PloSeanceController extends Controller {
      *         description="Bad Request, invalid input parameters",
      *         @OA\JsonContent(
      *             @OA\Property(property="message", type="string", example="Invalid parameters")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Internal server error",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Something went wrong, please try again.")
      *         )
      *     )
      * )

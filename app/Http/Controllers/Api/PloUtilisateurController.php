@@ -13,89 +13,121 @@ class PloUtilisateurController extends Controller {
      * @OA\Get(
      *     path="/api/user",
      *     summary="List filtered users",
-     *     description="Retrieve a list of users filtered by criteria such as user ID, last name, first name, email, creation date, etc.",
+     *     description="Retrieve a list of users filtered by various criteria such as user ID, last name, first name, email, creation date, etc.",
      *     operationId="listUsers",
      *     tags={"Users"},
      *     @OA\Parameter(
      *         name="u_id",
      *         in="query",
-     *         description="User ID",
+     *         description="User ID to filter the results",
      *         required=false,
-     *         @OA\Schema(type="integer")
+     *         @OA\Schema(
+     *             type="integer",
+     *             example=1
+     *         )
      *     ),
      *     @OA\Parameter(
      *         name="c_id",
      *         in="query",
-     *         description="Club ID",
+     *         description="Club ID to filter the users",
      *         required=false,
-     *         @OA\Schema(type="integer")
+     *         @OA\Schema(
+     *             type="integer",
+     *             example=1
+     *         )
      *     ),
      *     @OA\Parameter(
      *         name="name",
      *         in="query",
      *         description="User's last name (uses LIKE 'name%')",
      *         required=false,
-     *         @OA\Schema(type="string")
+     *         @OA\Schema(
+     *             type="string",
+     *             example="Doe"
+     *         )
      *     ),
      *     @OA\Parameter(
      *         name="firstname",
      *         in="query",
      *         description="User's first name (uses LIKE 'firstname%')",
      *         required=false,
-     *         @OA\Schema(type="string")
+     *         @OA\Schema(
+     *             type="string",
+     *             example="John"
+     *         )
      *     ),
      *     @OA\Parameter(
      *         name="email",
      *         in="query",
      *         description="User's email address (uses LIKE 'email%')",
      *         required=false,
-     *         @OA\Schema(type="string")
+     *         @OA\Schema(
+     *             type="string",
+     *             example="john.doe@example.com"
+     *         )
      *     ),
      *     @OA\Parameter(
      *         name="creation_date",
      *         in="query",
-     *         description="User's creation date",
+     *         description="Filter users by creation date (format: yyyy-mm-dd)",
      *         required=false,
-     *         @OA\Schema(type="string", format="date")
+     *         @OA\Schema(
+     *             type="string",
+     *             format="date",
+     *             example="2023-01-01"
+     *         )
      *     ),
      *     @OA\Parameter(
      *         name="birth_date",
      *         in="query",
-     *         description="User's date of birth",
+     *         description="Filter users by date of birth (format: yyyy-mm-dd)",
      *         required=false,
-     *         @OA\Schema(type="string", format="date")
+     *         @OA\Schema(
+     *             type="string",
+     *             format="date",
+     *             example="1990-01-01"
+     *         )
      *     ),
      *     @OA\Parameter(
      *         name="level",
      *         in="query",
      *         description="User's level",
      *         required=false,
-     *         @OA\Schema(type="integer")
+     *         @OA\Schema(
+     *             type="integer",
+     *             example=2
+     *         )
      *     ),
      *     @OA\Response(
      *         response=200,
-     *         description="List of users matching the criteria",
+     *         description="Successfully fetched the users matching the criteria",
      *         @OA\JsonContent(
      *             type="array",
      *             @OA\Items(
      *                 type="object",
-     *                 @OA\Property(property="u_id", type="integer"),
-     *                 @OA\Property(property="c_id", type="integer"),
-     *                 @OA\Property(property="name", type="string"),
-     *                 @OA\Property(property="firstname", type="string"),
-     *                 @OA\Property(property="email", type="string"),
-     *                 @OA\Property(property="level", type="integer"),
-     *                 @OA\Property(property="creation_date", type="string", format="date-time"),
-     *                 @OA\Property(property="birth_date", type="string", format="date-time")
+     *                 @OA\Property(property="ID", type="integer", description="User ID", example=1),
+     *                 @OA\Property(property="CLUB_ID", type="integer", description="Club ID", example=1),
+     *                 @OA\Property(property="NAME", type="string", description="User's last name", example="Doe"),
+     *                 @OA\Property(property="FIRSTNAME", type="string", description="User's first name", example="John"),
+     *                 @OA\Property(property="EMAIL", type="string", description="User's email address", example="john.doe@example.com"),
+     *                 @OA\Property(property="LEVEL", type="integer", description="User's level", example=2),
+     *                 @OA\Property(property="BIRTH_DATE", type="string", format="date-time", description="User's date of birth", example="1990-01-01T00:00:00"),
+     *                 @OA\Property(property="CREATION_DATE", type="string", format="date-time", description="User's account creation date", example="2023-01-01T12:00:00")
      *             )
      *         )
      *     ),
      *     @OA\Response(
      *         response=400,
-     *         description="Incorrect parameters",
+     *         description="Incorrect or invalid parameters",
      *         @OA\JsonContent(
-     *             type="object",
-     *             @OA\Property(property="error", type="string")
+     *             @OA\Property(property="error", type="string", example="Invalid parameters")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Internal server error",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Something went wrong, please try again.")
      *         )
      *     )
      * )

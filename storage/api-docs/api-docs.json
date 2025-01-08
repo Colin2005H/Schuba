@@ -619,7 +619,7 @@
                     "Sessions"
                 ],
                 "summary": "Get sessions based on filters",
-                "description": "This API allows you to fetch a list of sessions by filtering on session ID, location ID, and start and end dates.",
+                "description": "Fetch a list of sessions by filtering on session ID, location ID, and start and end dates.",
                 "operationId": "606addeb37c766d37032d78b33a121a6",
                 "parameters": [
                     {
@@ -717,6 +717,22 @@
                                         "message": {
                                             "type": "string",
                                             "example": "Invalid parameters"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Something went wrong, please try again."
                                         }
                                     },
                                     "type": "object"
@@ -1032,25 +1048,27 @@
                     "Users"
                 ],
                 "summary": "List filtered users",
-                "description": "Retrieve a list of users filtered by criteria such as user ID, last name, first name, email, creation date, etc.",
+                "description": "Retrieve a list of users filtered by various criteria such as user ID, last name, first name, email, creation date, etc.",
                 "operationId": "listUsers",
                 "parameters": [
                     {
                         "name": "u_id",
                         "in": "query",
-                        "description": "User ID",
+                        "description": "User ID to filter the results",
                         "required": false,
                         "schema": {
-                            "type": "integer"
+                            "type": "integer",
+                            "example": 1
                         }
                     },
                     {
                         "name": "c_id",
                         "in": "query",
-                        "description": "Club ID",
+                        "description": "Club ID to filter the users",
                         "required": false,
                         "schema": {
-                            "type": "integer"
+                            "type": "integer",
+                            "example": 1
                         }
                     },
                     {
@@ -1059,7 +1077,8 @@
                         "description": "User's last name (uses LIKE 'name%')",
                         "required": false,
                         "schema": {
-                            "type": "string"
+                            "type": "string",
+                            "example": "Doe"
                         }
                     },
                     {
@@ -1068,7 +1087,8 @@
                         "description": "User's first name (uses LIKE 'firstname%')",
                         "required": false,
                         "schema": {
-                            "type": "string"
+                            "type": "string",
+                            "example": "John"
                         }
                     },
                     {
@@ -1077,27 +1097,30 @@
                         "description": "User's email address (uses LIKE 'email%')",
                         "required": false,
                         "schema": {
-                            "type": "string"
+                            "type": "string",
+                            "example": "john.doe@example.com"
                         }
                     },
                     {
                         "name": "creation_date",
                         "in": "query",
-                        "description": "User's creation date",
+                        "description": "Filter users by creation date (format: yyyy-mm-dd)",
                         "required": false,
                         "schema": {
                             "type": "string",
-                            "format": "date"
+                            "format": "date",
+                            "example": "2023-01-01"
                         }
                     },
                     {
                         "name": "birth_date",
                         "in": "query",
-                        "description": "User's date of birth",
+                        "description": "Filter users by date of birth (format: yyyy-mm-dd)",
                         "required": false,
                         "schema": {
                             "type": "string",
-                            "format": "date"
+                            "format": "date",
+                            "example": "1990-01-01"
                         }
                     },
                     {
@@ -1106,44 +1129,61 @@
                         "description": "User's level",
                         "required": false,
                         "schema": {
-                            "type": "integer"
+                            "type": "integer",
+                            "example": 2
                         }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "List of users matching the criteria",
+                        "description": "Successfully fetched the users matching the criteria",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "type": "array",
                                     "items": {
                                         "properties": {
-                                            "u_id": {
-                                                "type": "integer"
+                                            "ID": {
+                                                "description": "User ID",
+                                                "type": "integer",
+                                                "example": 1
                                             },
-                                            "c_id": {
-                                                "type": "integer"
+                                            "CLUB_ID": {
+                                                "description": "Club ID",
+                                                "type": "integer",
+                                                "example": 1
                                             },
-                                            "name": {
-                                                "type": "string"
-                                            },
-                                            "firstname": {
-                                                "type": "string"
-                                            },
-                                            "email": {
-                                                "type": "string"
-                                            },
-                                            "level": {
-                                                "type": "integer"
-                                            },
-                                            "creation_date": {
+                                            "NAME": {
+                                                "description": "User's last name",
                                                 "type": "string",
-                                                "format": "date-time"
+                                                "example": "Doe"
                                             },
-                                            "birth_date": {
+                                            "FIRSTNAME": {
+                                                "description": "User's first name",
                                                 "type": "string",
-                                                "format": "date-time"
+                                                "example": "John"
+                                            },
+                                            "EMAIL": {
+                                                "description": "User's email address",
+                                                "type": "string",
+                                                "example": "john.doe@example.com"
+                                            },
+                                            "LEVEL": {
+                                                "description": "User's level",
+                                                "type": "integer",
+                                                "example": 2
+                                            },
+                                            "BIRTH_DATE": {
+                                                "description": "User's date of birth",
+                                                "type": "string",
+                                                "format": "date-time",
+                                                "example": "1990-01-01T00:00:00"
+                                            },
+                                            "CREATION_DATE": {
+                                                "description": "User's account creation date",
+                                                "type": "string",
+                                                "format": "date-time",
+                                                "example": "2023-01-01T12:00:00"
                                             }
                                         },
                                         "type": "object"
@@ -1153,13 +1193,30 @@
                         }
                     },
                     "400": {
-                        "description": "Incorrect parameters",
+                        "description": "Incorrect or invalid parameters",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
                                         "error": {
-                                            "type": "string"
+                                            "type": "string",
+                                            "example": "Invalid parameters"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Something went wrong, please try again."
                                         }
                                     },
                                     "type": "object"
