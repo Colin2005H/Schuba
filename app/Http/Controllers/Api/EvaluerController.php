@@ -6,6 +6,62 @@ use App\Models\Evaluer;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
+/**
+ * @OA\Schema(
+ *     schema="Evaluer",
+ *     type="object",
+ *     required={"SEA_ID", "APT_CODE", "UTI_ID"},
+ *     @OA\Property(
+ *         property="SEA_ID",
+ *         type="integer",
+ *         description="The session ID associated with the evaluation (PloSeance)",
+ *         example=1
+ *     ),
+ *     @OA\Property(
+ *         property="APT_CODE",
+ *         type="string",
+ *         description="The aptitude code associated with the evaluation (PloAptitude)",
+ *         example="DIVE_1"
+ *     ),
+ *     @OA\Property(
+ *         property="UTI_ID",
+ *         type="integer",
+ *         description="The user ID of the student being evaluated (PloEleve)",
+ *         example=123
+ *     ),
+ *     @OA\Property(
+ *         property="EVA_COMMENTAIRE",
+ *         type="string",
+ *         description="Comments regarding the evaluation",
+ *         example="Excellent performance!"
+ *     ),
+ *     @OA\Property(
+ *         property="EVA_RESULTAT",
+ *         type="string",
+ *         description="The result of the evaluation",
+ *         example="Pass"
+ *     ),
+ *     @OA\Property(
+ *         property="plo_aptitude",
+ *         type="object",
+ *         description="The aptitude (PloAptitude) associated with the evaluation",
+ *         ref="#/components/schemas/PloAptitude"
+ *     ),
+ *     @OA\Property(
+ *         property="plo_eleve",
+ *         type="object",
+ *         description="The student (PloEleve) being evaluated",
+ *         ref="#/components/schemas/PloEleve"
+ *     ),
+ *     @OA\Property(
+ *         property="plo_seance",
+ *         type="object",
+ *         description="The session (PloSeance) associated with the evaluation",
+ *         ref="#/components/schemas/PloSeance"
+ *     )
+ * )
+ */
+
 class EvaluerController extends Controller {
     /**
      * @OA\Get(

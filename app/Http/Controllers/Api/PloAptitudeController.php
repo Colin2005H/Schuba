@@ -7,6 +7,45 @@ use App\Models\PloAptitude;
 use Illuminate\Http\Request;
 use OpenApi\Annotations as OA;
 
+/**
+ * @OA\Schema(
+ *     schema="PloAptitude",
+ *     type="object",
+ *     required={"APT_CODE", "CPT_ID", "APT_LIBELLE"},
+ *     @OA\Property(
+ *         property="APT_CODE",
+ *         type="string",
+ *         description="The code of the aptitude",
+ *         example="APT001"
+ *     ),
+ *     @OA\Property(
+ *         property="CPT_ID",
+ *         type="string",
+ *         description="The ID of the competence the aptitude belongs to",
+ *         example="CPT001"
+ *     ),
+ *     @OA\Property(
+ *         property="APT_LIBELLE",
+ *         type="string",
+ *         description="The label or name of the aptitude",
+ *         example="First Aid"
+ *     ),
+ *     @OA\Property(
+ *         property="plo_competence",
+ *         type="object",
+ *         description="The competence (PloCompetence) associated with this aptitude",
+ *         ref="#/components/schemas/PloCompetence"
+ *     ),
+ *     @OA\Property(
+ *         property="evaluers",
+ *         type="array",
+ *         description="The evaluations (Evaluer) related to this aptitude",
+ *         @OA\Items(
+ *             ref="#/components/schemas/Evaluer"
+ *         )
+ *     )
+ * )
+ */
 
 class PloAptitudeController extends Controller {
 

@@ -6,6 +6,53 @@ use App\Http\Controllers\Controller;
 use App\Models\PloCompetence;
 use Illuminate\Http\Request;
 
+/**
+ * @OA\Schema(
+ *     schema="PloCompetence",
+ *     type="object",
+ *     required={"CPT_ID"},
+ *     @OA\Property(
+ *         property="CPT_ID",
+ *         type="string",
+ *         description="The ID of the competence",
+ *         example="CPT001"
+ *     ),
+ *     @OA\Property(
+ *         property="FORM_NIVEAU",
+ *         type="integer",
+ *         description="The formation level associated with this competence",
+ *         example=2
+ *     ),
+ *     @OA\Property(
+ *         property="CPT_LIBELLE",
+ *         type="string",
+ *         description="The label of the competence",
+ *         example="Advanced Diving"
+ *     ),
+ *     @OA\Property(
+ *         property="plo_formation",
+ *         description="The formation associated with this competence",
+ *         ref="#/components/schemas/PloFormation"
+ *     ),
+ *     @OA\Property(
+ *         property="plo_aptitudes",
+ *         type="array",
+ *         description="The aptitudes associated with this competence",
+ *         @OA\Items(
+ *             ref="#/components/schemas/PloAptitude"
+ *         )
+ *     ),
+ *     @OA\Property(
+ *         property="validers",
+ *         type="array",
+ *         description="The validation records associated with this competence",
+ *         @OA\Items(
+ *             ref="#/components/schemas/Valider"
+ *         )
+ *     )
+ * )
+ */
+
 class PloCompetenceController extends Controller {
 
     /**

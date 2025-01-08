@@ -6,6 +6,42 @@ use App\Models\Valider;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
+/**
+ * @OA\Schema(
+ *     schema="Valider",
+ *     type="object",
+ *     required={"UTI_ID", "CPT_ID", "VALIDER"},
+ *     @OA\Property(
+ *         property="UTI_ID",
+ *         type="integer",
+ *         description="The unique identifier for the user",
+ *         example=1
+ *     ),
+ *     @OA\Property(
+ *         property="CPT_ID",
+ *         type="string",
+ *         description="The ID of the competence being validated",
+ *         example="CPT123"
+ *     ),
+ *     @OA\Property(
+ *         property="VALIDER",
+ *         type="boolean",
+ *         description="Indicates whether the competence has been validated by the user",
+ *         example=true
+ *     ),
+ *     @OA\Property(
+ *         property="plo_competence",
+ *         ref="#/components/schemas/PloCompetence",
+ *         description="The competence associated with the validation"
+ *     ),
+ *     @OA\Property(
+ *         property="plo_utilisateur",
+ *         ref="#/components/schemas/PloUtilisateur",
+ *         description="The user who validated the competence"
+ *     )
+ * )
+ */
+
 class ValiderController extends Controller {
     
     /**

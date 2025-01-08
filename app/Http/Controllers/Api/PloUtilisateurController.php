@@ -7,6 +7,95 @@ use Illuminate\Http\Request;
 use App\Models\PloUtilisateur;
 use App\Http\Controllers\Controller;
 
+/**
+ * @OA\Schema(
+ *     schema="PloUtilisateur",
+ *     type="object",
+ *     required={"UTI_ID", "UTI_MAIL", "UTI_MDP", "UTI_DATE_CREATION"},
+ *     @OA\Property(
+ *         property="UTI_ID",
+ *         type="integer",
+ *         description="The unique identifier for the user",
+ *         example=1
+ *     ),
+ *     @OA\Property(
+ *         property="CLU_ID",
+ *         type="integer",
+ *         nullable=true,
+ *         description="The ID of the club the user belongs to",
+ *         example=3
+ *     ),
+ *     @OA\Property(
+ *         property="UTI_NOM",
+ *         type="string",
+ *         description="The last name of the user",
+ *         example="Doe"
+ *     ),
+ *     @OA\Property(
+ *         property="UTI_PRENOM",
+ *         type="string",
+ *         description="The first name of the user",
+ *         example="John"
+ *     ),
+ *     @OA\Property(
+ *         property="UTI_MAIL",
+ *         type="string",
+ *         description="The email address of the user",
+ *         example="john.doe@example.com"
+ *     ),
+ *     @OA\Property(
+ *         property="UTI_MDP",
+ *         type="string",
+ *         description="The password of the user",
+ *         example="password123"
+ *     ),
+ *     @OA\Property(
+ *         property="UTI_DATE_CREATION",
+ *         type="string",
+ *         format="date-time",
+ *         description="The creation date of the user account",
+ *         example="2025-01-08T10:00:00"
+ *     ),
+ *     @OA\Property(
+ *         property="UTI_NIVEAU",
+ *         type="string",
+ *         nullable=true,
+ *         description="The level of the user",
+ *         example="admin"
+ *     ),
+ *     @OA\Property(
+ *         property="UTI_DATE_NAISSANCE",
+ *         type="string",
+ *         format="date-time",
+ *         nullable=true,
+ *         description="The birth date of the user",
+ *         example="1990-01-01T00:00:00"
+ *     ),
+ *     @OA\Property(
+ *         property="plo_club",
+ *         ref="#/components/schemas/PloClub",
+ *         nullable=true,
+ *         description="The club the user belongs to"
+ *     ),
+ *     @OA\Property(
+ *         property="plo_eleve",
+ *         ref="#/components/schemas/PloEleve",
+ *         description="The student associated with the user"
+ *     ),
+ *     @OA\Property(
+ *         property="plo_initiateur",
+ *         ref="#/components/schemas/PloInitiateur",
+ *         description="The initiator associated with the user"
+ *     ),
+ *     @OA\Property(
+ *         property="validers",
+ *         type="array",
+ *         description="The validations associated with the user",
+ *         @OA\Items(ref="#/components/schemas/Valider")
+ *     )
+ * )
+ */
+
 class PloUtilisateurController extends Controller {
 
     /**

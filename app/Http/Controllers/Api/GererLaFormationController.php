@@ -7,6 +7,45 @@ use Illuminate\Http\Request;
 use App\Models\GererLaFormation;
 use App\Http\Controllers\Controller;
 
+/**
+ * @OA\Schema(
+ *     schema="GererLaFormation",
+ *     type="object",
+ *     required={"UTI_ID", "FORM_NIVEAU"},
+ *     @OA\Property(
+ *         property="UTI_ID",
+ *         type="integer",
+ *         description="The user ID of the initiator/teacher (PloInitiateur)",
+ *         example=1
+ *     ),
+ *     @OA\Property(
+ *         property="FORM_NIVEAU",
+ *         type="integer",
+ *         description="The formation level (PloFormation)",
+ *         example=2
+ *     ),
+ *     @OA\Property(
+ *         property="GER_DATE_DEBUT",
+ *         type="string",
+ *         format="date-time",
+ *         description="The start date of the formation",
+ *         example="2025-01-01T09:00:00"
+ *     ),
+ *     @OA\Property(
+ *         property="plo_formation",
+ *         type="object",
+ *         description="The formation (PloFormation) associated with the management",
+ *         ref="#/components/schemas/PloFormation"
+ *     ),
+ *     @OA\Property(
+ *         property="plo_initiateur",
+ *         type="object",
+ *         description="The initiator (PloInitiateur) associated with the formation",
+ *         ref="#/components/schemas/PloInitiateur"
+ *     )
+ * )
+ */
+
 class GererLaFormationController extends Controller {
     /**
      * @OA\Get(

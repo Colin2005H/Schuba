@@ -6,6 +6,49 @@ use App\Http\Controllers\Controller;
 use App\Models\PloEleve;
 use Illuminate\Http\Request;
 
+/**
+ * @OA\Schema(
+ *     schema="PloEleve",
+ *     type="object",
+ *     required={"UTI_ID"},
+ *     @OA\Property(
+ *         property="UTI_ID",
+ *         type="integer",
+ *         description="The unique identifier for the student",
+ *         example=1
+ *     ),
+ *     @OA\Property(
+ *         property="plo_utilisateur",
+ *         description="The user associated with this student",
+ *         ref="#/components/schemas/PloUtilisateur"
+ *     ),
+ *     @OA\Property(
+ *         property="appartients",
+ *         type="array",
+ *         description="The formations the student is associated with",
+ *         @OA\Items(
+ *             ref="#/components/schemas/Appartient"
+ *         )
+ *     ),
+ *     @OA\Property(
+ *         property="evaluers",
+ *         type="array",
+ *         description="The evaluations associated with this student",
+ *         @OA\Items(
+ *             ref="#/components/schemas/Evaluer"
+ *         )
+ *     ),
+ *     @OA\Property(
+ *         property="groupers",
+ *         type="array",
+ *         description="The sessions this student is grouped in",
+ *         @OA\Items(
+ *             ref="#/components/schemas/Grouper"
+ *         )
+ *     )
+ * )
+ */
+
 class PloEleveController extends Controller {
 
     /**

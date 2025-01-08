@@ -7,6 +7,44 @@ use Illuminate\Http\Request;
 use App\Models\DirigerLeClub;
 use App\Http\Controllers\Controller;
 
+/**
+ * @OA\Schema(
+ *     schema="DirigerLeClub",
+ *     type="object",
+ *     required={"UTI_ID", "CLU_ID"},
+ *     @OA\Property(
+ *         property="UTI_ID",
+ *         type="integer",
+ *         description="The user ID of the initiator managing the club (PloInitiateur)",
+ *         example=123
+ *     ),
+ *     @OA\Property(
+ *         property="CLU_ID",
+ *         type="integer",
+ *         description="The club ID (PloClub)",
+ *         example=1
+ *     ),
+ *     @OA\Property(
+ *         property="DIR_DATE_DEBUT",
+ *         type="string",
+ *         format="date-time",
+ *         description="The start date of the management of the club",
+ *         example="2025-01-01T10:00:00"
+ *     ),
+ *     @OA\Property(
+ *         property="plo_club",
+ *         type="object",
+ *         description="The club (PloClub) associated with the management",
+ *         ref="#/components/schemas/PloClub"
+ *     ),
+ *     @OA\Property(
+ *         property="plo_initiateur",
+ *         type="object",
+ *         description="The initiator (PloInitiateur) managing the club",
+ *         ref="#/components/schemas/PloInitiateur"
+ *     )
+ * )
+ */
 
 class DirigerLeClubController extends Controller {
     

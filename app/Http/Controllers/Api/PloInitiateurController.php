@@ -6,6 +6,57 @@ use Illuminate\Http\Request;
 use App\Models\PloInitiateur;
 use App\Http\Controllers\Controller;
 
+/**
+ * @OA\Schema(
+ *     schema="PloInitiateur",
+ *     type="object",
+ *     required={"UTI_ID"},
+ *     @OA\Property(
+ *         property="UTI_ID",
+ *         type="integer",
+ *         description="The unique identifier for the initiator",
+ *         example=123
+ *     ),
+ *     @OA\Property(
+ *         property="diriger_le_clubs",
+ *         type="array",
+ *         description="The clubs directed by this initiator",
+ *         @OA\Items(
+ *             ref="#/components/schemas/DirigerLeClub"
+ *         )
+ *     ),
+ *     @OA\Property(
+ *         property="enseigners",
+ *         type="array",
+ *         description="The formations taught by this initiator",
+ *         @OA\Items(
+ *             ref="#/components/schemas/Enseigner"
+ *         )
+ *     ),
+ *     @OA\Property(
+ *         property="gerer_la_formations",
+ *         type="array",
+ *         description="The formations managed by this initiator",
+ *         @OA\Items(
+ *             ref="#/components/schemas/GererLaFormation"
+ *         )
+ *     ),
+ *     @OA\Property(
+ *         property="groupers",
+ *         type="array",
+ *         description="The groups that this initiator is part of",
+ *         @OA\Items(
+ *             ref="#/components/schemas/Grouper"
+ *         )
+ *     ),
+ *     @OA\Property(
+ *         property="plo_utilisateur",
+ *         ref="#/components/schemas/PloUtilisateur",
+ *         description="The associated user for the initiator"
+ *     )
+ * )
+ */
+
 class PloInitiateurController extends Controller {
     
     /**

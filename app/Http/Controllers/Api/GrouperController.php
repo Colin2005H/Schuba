@@ -7,6 +7,56 @@ use App\Models\Grouper;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
+/**
+ * @OA\Schema(
+ *     schema="Grouper",
+ *     type="object",
+ *     required={"SEA_ID", "UTI_ID_INITIATEUR", "UTI_ID"},
+ *     @OA\Property(
+ *         property="SEA_ID",
+ *         type="integer",
+ *         description="The session ID (PloSeance)",
+ *         example=1
+ *     ),
+ *     @OA\Property(
+ *         property="UTI_ID_INITIATEUR",
+ *         type="integer",
+ *         description="The initiator (teacher) user ID (PloInitiateur)",
+ *         example=2
+ *     ),
+ *     @OA\Property(
+ *         property="UTI_ID",
+ *         type="integer",
+ *         description="The student user ID (PloEleve)",
+ *         example=3
+ *     ),
+ *     @OA\Property(
+ *         property="GRP_PRESENCE",
+ *         type="boolean",
+ *         description="Indicates if the student was present for the session",
+ *         example=true
+ *     ),
+ *     @OA\Property(
+ *         property="plo_eleve",
+ *         type="object",
+ *         description="The student (PloEleve) associated with the session",
+ *         ref="#/components/schemas/PloEleve"
+ *     ),
+ *     @OA\Property(
+ *         property="plo_initiateur",
+ *         type="object",
+ *         description="The initiator (PloInitiateur) associated with the session",
+ *         ref="#/components/schemas/PloInitiateur"
+ *     ),
+ *     @OA\Property(
+ *         property="plo_seance",
+ *         type="object",
+ *         description="The session (PloSeance) associated with the grouping",
+ *         ref="#/components/schemas/PloSeance"
+ *     )
+ * )
+ */
+
 class GrouperController extends Controller {
     
     /**

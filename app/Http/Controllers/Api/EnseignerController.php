@@ -6,6 +6,38 @@ use App\Models\Enseigner;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
+/**
+ * @OA\Schema(
+ *     schema="Enseigner",
+ *     type="object",
+ *     required={"UTI_ID", "FORM_NIVEAU"},
+ *     @OA\Property(
+ *         property="UTI_ID",
+ *         type="integer",
+ *         description="The user ID of the instructor teaching the course (PloInitiateur)",
+ *         example=123
+ *     ),
+ *     @OA\Property(
+ *         property="FORM_NIVEAU",
+ *         type="integer",
+ *         description="The formation level ID (PloFormation)",
+ *         example=1
+ *     ),
+ *     @OA\Property(
+ *         property="plo_formation",
+ *         type="object",
+ *         description="The formation level (PloFormation) associated with the teaching",
+ *         ref="#/components/schemas/PloFormation"
+ *     ),
+ *     @OA\Property(
+ *         property="plo_initiateur",
+ *         type="object",
+ *         description="The initiator/instructor (PloInitiateur) teaching the course",
+ *         ref="#/components/schemas/PloInitiateur"
+ *     )
+ * )
+ */
+
 class EnseignerController extends Controller {
 
     /**

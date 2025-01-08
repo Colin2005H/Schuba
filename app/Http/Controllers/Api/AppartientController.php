@@ -6,6 +6,45 @@ use App\Models\Appartient;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
+/**
+ * @OA\Schema(
+ *     schema="Appartient",
+ *     type="object",
+ *     required={"FORM_NIVEAU", "UTI_ID"},
+ *     @OA\Property(
+ *         property="FORM_NIVEAU",
+ *         type="integer",
+ *         description="The training level ID associated with the formation",
+ *         example=1
+ *     ),
+ *     @OA\Property(
+ *         property="UTI_ID",
+ *         type="integer",
+ *         description="The user ID of the student (PloEleve)",
+ *         example=123
+ *     ),
+ *     @OA\Property(
+ *         property="DATE_INSCRIPTION",
+ *         type="string",
+ *         format="date-time",
+ *         description="The date and time the student was enrolled in the formation",
+ *         example="2025-01-01T10:00:00"
+ *     ),
+ *     @OA\Property(
+ *         property="plo_eleve",
+ *         type="object",
+ *         description="The student (PloEleve) associated with the formation",
+ *         ref="#/components/schemas/PloEleve"
+ *     ),
+ *     @OA\Property(
+ *         property="plo_formation",
+ *         type="object",
+ *         description="The formation (PloFormation) associated with the training level",
+ *         ref="#/components/schemas/PloFormation"
+ *     )
+ * )
+ */
+
 class AppartientController extends Controller {
     /**
      * @OA\Get(

@@ -6,6 +6,78 @@ use App\Models\PloFormation;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
+/**
+ * @OA\Schema(
+ *     schema="PloFormation",
+ *     type="object",
+ *     required={"FORM_NIVEAU"},
+ *     @OA\Property(
+ *         property="FORM_NIVEAU",
+ *         type="integer",
+ *         description="The unique identifier for the formation level",
+ *         example=1
+ *     ),
+ *     @OA\Property(
+ *         property="FORM_LIBELLE",
+ *         type="string",
+ *         description="The label/name of the formation",
+ *         example="Advanced Scuba Training"
+ *     ),
+ *     @OA\Property(
+ *         property="FORM_DESCRIPTION",
+ *         type="string",
+ *         description="The description of the formation",
+ *         example="A complete training program for advanced scuba divers."
+ *     ),
+ *     @OA\Property(
+ *         property="FORM_PROF_MAX",
+ *         type="integer",
+ *         description="The maximum number of instructors allowed for the formation",
+ *         example=5
+ *     ),
+ *     @OA\Property(
+ *         property="appartients",
+ *         type="array",
+ *         description="The students associated with this formation",
+ *         @OA\Items(
+ *             ref="#/components/schemas/Appartient"
+ *         )
+ *     ),
+ *     @OA\Property(
+ *         property="enseigners",
+ *         type="array",
+ *         description="The instructors for this formation",
+ *         @OA\Items(
+ *             ref="#/components/schemas/Enseigner"
+ *         )
+ *     ),
+ *     @OA\Property(
+ *         property="gerer_la_formations",
+ *         type="array",
+ *         description="The management of this formation",
+ *         @OA\Items(
+ *             ref="#/components/schemas/GererLaFormation"
+ *         )
+ *     ),
+ *     @OA\Property(
+ *         property="plo_competences",
+ *         type="array",
+ *         description="The competencies associated with this formation",
+ *         @OA\Items(
+ *             ref="#/components/schemas/PloCompetence"
+ *         )
+ *     ),
+ *     @OA\Property(
+ *         property="plo_seances",
+ *         type="array",
+ *         description="The sessions scheduled for this formation",
+ *         @OA\Items(
+ *             ref="#/components/schemas/PloSeance"
+ *         )
+ *     )
+ * )
+ */
+
 class PloFormationController extends Controller {
 
     /**

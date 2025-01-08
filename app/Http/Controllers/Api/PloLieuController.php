@@ -7,6 +7,40 @@ use App\Models\PloLieu;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
+/**
+ * @OA\Schema(
+ *     schema="PloLieu",
+ *     type="object",
+ *     required={"LI_ID"},
+ *     @OA\Property(
+ *         property="LI_ID",
+ *         type="integer",
+ *         description="The unique identifier for the location",
+ *         example=1
+ *     ),
+ *     @OA\Property(
+ *         property="LI_NOM",
+ *         type="string",
+ *         description="The name of the location",
+ *         example="Diving Pool"
+ *     ),
+ *     @OA\Property(
+ *         property="LI_TYPE",
+ *         type="string",
+ *         description="The type of the location (e.g., indoor, outdoor)",
+ *         example="Indoor"
+ *     ),
+ *     @OA\Property(
+ *         property="plo_seances",
+ *         type="array",
+ *         description="The sessions held at this location",
+ *         @OA\Items(
+ *             ref="#/components/schemas/PloSeance"
+ *         )
+ *     )
+ * )
+ */
+
 class PloLieuController extends Controller {
 
     /**

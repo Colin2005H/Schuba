@@ -6,6 +6,42 @@ use App\Http\Controllers\Controller;
 use App\Models\PloClub;
 use Illuminate\Http\Request;
 
+/**
+ * @OA\Schema(
+ *     schema="PloClub",
+ *     type="object",
+ *     required={"CLU_ID"},
+ *     @OA\Property(
+ *         property="CLU_ID",
+ *         type="integer",
+ *         description="The ID of the club",
+ *         example=1
+ *     ),
+ *     @OA\Property(
+ *         property="CLU_NOM",
+ *         type="string",
+ *         description="The name of the club",
+ *         example="Schuba Diving Club"
+ *     ),
+ *     @OA\Property(
+ *         property="diriger_le_clubs",
+ *         type="array",
+ *         description="The club leadership records associated with the club",
+ *         @OA\Items(
+ *             ref="#/components/schemas/DirigerLeClub"
+ *         )
+ *     ),
+ *     @OA\Property(
+ *         property="plo_utilisateurs",
+ *         type="array",
+ *         description="The users associated with this club",
+ *         @OA\Items(
+ *             ref="#/components/schemas/PloUtilisateur"
+ *         )
+ *     )
+ * )
+ */
+
 class PloClubController extends Controller {
 
     /**

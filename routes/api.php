@@ -18,6 +18,7 @@ use App\Http\Controllers\Api\PloSeanceController;
 use App\Http\Controllers\Api\PloUtilisateurController;
 use App\Http\Controllers\Api\ValiderController;
 
+
 Route::get('/location', [PloLieuController::class, "get"]);
 Route::post('/location', [PloLieuController::class, "create"]);
 Route::put('/location/{id}', [PloLieuController::class, "update"]);
