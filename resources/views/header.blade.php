@@ -25,8 +25,17 @@
             <a href="{{ url('/') }}" class="hover:text-gray-400">Compétences</a>
             <a href="{{ url('/') }}" class="hover:text-gray-400">Se Déconnecter</a>
         </nav>
-        @elseif($role === 'responsable'||$role === 'initiateur')
-        <!-- Navigation initiateur/responsable-->
+        @elseif($role === 'responsable')
+        <!-- Navigation responsable-->
+        <nav class="hidden md:flex space-x-6">
+            <a href="{{ url('/') }}" class="hover:text-gray-400">Mon compte</a>
+            <a href="{{ url('/createSession') }}" class="hover:text-gray-400">Scéances</a>
+            <a href="{{ url('/') }}" class="hover:text-gray-400">Commentaires</a>
+            <a href="{{ url('/') }}" class="hover:text-gray-400">Élèves</a>
+            <a href="{{ url('/') }}" class="hover:text-gray-400">Se Déconnecter</a>
+        </nav>
+        @elseif($role === 'initiateur')
+        <!-- Navigation initiateur-->
         <nav class="hidden md:flex space-x-6">
             <a href="{{ url('/') }}" class="hover:text-gray-400">Mon compte</a>
             <a href="{{ url('/') }}" class="hover:text-gray-400">Scéances</a>
