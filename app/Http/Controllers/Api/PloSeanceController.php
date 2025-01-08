@@ -51,6 +51,11 @@ use App\Http\Controllers\Controller;
  * )
  * 
  * @OA\Tag(
+ *     name="Managers",
+ *     description="Manage formation managers"
+ * )
+ * 
+ * @OA\Tag(
  *     name="Sessions",
  *     description="Manage training sessions"
  * )

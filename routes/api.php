@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\DirigerLeClubController;
 use App\Http\Controllers\Api\EnseignerController;
+use App\Http\Controllers\Api\GererLaFormationController;
 use App\Http\Controllers\Api\GrouperController;
 use App\Http\Controllers\Api\PloAptitudeController;
 use App\Http\Controllers\Api\PloClubController;
@@ -75,6 +76,10 @@ Route::get('/validate', [ValiderController::class, "get"]);
 Route::post('/validate', [ValiderController::class, "create"]);
 Route::put('/validate/{id}', [ValiderController::class, "update"]);
 Route::delete('/validate/{id}', [ValiderController::class, "delete"]);
+
+Route::get('/manager', [GererLaFormationController::class, "get"]);
+Route::post('/manager', [GererLaFormationController::class, "create"]);
+Route::delete('/manager/{id}', [GererLaFormationController::class, "delete"]);
 
 /*
 |--------------------------------------------------------------------------

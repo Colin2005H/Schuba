@@ -341,6 +341,182 @@ paths:
                 type: object
         500:
           description: 'Internal server error'
+  /api/manager:
+    get:
+      tags:
+        - Managers
+      summary: 'Get formation manager records'
+      description: 'Retrieve manager based on optional filters: User ID, Formation Level, and Start Date.'
+      operationId: 9e59b26885df298b89bac690b0e91081
+      parameters:
+        -
+          name: UTI_ID
+          in: query
+          description: 'User ID to filter the records'
+          required: false
+          schema:
+            type: integer
+            example: 1
+        -
+          name: FORM_NIVEAU
+          in: query
+          description: 'Formation Level to filter the records'
+          required: false
+          schema:
+            type: integer
+            example: 2
+        -
+          name: GER_DATE_DEBUT
+          in: query
+          description: 'Start Date of the formation'
+          required: false
+          schema:
+            type: string
+            format: date-time
+            example: '2025-01-01T09:00:00'
+      responses:
+        200:
+          description: 'Successfully retrieved GererLaFormation records'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  properties:
+                    UTI_ID:
+                      type: integer
+                      example: 1
+                    FORM_NIVEAU:
+                      type: integer
+                      example: 2
+                    GER_DATE_DEBUT:
+                      type: string
+                      format: date-time
+                      example: '2025-01-01T09:00:00'
+                  type: object
+        400:
+          description: 'Invalid parameters'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'Invalid parameters'
+                type: object
+  /api/gerer-la-formation:
+    post:
+      tags:
+        - Managers
+      summary: 'Create a new formation manager'
+      description: 'This API allows you to create a new manager by providing the User ID, Formation Level, and Start Date.'
+      operationId: 3b34be262fbad208bc05193614ecf928
+      requestBody:
+        description: 'The necessary data to create a new GererLaFormation record'
+        required: true
+        content:
+          application/json:
+            schema:
+              required:
+                - UTI_ID
+                - FORM_NIVEAU
+                - GER_DATE_DEBUT
+              properties:
+                UTI_ID:
+                  description: 'ID of the user associated with the formation record'
+                  type: integer
+                  example: 1
+                FORM_NIVEAU:
+                  description: 'Formation level associated with the GererLaFormation record'
+                  type: integer
+                  example: 2
+                GER_DATE_DEBUT:
+                  description: 'Start date and time of the formation'
+                  type: string
+                  format: date-time
+                  example: '2025-01-01T09:00:00'
+              type: object
+      responses:
+        200:
+          description: 'GererLaFormation record created successfully'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'GererLaFormation successfully created!'
+                  gerer_la_formation:
+                    properties:
+                      UTI_ID:
+                        type: integer
+                        example: 1
+                      FORM_NIVEAU:
+                        type: integer
+                        example: 2
+                      GER_DATE_DEBUT:
+                        type: string
+                        format: date-time
+                        example: '2025-01-01T09:00:00'
+                    type: object
+                type: object
+        400:
+          description: 'Validation error in the provided data'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'The provided data is invalid'
+                type: object
+        500:
+          description: 'Internal server error'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'An error occurred while creating the record'
+                type: object
+  '/api/manager/{id}':
+    delete:
+      tags:
+        - Managers
+      summary: 'Delete a formation manager record'
+      description: 'This API allows you to delete an existing manager by providing its ID.'
+      operationId: f2c734fc4e7f0075b6f630115c053dbb
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'ID of the GererLaFormation record to be deleted'
+          required: true
+          schema:
+            type: integer
+            example: 1
+      responses:
+        200:
+          description: 'GererLaFormation record deleted successfully'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'GererLaFormation successfully deleted!'
+                type: object
+        404:
+          description: 'GererLaFormation record not found'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'GererLaFormation record not found.'
+                type: object
   /api/group:
     get:
       tags:
@@ -3029,6 +3205,9 @@ tags:
   -
     name: Locations
     description: 'Manage diving locations'
+  -
+    name: Managers
+    description: 'Manage formation managers'
   -
     name: Sessions
     description: 'Manage training sessions'
