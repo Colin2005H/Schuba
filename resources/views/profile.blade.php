@@ -15,24 +15,24 @@
             </div>
 
             <div class="bg-white p-6 rounded-lg shadow-md sm:w-96 items-center justify-center mx-auto my-auto">
-                <h2 class="text-xl font-semibold text-center mb-6">Nom Prénom</h2>
+                <h2 class="text-xl font-semibold text-center mb-6">{{strtoupper($user->UTI_NOM) ." ". $user->UTI_PRENOM }}</h2>
                 
                 <div>
-                    <p>Email : michel.marie@gmail.com</p>
+                    <p>Email : {{$user->UTI_MAIL}}</p>
                     <p>Mot de passe : *****</p>
                      
-                    <button class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" disabled>Modifier le mot de passe</button>
-                    <button class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" disabled>Modifier l'adresse email</button>
+                    <button class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 cursor-not-allowed font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" disabled>Modifier le mot de passe</button>
+                    <button class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 cursor-not-allowed font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" disabled>Modifier l'adresse email</button>
                 </div>
 
                 <div>
-                    <div id="address">Adresse : Rue Anton Tchekhov, 14123 Ifs</div>
-                    <p>Date de naissance : 01/01/2000</p>
-                    <p>Date de votre certificat médical : 20/06/2024</p>
-                    <p>Niveau de plongée : 2</p>
+                    <div id="address">Adresse : {{$user->UTI_ADRESSE .", ". $user->UTI_CODE_POSTAL ." ". $user->UTI_VILLE}}</div>
+                    <p>Date de naissance : {{date("d/m/Y", strtotime($user->UTI_DATE_NAISSANCE))}}</p>
+                    <p>Date de votre certificat médical : {{date("d/m/Y", strtotime($user->UTI_DATE_CERTIFICAT))}}</p>
+                    <p>Niveau de plongée : {{$user->UTI_NIVEAU}}</p>
                 </div>
 
-                <button class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900" disabled>Supprimer un compte</button>
+                <button class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 cursor-not-allowed font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900" disabled>Supprimer un compte</button>
                 
             </div>
 
