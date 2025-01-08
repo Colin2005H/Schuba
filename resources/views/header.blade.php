@@ -1,10 +1,10 @@
 <head><script src="https://cdn.tailwindcss.com"></script>
 
 <header class="bg-gray-800 text-white shadow">
-    <div class="container mx-auto flex items-center justify-between py-4 px-6">
+    <div class="container mx-auto flex items-center justify-between py-0 px-3">
         <!-- Logo -->
         <a href="{{ url('/home') }}" class="text-lg font-bold">
-            <img src="{{ asset('images/logo.png') }}" alt="Logo" class="h-8">
+            <img src="{{ asset('img/logo1.svg') }}" alt="Logo" class="h-20">
         </a>
         @php
             use App\Http\Controllers\RoleController;
@@ -21,7 +21,7 @@
         <!-- Navigation élève -->
         <nav class="hidden md:flex space-x-6">
             <a href="{{ url('/profile') }}" class="hover:text-gray-400">Mon compte</a>
-            <a href="{{ url('/calendar') }}" class="hover:text-gray-400">Scéances</a>
+            <a href="{{ url('/calendar') }}" class="hover:text-gray-400">Séances</a>
             <a href="{{ url('/') }}" class="hover:text-gray-400">Compétences</a>
             <a href="{{ url('/') }}" class="hover:text-gray-400">Se Déconnecter</a>
         </nav>
@@ -29,7 +29,7 @@
         <!-- Navigation responsable-->
         <nav class="hidden md:flex space-x-6">
             <a href="{{ url('/profile') }}" class="hover:text-gray-400">Mon compte</a>
-            <a href="{{ url('/createSession') }}" class="hover:text-gray-400">Scéances</a>
+            <a href="{{ url('/createSession') }}" class="hover:text-gray-400">Séances</a>
             <a href="{{ url('/') }}" class="hover:text-gray-400">Commentaires</a>
             <a href="{{ url('/') }}" class="hover:text-gray-400">Élèves</a>
             <a href="{{ url('/') }}" class="hover:text-gray-400">Se Déconnecter</a>
@@ -38,7 +38,7 @@
         <!-- Navigation initiateur-->
         <nav class="hidden md:flex space-x-6">
             <a href="{{ url('/profile') }}" class="hover:text-gray-400">Mon compte</a>
-            <a href="{{ url('/calendar') }}" class="hover:text-gray-400">Scéances</a>
+            <a href="{{ url('/calendar') }}" class="hover:text-gray-400">Séances</a>
             <a href="{{ url('/') }}" class="hover:text-gray-400">Commentaires</a>
             <a href="{{ url('/') }}" class="hover:text-gray-400">Élèves</a>
             <a href="{{ url('/') }}" class="hover:text-gray-400">Se Déconnecter</a>

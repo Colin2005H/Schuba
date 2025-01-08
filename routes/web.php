@@ -68,7 +68,7 @@ Route::get('/home', function() {
 });
 
 Route::get('/triche', function() {
-    return Hash::make("admin");
+    return Hash::make("responsable");
 });
 
 Route::get('/calendar', function () {
