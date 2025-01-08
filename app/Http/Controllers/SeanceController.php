@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Aptitude;
+use App\Models\Eleve;
 use App\Models\Groupe;
+use App\Models\Initiator;
 use App\Models\Lieu;
 use App\Models\Seance;
 use App\Models\User;
@@ -20,9 +22,20 @@ class SeanceController extends Controller
     public function createSession(){
         return view('creer-seance', [
             'lieux' => Lieu::all(),
-            'aptitudes'=>Aptitude::all(), //TODO faire un Eleve::all() puis join sur User
-            'initiateurs'=>User::all(), //TODO faire un Initiator::all() puis join sur User
-            'eleves'=>User::all()
+
+            'aptitudes'=>Aptitude::all(),
+
+            'initiateurs'=>Initiator::all()->map(function(Initiator $initiator){
+                    return $initiator->user()->getResults();
+                })->filter(function ($user, $key) {
+                    return $user != null;
+                }), 
+
+            'eleves'=>Eleve::all()->map(function(Eleve $student){
+                    return $student->user()->getResults();
+                })->filter(function ($user, $key) {
+                    return $user != null;
+                })
         ]);
     }
 

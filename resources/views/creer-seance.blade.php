@@ -36,6 +36,7 @@
                 @foreach($lieux as $lieu)
                     <option value="{{$lieu->LI_ID}}">{{$lieu->LI_NOM}}</option>
                 @endforeach
+                
             </select> <br>
 
             <label for="date">Date :</label><br>
@@ -60,7 +61,7 @@
             </select>
 
             <label for="eleve1">Eleve 1 : </label>
-            <select name="eleve1" id="eleve1">
+            <select name="eleve1" id="eleve1" required>
                 
                 @foreach($eleves as $eleve)
                     <option value="{{$eleve->UTI_ID}}">{{$eleve->UTI_NOM}} {{$eleve->UTI_PRENOM}}</option>
