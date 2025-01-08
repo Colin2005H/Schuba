@@ -241,4 +241,70 @@ class GrouperController extends Controller {
             ]
         ]);
     }
+
+    /**
+     * @OA\Delete(
+     *     path="/api/group/{id}",
+     *     summary="Delete a Group",
+     *     description="Deletes a specific Group based on the provided ID.",
+     *     tags={"Groups"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="ID of the Group to delete",
+     *         @OA\Schema(
+     *             type="integer",
+     *             example=1
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successfully deleted the Group",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                 property="message",
+     *                 type="string",
+     *                 example="Group successfully deleted!"
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Group record not found",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                 property="message",
+     *                 type="string",
+     *                 example="Group not found."
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Internal server error"
+     *     )
+     * )
+     */
+    public function delete($id) {
+        // Get the Group record by ID
+        $teach = Grouper::find($id);
+        
+        // Check if the record exists
+        if (!$teach) {
+            return response()->json([
+                'message' => 'Group not found.'
+            ], 404);
+        }
+        
+        // Delete the record
+        $teach->delete();
+        
+        // Return a JSON response to confirm the deletion
+        return response()->json([
+            'message' => 'Group successfully deleted!'
+        ]);
+    }
 }

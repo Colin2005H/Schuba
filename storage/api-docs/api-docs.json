@@ -290,6 +290,224 @@
                 }
             }
         },
+        "/api/teaching": {
+            "get": {
+                "tags": [
+                    "Teachings"
+                ],
+                "summary": "Get Teaching records",
+                "description": "Retrieve a list of Teaching records based on the provided filter criteria.",
+                "operationId": "49ff76718c3034fad6ff227aa89b15dd",
+                "parameters": [
+                    {
+                        "name": "ID",
+                        "in": "query",
+                        "description": "User ID to filter by",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "LEVEL",
+                        "in": "query",
+                        "description": "Teaching level to filter by",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved the list of Teaching records",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "ID": {
+                                                "description": "User ID",
+                                                "type": "integer"
+                                            },
+                                            "LEVEL": {
+                                                "description": "Teaching level",
+                                                "type": "integer"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input parameters"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Teachings"
+                ],
+                "summary": "Create a new Teaching record",
+                "description": "This API allows you to create a new Teaching record by providing the necessary details such as the User ID and Training Level. The record will be validated and stored in the database, and the created record details will be returned in the response.",
+                "operationId": "fc55f1178213144f8db7daa3f7f2be06",
+                "requestBody": {
+                    "description": "The necessary data to create a new Teaching record",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "ID",
+                                    "LEVEL"
+                                ],
+                                "properties": {
+                                    "ID": {
+                                        "description": "ID of the user associated with the teaching record",
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "LEVEL": {
+                                        "description": "ID of the training level associated with the teaching record",
+                                        "type": "integer",
+                                        "example": 2
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Teaching record created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Enseigner successfully created!"
+                                        },
+                                        "enseigner": {
+                                            "properties": {
+                                                "ID": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "LEVEL": {
+                                                    "type": "integer",
+                                                    "example": 2
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Validation error in the provided data",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "The provided data is invalid"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "An error occurred while creating the record"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/teaching/{id}": {
+            "delete": {
+                "tags": [
+                    "Teachings"
+                ],
+                "summary": "Delete a Teaching record",
+                "description": "Deletes a specific Teaching record based on the provided ID.",
+                "operationId": "c2926efad1f71a3f42a58abe6aba5839",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the Teaching record to delete",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully deleted the Teaching record",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Enseigner record successfully deleted!"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Teaching record not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Enseigner record not found."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        },
         "/api/group": {
             "get": {
                 "tags": [
@@ -530,6 +748,65 @@
                                 }
                             }
                         }
+                    }
+                }
+            }
+        },
+        "/api/group/{id}": {
+            "delete": {
+                "tags": [
+                    "Groups"
+                ],
+                "summary": "Delete a Group",
+                "description": "Deletes a specific Group based on the provided ID.",
+                "operationId": "430deed00d0bc83ecb26bb5cde1a67ff",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the Group to delete",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully deleted the Group",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Group successfully deleted!"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Group record not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Group not found."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error"
                     }
                 }
             }
@@ -3832,6 +4109,10 @@
         {
             "name": "Students",
             "description": "Manage students"
+        },
+        {
+            "name": "Teachings",
+            "description": "Manage teachings (initiator formation afectation)"
         },
         {
             "name": "Users",

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\DirigerLeClubController;
+use App\Http\Controllers\Api\EnseignerController;
 use App\Http\Controllers\Api\GrouperController;
 use App\Http\Controllers\Api\PloAptitudeController;
 use App\Http\Controllers\Api\PloClubController;
@@ -64,6 +65,11 @@ Route::delete('/student/{id}', [PloEleveController::class, "delete"]);
 
 Route::get('/group', [GrouperController::class, "get"]);
 Route::post('/group', [GrouperController::class, "create"]);
+Route::delete('/group/{id}', [GrouperController::class, "delete"]);
+
+Route::get('/teaching', [EnseignerController::class, "get"]);
+Route::post('/teaching', [EnseignerController::class, "create"]);
+Route::delete('/teaching/{id}', [EnseignerController::class, "delete"]);
 
 /*
 |--------------------------------------------------------------------------

@@ -66,6 +66,11 @@ use App\Http\Controllers\Controller;
  * )
  * 
  * @OA\Tag(
+ *     name="Teachings",
+ *     description="Manage teachings (initiator formation afectation)"
+ * )
+ * 
+ * @OA\Tag(
  *     name="Users",
  *     description="Manage users"
  * )
