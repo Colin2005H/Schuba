@@ -31,6 +31,11 @@ use App\Http\Controllers\Controller;
  * )
  * 
  * @OA\Tag(
+ *     name="Groups",
+ *     description="Manage group (initiator with student in location)"
+ * )
+ * 
+ * @OA\Tag(
  *     name="Initiators",
  *     description="Manage initiators/teachers"
  * )

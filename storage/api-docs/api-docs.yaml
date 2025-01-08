@@ -195,6 +195,178 @@ paths:
                     type: string
                     example: 'An error occurred, please try again.'
                 type: object
+  /api/group:
+    get:
+      tags:
+        - Groups
+      summary: 'Get group records'
+      description: 'Retrieves group records based on optional filters for user, initiator, session, and presence status.'
+      operationId: 1b29d655f5c291dba95ffff8eadfb856
+      parameters:
+        -
+          name: USER_ID
+          in: query
+          description: 'User ID to filter group by user'
+          required: false
+          schema:
+            type: integer
+            example: 1
+        -
+          name: INIT_ID
+          in: query
+          description: 'Initiator ID to filter group by initiator'
+          required: false
+          schema:
+            type: integer
+            example: 1
+        -
+          name: SESS_ID
+          in: query
+          description: 'Session ID to filter group by session'
+          required: false
+          schema:
+            type: integer
+            example: 1
+        -
+          name: PRESENT
+          in: query
+          description: 'Presence status of the user in the session'
+          required: false
+          schema:
+            type: boolean
+            example: true
+      responses:
+        200:
+          description: 'Successfully retrieved group records'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  properties:
+                    USER_ID:
+                      type: integer
+                      example: 1
+                    INIT_ID:
+                      type: integer
+                      example: 1
+                    SESS_ID:
+                      type: integer
+                      example: 1
+                    PRESENT:
+                      type: boolean
+                      example: true
+                  type: object
+        400:
+          description: 'Bad request, validation failed'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'The given data was invalid.'
+                type: object
+        500:
+          description: 'Internal server error'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'Something went wrong, please try again.'
+                type: object
+    post:
+      tags:
+        - Groups
+      summary: 'Create a group for a session'
+      description: 'Creates a group for a given session, associating a user with a session and a club. Presence is also recorded.'
+      operationId: 4a1769a10757369437f36129be04e2e3
+      parameters:
+        -
+          name: SESS_ID
+          in: query
+          description: 'Session ID associated with the group'
+          required: true
+          schema:
+            type: integer
+            example: 1
+        -
+          name: USER_ID
+          in: query
+          description: 'User ID to associate with the group'
+          required: true
+          schema:
+            type: integer
+            example: 1
+        -
+          name: INIT_ID
+          in: query
+          description: 'Club ID of the initiator for the session'
+          required: true
+          schema:
+            type: integer
+            example: 1
+        -
+          name: PRESENCE
+          in: query
+          description: 'Presence status of the user in the session'
+          required: true
+          schema:
+            type: boolean
+            example: true
+      responses:
+        200:
+          description: 'Group successfully created'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'Group successfully created!'
+                  session:
+                    properties:
+                      ID:
+                        type: integer
+                        example: 1
+                      LOCATION_ID:
+                        type: integer
+                        example: 2
+                      LEVEL:
+                        type: integer
+                        example: 3
+                      START:
+                        type: string
+                        format: date-time
+                        example: '2025-01-01T09:00:00'
+                      END:
+                        type: string
+                        format: date-time
+                        example: '2025-01-01T11:00:00'
+                    type: object
+                type: object
+        400:
+          description: 'Bad request, validation failed'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'The given data was invalid.'
+                type: object
+        500:
+          description: 'Internal server error'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'Something went wrong, please try again.'
+                type: object
   /api/aptitude:
     get:
       tags:
@@ -212,9 +384,9 @@ paths:
             type: string
             example: APT001
         -
-          name: COMPETENCE_ID
+          name: SKILL_ID
           in: query
-          description: 'The competence ID to filter by'
+          description: 'The skill ID to filter by'
           required: false
           schema:
             type: string
@@ -269,12 +441,12 @@ paths:
             schema:
               required:
                 - NAME
-                - COMPETENCE_ID
+                - SKILL_ID
               properties:
                 NAME:
                   type: string
                   example: 'Mathematics Aptitude'
-                COMPETENCE_ID:
+                SKILL_ID:
                   type: string
                   example: CPT123
               type: object
@@ -2427,6 +2599,9 @@ tags:
   -
     name: Formations
     description: 'Manage formations'
+  -
+    name: Groups
+    description: 'Manage group (initiator with student in location)'
   -
     name: Initiators
     description: 'Manage initiators/teachers'
