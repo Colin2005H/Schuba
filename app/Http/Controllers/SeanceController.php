@@ -59,8 +59,6 @@ class SeanceController extends Controller
             foreach ($request->input('group') as $group) {
                 $this->createGroup($group, $sessionId);
             }
-
-            
         } catch (Exception $e) {
             return redirect()->route('createSession.show')->with('success', $e->getMessage());
         }
