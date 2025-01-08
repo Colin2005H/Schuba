@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\FormationController;
 use App\Http\Controllers\AuthController;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
@@ -15,6 +16,9 @@ use Illuminate\Support\Facades\Hash;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+Route::get('/formations', [FormationController::class, 'showFormation']);
+Route::post('/formations', [FormationController::class, 'createFormation']);
 
 Route::get('/', function () {
     return view('welcome');

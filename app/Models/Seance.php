@@ -37,7 +37,7 @@ class Seance extends Model
      * @param String $endTime fin de la séance au format '[année]-[mois]-[jour]T[heure]:[minute]'
      * @param int $place id du lieu de la séance
      * @param int $level niveau de la séance (1 à 3)
-     * @return void
+     * @return String id de la séance créée
      */
     public static function insert($beginTime, $endTime, $place, $level){
         DB::beginTransaction();
@@ -50,7 +50,14 @@ class Seance extends Model
             
         }
         DB::commit();
-        
-        
+
+        //$id = DB::select('select id from plo_seance where li_id = ? and form_niveau = ? and sea_date_deb = ? and sea_date_fin = ?;', [$place, $level, $beginTime, $endTime])[0];
+        $id = DB::table('plo_seance')->select('SEA_ID')
+        ->where('LI_ID', $place)
+        ->where('FORM_NIVEAU', $level)
+        ->where('sea_date_deb', $beginTime)
+        ->where('sea_date_fin', $endTime)->get()->firstOrFail();
+
+        return $id->SEA_ID;
     }
 }
