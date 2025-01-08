@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\AppartientController;
 use App\Http\Controllers\Api\DirigerLeClubController;
 use App\Http\Controllers\Api\EnseignerController;
 use App\Http\Controllers\Api\GererLaFormationController;
@@ -80,6 +81,10 @@ Route::delete('/validate/{id}', [ValiderController::class, "delete"]);
 Route::get('/manager', [GererLaFormationController::class, "get"]);
 Route::post('/manager', [GererLaFormationController::class, "create"]);
 Route::delete('/manager/{id}', [GererLaFormationController::class, "delete"]);
+
+Route::get('/signed', [AppartientController::class, "get"]);
+Route::post('/signed', [AppartientController::class, "create"]);
+Route::delete('/signed/{id}', [AppartientController::class, "delete"]);
 
 /*
 |--------------------------------------------------------------------------

@@ -6,6 +6,181 @@ info:
     name: 'Groupe 1'
   version: 0.5.0
 paths:
+  /api/signed:
+    get:
+      tags:
+        - Signeds
+      summary: 'Get Signed records'
+      description: 'Retrieve Signed records based on optional filters: User ID, Formation Level, and Registration Date.'
+      operationId: 0087490a916fad58cc0e1d0002f8ed00
+      parameters:
+        -
+          name: UTI_ID
+          in: query
+          description: 'User ID to filter the records'
+          required: false
+          schema:
+            type: integer
+            example: 1
+        -
+          name: FORM_NIVEAU
+          in: query
+          description: 'Formation Level to filter the records'
+          required: false
+          schema:
+            type: integer
+            example: 2
+        -
+          name: DATE_INSCRIPTION
+          in: query
+          description: 'Registration Date of the formation'
+          required: false
+          schema:
+            type: string
+            format: date-time
+            example: '2025-01-01T09:00:00'
+      responses:
+        200:
+          description: 'Successfully retrieved Appartient records'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  properties:
+                    FORM_NIVEAU:
+                      type: integer
+                      example: 2
+                    UTI_ID:
+                      type: integer
+                      example: 1
+                    DATE_INSCRIPTION:
+                      type: string
+                      format: date-time
+                      example: '2025-01-01T09:00:00'
+                  type: object
+        400:
+          description: 'Invalid parameters'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'Invalid parameters'
+                type: object
+    post:
+      tags:
+        - Signeds
+      summary: 'Create a new Signed record'
+      description: 'This API allows you to create a new Signed record by providing the User ID, Formation Level, and Registration Date.'
+      operationId: 8e7b34fcefa6574af97cbfb7c608f78e
+      requestBody:
+        description: 'The necessary data to create a new Signed record'
+        required: true
+        content:
+          application/json:
+            schema:
+              required:
+                - UTI_ID
+                - FORM_NIVEAU
+                - DATE_INSCRIPTION
+              properties:
+                UTI_ID:
+                  description: 'ID of the user who belongs to the formation'
+                  type: integer
+                  example: 1
+                FORM_NIVEAU:
+                  description: 'Formation level that the user belongs to'
+                  type: integer
+                  example: 2
+                DATE_INSCRIPTION:
+                  description: 'The registration date of the formation'
+                  type: string
+                  format: date-time
+                  example: '2025-01-01T09:00:00'
+              type: object
+      responses:
+        200:
+          description: 'Signed record created successfully'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'Appartient successfully created!'
+                  appartient:
+                    properties:
+                      FORM_NIVEAU:
+                        type: integer
+                        example: 2
+                      UTI_ID:
+                        type: integer
+                        example: 1
+                      DATE_INSCRIPTION:
+                        type: string
+                        format: date-time
+                        example: '2025-01-01T09:00:00'
+                    type: object
+                type: object
+        400:
+          description: 'Validation error in the provided data'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'The provided data is invalid'
+                type: object
+        500:
+          description: 'Internal server error'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'An error occurred while creating the record'
+                type: object
+  '/api/signed/{id}':
+    delete:
+      tags:
+        - Signeds
+      summary: 'Delete an Signed record'
+      description: 'This API allows you to delete an existing Signed record by providing its ID.'
+      operationId: 86bdf86b63c552969c5194415400f531
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'ID of the Signed record to be deleted'
+          required: true
+          schema:
+            type: integer
+            example: 1
+      responses:
+        200:
+          description: 'Signed record deleted successfully'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'Signed successfully deleted!'
+                type: object
+        404:
+          description: 'Signed record not found'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'Signed record not found.'
+                type: object
   /api/leader:
     get:
       tags:
@@ -3211,6 +3386,9 @@ tags:
   -
     name: Sessions
     description: 'Manage training sessions'
+  -
+    name: Signeds
+    description: 'Manage signeds student in formation'
   -
     name: Skills
     description: 'Manage skills (group of aptitudes)'

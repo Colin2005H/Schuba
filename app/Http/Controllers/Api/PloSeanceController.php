@@ -61,6 +61,11 @@ use App\Http\Controllers\Controller;
  * )
  * 
  * @OA\Tag(
+ *     name="Signeds",
+ *     description="Manage signeds student in formation"
+ * )
+ * 
+ * @OA\Tag(
  *     name="Skills",
  *     description="Manage skills (group of aptitudes)"
  * )
