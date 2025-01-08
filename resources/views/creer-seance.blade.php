@@ -39,7 +39,7 @@
             </select> <br>
 
             <label for="date">Date :</label><br>
-            <input type="datetime-local" id="date" name="date" required><br>
+            <input type="date" id="date" name="date" required><br>
 
             <label for="beginHour">Heure de début :</label><br>
             <div><input type="number" id="beginHour" name="beginHour" required min="0" max="23" value="0">:
