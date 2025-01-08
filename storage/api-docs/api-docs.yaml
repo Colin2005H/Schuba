@@ -2774,6 +2774,239 @@ paths:
                     type: string
                     example: 'Something went wrong, please try again.'
                 type: object
+  /api/validate:
+    get:
+      tags:
+        - Validates
+      summary: 'Get Validate records'
+      description: 'Retrieve Validate records based on the optional filters: User ID, Competence ID, and Validation Status.'
+      operationId: 956e3c454b77bc10f39d516693d761b4
+      parameters:
+        -
+          name: UTI_ID
+          in: query
+          description: 'User ID to filter the records'
+          required: false
+          schema:
+            type: integer
+            example: 1
+        -
+          name: CPT_ID
+          in: query
+          description: 'Competence ID to filter the records'
+          required: false
+          schema:
+            type: string
+            example: CPT123
+        -
+          name: VALIDER
+          in: query
+          description: 'Validation status (true/false) to filter the records'
+          required: false
+          schema:
+            type: boolean
+            example: true
+      responses:
+        200:
+          description: 'Successfully retrieved Valider records'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  properties:
+                    UTI_ID:
+                      type: integer
+                      example: 1
+                    CPT_ID:
+                      type: string
+                      example: CPT123
+                    VALIDER:
+                      type: boolean
+                      example: true
+                  type: object
+        400:
+          description: 'Invalid parameters'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'Invalid parameters'
+                type: object
+    post:
+      tags:
+        - Validates
+      summary: 'Create a new Validate record'
+      description: 'This API allows you to create a new Validate record by providing the User ID, Competence ID, and Validation Status.'
+      operationId: d22f153c45ce1118a385e0b6946bbeb1
+      requestBody:
+        description: 'The necessary data to create a new Validate record'
+        required: true
+        content:
+          application/json:
+            schema:
+              required:
+                - UTI_ID
+                - CPT_ID
+                - VALIDER
+              properties:
+                UTI_ID:
+                  description: 'ID of the user associated with the Validate record'
+                  type: integer
+                  example: 1
+                CPT_ID:
+                  description: 'Competence ID associated with the Validate record'
+                  type: string
+                  example: CPT123
+                VALIDER:
+                  description: 'Validation status'
+                  type: boolean
+                  example: true
+              type: object
+      responses:
+        200:
+          description: 'Valider record created successfully'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'Validation successfully created!'
+                  valider:
+                    properties:
+                      UTI_ID:
+                        type: integer
+                        example: 1
+                      CPT_ID:
+                        type: string
+                        example: CPT123
+                      VALIDER:
+                        type: boolean
+                        example: true
+                    type: object
+                type: object
+        400:
+          description: 'Validation error in the provided data'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'The provided data is invalid'
+                type: object
+        500:
+          description: 'Internal server error'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'An error occurred while creating the record'
+                type: object
+  '/api/validate/{id}':
+    put:
+      tags:
+        - Validates
+      summary: 'Update an existing Validate record'
+      description: 'This API allows you to update an existing Validate record by providing the User ID, Competence ID, and Validation Status.'
+      operationId: ecd9fe4626e7f4a39ae7127d4bf9f72a
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'ID of the Validate record to be updated'
+          required: true
+          schema:
+            type: integer
+            example: 1
+      requestBody:
+        description: 'The updated data for the Validate record'
+        required: true
+        content:
+          application/json:
+            schema:
+              required:
+                - VALIDER
+              properties:
+                VALIDER:
+                  description: 'Validation status'
+                  type: boolean
+                  example: true
+              type: object
+      responses:
+        200:
+          description: 'Valider record updated successfully'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'Valider successfully updated!'
+                  valider:
+                    properties:
+                      UTI_ID:
+                        type: integer
+                        example: 1
+                      CPT_ID:
+                        type: string
+                        example: CPT123
+                      VALIDER:
+                        type: boolean
+                        example: true
+                    type: object
+                type: object
+        400:
+          description: 'Validation error in the provided data'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'The provided data is invalid'
+                type: object
+    delete:
+      tags:
+        - Validates
+      summary: 'Delete a Validate record'
+      description: 'This API allows you to delete an existing Validate record by providing its ID.'
+      operationId: 7bd6379c324538289ef441e6fde7b28d
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'ID of the Validate record to be deleted'
+          required: true
+          schema:
+            type: integer
+            example: 1
+      responses:
+        200:
+          description: 'Validate record deleted successfully'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'Validate successfully deleted!'
+                type: object
+        404:
+          description: 'Validate record not found'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: 'Validate record not found.'
+                type: object
 tags:
   -
     name: Aptitudes
@@ -2811,3 +3044,6 @@ tags:
   -
     name: Users
     description: 'Manage users'
+  -
+    name: Validates
+    description: 'Manage student validation of skills'

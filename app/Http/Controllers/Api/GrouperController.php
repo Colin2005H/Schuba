@@ -106,7 +106,7 @@ class GrouperController extends Controller {
             $query->where('SEA_ID', $seaId);
         }
         if ($pres !== null) {
-            $pres = filter_var($request->input('PRESENT'), FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
+            $pres = filter_var($pres, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
             $query->where('GRP_PRESENCE', $pres);
         }
     

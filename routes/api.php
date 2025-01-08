@@ -13,7 +13,7 @@ use App\Http\Controllers\Api\PloInitiateurController;
 use App\Http\Controllers\Api\PloLieuController;
 use App\Http\Controllers\Api\PloSeanceController;
 use App\Http\Controllers\Api\PloUtilisateurController;
-use App\Models\GererLaFormation;
+use App\Http\Controllers\Api\ValiderController;
 
 Route::get('/location', [PloLieuController::class, "get"]);
 Route::post('/location', [PloLieuController::class, "create"]);
@@ -70,6 +70,11 @@ Route::delete('/group/{id}', [GrouperController::class, "delete"]);
 Route::get('/teaching', [EnseignerController::class, "get"]);
 Route::post('/teaching', [EnseignerController::class, "create"]);
 Route::delete('/teaching/{id}', [EnseignerController::class, "delete"]);
+
+Route::get('/validate', [ValiderController::class, "get"]);
+Route::post('/validate', [ValiderController::class, "create"]);
+Route::put('/validate/{id}', [ValiderController::class, "update"]);
+Route::delete('/validate/{id}', [ValiderController::class, "delete"]);
 
 /*
 |--------------------------------------------------------------------------

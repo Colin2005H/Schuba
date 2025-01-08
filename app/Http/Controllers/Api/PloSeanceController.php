@@ -75,6 +75,11 @@ use App\Http\Controllers\Controller;
  *     description="Manage users"
  * )
  * 
+ * @OA\Tag(
+ *     name="Validates",
+ *     description="Manage student validation of skills"
+ * )
+ * 
  */
 
 class PloSeanceController extends Controller {
