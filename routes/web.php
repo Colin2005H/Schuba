@@ -4,6 +4,7 @@ use App\Http\Controllers\CreateAccountController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FormationController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ProfileController;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 
@@ -27,6 +28,11 @@ Route::get('/', function () {
     return view('login-page');
 });
 
+
+
+Route::prefix('/profile')->name('profile.')->controller(\App\Http\Controllers\ProfileController::class)->group(function(){
+    Route::get('/', 'index')->name('show');
+});
 
 //Route pour la page de création de compte
 Route::prefix('/createAccount')->name('createAccount.')->controller(CreateAccountController::class)->group(function(){
