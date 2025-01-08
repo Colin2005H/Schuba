@@ -35,7 +35,7 @@ Route::prefix('/createSession')->name('createSession.')->controller(\App\Http\Co
     Route::post('/', 'store');
 });
 
-Route::get('/profile', function () {
+Route::get('/profile-page', function () {
     return view('profile');
 });
 
