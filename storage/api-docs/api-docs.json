@@ -3,9 +3,387 @@
     "info": {
         "title": "Schuba API",
         "description": "API for managing diving club activities",
-        "version": "0.2.5"
+        "version": "0.3.0"
     },
     "paths": {
+        "/api/formation": {
+            "get": {
+                "tags": [
+                    "Formations"
+                ],
+                "summary": "List filtered formations",
+                "description": "Retrieve a list of formations filtered by criteria such as formation level, name, description, and maximum number of professors.",
+                "operationId": "listFormations",
+                "parameters": [
+                    {
+                        "name": "ID",
+                        "in": "query",
+                        "description": "Formation level ID to filter the results",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "example": 2
+                        }
+                    },
+                    {
+                        "name": "NAME",
+                        "in": "query",
+                        "description": "Formation name (uses LIKE 'name%')",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "example": "Niveau 1 Plongée"
+                        }
+                    },
+                    {
+                        "name": "DESCRIPTION",
+                        "in": "query",
+                        "description": "Formation description (uses LIKE 'description%')",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "example": "Formation de plongée pour débutants"
+                        }
+                    },
+                    {
+                        "name": "MAX_TEACHERS",
+                        "in": "query",
+                        "description": "Maximum number of professors for the formation",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "example": 3
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully fetched the formations matching the criteria",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "FORM_NIVEAU": {
+                                                "description": "Formation level",
+                                                "type": "integer",
+                                                "example": 2
+                                            },
+                                            "FORM_LIBELLE": {
+                                                "description": "Formation name",
+                                                "type": "string",
+                                                "example": "Niveau 1 Plongée"
+                                            },
+                                            "FORM_DESCRIPTION": {
+                                                "description": "Formation description",
+                                                "type": "string",
+                                                "example": "Formation de plongée pour débutants"
+                                            },
+                                            "FORM_PROF_MAX": {
+                                                "description": "Maximum number of professors",
+                                                "type": "integer",
+                                                "example": 3
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Incorrect parameters",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Invalid parameters"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Formations"
+                ],
+                "summary": "Create a new formation",
+                "description": "Creates a new formation with the provided name, description, and maximum number of professors.",
+                "operationId": "createFormation",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "NAME",
+                                    "MAX_TEACHERS"
+                                ],
+                                "properties": {
+                                    "NAME": {
+                                        "description": "The name of the formation",
+                                        "type": "string",
+                                        "example": "Niveau 1 Plongée"
+                                    },
+                                    "DESCRIPTION": {
+                                        "description": "The description of the formation",
+                                        "type": "string",
+                                        "example": "Formation de plongée pour débutants"
+                                    },
+                                    "MAX_TEACHERS": {
+                                        "description": "The maximum number of professors for the formation",
+                                        "type": "integer",
+                                        "example": 3
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Formation successfully created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Formation successfully created!"
+                                        },
+                                        "formation": {
+                                            "properties": {
+                                                "ID": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "NAME": {
+                                                    "type": "string",
+                                                    "example": "Niveau 1 Plongée"
+                                                },
+                                                "DESCRIPTION": {
+                                                    "type": "string",
+                                                    "example": "Formation de plongée pour débutants"
+                                                },
+                                                "MAX_TEACHERS": {
+                                                    "type": "integer",
+                                                    "example": 3
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input data",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Validation errors"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/formation/{id}": {
+            "put": {
+                "tags": [
+                    "Formations"
+                ],
+                "summary": "Update a formation",
+                "description": "Updates the details of an existing formation by its level ID (FORM_NIVEAU).",
+                "operationId": "updateFormation",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the formation to update",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "NAME",
+                                    "DESCRIPTION",
+                                    "MAX_TEACHERS"
+                                ],
+                                "properties": {
+                                    "NAME": {
+                                        "description": "The name of the formation",
+                                        "type": "string",
+                                        "example": "Niveau 1 Plongée"
+                                    },
+                                    "DESCRIPTION": {
+                                        "description": "The description of the formation",
+                                        "type": "string",
+                                        "example": "Formation de plongée pour débutants"
+                                    },
+                                    "MAX_TEACHERS": {
+                                        "description": "The maximum number of professors for the formation",
+                                        "type": "integer",
+                                        "example": 3
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Formation successfully updated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Formation successfully updated!"
+                                        },
+                                        "formation": {
+                                            "properties": {
+                                                "ID": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "NAME": {
+                                                    "type": "string",
+                                                    "example": "Niveau 1 Plongée"
+                                                },
+                                                "DESCRIPTION": {
+                                                    "type": "string",
+                                                    "example": "Formation de plongée pour débutants"
+                                                },
+                                                "MAX_TEACHERS": {
+                                                    "type": "integer",
+                                                    "example": 3
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Formation not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Formation not found."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input data",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Validation errors"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Formations"
+                ],
+                "summary": "Delete a formation",
+                "description": "Deletes a formation by its level ID (FORM_NIVEAU).",
+                "operationId": "deleteFormation",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the formation to delete",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Formation successfully deleted",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Formation successfully deleted!"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Formation not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Formation not found."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/initiator": {
             "get": {
                 "tags": [
@@ -1650,6 +2028,10 @@
         }
     },
     "tags": [
+        {
+            "name": "Formations",
+            "description": "Formations"
+        },
         {
             "name": "Initiators",
             "description": "Initiators"
