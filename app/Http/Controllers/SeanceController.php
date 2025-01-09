@@ -13,6 +13,7 @@ use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Redirect;
 
 class SeanceController extends Controller
 {
@@ -79,7 +80,7 @@ class SeanceController extends Controller
      */
     public function store(Request $request)
     {
-
+        $sessionId = NULL;
 
         try {
             $startTime = $request->input('date') . "T" . $request->input('beginHour') . ":" . $request->input('beginMin');
@@ -95,9 +96,10 @@ class SeanceController extends Controller
             return redirect()->route('createSession.show')->with('success', $e->getMessage());
         }
 
-        $request->input('aptitude');
-
-        return redirect()->route('createSession.show')->with('success', "La séance a été créée");
+        if(isset($sessionId)){
+            return Redirect::route('setWorkedSkills', $sessionId)->with('success', "La séance a été créée");
+        }
+        return redirect()->route("createSession.show")->with('success', "Un problème inattendu est survenu (sessionId NULL)");
     }
 
     /**
@@ -109,6 +111,7 @@ class SeanceController extends Controller
      */
     public function createGroup($group, $sessionId)
     {
+        echo "<script>console.log(\"création de groupe\");</script>";
         print_r($group);
         Groupe::create([
             "SEA_ID" => $sessionId,
