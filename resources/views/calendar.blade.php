@@ -195,6 +195,8 @@
                             }
                         }
                         loadTable();
+
+                        document.cookie = "identifier=".info.event.id;
                     }
               };
 
