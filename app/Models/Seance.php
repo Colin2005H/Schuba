@@ -96,15 +96,27 @@ class Seance extends Model
         return $aptitudes;
     }
 
-    public function getInitiator(int $eleve_id) {
-        $id = DB::table('PLO_INITIATEUR') 
-            ->join('GROUPER', 'PLO_INITIATEUR.UTI_ID', '=', 'GROUPER.UTI_ID_INITIATEUR') 
-            ->join('PLO_ELEVE', 'GROUPER.UTI_ID', '=', 'PLO_ELEVE.UTI_ID') 
-            ->where('PLO_ELEVE.UTI_ID', '=', $eleve_id)
-            ->pluck('PLO_INITIATEUR.UTI_ID');
+    public function getLieu() {
+        $id = DB::table('PLO_LIEU') 
+            ->join('PLO_SEANCE', 'PLO_LIEU.LI_ID', '=', 'PLO_SEANCE.LI_ID') 
+            ->where('PLO_SEANCE.SEA_ID', '=', $this->SEA_ID)
+            ->pluck('PLO_LIEU.LI_ID');
 
-        $initiator = Initiator::whereIn('UTI_ID', $id)->get();
+        $lieu = PloLieu::whereIn('LI_ID', $id)->get();
 
-        return $initiator;
+        //dd($lieu);
+
+        return $lieu;
+    }
+
+    public function getFormation() {
+        $id = DB::table('PLO_FORMATION') 
+            ->join('PLO_SEANCE', 'PLO_SEANCE.FORM_NIVEAU', '=', 'PLO_FORMATION.FORM_NIVEAU') 
+            ->where('PLO_SEANCE.SEA_ID', '=', $this->SEA_ID)
+            ->pluck('PLO_FORMATION.FORM_NIVEAU');
+
+        $form = PloFormation::whereIn('FORM_NIVEAU', $id)->get();
+
+        return $form;
     }
 }
