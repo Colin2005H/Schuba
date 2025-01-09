@@ -8,6 +8,7 @@
     
 </head>
 <body>
+@include('header')
     <body class="h-screen bg-gray-100 flex items-center justify-center">
 
         <!-- Conteneur du tableau centré -->
