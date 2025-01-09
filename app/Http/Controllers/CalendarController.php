@@ -88,8 +88,12 @@ class CalendarController extends Controller
     }
 
     public function store(Request $request){
+        $userid = session('user')->UTI_ID;
         if(session('user')->getRole() == 'responsable') {
             return Redirect::route('bilan.modif',$request->identifier);
+        }
+        if(session('user')->getRole() == 'eleve') {
+            return Redirect::route('aptitudes.show',$userid);
         }
         else {
             return Redirect::route('bilan.showForm',$request->identifier);
