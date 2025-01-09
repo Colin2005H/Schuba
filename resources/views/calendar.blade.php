@@ -223,7 +223,7 @@
 
                     $roleController = new RoleController();
                     $role = $roleController->getRole(session('user'));
-                    $personTable = CalendarController::getGroupByIdSession(1); //$_COOKIE['identifier']
+                    $personTable = CalendarController::getGroupByIdSession($_COOKIE['identifier']);
                     foreach($personTable as $line){
                         echo "<tr>";
                         echo "<td rowspan=\"2\" scope=\"row\" class=\"px-4 py-2 border-b border-gray-200 text-center\">".$line[0]."</td>";
