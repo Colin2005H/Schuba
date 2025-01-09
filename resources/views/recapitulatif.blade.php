@@ -50,7 +50,7 @@
             <tbody>
                 @foreach ($eleves as $eleve)
                     @php
-                        $isInitiateur = $currentUser->UTI_ID === $seance->getInitiator($eleve->user->UTI_ID)[0]->user->UTI_ID;
+                        $isInitiateur = $currentUser->UTI_ID === $eleve->getInitiator($seance->SEA_ID)[0]->user->UTI_ID;
                     @endphp
                     <tr>
                         <td>{{ $eleve->user->UTI_NOM }}</td>
