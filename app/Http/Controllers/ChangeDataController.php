@@ -9,42 +9,52 @@ use Illuminate\Support\Facades\Hash;
 
 class ChangeDataController extends Controller
 {
-    public function show(){
-        $info_compte = DB::table('PLO_UTILISATEUR')->where('UTI_Id',session('user')->UTI_ID)->get();
-        return view('change-data', compact('info_compte'));
+    public function showEmail(){
+        $user = session('user');
+        $changeDataValue = "email";
+        return view('change-data')->with(compact('user', 'changeDataValue'));
     }
 
-    public function edit(Request $request){
+    public function showPassword(){
+        $user = session('user');
+        $changeDataValue = "password";
+        return view('change-data')->with(compact('user', 'changeDataValue'));
+    }
+
+    public function editEmail(Request $request){
         $this->validate($request, [
-            'uti_new_mail' => 'bail|required|unique:plo_utilisateur|email',
-            'uti_mdp' => 'bail|required',
-            'uti_new_mdp' => 'bail|required'
+            'uti_mail' => 'bail|required|unique:plo_utilisateur|email'
         ], [
             'uti_mail.email' => "Le texte doit correspondre à une adresse email valide",
             'uti_mail.unique' => "Cette adresse mail est déjà prise",
             'uti_mail.required' => "Le champ doit être rempli",
-            'uti_mdp.required' => "Le champ doit être rempli",
-            'uti_new_mdp.required' => "Le champ doit être rempli"
         ]);
 
-        if ($request->input('action') == 'editEmail' ){
+        DB::table('PLO_UTILISATEUR')->where('UTI_ID', session('user')->UTI_ID)->update(['UTI_MAIL' => $request->input('uti_mail')]);
 
-            $user = Utilisateur::find(session('user')->UTI_ID);
-            $user->UTI_MAIL = $request->input('uti_new_mail');
-            $user->save();
+        session('user')->UTI_MAIL = $request->input('uti_mail');
 
-            return redirect()->route('profile.show');
+        return redirect()->route('profile.show')->with('success', "L'adresse email a bien été modifié");
+    }
+
+    public function editPassword(Request $request){
+        $this->validate($request, [
+            'uti_mdp' => 'bail|required',
+            'uti_old_mdp' => 'bail|required'
+        ], [
+            'uti_mdp.required' => "Le champ doit être rempli",
+            'uti_old_mdp.required' => "Le champ doit être rempli"
+        ]);
+
+        if (Hash::check($request->input('uti_old_mdp'), session('user')->UTI_MDP)) {
+            $passwd = Hash::make($request->input('uti_mdp'));
+            DB::table('PLO_UTILISATEUR')->where('UTI_ID', session('user')->UTI_ID)->update(['UTI_MDP' => $passwd]);
+            session('user')->UTI_MDP = $passwd;
+            return redirect()->route('profile.show')->with('success', "Le mot de passe a bien été modifié");
         }
-        if ($request->input('action') == 'editPassword' ){
-
-            if (Hash::check(session('user')->UTI_MDP, $request->input('uti_mdp'))) {
-                $user = Utilisateur::find(session('user')->UTI_ID);
-    
-                $user->UTI_MDP = $request->input('uti_new_mdp');
-                $user->save();
-            }
-
-            return redirect()->route('profile.show');
+        else{
+            return redirect()->route('changeData.showPassword')->with('failure', "Vous vous êtes trompé de mot de passe");
         }
+
     }
 }

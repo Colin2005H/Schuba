@@ -274,23 +274,20 @@
             ?>
             <?php if($role === 'initiateur'): ?>
             
-                <button id="evaluate" class="mt-4 bg-blue-500 text-white px-4 py-2 rounded mx-auto" 
-                        >
+                <button id="evaluate" class="mt-4 bg-blue-500 text-white px-4 py-2 rounded mx-auto">
                     Evaluer
                 </button>
                 <?php endif; ?>
                 <?php if($role === 'responsable'): ?>
             
-            <button id="modif" class="mt-4 bg-blue-500 text-white px-4 py-2 rounded mx-auto" 
-                    >
+            <button id="modif" class="mt-4 bg-blue-500 text-white px-4 py-2 rounded mx-auto">
                     Modifier
             </button>    
             <?php endif; ?>
             
             @if($role === 'eleve')
-            <button id="bilan" class="mt-4 bg-blue-500 text-white px-4 py-2 rounded mx-auto" 
-                    >
-                    bilan
+            <button id="bilan" class="mt-4 bg-blue-500 text-white px-4 py-2 rounded mx-auto" >
+                    Bilan
             </button>   
             @endif
             

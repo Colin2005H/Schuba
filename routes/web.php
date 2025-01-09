@@ -107,10 +107,14 @@ Route::get('/triche', function() {
     return Hash::make("admin");
 });
 
+
 Route::prefix('/changeData')->name('changeData.')->controller(\App\Http\Controllers\ChangeDataController::class)->group(function(){
-    Route::get('/', 'show')->name('show');
-    Route::post('/', 'edit');
+    Route::get('/showEmail', 'showEmail')->name('showEmail');
+    Route::get('/showPassword', 'showPassword')->name('showPassword');
+    Route::post('/showEmail', 'editEmail');
+    Route::post('/showPassword', 'editPassword');
 });
+
 
 Route::post('/seance-store', [BilanSeanceController::class, 'store'])->name('seance-store2');
 
