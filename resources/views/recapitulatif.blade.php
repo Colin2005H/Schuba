@@ -55,7 +55,7 @@
                     <tr>
                         <td>{{ $eleve->user->UTI_NOM }}</td>
                         <td>
-                            <input type="checkbox" name="presence[{{ $eleve->UTI_ID }}]" {{ $isInitiateur ? '' : 'disabled' }}>
+                            <input type="checkbox" name="presence[{{ $eleve->user->UTI_ID }}]" value="{{ $eleve->user->UTI_ID }}" {{ $isInitiateur ? '' : 'disabled' }} checked>
                         </td>
                         <td>
                             @foreach ($seance->getAptEleve($eleve->user->UTI_ID) as $apt)
@@ -65,23 +65,36 @@
                             @endforeach
                         </td>
                         <td>
-                        @foreach ($seance->getAptEleve($eleve->user->UTI_ID) as $apt)
-                        <select name="evaluation[{{ $eleve->UTI_ID }}][{{ $apt->APT_CODE }}] " {{ $isInitiateur ? '' : 'disabled' }}>
-                            <option>non évaluée</option>
-                            <option>en cours d'acquisition</option>
-                            <option>acquise</option>
-                        </select>
-                            @endforeach
-                        
-                        </td>
+    @foreach ($seance->getAptEleve($eleve->user->UTI_ID) as $apt)
+        <?php
+            $evaluationValue = isset($default[$eleve->user->UTI_ID][$apt->APT_CODE]) ? $default[$eleve->user->UTI_ID][$apt->APT_CODE]['evaluation'] : null;
+        ?>
+        <select name="evaluation[{{ $eleve->user->UTI_ID }}][{{ $apt->APT_CODE }}]" {{ $isInitiateur ? '' : 'disabled' }}>
+            <option value="Non évaluée" 
+                {{ $evaluationValue === 'Non évaluée' ? 'selected' : '' }}>
+                Non évaluée
+            </option>
+            <option value="En cours" 
+                {{ $evaluationValue === 'En cours' ? 'selected' : '' }}>
+                En cours
+            </option>
+            <option value="Acquis" 
+                {{ $evaluationValue === 'Acquis' ? 'selected' : '' }}>
+                Acquis
+            </option>
+        </select>
+    @endforeach
+</td>
+
+
                         <td>
-                        @foreach ($seance->getAptEleve($eleve->user->UTI_ID) as $apt)
-                        <div>
-                                    <textarea name="commentaire[{{ $eleve->UTI_ID }}][{{ $apt->APT_CODE }}]" rows="2" placeholder="Commentaire..." {{ $isInitiateur ? '' : 'disabled' }}></textarea>
+                            @foreach ($seance->getAptEleve($eleve->user->UTI_ID) as $apt)
+                                <div>
+                                    <textarea name="commentaire[{{ $eleve->user->UTI_ID }}][{{ $apt->APT_CODE }}]" rows="2" placeholder="Commentaire..." {{ $isInitiateur ? '' : 'disabled' }}>
+                                        {{ isset($default[$eleve->user->UTI_ID][$apt->APT_CODE]) ? $default[$eleve->user->UTI_ID][$apt->APT_CODE]['commentaire'] : '' }}
+                                    </textarea>
                                 </div>
                             @endforeach
-                                
-                            
                         </td>
                     </tr>
                 @endforeach

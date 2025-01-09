@@ -246,24 +246,33 @@
                 </thead>
                 <tbody id="bodyTable">
 
+                <tbody>
+                    <?php
+                    use App\Http\Controllers\CalendarController;
+                    use App\Http\Controllers\RoleController;
+                    use Illuminate\Support\Facades\Auth;
+
+                    $roleController = new RoleController();
+                    $role = $roleController->getRole(session('user'));
+                    ?>
                 </tbody>
             </table>
             <button id="close" class="mt-4 bg-blue-500 text-white px-4 py-2 rounded mx-auto" onclick="document.getElementById('popup').style.display = 'none';">Fermer</button>
-            <?php           
-            use App\Http\Controllers\RoleController;
-        
-            $roleController = new RoleController();
-            $role = $roleController->getRole(session('user'));
-            $userid = session('user')->UTI_ID;
-
-            if($role === 'initiateur'){
-                echo "<button id=\"evaluate\" class=\"mt-4 bg-blue-500 text-white px-4 py-2 rounded mx-auto\">Evaluer</button>";
-            }
-            if($role === 'eleve'){?>
-                <a href="{{ url('/aptitudes/'.$userid) }}" class="mt-4 bg-blue-500 text-white px-4 py-2 rounded mx-auto"> Bilan de compétences </a>
-            
             <?php
-            }?>
+                $seance_id = $_COOKIE['identifier'];
+                $url = route('bilan.showForm', ['seance_id' => $seance_id]);
+                $userid = session('user')->UTI_ID;
+                if($role === 'eleve'){?>
+                    <a href="{{ url('/aptitudes/'.$userid) }}" class="mt-4 bg-blue-500 text-white px-4 py-2 rounded mx-auto"> Bilan de compétences </a>
+                <?php
+                }?>
+            
+            <?php if($role === 'initiateur'): ?>
+    <button id="evaluate" class="mt-4 bg-blue-500 text-white px-4 py-2 rounded mx-auto" 
+            onclick="window.location.href='<?php echo $url; ?>'">
+        Evaluer
+    </button>
+<?php endif; ?>
         </div>
     </div>
 </body>

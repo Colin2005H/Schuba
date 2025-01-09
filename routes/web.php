@@ -82,13 +82,25 @@ Route::get('/home', function() {
 Route::post('/showForm', [BilanSeanceController::class, 'showForm'])->name('seance-store');
 
 Route::get('/triche', function() {
-    return Hash::make("toujoursresponsable");
+    return Hash::make("toujourssupermdp");
+    return Hash::make("admin");
 });
+
+
 Route::post('/seance-store', [BilanSeanceController::class, 'store'])->name('seance-store');
 
 Route::prefix('/calendar')->name('calendar.')->controller(\App\Http\Controllers\CalendarController::class)->group(function(){
     Route::get('/', 'show')->name('show');
     Route::get('/{sessionId}', 'tableSession')->name('tableSession');
+
+});
+
+Route::prefix('/aptitudes/{userId}')->name('aptitudes.')->controller(AptitudesTableStudentController::class)->group(function(){
+    Route::get('/', 'showListAptitudes')->name('show');
+});
+
+Route::prefix('/globalAptitudes/{level}')->name('globalAptitudes.')->controller(AptitudesGlobalTableController::class)->group(function(){
+    Route::get('/', 'showListAptitudes')->name('show');
 });
 
 Route::prefix('/aptitudes/{userId}')->name('aptitudes.')->controller(AptitudesTableStudentController::class)->group(function(){
@@ -102,6 +114,7 @@ Route::prefix('/globalAptitudes/{level}')->name('globalAptitudes.')->controller(
 Route::get('/footer', function () {
     return view('footer');
 });
+Route::get('/seance/{seance_id}/bilan', [BilanSeanceController::class, 'showForm'])->name('bilan.showForm');
 
 use App\Http\Controllers\CsvController;
 Route::get('/create-csv', [CsvController::class, 'createCsvUser']);
