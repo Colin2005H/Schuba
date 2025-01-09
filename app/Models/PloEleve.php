@@ -98,7 +98,7 @@ class PloEleve extends Model
 			return false; 
 		}
 
-		for($i = 0; $i < $querry->length && $i < 3; $i++){
+		for($i = 0; $i < sizeof($querry) && $i < 3; $i++){
 			//on prends les 3 dernières évaluations de l'aptitude
 
 			if(strtolower(trim($querry[$i])) != "acquis"){
