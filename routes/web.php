@@ -7,6 +7,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BilanSeanceController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\listCommentariesController;
+use App\Http\Controllers\ModifSeanceController;
 
 
 use App\Models\User;
@@ -78,12 +79,13 @@ Route::get('/home', function() {
 });
 
 Route::get('/triche', function() {
-    return Hash::make("toujourssupermdp");
+    return Hash::make("responsable");
     return Hash::make("admin");
 });
 
 
 Route::post('/seance-store', [BilanSeanceController::class, 'store'])->name('seance-store');
+
 
 Route::prefix('/calendar')->name('calendar.')->controller(\App\Http\Controllers\CalendarController::class)->group(function(){
     Route::get('/', 'show')->name('show');
@@ -96,3 +98,9 @@ Route::get('/footer', function () {
 });
 
 Route::get('/seance/{seance_id}/bilan', [BilanSeanceController::class, 'showForm'])->name('bilan.showForm');
+
+Route::post('/seance/{seance_id}/update', [ModifSeanceController::class, 'update'])->name('seance-update');
+
+Route::get('/seance/{seance_id}/modif', [ModifSeanceController::class, 'showForm'])->name('bilan.modif');
+
+Route::get('/seance/{seance_id}/delete', [ModifSeanceController::class, 'delete'])->name('seance.delete');

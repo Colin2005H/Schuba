@@ -261,12 +261,19 @@
             <?php
                 $seance_id = $_COOKIE['identifier'];
                 $url = route('bilan.showForm', ['seance_id' => $seance_id]);
+                $url2 = route('bilan.modif', ['seance_id' => $seance_id]);
             
             ?>
             <?php if($role === 'initiateur'): ?>
     <button id="evaluate" class="mt-4 bg-blue-500 text-white px-4 py-2 rounded mx-auto" 
             onclick="window.location.href='<?php echo $url; ?>'">
         Evaluer
+    </button>
+<?php endif; ?>
+<?php if($role === 'responsable'): ?>
+    <button id="modify" class="mt-4 bg-blue-500 text-white px-4 py-2 rounded mx-auto" 
+            onclick="window.location.href='<?php echo $url2; ?>'">
+        Modifier
     </button>
 <?php endif; ?>
         </div>
