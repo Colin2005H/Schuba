@@ -57,4 +57,16 @@ class PloInitiateur extends Model
 	{
 		return $this->hasMany(Grouper::class, 'UTI_ID_INITIATEUR');
 	}
+
+	/**
+	 * Undocumented function
+	 *
+	 * @param int $level niveau de la formation
+	 * @return boolean
+	 */
+	public function isInFormation($level){
+		$formations = $this->enseigners()->where('FORM_NIVEAU', $level)->get();
+		//dd($formations);
+		return $formations->isNotEmpty();
+	}
 }
