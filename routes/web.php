@@ -85,15 +85,11 @@ Route::get('/header', function() {
     return view('header');
 });
 
-
-
 Route::post('/showForm', [BilanSeanceController::class, 'showForm'])->name('seance-store-show');
 
 Route::get('/home', function() {
     return view('home');
 });
-
-
 
 Route::post('/showForm', [BilanSeanceController::class, 'showForm'])->name('seance-store');
 
@@ -102,39 +98,13 @@ Route::get('/triche', function() {
     return Hash::make("admin");
 });
 
-
-Route::post('/seance-store', [BilanSeanceController::class, 'store'])->name('seance-store');
-
+Route::post('/seance-store', [BilanSeanceController::class, 'store'])->name('seance-store2');
 
 Route::prefix('/calendar')->name('calendar.')->controller(\App\Http\Controllers\CalendarController::class)->group(function(){
     Route::get('/', 'show')->name('show');
     Route::get('/{sessionId}', 'tableSession')->name('tableSession');
     Route::post('/', 'store');
 
-});
-
-Route::prefix('/aptitudes/{userId}')->name('aptitudes.')->controller(AptitudesTableStudentController::class)->group(function(){
-    Route::get('/', 'showListAptitudes')->name('show');
-});
-
-Route::prefix('/globalAptitudes/{level}')->name('globalAptitudes.')->controller(AptitudesGlobalTableController::class)->group(function(){
-    Route::get('/', 'showListAptitudes')->name('show');
-});
-
-Route::prefix('/aptitudes/{userId}')->name('aptitudes.')->controller(AptitudesTableStudentController::class)->group(function(){
-    Route::get('/', 'showListAptitudes')->name('show');
-});
-
-Route::prefix('/globalAptitudes/{level}')->name('globalAptitudes.')->controller(AptitudesGlobalTableController::class)->group(function(){
-    Route::get('/', 'showListAptitudes')->name('show');
-});
-
-Route::prefix('/aptitudes/{userId}')->name('aptitudes.')->controller(AptitudesTableStudentController::class)->group(function(){
-    Route::get('/', 'showListAptitudes')->name('show');
-});
-
-Route::prefix('/globalAptitudes/{level}')->name('globalAptitudes.')->controller(AptitudesGlobalTableController::class)->group(function(){
-    Route::get('/', 'showListAptitudes')->name('show');
 });
 
 Route::prefix('/aptitudes/{userId}')->name('aptitudes.')->controller(AptitudesTableStudentController::class)->group(function(){
@@ -156,12 +126,7 @@ Route::get('/listUser',[listUserController::class, 'showListUser'])->name('listU
 Route::post('/listUser',[listUserController::class, 'deleteUser'])->name('listUser2');
 
 Route::get('/modifierCompte/{id}', [ModifierCompteController::class, 'edit'])->name('modifierCompte');
-Route::post('/modifierCompte/{id}', [ModifierCompteController::class, 'update'])->name('modifierCompte');
-    
-
-
-
-
+Route::post('/modifierCompte/{id}', [ModifierCompteController::class, 'update'])->name('modifierCompte2');
 
 Route::post('/seance/{seance_id}/update', [ModifSeanceController::class, 'update'])->name('seance-update');
 

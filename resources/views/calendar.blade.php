@@ -265,11 +265,13 @@
                     ?>
                 </tbody>
             </table>
-            <button id="close" class="mt-4 bg-blue-500 text-white px-4 py-2 rounded mx-auto" onclick="document.getElementById('popup').style.display = 'none';">Fermer</button>
+            <button id="close" class="mt-4 bg-blue-500 text-white px-4 py-2 rounded mx-auto" onclick="document.getElementById('popup').style.display = 'none';" type="button">Fermer</button>
             <?php
-                $seance_id = $_COOKIE['identifier'];
-                $url = route('bilan.showForm', ['seance_id' => $seance_id]);
-                $url2 = route('bilan.modif', ['seance_id' => $seance_id]);
+                //$seance_id = $_COOKIE['identifier'];
+                //$url = route('bilan.showForm', ['seance_id' => $seance_id]);
+                $roleController = new RoleController();
+                $role = $roleController->getRole(session('user'));
+                $userid = session('user')->UTI_ID;
             
             ?>
             <?php if($role === 'initiateur'): ?>
@@ -281,13 +283,12 @@
             </form>
     
 <?php endif; ?>
-
-<?php if($role === 'responsable'): ?>
-    <button id="modify" class="mt-4 bg-blue-500 text-white px-4 py-2 rounded mx-auto" 
-            onclick="window.location.href='<?php echo $url2; ?>'">
-        Modifier
-    </button>
-<?php endif; ?>
+        <?php 
+        if($role === 'eleve'){?>
+            <a href="{{ url('/aptitudes/'.$userid) }}" class="mt-4 bg-blue-500 text-white px-4 py-2 rounded mx-auto"> Bilan de compétences </a>
+            
+        <?php
+        }?>
         </div>
     </div>
 </body>
