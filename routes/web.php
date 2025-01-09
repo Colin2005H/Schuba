@@ -55,3 +55,7 @@ Route::get('/triche', function() {
 });
 
 Route::post('/seance-store', [BilanSeanceController::class, 'store'])->name('seance-store');
+
+Route::get('/calendar', function () {
+    return view('calendar');
+});
