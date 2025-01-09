@@ -1,21 +1,22 @@
 <?php
 
-use App\Http\Controllers\CreateAccountController;
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\FormationController;
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\listCommentariesController;
-use App\Http\Controllers\ModifSeanceController;
-use App\Http\Controllers\listUserController;
-use App\Http\Controllers\ModifierCompteController;
-use App\Http\Controllers\AptitudesTableStudentController;
-use App\Http\Controllers\AptitudesGlobalTableController;
-
-use App\Http\Controllers\BilanSeanceController;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CsvController;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\listUserController;
+use App\Http\Controllers\FormationController;
+use App\Http\Controllers\MemberListController;
+use App\Http\Controllers\BilanSeanceController;
+use App\Http\Controllers\ModifSeanceController;
+
+use App\Http\Controllers\CreateAccountController;
+use App\Http\Controllers\ModifierCompteController;
+use App\Http\Controllers\listCommentariesController;
+use App\Http\Controllers\AptitudesGlobalTableController;
+use App\Http\Controllers\AptitudesTableStudentController;
 
 /*
 |--------------------------------------------------------------------------

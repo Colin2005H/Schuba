@@ -88,6 +88,7 @@ class CalendarController extends Controller
     }
 
     public function store(Request $request){
+        
         return Redirect::route('bilan.showForm',$request->identifier);
     }
 }

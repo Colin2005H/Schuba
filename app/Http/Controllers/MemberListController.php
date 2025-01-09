@@ -18,18 +18,19 @@ class MemberListController extends Controller
         ->select('GERER_LA_FORMATION.FORM_NIVEAU')
         ->get();
 
+
         $studentList = DB::table('PLO_UTILISATEUR')
         ->join('PLO_ELEVE', 'PLO_UTILISATEUR.UTI_ID', '=', 'PLO_ELEVE.UTI_ID')
         ->join('APPARTIENT', 'PLO_ELEVE.UTI_ID', '=', 'APPARTIENT.UTI_ID')
         ->where('UTI_SUPPRIME',0)
-        ->where('APPARTIENT.FORM_NIVEAU',$nivForm)
+        ->where('APPARTIENT.FORM_NIVEAU',$nivForm[0]->FORM_NIVEAU)
         ->get();
 
         $initiatorList = DB::table('PLO_UTILISATEUR')
         ->join('PLO_INITIATEUR', 'PLO_UTILISATEUR.UTI_ID', '=', 'PLO_INITIATEUR.UTI_ID')
         ->join('ENSEIGNER', 'PLO_INITIATEUR.UTI_ID', '=', 'ENSEIGNER.UTI_ID')
         ->where('UTI_SUPPRIME',0)
-        ->where('ENSEIGNER.FORM_NIVEAU',$nivForm)
+        ->where('ENSEIGNER.FORM_NIVEAU',$nivForm[0]->FORM_NIVEAU)
         ->get();
 
         return view('memberList',compact('studentList','initiatorList'));

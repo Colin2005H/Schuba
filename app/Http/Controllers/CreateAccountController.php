@@ -14,14 +14,14 @@ class CreateAccountController extends Controller
 {
 
     public function createAccount() {
-        $director = DB::table('diriger_le_club')->select('clu_id')->where('uti_id', '=', session('user')->UTI_ID)->get();
-        $clubDirector = DB::table('plo_club')->select('clu_id', 'clu_nom')->where('clu_id', '=', $director[0]->clu_id)->get();
+        $director = DB::table('DIRIGER_LE_CLUB')->select('CLU_ID')->where('UTI_ID', '=', session('user')->UTI_ID)->get();
+        $clubDirector = DB::table('PLO_CLUB')->select('CLU_ID', 'CLU_NOM')->where('CLU_ID', '=', $director[0]->clu_id)->get();
         return view('create-account')->with(compact('clubDirector'));
     }
 
     public function store(Request $request){
-        $director = DB::table('diriger_le_club')->select('clu_id')->where('uti_id', '=', session('user')->UTI_ID)->get();
-        $clubDirector = DB::table('plo_club')->select('clu_id', 'clu_nom')->where('clu_id', '=', $director[0]->clu_id)->get();
+        $director = DB::table('DIRIGER_LE_CLUB')->select('CLU_ID')->where('UTI_ID', '=', session('user')->UTI_ID)->get();
+        $clubDirector = DB::table('PLO_CLUB')->select('CLU_ID', 'CLU_NOM')->where('CLU_ID', '=', $director[0]->clu_id)->get();
         $this->validate($request, [
             'uti_mail' => 'bail|required|unique:plo_utilisateur|email',
             'uti_nom' => 'bail|required',
@@ -75,13 +75,13 @@ class CreateAccountController extends Controller
 
         switch($request->input('userType')){
             case 'eleve':
-                $sql = DB::table('plo_utilisateur')->select('uti_id')->where('uti_mail','=',$request->input('uti_mail'))->get();
+                $sql = DB::table('PLO_UTILISATEUR')->select('UTI_ID')->where('uti_mail','=',$request->input('uti_mail'))->get();
                 $eleve = Eleve::create([
                     'uti_id' => $sql[0]->uti_id
                 ]);
                 break;
             case 'initiateur':
-                $sql = DB::table('plo_utilisateur')->select('uti_id')->where('uti_mail','=',$request->input('uti_mail'))->get();
+                $sql = DB::table('PLO_UTILISATEUR')->select('UTI_ID')->where('uti_mail','=',$request->input('uti_mail'))->get();
                 $initiateur = Initiateur::create([
                     'uti_id' => $sql[0]->uti_id
                 ]);
