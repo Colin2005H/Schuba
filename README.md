@@ -9,7 +9,7 @@ Schuba est une application web utilisant Laravel, qui permet la gestion des form
 ### Étape 1
 
 ```
-composer require "darkaonline:l5-swagger"
+composer require "darkaonline/l5-swagger"
 ```
 
 ```
