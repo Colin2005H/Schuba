@@ -5,19 +5,16 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\DB;
-use App\Http\Controllers\RoleController;
 use Illuminate\Support\Facades\Auth;
 
 class CalendarController extends Controller
 {
     public function show() {
-        $roleController = new RoleController();
-        $role = $roleController->getRole(session('user'));
-        return view('calendar')->with(compact($role));
+        return view('calendar');
     }
 
     public function tableSession(){
-        
+
     }
 
     public static function getGroupByIdSession($id){
