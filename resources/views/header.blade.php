@@ -10,7 +10,7 @@
             use App\Http\Controllers\RoleController;
             use Illuminate\Support\Facades\Auth;
 
-            
+            $userid = session('user')->UTI_ID;
 
             $roleController = new RoleController();
             $role = $roleController->getRole(session('user'));
@@ -22,7 +22,7 @@
         <nav class="hidden md:flex space-x-6">
             <a href="{{ url('/profile') }}" class="hover:text-gray-400">Mon compte</a>
             <a href="{{ url('/calendar') }}" class="hover:text-gray-400">Séances</a>
-            <a href="{{ url('/') }}" class="hover:text-gray-400">Compétences</a>
+            <a href="{{ url('/aptitudes/' . $userid) }}" class="hover:text-gray-400">Bilan de Compétences</a>
             <a href="{{ url('/') }}" class="hover:text-gray-400">Se Déconnecter</a>
         </nav>
         @elseif($role === 'responsable')

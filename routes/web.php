@@ -77,7 +77,7 @@ Route::get('/calendar', function () {
     return view('calendar');
 });
 
-Route::prefix('/aptitudes')->name('aptitudes.')->controller(AptitudesTableStudentController::class)->group(function(){
+Route::prefix('/aptitudes/{userId}')->name('aptitudes.')->controller(AptitudesTableStudentController::class)->group(function(){
     Route::get('/', 'showListAptitudes')->name('show');
 });
 

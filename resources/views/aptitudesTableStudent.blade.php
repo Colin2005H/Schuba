@@ -10,7 +10,7 @@
     @include('header')
     
     <div class="container mx-auto py-8">
-        <h1 class="text-3xl font-bold mb-6 text-center"> Bilan des aptitudes de {{session('user')->UTI_PRENOM}} {{session('user')->UTI_NOM}}</h1>
+        <h1 class="text-3xl font-bold mb-6 text-center"> Bilan des aptitudes de {{$student->UTI_PRENOM}} {{$student->UTI_NOM}}</h1>
 
         <!-- Centrer le tableau et ajouter un défilement horizontal -->
         <div class="max-w-7xl mx-auto bg-white p-4 shadow-md rounded-lg overflow-x-auto">

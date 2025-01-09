@@ -7,10 +7,15 @@ use Illuminate\Support\Facades\DB;
 class AptitudesTableStudentController extends Controller
 {
 
-    public function showListAptitudes()
+    public function showListAptitudes($userId)
     {
-        $userId = session('user')->UTI_ID;
-        $userLvl = session('user')->UTI_NIVEAU + 1;
+        $student = DB::table('PLO_ELEVE')
+        ->join('PLO_UTILISATEUR', 'PLO_UTILISATEUR.UTI_ID', '=', 'PLO_ELEVE.UTI_ID')
+        ->where('PLO_ELEVE.UTI_ID', '=', $userId)
+        ->select('PLO_ELEVE.UTI_ID', 'UTI_NOM', 'UTI_PRENOM', 'UTI_NIVEAU')
+        ->first();
+
+        $userLvl = $student->UTI_NIVEAU + 1;
 
         $skillsList = DB::table('PLO_COMPETENCE')
         ->join('PLO_APTITUDE', 'PLO_COMPETENCE.CPT_ID', '=', 'PLO_APTITUDE.CPT_ID')
@@ -38,7 +43,7 @@ class AptitudesTableStudentController extends Controller
 
 
         
-        return view('aptitudesTableStudent')->with(compact('sessionsList', 'evaluationsList', 'aptitudesList', 'skillsList'));
+        return view('aptitudesTableStudent')->with(compact('student', 'sessionsList', 'evaluationsList', 'aptitudesList', 'skillsList'));
     }
 }
 ?>
