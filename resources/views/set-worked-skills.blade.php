@@ -11,6 +11,11 @@
     <body class="bg-gray-100 text-gray-900 font-sans">
         @include('header')
 
+        @if (session('success'))
+        <div class="bg-green-100 text-green-800 border border-green-400 rounded p-4 mb-4">
+            {{session('success')}}
+        </div>
+        @endif
         <h1>Selection des aptitudes travaillées</h1>
 
         
@@ -26,10 +31,12 @@
                 <h3>{{$eleve->UTI_PRENOM}} {{$eleve->UTI_NOM}}</h3>
 
                 @foreach($aptitudes as $apt)
-                <span>
-                    <label for="{{$apt->APT_CODE}}">{{$apt->APT_LIBELLE}}</label>
-                    <input type="checkbox" name="apt[{{$eleve->UTI_ID}}][]" id="{{$apt->APT_CODE}}" value="{{$apt->APT_CODE}}">
-                </span>
+                    @if(!$eleve->plo_eleve->validate($apt->APT_CODE))
+                    <span>
+                        <label for="{{$apt->APT_CODE}}">{{$apt->APT_LIBELLE}}</label>
+                        <input type="checkbox" name="apt[{{$eleve->UTI_ID}}][]" id="{{$apt->APT_CODE}}" value="{{$apt->APT_CODE}}">
+                    </span>
+                    @endif
                 @endforeach
             </div>
                 

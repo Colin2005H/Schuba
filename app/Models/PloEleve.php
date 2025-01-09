@@ -77,4 +77,35 @@ class PloEleve extends Model
 		
 		return $level->FORM_NIVEAU;
 	}
+
+	/**
+	 * vérifie si l'élève valide l'aptitude en parametre
+	 *
+	 * @param string $skill code de l'aptitude
+	 * @return void
+	 */
+	public function validate($skill){
+
+		//on prends les évaluations de l'aptitude pour l'utilisateur concerné de la plus récente à la plus ancienne
+		$querry = $this->evaluers()
+		->join('plo_seance', 'evaluer.sea_id', '=', 'plo_seance.sea_id') 
+		->where('APT_CODE', $skill)
+		->orderBy('sea_date_deb', 'DESC')->get(); 
+
+		
+		if(sizeof($querry) < 3){
+			//inutile de tester puisqu'il n'y a pas assez d'évaluations de l'aptitude
+			return false; 
+		}
+
+		for($i = 0; $i < $querry->length && $i < 3; $i++){
+			//on prends les 3 dernières évaluations de l'aptitude
+
+			if(strtolower(trim($querry[$i])) != "acquis"){
+				return false;
+			}
+		}
+
+		return true;
+	}
 }
