@@ -5,9 +5,37 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class CalendarController extends Controller
 {
+    public function show() {
+        return view('calendar');
+    }
+
+    public function tableSession($sessionId){
+        $personTable = $this->getGroupByIdSession($sessionId);
+        $innerHTML = "";  // Variable pour stocker le HTML généré
+    
+        foreach($personTable as $line) {
+            $innerHTML .= "<tr>";
+            $innerHTML .= "<td rowspan=\"2\" scope=\"row\" class=\"px-4 py-2 border-b border-gray-200 text-center\">" . htmlspecialchars($line[0]) . "</td>";
+            $innerHTML .= "<td class=\"px-4 py-2 border-b border-gray-200 text-center\">" . htmlspecialchars($line[1][0]) . "</td>";
+            $innerHTML .= "<td class=\"px-4 py-2 border-b border-gray-200 text-center\">" . htmlspecialchars($line[2][0]) . "</td>";
+            $innerHTML .= "</tr>";
+
+            // Vérifiez si le second élément existe et ajoutez une deuxième ligne
+            if(count($line[1]) > 1) {
+                $innerHTML .= "<tr>";
+                $innerHTML .= "<td class=\"px-4 py-2 border-b border-gray-200 text-center\">" . htmlspecialchars($line[1][1]) . "</td>";
+                $innerHTML .= "<td class=\"px-4 py-2 border-b border-gray-200 text-center\">" . htmlspecialchars($line[2][1]) . "</td>";
+                $innerHTML .= "</tr>";
+            }
+        }
+
+        return $innerHTML;
+    }
+
     public static function getGroupByIdSession($id){
         $result = [];
         $listIDInitiator = [];

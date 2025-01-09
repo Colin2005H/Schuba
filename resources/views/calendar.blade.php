@@ -175,7 +175,28 @@
                         endingHour.textContent = "Fin : " + info.event.end;
                         popup.style.display = "block";
 
-                        document.cookie = "identifier="+info.event.id;
+                        async function loadTable() {
+                            try {
+                                // Requête AJAX pour récupérer le HTML généré par PHP
+                                const response = await fetch(`/calendar/${info.event.id}`);
+
+                                // Vérifiez si la requête a réussi
+                                if (!response.ok) {
+                                    throw new Error('Échec de la récupération des données');
+                                }
+
+                                // Récupérer le HTML de la réponse
+                                const tableHTML = await response.text();
+
+                                document.getElementById('bodyTable').innerHTML = tableHTML;
+
+                            } catch (error) {
+                                console.error('Erreur lors de la récupération de la table:', error);
+                            }
+                        }
+                        loadTable();
+
+                        document.cookie = "identifier=".info.event.id;
                     }
               };
 
@@ -203,23 +224,28 @@
                     // Appeler resizeCaldendar après l'initialisation du calendrier
                     resizeCaldendar();
                 });
+
+                
             </script>
         </div>
     </div>
+    <p id="hiddenValue" class="hidden"></p>
     <div class="hidden fixed inset-0 z-10 bg-opacity-75 bg-gray-500 flex items-center justify-center place-content-center place-items-center align-content-center min-h-screen w-full" id="popup">
         <div class="bg-white rounded-lg p-6 w-full max-w-md text-center">
-            <p id="identifier" class="hidden"></p>
+            <p id="identifier" class=""></p>
             <p id="location" class="text-lg font-semibold mb-2"></p>
             <p id="beginning-hour" class="mb-2"></p>
             <p id="ending-hour" class="mb-4"></p>
             <table class="min-w-full bg-white border border-gray-200">
-                <thead>
+                <thead id="test">
                     <tr>
                         <th scope="col" class="px-4 py-2 border-b border-gray-200 text-center">Initiateurs</th>
                         <th scope="col" class="px-4 py-2 border-b border-gray-200 text-center">Elèves</th>
                         <th scope="col" class="px-4 py-2 border-b border-gray-200 text-center">Aptitudes</th>
                     </tr>
                 </thead>
+                <tbody id="bodyTable">
+
                 <tbody>
                     <?php
                     use App\Http\Controllers\CalendarController;
@@ -258,6 +284,15 @@
         Evaluer
     </button>
 <?php endif; ?>
+            <?php           
+            use App\Http\Controllers\RoleController;
+        
+            $roleController = new RoleController();
+            $role = $roleController->getRole(session('user'));
+            if($role === 'initiateur'){
+                echo "<button id=\"evaluate\" class=\"mt-4 bg-blue-500 text-white px-4 py-2 rounded mx-auto\">Evaluer</button>";
+            }
+            ?>
         </div>
     </div>
 </body>

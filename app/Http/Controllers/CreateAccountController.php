@@ -31,7 +31,8 @@ class CreateAccountController extends Controller
             'uti_ville' => 'bail|required',
             'uti_niveau' => 'bail|required',
             'uti_date_naissance' => 'bail|required',
-            'uti_date_certificat' => 'bail|required'
+            'uti_date_certificat' => 'bail|required',
+            'userType' => 'bail|required'
         ], [
             'uti_mail.email' => "Le texte doit correspondre à une adresse email valide",
             'uti_mail.unique' => "Cette adresse mail est déjà prise",
@@ -50,7 +51,8 @@ class CreateAccountController extends Controller
             'uti_ville.required' => "Le champ doit être rempli",
             'uti_niveau.required' => "Le champ doit être rempli",
             'uti_date_certificat.required' => "Le champ doit être rempli",
-            'uti_date_naissance.required' => "Le champ doit être rempli"
+            'uti_date_naissance.required' => "Le champ doit être rempli",
+            'userType.required' => "Au moins un bouton doit être coché"
         ]);
 
         $chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
