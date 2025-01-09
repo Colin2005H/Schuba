@@ -206,9 +206,6 @@ class FormationController extends Controller
             if($nManagerExist==1){
                 return redirect()->back()->with('success'.$validated['category'], 'Le responsable ne peut pas être responsable de deux formations!');
             }
-            else if ($studentSize > 10){
-                return redirect()->back()->with('success'.$validated['category'], 'Il ne peut pas y avoir plus de 10 élèves dans une formation!');
-            }
             else if ($studentSize/2 > $initiatorSize){
                 return redirect()->back()->with('success'.$validated['category'], 'Il n\'y a pas assez d\'initiateurs pour le nombre d\'élèves!');
             }

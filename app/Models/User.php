@@ -23,6 +23,9 @@ class User extends Authenticatable
         'uti_nom',
         'uti_mail',
         'uti_mdp',
+        'uti_nom',
+        'uti_mail',
+        'uti_mdp',
     ];
 
 //table //primary key
@@ -39,6 +42,7 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $hidden = [
+        'uti_mdp',
         'uti_mdp',
         'remember_token',
     ];

@@ -95,7 +95,6 @@ function removeGroupInput() {
  * @param {number} groupId numero du groupe dont fait parti le selecteur concerné
  */
 function onInitiatorSelect(groupId) {
-    console.log("init" + groupId);
     const id = "initiateur" + groupId;
 
     const selector = document.getElementById(id);
@@ -113,7 +112,6 @@ function onInitiatorSelect(groupId) {
  * @param {number} studentNb 1 ou 2, permet d'identifier le selecteur
  */
 function onStudentSelect(groupId, studentNb) {
-    console.log("stu" + groupId + " WIP");
     const id = "eleve" + studentNb + "_" + groupId;
 
     const selector = document.getElementById(id);
@@ -152,7 +150,6 @@ function optionsUpdate(options, selectorId) {
     for (opt of options) {
         if (Object.values(selectedIds).includes(opt.value) && opt.value != "null") {
             //la valeur de l'option est selectionnée et l'option n'est pas "AUCUN"
-            console.log("oui");
 
             if (selectedIds[selectorId] != opt.value) {
                 //l'option n'est pas selectionnée
@@ -177,7 +174,6 @@ function correctSelection(options) {
 
         if (Object.values(selectedIds).includes(opt.value) && opt.value != "null") {
             //la valeur de l'option est selectionnée et l'option n'est pas "AUCUN"
-            console.log("oui");
             
             opt.disabled = true; //on la desactive
             opt.selected = false;

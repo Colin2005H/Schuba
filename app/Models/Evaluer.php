@@ -29,6 +29,8 @@ class Evaluer extends Model
 	public $incrementing = false;
 	public $timestamps = false;
 
+	protected $primaryKey = 'SEA_ID';
+
 	protected $casts = [
 		'SEA_ID' => 'int',
 		'UTI_ID' => 'int'
@@ -36,7 +38,10 @@ class Evaluer extends Model
 
 	protected $fillable = [
 		'EVA_COMMENTAIRE',
-		'EVA_RESULTAT'
+		'EVA_RESULTAT',
+		'SEA_ID',
+		'UTI_ID',
+		'APT_CODE'
 	];
 
 	public function plo_aptitude()

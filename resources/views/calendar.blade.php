@@ -164,12 +164,13 @@
                     },
 
                     eventClick: function(info) {
-                        var identifier = document.getElementById('identifier');
+                        var identifier = document.getElementById('idSeance');
                         var popup = document.getElementById("popup");
                         var location = document.getElementById('location');
                         var beginningHour = document.getElementById('beginning-hour');
                         var endingHour = document.getElementById('ending-hour');
-                        identifier.textContent = info.event.id;
+                        identifier.value = info.event.id;
+                        identifier.setAttribute("value", info.event.id);
                         location.textContent = info.event.title;
                         beginningHour.textContent = "Début : " + info.event.start.toLocaleTimeString();
                         endingHour.textContent = "Fin : " + info.event.end.toLocaleTimeString();
@@ -196,7 +197,12 @@
                         }
                         loadTable();
 
-                        document.cookie = "identifier=".info.event.id;
+                        //document.cookie = "identifier=".info.event.id;
+
+                        // const idInput = document.getElementById('idSeance');
+                        // idInput.value = session.ID;
+                        // console.log(idInput.value);
+
                     }
               };
 
@@ -232,7 +238,9 @@
     <p id="hiddenValue" class="hidden"></p>
     <div class="hidden fixed inset-0 z-10 bg-opacity-75 bg-gray-500 flex items-center justify-center place-content-center place-items-center align-content-center min-h-screen w-full" id="popup">
         <div class="bg-white rounded-lg p-6 w-full max-w-md text-center">
-            <p id="identifier" class="hidden"></p>
+            <form action="" method="POST">
+                @csrf
+            <input id="idSeance" name="identifier" class="hidden" value="">
             <p id="location" class="text-lg font-semibold mb-2"></p>
             <p id="beginning-hour" class="mb-2"></p>
             <p id="ending-hour" class="mb-4"></p>
@@ -246,24 +254,47 @@
                 </thead>
                 <tbody id="bodyTable">
 
+                <tbody>
+                    <?php
+                    use App\Http\Controllers\CalendarController;
+                    use App\Http\Controllers\RoleController;
+                    use Illuminate\Support\Facades\Auth;
+
+                    $roleController = new RoleController();
+                    $role = $roleController->getRole(session('user'));
+                    ?>
                 </tbody>
             </table>
-            <button id="close" class="mt-4 bg-blue-500 text-white px-4 py-2 rounded mx-auto" onclick="document.getElementById('popup').style.display = 'none';">Fermer</button>
-            <?php           
-            use App\Http\Controllers\RoleController;
-        
-            $roleController = new RoleController();
-            $role = $roleController->getRole(session('user'));
-            $userid = session('user')->UTI_ID;
-
-            if($role === 'initiateur'){
-                echo "<button id=\"evaluate\" class=\"mt-4 bg-blue-500 text-white px-4 py-2 rounded mx-auto\">Evaluer</button>";
-            }
-            if($role === 'eleve'){?>
-                <a href="{{ url('/aptitudes/'.$userid) }}" class="mt-4 bg-blue-500 text-white px-4 py-2 rounded mx-auto"> Bilan de compétences </a>
-            
+            <button id="close" class="mt-4 bg-blue-500 text-white px-4 py-2 rounded mx-auto" onclick="document.getElementById('popup').style.display = 'none';" type="button">Fermer</button>
             <?php
-            }?>
+                //$seance_id = $_COOKIE['identifier'];
+                //$url = route('bilan.showForm', ['seance_id' => $seance_id]);
+            
+            ?>
+            <?php if($role === 'initiateur'): ?>
+            
+                <button id="evaluate" class="mt-4 bg-blue-500 text-white px-4 py-2 rounded mx-auto" 
+                        >
+                    Evaluer
+                </button>
+                <?php endif; ?>
+                <?php if($role === 'responsable'): ?>
+            
+            <button id="modif" class="mt-4 bg-blue-500 text-white px-4 py-2 rounded mx-auto" 
+                    >
+                    Modifier
+            </button>    
+            <?php endif; ?>
+            
+            @if($role === 'eleve')
+            <button id="bilan" class="mt-4 bg-blue-500 text-white px-4 py-2 rounded mx-auto" 
+                    >
+                    bilan
+            </button>   
+            @endif
+            
+            </form>
+    
         </div>
     </div>
 </body>

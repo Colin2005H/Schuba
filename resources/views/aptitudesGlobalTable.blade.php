@@ -36,7 +36,7 @@
                                 {{$student->UTI_PRENOM}} {{ $student->UTI_NOM }}
 
                                
-                                <form action="{{ url('/submit/' . $student->UTI_ID) }}" method="POST" class="mt-2">
+                                <form action="{{ url('/validationcomp/' . $student->UTI_ID) }}" method="GET" class="mt-2">
                                     @csrf
                                     <button 
                                         type="submit" 
