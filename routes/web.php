@@ -71,8 +71,9 @@ Route::get('/triche', function() {
     return Hash::make("admin");
 });
 
-Route::get('/calendar', function () {
-    return view('calendar');
+Route::prefix('/calendar')->name('calendar.')->controller(\App\Http\Controllers\CalendarController::class)->group(function(){
+    Route::get('/', 'show')->name('show');
+    Route::get('/', 'show')->name('show');
 });
 
 Route::get('/footer', function () {

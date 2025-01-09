@@ -5,9 +5,18 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class CalendarController extends Controller
 {
+    public function show() {
+        return view('calendar');
+    }
+
+    public function tableSession(){
+
+    }
+
     public static function getGroupByIdSession($id){
         $result = [];
         $listIDInitiator = [];
