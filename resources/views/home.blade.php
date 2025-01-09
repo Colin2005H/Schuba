@@ -13,7 +13,7 @@
     <div class="container mx-auto">
         <!-- Image de fond -->
         <div 
-            class="relative bg-cover bg-center h-96" 
+            class="relative bg-cover bg-center h-96 w-full" 
             style="background-image: url({{ asset('img/scub1.png') }});">
             <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
                 <h1 class="text-white text-4xl font-bold">SCHUBA : le hub des écoles de plongée</h1>
