@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
 
 class CalendarController extends Controller
 {
@@ -84,5 +85,9 @@ class CalendarController extends Controller
             array_push($valuesTable, $tableLine);
         }
         return $valuesTable;
+    }
+
+    public function store(Request $request){
+        return Redirect::route('bilan.showForm',$request->identifier);
     }
 }

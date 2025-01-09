@@ -164,12 +164,13 @@
                     },
 
                     eventClick: function(info) {
-                        var identifier = document.getElementById('identifier');
+                        var identifier = document.getElementById('idSeance');
                         var popup = document.getElementById("popup");
                         var location = document.getElementById('location');
                         var beginningHour = document.getElementById('beginning-hour');
                         var endingHour = document.getElementById('ending-hour');
-                        identifier.textContent = info.event.id;
+                        identifier.value = info.event.id;
+                        identifier.setAttribute("value", info.event.id);
                         location.textContent = info.event.title;
                         beginningHour.textContent = "Début : " + info.event.start.toLocaleTimeString();
                         endingHour.textContent = "Fin : " + info.event.end.toLocaleTimeString();
@@ -196,7 +197,12 @@
                         }
                         loadTable();
 
-                        document.cookie = "identifier=".info.event.id;
+                        //document.cookie = "identifier=".info.event.id;
+
+                        // const idInput = document.getElementById('idSeance');
+                        // idInput.value = session.ID;
+                        // console.log(idInput.value);
+
                     }
               };
 
@@ -232,7 +238,9 @@
     <p id="hiddenValue" class="hidden"></p>
     <div class="hidden fixed inset-0 z-10 bg-opacity-75 bg-gray-500 flex items-center justify-center place-content-center place-items-center align-content-center min-h-screen w-full" id="popup">
         <div class="bg-white rounded-lg p-6 w-full max-w-md text-center">
-            <p id="identifier" class="hidden"></p>
+            <form action="" method="POST">
+                @csrf
+            <input id="idSeance" name="identifier" class="hidden" value="">
             <p id="location" class="text-lg font-semibold mb-2"></p>
             <p id="beginning-hour" class="mb-2"></p>
             <p id="ending-hour" class="mb-4"></p>
@@ -267,16 +275,13 @@
                 <?php
                 }?>
             <?php if($role === 'initiateur'): ?>
-    <button id="evaluate" class="mt-4 bg-blue-500 text-white px-4 py-2 rounded mx-auto" 
-            onclick="window.location.href='<?php echo $url; ?>'">
-        Evaluer
-    </button>
-<?php endif; ?>
-<?php if($role === 'responsable'): ?>
-    <button id="modify" class="mt-4 bg-blue-500 text-white px-4 py-2 rounded mx-auto" 
-            onclick="window.location.href='<?php echo $url2; ?>'">
-        Modifier
-    </button>
+            
+                <button id="evaluate" class="mt-4 bg-blue-500 text-white px-4 py-2 rounded mx-auto" 
+                        >
+                    Evaluer
+                </button>
+            </form>
+    
 <?php endif; ?>
         </div>
     </div>
