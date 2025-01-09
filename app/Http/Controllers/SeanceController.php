@@ -93,6 +93,7 @@ class SeanceController extends Controller
 
             
         } catch (Exception $e) {
+            DB::rollBack();
             return redirect()->route('createSession.show')->with('success', $e->getMessage());
         }
 
