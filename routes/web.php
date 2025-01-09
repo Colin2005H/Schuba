@@ -26,7 +26,7 @@ Route::get('/footer', function () {
 });
 
 use App\Http\Controllers\CsvController;
-Route::get('/generate-csv-users', [CsvController::class, 'createCsvUsersFromApi']);
+Route::get('/generate-csv-users', [CsvController::class, 'createCsvUser']);
 
     
 
