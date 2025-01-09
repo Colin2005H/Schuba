@@ -14,6 +14,7 @@ use App\Http\Controllers\AptitudesGlobalTableController;
 use App\Http\Controllers\BilanSeanceController;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use App\Http\Controllers\CsvController;
 
 /*
 |--------------------------------------------------------------------------
@@ -124,9 +125,13 @@ Route::get('/footer', function () {
 });
 Route::get('/seance/{seance_id}/bilan', [BilanSeanceController::class, 'showForm'])->name('bilan.showForm');
 
-use App\Http\Controllers\CsvController;
 Route::get('/create-csv', [CsvController::class, 'createCsvUser']);
 
+Route::get('/listUser',[listUserController::class, 'showListUser'])->name('listUser');
+Route::post('/listUser',[listUserController::class, 'deleteUser'])->name('listUser2');
+
+Route::get('/modifierCompte/{id}', [ModifierCompteController::class, 'edit'])->name('modifierCompte');
+Route::post('/modifierCompte/{id}', [ModifierCompteController::class, 'update'])->name('modifierCompte');
     
 
 
