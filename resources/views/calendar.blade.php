@@ -155,7 +155,7 @@
 
                             console.log(result);
 
-                           
+                        
                             successCallback(result);
                         } catch (error) {
                             console.error('Error fetching session data:', error);
@@ -204,7 +204,7 @@
                         // console.log(idInput.value);
 
                     }
-              };
+                };
                 //  responssivnes for mobile devices
                 function resizeCaldendar() {
                     // check if its a smartphone

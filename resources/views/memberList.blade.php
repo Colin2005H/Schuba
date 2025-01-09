@@ -16,7 +16,7 @@
         </tr>
       </thead>
       <tbody>
-         @foreach ($studentList as $item)
+        @foreach ($studentList as $item)
           @if($item->UTI_SUPPRIME==0)
 
                   <td class="text-center py-4 px-6">{{$item->UTI_NOM}}</td>
@@ -60,7 +60,7 @@
           </tr>
         </thead>
         <tbody>
-           @foreach ($initiatorList as $item)
+          @foreach ($initiatorList as $item)
             @if($item->UTI_SUPPRIME==0)
 
                     <td class="text-center py-4 px-6">{{$item->UTI_NOM}}</td>
