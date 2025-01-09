@@ -175,6 +175,9 @@
                         endingHour.textContent = "Fin : " + info.event.end.toLocaleTimeString();
                         popup.style.display = "block";
 
+                        //fetch de l'URL avec l'id Séance
+                        //document.getElementById('bodyTable').add('resultat du fetch');
+
                         document.cookie = "identifier="+info.event.id;
                     }
               };
@@ -203,10 +206,13 @@
                     // Appeler resizeCaldendar après l'initialisation du calendrier
                     resizeCaldendar();
                 });
+
+                
             </script>
         </div>
     </div>
-    <div class="hidden fixed inset-0 z-10 bg-opacity-75 bg-gray-500 flex items-center justify-center place-content-center place-items-center align-content-center min-h-screen w-full" id="popup">
+    <p id="hiddenValue" class="hidden"></p>
+    <div class="fixed inset-0 z-10 bg-opacity-75 bg-gray-500 flex items-center justify-center place-content-center place-items-center align-content-center min-h-screen w-full" id="popup">
         <div class="bg-white rounded-lg p-6 w-full max-w-md text-center">
             <p id="identifier" class="hidden"></p>
             <p id="location" class="text-lg font-semibold mb-2"></p>
@@ -221,28 +227,30 @@
                     </tr>
                 </thead>
                 <tbody>
+                    <?php 
+                        use App\Http\Controllers\CalendarController;
+                        $personTable = CalendarController::getGroupByIdSession($_COOKIE['identifier']);
+                        foreach($personTable as $line){
+                            echo "<tr>";
+                            echo "<td rowspan=\"2\" scope=\"row\" class=\"px-4 py-2 border-b border-gray-200 text-center\">".$line[0]."</td>";
+                            echo "<td class=\"px-4 py-2 border-b border-gray-200 text-center\">".$line[1][0]."</td>";
+                            echo "<td class=\"px-4 py-2 border-b border-gray-200 text-center\">".$line[2][0]."</td>"; 
+                            echo "</tr>";
+    
+                            if(count($line[1]) > 1){
+                                echo "<tr>";
+                                echo "<td class=\"px-4 py-2 border-b border-gray-200 text-center\">".$line[1][1]."</td>";
+                                echo "<td class=\"px-4 py-2 border-b border-gray-200 text-center\">".$line[2][1]."</td>"; 
+                                echo "</tr>";
+                            }
+                        }
+                    ?>
                     <?php
-                    use App\Http\Controllers\CalendarController;
                     use App\Http\Controllers\RoleController;
                     use Illuminate\Support\Facades\Auth;
 
                     $roleController = new RoleController();
                     $role = $roleController->getRole(session('user'));
-                    $personTable = CalendarController::getGroupByIdSession($_COOKIE['identifier']);
-                    foreach($personTable as $line){
-                        echo "<tr>";
-                        echo "<td rowspan=\"2\" scope=\"row\" class=\"px-4 py-2 border-b border-gray-200 text-center\">".$line[0]."</td>";
-                        echo "<td class=\"px-4 py-2 border-b border-gray-200 text-center\">".$line[1][0]."</td>";
-                        echo "<td class=\"px-4 py-2 border-b border-gray-200 text-center\">".$line[2][0]."</td>"; 
-                        echo "</tr>";
-
-                        if(count($line[1]) > 1){
-                            echo "<tr>";
-                            echo "<td class=\"px-4 py-2 border-b border-gray-200 text-center\">".$line[1][1]."</td>";
-                            echo "<td class=\"px-4 py-2 border-b border-gray-200 text-center\">".$line[2][1]."</td>"; 
-                            echo "</tr>";
-                        }
-                    }
                     ?>
                 </tbody>
             </table>
