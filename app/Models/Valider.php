@@ -22,7 +22,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Valider extends Model
 {
-	protected $table = 'valider';
+	protected $table = 'VALIDER';
 	public $incrementing = false;
 	public $timestamps = false;
 

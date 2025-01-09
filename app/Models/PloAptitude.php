@@ -23,7 +23,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class PloAptitude extends Model
 {
-	protected $table = 'plo_aptitude';
+	protected $table = 'PLO_APTITUDE';
 	protected $primaryKey = 'APT_CODE';
 	public $incrementing = false;
 	public $timestamps = false;

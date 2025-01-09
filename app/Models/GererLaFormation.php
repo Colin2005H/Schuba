@@ -23,7 +23,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class GererLaFormation extends Model
 {
-	protected $table = 'gerer_la_formation';
+	protected $table = 'GERER_LA_FORMATION';
 	public $incrementing = false;
 	public $timestamps = false;
 

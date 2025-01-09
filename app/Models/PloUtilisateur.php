@@ -32,7 +32,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class PloUtilisateur extends Model
 {
-	protected $table = 'plo_utilisateur';
+	protected $table = 'PLO_UTILISATEUR';
 	protected $primaryKey = 'UTI_ID';
 	public $timestamps = false;
 

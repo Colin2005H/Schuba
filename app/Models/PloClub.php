@@ -22,7 +22,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class PloClub extends Model
 {
-	protected $table = 'plo_club';
+	protected $table = 'PLO_CLUB';
 	protected $primaryKey = 'CLU_ID';
 	public $timestamps = false;
 
