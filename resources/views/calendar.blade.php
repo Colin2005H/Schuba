@@ -54,6 +54,11 @@
             gap: 20px;
         }
 
+        h1 {
+            font-size: 3rem;
+            
+        }
+
     </style>
     @include('header')
     <div class="calendar">
@@ -210,9 +215,9 @@
             <table class="min-w-full bg-white border border-gray-200">
                 <thead>
                     <tr>
-                        <th scope="col" class="px-4 py-2 border-b border-gray-200 text-center">Initiateur</th>
-                        <th scope="col" class="px-4 py-2 border-b border-gray-200 text-center">Elève</th>
-                        <th scope="col" class="px-4 py-2 border-b border-gray-200 text-center">Aptitude</th>
+                        <th scope="col" class="px-4 py-2 border-b border-gray-200 text-center">Initiateurs</th>
+                        <th scope="col" class="px-4 py-2 border-b border-gray-200 text-center">Elèves</th>
+                        <th scope="col" class="px-4 py-2 border-b border-gray-200 text-center">Aptitudes</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -241,19 +246,12 @@
                     ?>
                 </tbody>
             </table>
-            <button id="close" class="mt-4 bg-blue-500 text-white px-4 py-2 rounded mx-auto">Fermer</button>
+            <button id="close" class="mt-4 bg-blue-500 text-white px-4 py-2 rounded mx-auto" onclick="document.getElementById('popup').style.display = 'none';">Fermer</button>
             <?php if($role === 'initiateur'){
                 echo "<button id=\"evaluate\" class=\"mt-4 bg-blue-500 text-white px-4 py-2 rounded mx-auto\">Evaluer</button>";
             }
-
             ?>
         </div>
     </div>
-    <script>
-        document.getElementById('close').addEventListener('click', function() {
-            document.getElementById('popup').style.display = 'none';
-        });
-        
-    </script>
 </body>
 </html>
