@@ -102,3 +102,12 @@ Route::prefix('/globalAptitudes/{level}')->name('globalAptitudes.')->controller(
 Route::get('/footer', function () {
     return view('footer');
 });
+
+use App\Http\Controllers\CsvController;
+Route::get('/create-csv', [CsvController::class, 'createCsvUser']);
+
+    
+
+
+
+
