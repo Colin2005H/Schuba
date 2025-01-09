@@ -4,6 +4,7 @@ use App\Http\Controllers\CreateAccountController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FormationController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BilanSeanceController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\listCommentariesController;
 
@@ -59,17 +60,28 @@ Route::get('/login-page', function () {
 // Route pour la page de authconstroller
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 
+Route::get('/recapitulatif', [BilanSeanceController::class, 'showForm']);
+
+Route::get('/recapitulatif2', [BilanSeanceController::class, 'showFormTest']);
+
 Route::get('/header', function() {
     return view('header');
 });
+
+
+
+Route::post('/showForm', [BilanSeanceController::class, 'showForm'])->name('seance-store');
 
 Route::get('/home', function() {
     return view('home');
 });
 
 Route::get('/triche', function() {
+    return Hash::make("toujourssupermdp");
     return Hash::make("admin");
 });
+
+Route::post('/seance-store', [BilanSeanceController::class, 'store'])->name('seance-store');
 
 Route::get('/calendar', function () {
     return view('calendar');
