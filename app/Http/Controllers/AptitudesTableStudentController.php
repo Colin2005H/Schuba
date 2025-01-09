@@ -12,6 +12,12 @@ class AptitudesTableStudentController extends Controller
         $userId = session('user')->UTI_ID;
         $userLvl = session('user')->UTI_NIVEAU + 1;
 
+        $skillsList = DB::table('PLO_COMPETENCE')
+        ->join('PLO_APTITUDE', 'PLO_COMPETENCE.CPT_ID', '=', 'PLO_APTITUDE.CPT_ID')
+        ->select('PLO_COMPETENCE.CPT_ID', DB::raw('count(*) as TOTAL'))
+        ->groupBy('CPT_ID')
+        ->get();
+
         $sessionsList = DB::table('PLO_SEANCE')
         ->where('FORM_NIVEAU', '=', $userLvl)
         ->select('SEA_ID', 'SEA_DATE_DEB')
@@ -32,7 +38,7 @@ class AptitudesTableStudentController extends Controller
 
 
         
-        return view('aptitudesTableStudent')->with(compact('sessionsList', 'evaluationsList', 'aptitudesList'));
+        return view('aptitudesTableStudent')->with(compact('sessionsList', 'evaluationsList', 'aptitudesList', 'skillsList'));
     }
 }
 ?>
