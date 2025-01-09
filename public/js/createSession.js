@@ -28,6 +28,8 @@ function addGroupInput() {
     newInitiator.id = "initiateur" + groupNb;
     newInitiator.setAttribute("name", "group[" + groupNb + "][initiateur]");
     newInitiator.setAttribute("onchange", `onInitiatorSelect(${groupNb})`);
+    correctSelection(newInitiator.children);
+    
 
     let labelStu1 = document.createElement("label");
     labelStu1.setAttribute("for", "eleve1_" + groupNb);
@@ -37,15 +39,19 @@ function addGroupInput() {
     newStudent1.id = "eleve1_" + groupNb;
     newStudent1.setAttribute("name", "group[" + groupNb + "][eleve1]");
     newStudent1.setAttribute("onchange", `onStudentSelect(${groupNb}, 1)`);
+    correctSelection(newStudent1.children);
+    
 
     let labelStu2 = document.createElement("label");
     labelStu2.setAttribute("for", "eleve2_" + groupNb);
     labelStu2.appendChild(document.createTextNode("Eleve 2 : "));
-
+    
     let newStudent2 = student2.cloneNode(true);
     newStudent2.id = "eleve2_" + groupNb;
     newStudent2.setAttribute("name", "group[" + groupNb + "][eleve2]");
     newStudent2.setAttribute("onchange", `onStudentSelect(${groupNb}, 2)`);
+    correctSelection(newStudent2.children);
+    
 
     newContainer.appendChild(labelInit);
     newContainer.appendChild(newInitiator);
@@ -57,8 +63,10 @@ function addGroupInput() {
     newContainer.appendChild(newStudent2);
 
     groupContainer.appendChild(newContainer);
-
-    selectUpdate();
+    
+    onInitiatorSelect(groupNb);
+    onStudentSelect(groupNb, 1);
+    onStudentSelect(groupNb, 2);
 }
 
 /**
@@ -69,13 +77,13 @@ function removeGroupInput() {
     if (groupNb > 1) {
         const elt = document.getElementById("groupContainer" + groupNb);
         elt.remove();
-        groupNb--;
-
+        
         //retire les valeurs du dict des valeurs selectionnées (elles n'existent plus)
         delete selectedIds["initiateur"+groupNb];
         delete selectedIds["eleve1_"+groupNb];
         delete selectedIds["eleve2_"+groupNb];
 
+        groupNb--;
         selectUpdate();
     } else {
         window.alert("Impossible de créer une séance sans groupe");
@@ -158,4 +166,35 @@ function optionsUpdate(options, selectorId) {
             opt.disabled = false;
         }
     }
+}
+
+function correctSelection(options) {
+    let flag = false;
+    let i = 0;
+
+    while(!flag && i < options.length) {
+        opt = options.item(i);
+
+        if (Object.values(selectedIds).includes(opt.value) && opt.value != "null") {
+            //la valeur de l'option est selectionnée et l'option n'est pas "AUCUN"
+            console.log("oui");
+            
+            opt.disabled = true; //on la desactive
+            opt.selected = false;
+            
+        } else {
+            //rien
+            opt.selected = true;
+            flag = true;
+        }
+
+        i++;
+    }
+}
+
+function onPageLoaded(){
+    onInitiatorSelect(1);
+
+    onStudentSelect(1, 1);
+    onStudentSelect(1, 2);
 }

@@ -8,7 +8,7 @@
         <script defer src="{{ asset('js/createSession.js') }}"></script>
         <script src="https://cdn.tailwindcss.com"></script>
     </head>
-    <body class="bg-gray-100 text-gray-900 font-sans">
+    <body class="bg-gray-100 text-gray-900 font-sans" onload="onPageLoaded()">
         @include('header')
 
         @if (session('success'))
