@@ -9,6 +9,7 @@ use App\Http\Controllers\listCommentariesController;
 use App\Http\Controllers\AptitudesTableStudentController;
 use App\Http\Controllers\AptitudesGlobalTableController;
 
+use App\Http\Controllers\BilanSeanceController;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 
@@ -64,6 +65,10 @@ Route::get('/login-page', function () {
 // Route pour la page de authconstroller
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 
+Route::get('/recapitulatif', [BilanSeanceController::class, 'showForm']);
+
+Route::get('/recapitulatif2', [BilanSeanceController::class, 'showFormTest']);
+
 Route::get('/header', function() {
     return view('header');
 });
@@ -72,9 +77,14 @@ Route::get('/home', function() {
     return view('home');
 });
 
+
+
+Route::post('/showForm', [BilanSeanceController::class, 'showForm'])->name('seance-store');
+
 Route::get('/triche', function() {
-    return Hash::make("responsable");
+    return Hash::make("toujoursresponsable");
 });
+Route::post('/seance-store', [BilanSeanceController::class, 'store'])->name('seance-store');
 
 Route::prefix('/calendar')->name('calendar.')->controller(\App\Http\Controllers\CalendarController::class)->group(function(){
     Route::get('/', 'show')->name('show');
