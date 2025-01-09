@@ -112,6 +112,7 @@
 @section('title','Formation')
 
 @section('content')
+
     <div class="bg-[rgb(255,255,255,1)] px-16 py-10 m-10 justify-items-center rounded">
         <h1 class="font-bold text-[#004B85] text-center text-2xl m-4">Création de formation</h1>
 
@@ -350,7 +351,6 @@
     <!-- -------------------------------------------------------------------------------------------------------------------------------------------------------- -->
 
     <div>
-
 
 
 @endsection

@@ -73,7 +73,7 @@ Route::get('/home', function() {
 });
 
 Route::get('/triche', function() {
-    return Hash::make("eleve");
+    return Hash::make("responsable");
 });
 
 Route::get('/calendar', function () {
