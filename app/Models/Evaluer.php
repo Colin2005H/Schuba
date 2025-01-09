@@ -25,9 +25,11 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Evaluer extends Model
 {
-	protected $table = 'evaluer';
+	protected $table = 'EVALUER';
 	public $incrementing = false;
 	public $timestamps = false;
+
+	protected $primaryKey = 'SEA_ID';
 
 	protected $casts = [
 		'SEA_ID' => 'int',

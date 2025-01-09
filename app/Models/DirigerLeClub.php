@@ -23,7 +23,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class DirigerLeClub extends Model
 {
-	protected $table = 'diriger_le_club';
+	protected $table = 'DIRIGER_LE_CLUB';
 	public $incrementing = false;
 	public $timestamps = false;
 

@@ -25,10 +25,8 @@ use Laravel\Sanctum\HasApiTokens;
  *
  * @package App\Models
  */
-class Grouper extends Model
-{
-	use HasApiTokens, HasFactory, Notifiable;
-	protected $table = 'grouper';
+class Grouper extends Model {
+	protected $table = 'GROUPER';
 	public $incrementing = false;
 	public $timestamps = false;
 

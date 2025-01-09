@@ -13,12 +13,16 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
+
     /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
      */
     protected $fillable = [
+        'uti_nom',
+        'uti_mail',
+        'uti_mdp',
         'uti_nom',
         'uti_mail',
         'uti_mdp',
@@ -38,6 +42,7 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $hidden = [
+        'uti_mdp',
         'uti_mdp',
         'remember_token',
     ];
@@ -120,6 +125,4 @@ public function getAuthPassword()
         return 'inconnu';
 
     }
-
-
 }

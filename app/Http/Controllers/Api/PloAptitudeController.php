@@ -5,13 +5,347 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\PloAptitude;
 use Illuminate\Http\Request;
+use OpenApi\Annotations as OA;
+
+/**
+ * @OA\Schema(
+ *     schema="Aptitude",
+ *     type="object",
+ *     required={"SKILL_ID", "ID", "Name"},
+ *     @OA\Property(
+ *         property="SKILL_ID",
+ *         type="string",
+ *         description="The code of the aptitude",
+ *         example="APT001"
+ *     ),
+ *     @OA\Property(
+ *         property="ID",
+ *         type="string",
+ *         description="The ID of the competence the aptitude belongs to",
+ *         example="CPT001"
+ *     ),
+ *     @OA\Property(
+ *         property="Name",
+ *         type="string",
+ *         description="The label or name of the aptitude",
+ *         example="First Aid"
+ *     ),
+ *     @OA\Property(
+ *         property="Skill",
+ *         type="object",
+ *         description="The competence (PloCompetence) associated with this aptitude",
+ *         ref="#/components/schemas/Skill"
+ *     ),
+ *     @OA\Property(
+ *         property="Assessment",
+ *         type="array",
+ *         description="The evaluations (Evaluer) related to this aptitude",
+ *         @OA\Items(
+ *             ref="#/components/schemas/Assessment"
+ *         )
+ *     )
+ * )
+ */
 
 class PloAptitudeController extends Controller {
-    function liste(){
-        return response()->json(PloAptitude::all());
+
+    /**
+     * @OA\Get(
+     *     path="/api/aptitude",
+     *     summary="Retrieve aptitudes based on optional filters",
+     *     description="Retrieve aptitudes based on filters such as APT_CODE, SKILL_ID, and NAME.",
+     *     operationId="getAptitudeRecords",
+     *     tags={"Aptitudes"},
+     *
+     *     @OA\Parameter(
+     *         name="ID",
+     *         in="query",
+     *         description="Filter by aptitude code (APT_CODE)",
+     *         required=false,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Parameter(
+     *         name="SKILL_ID",
+     *         in="query",
+     *         description="Filter by skill ID (CPT_ID)",
+     *         required=false,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Parameter(
+     *         name="NAME",
+     *         in="query",
+     *         description="Filter by aptitude name (APT_LIBELLE)",
+     *         required=false,
+     *         @OA\Schema(type="string")
+     *     ),
+     *
+     *     @OA\Response(
+     *         response=200,
+     *         description="List of aptitudes matching the filters",
+     *         @OA\JsonContent(
+     *             type="array",
+     *             @OA\Items(
+     *                 ref="#/components/schemas/Aptitude"
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Bad Request, invalid parameters",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="error", type="string", example="Invalid input data")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Internal server error",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="error", type="string", example="Something went wrong")
+     *         )
+     *     )
+     * )
+     */
+    public function get(Request $request) {
+        // Get data from the request
+        $id = $request->input('ID');
+        $cptId = $request->input('SKILL_ID');
+        $libelle = $request->input('NAME');
+        
+        // Query to get the aptitudes
+        $query = PloAptitude::query();
+        
+        // Filter the aptitudes
+        if ($id) {
+            $query->where('APT_CODE', $id);
+        }
+        if ($cptId) {
+            $query->where('CPT_ID', $cptId);
+        }
+        if ($libelle) {
+            $query->where('APT_LIBELLE', 'LIKE', '%' . $libelle . '%');
+        }
+        
+        // Get the aptitudes
+        $aptitudes = $query->get();
+        
+        // Return a JSON response with the list of aptitudes
+        $aptitudeList = $aptitudes->map(function ($aptitude) {
+            return [
+                'APT_CODE' => $aptitude->APT_CODE,
+                'CPT_ID' => $aptitude->CPT_ID,
+                'APT_LIBELLE' => $aptitude->APT_LIBELLE,
+            ];
+        });
+        
+        return response()->json($aptitudeList);
     }
 
-    function detail($id){
-        return response()->json(PloAptitude::find($id));
+    /**
+     * @OA\Post(
+     *     path="/api/aptitude",
+     *     summary="Create a new aptitude",
+     *     description="Creates a new aptitude and returns the created aptitude details.",
+     *     operationId="createAptitude",
+     *     tags={"Aptitudes"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"NAME", "SKILL_ID"},
+     *             @OA\Property(property="NAME", type="string", example="Mathematics Aptitude"),
+     *             @OA\Property(property="SKILL_ID", type="string", example="CPT123")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Aptitude created successfully",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Aptitude successfully created!"),
+     *             @OA\Property(property="aptitude", type="object",
+     *                 @OA\Property(property="APT_CODE", type="string", example="APT001"),
+     *                 @OA\Property(property="CPT_ID", type="string", example="CPT123"),
+     *                 @OA\Property(property="APT_LIBELLE", type="string", example="Mathematics Aptitude")
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Invalid input",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Invalid data format or missing fields.")
+     *         )
+     *     )
+     * )
+     */
+    public function create(Request $request) {
+        // Get data from the request
+        $nom = $request->input('NAME');
+        $competenceId = $request->input('SKILL_ID');
+
+        // Validate the format of the data
+        $validated = $request->validate([
+            'NAME' => 'required|string|max:255',
+            'SKILL_ID' => 'required|string|exists:plo_competence,CPT_ID',
+        ]);
+
+        // Aptitude creation
+        $aptitude = PloAptitude::create([
+            'CPT_ID' => $competenceId,
+            'APT_LIBELLE' => $nom,
+        ]);
+
+        // Return a JSON response with the details of the created aptitude
+        return response()->json([
+            'message' => 'Aptitude successfully created!',
+            'aptitude' => [
+                'APT_CODE' => $aptitude->APT_CODE,
+                'CPT_ID' => $aptitude->CPT_ID,
+                'APT_LIBELLE' => $aptitude->APT_LIBELLE,
+            ]
+        ]);
+    }
+
+    /**
+     * @OA\Put(
+     *     path="/api/aptitude/{id}",
+     *     summary="Update an existing aptitude",
+     *     description="Updates an existing aptitude by its ID and returns the updated aptitude details.",
+     *     operationId="updateAptitude",
+     *     tags={"Aptitudes"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="string",
+     *             example="APT001"
+     *         ),
+     *         description="The ID of the aptitude to update"
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"NAME", "COMPETENCE_ID"},
+     *             @OA\Property(property="NAME", type="string", example="Advanced Mathematics Aptitude"),
+     *             @OA\Property(property="COMPETENCE_ID", type="string", example="CPT123")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Aptitude updated successfully",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Aptitude successfully updated!"),
+     *             @OA\Property(property="aptitude", type="object",
+     *                 @OA\Property(property="APT_CODE", type="string", example="APT001"),
+     *                 @OA\Property(property="CPT_ID", type="string", example="CPT123"),
+     *                 @OA\Property(property="APT_LIBELLE", type="string", example="Advanced Mathematics Aptitude")
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Aptitude not found",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Aptitude not found.")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Invalid input",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Invalid data format or missing fields.")
+     *         )
+     *     )
+     * )
+     */
+    public function update(Request $request, $id) {
+        // Get the aptitude by ID
+        $aptitude = PloAptitude::find($id);
+
+        // Check if the aptitude exists
+        if (!$aptitude) {
+            return response()->json([
+                'message' => 'Aptitude not found.'
+            ], 404);
+        }
+
+        // Get data from the request
+        $nom = $request->input('NAME', $aptitude->APT_LIBELLE);
+        $competenceId = $request->input('COMPETENCE_ID', $aptitude->CPT_ID);
+
+        // Validate the format of the data
+        $validated = $request->validate([
+            'NAME' => 'nullable|string|max:255',
+            'COMPETENCE_ID' => 'nullable|string|exists:plo_competence,CPT_ID',
+        ]);
+
+        // Update the aptitude
+        $aptitude->APT_LIBELLE = $nom;
+        $aptitude->CPT_ID = $competenceId;
+
+        // Save modifications
+        $aptitude->save();
+
+        // Return a JSON response with the details of the updated aptitude
+        return response()->json([
+            'message' => 'Aptitude successfully updated!',
+            'aptitude' => [
+                'APT_CODE' => $aptitude->APT_CODE,
+                'CPT_ID' => $aptitude->CPT_ID,
+                'APT_LIBELLE' => $aptitude->APT_LIBELLE,
+            ]
+        ]);
+    }
+
+    /**
+     * @OA\Delete(
+     *     path="/api/aptitude/{id}",
+     *     summary="Delete an aptitude",
+     *     description="Deletes an existing aptitude by its ID and returns a confirmation message.",
+     *     operationId="deleteAptitude",
+     *     tags={"Aptitudes"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="string",
+     *             example="APT001"
+     *         ),
+     *         description="The ID of the aptitude to delete"
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Aptitude deleted successfully",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Aptitude successfully deleted!")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Aptitude not found",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Cannot find the aptitude.")
+     *         )
+     *     )
+     * )
+     */
+    public function delete($id) {
+        // Get aptitude by ID in URL
+        $aptitude = PloAptitude::find($id);
+
+        // Check if aptitude exists
+        if (!$aptitude) {
+            return response()->json([
+                'message' => 'Cannot find the aptitude.'
+            ], 404);
+        }
+
+        // Delete aptitude
+        $aptitude->delete();
+
+        // Return a JSON response to confirm the deletion
+        return response()->json([
+            'message' => 'Aptitude successfully deleted!'
+        ]);
     }
 }

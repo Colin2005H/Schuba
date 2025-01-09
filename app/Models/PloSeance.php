@@ -28,7 +28,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class PloSeance extends Model
 {
-	protected $table = 'plo_seance';
+	protected $table = 'PLO_SEANCE';
 	protected $primaryKey = 'SEA_ID';
 	public $timestamps = false;
 

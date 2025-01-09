@@ -9,6 +9,10 @@ Schuba est une application web utilisant Laravel, qui permet la gestion des form
 ### Étape 1
 
 ```
+composer require "darkaonline/l5-swagger"
+```
+
+```
 composer install
 ```
 
@@ -19,7 +23,7 @@ composer install
 .env.example
 ```
 
-*renommer le en*
+*renommer en*
 ```
 .env
 ```

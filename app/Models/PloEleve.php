@@ -28,11 +28,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class PloEleve extends Model
 {
 	use HasApiTokens, HasFactory, Notifiable;
-	protected $table = 'plo_eleve';
+	protected $table = 'PLO_ELEVE';
 	protected $primaryKey = 'UTI_ID';
 	public $incrementing = false;
 	public $timestamps = false;
-	public $with = ['plo_utilisateur', 'appartients', 'evaluers'];
 
 	protected $casts = [
 		'UTI_ID' => 'int'

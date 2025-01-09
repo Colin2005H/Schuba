@@ -27,7 +27,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class PloFormation extends Model
 {
-	protected $table = 'plo_formation';
+	protected $table = 'PLO_FORMATION';
 	protected $primaryKey = 'FORM_NIVEAU';
 	public $incrementing = false;
 	public $timestamps = false;
