@@ -30,7 +30,7 @@
     </style>
 </head>
 <body>
-
+@include('header')
 <div class="form-container">
     <h2>Récapitulatif de la Séance</h2>
     <form action="{{ route('seance-store') }}" method="POST">

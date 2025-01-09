@@ -31,7 +31,7 @@
     </style>
 </head>
 <body>
-
+@include('header')
 <div class="form-container">
     <h2>Informations de la Séance</h2>
     <form action="{{ route('seance-update', ['seance_id' => $seance->SEA_ID]) }}" method="POST">
