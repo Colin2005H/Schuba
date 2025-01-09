@@ -33,7 +33,13 @@
                         @endphp
                         @foreach($evaluationsList as $evaluation)
                             @if($evaluation->SEA_ID === $session->SEA_ID && $evaluation->APT_CODE === $aptitude->APT_CODE)
+                                @if($evaluation->EVA_RESULTAT === "Acquis")
+                                <td bgcolor="green">{{ $evaluation->EVA_RESULTAT }}</td>
+                                @elseif($evaluation->EVA_RESULTAT === "En cours")
+                                <td bgcolor="orange">{{ $evaluation->EVA_RESULTAT }}</td>
+                                @else
                                 <td>{{ $evaluation->EVA_RESULTAT }}</td>
+                                @endif
                                 @php
                                     $found = true; // Résultat trouvé
                                 @endphp
