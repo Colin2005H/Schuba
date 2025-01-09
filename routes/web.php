@@ -73,7 +73,7 @@ Route::get('/triche', function() {
 
 Route::prefix('/calendar')->name('calendar.')->controller(\App\Http\Controllers\CalendarController::class)->group(function(){
     Route::get('/', 'show')->name('show');
-    Route::get('/', 'show')->name('show');
+    Route::get('/{sessionId}', 'tableSession')->name('tableSession');
 });
 
 Route::get('/footer', function () {
