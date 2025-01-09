@@ -65,7 +65,7 @@
         <h1>Calendrier des séances</h1>
         <div id='calendar'>
             <script>
-                // Déclaration globale de la variable calendar
+                // Declaration of the calendar global variable 
                 var calendar;
 
                 var isMobile = window.matchMedia("(max-width: 768px)").matches;
@@ -75,9 +75,9 @@
                     return response.json();
                 }
 
-                // Définition des options et configurations du calendrier
+                // Options to display the calendar properly
                 var calendarTem = {
-                    initialView: isMobile ? 'timeGridDay' : 'timeGridWeek', // Afficher la vue jour sur mobile
+                    initialView: isMobile ? 'timeGridDay' : 'timeGridWeek', // Display the view for mobile devices
                     locale: 'fr',
                     height: "auto",
                     nowIndicator: true,
@@ -92,7 +92,7 @@
                     headerToolbar: {
                         left: 'prev,next',
                         center: 'title',
-                        right: 'today,dayGridMonth,timeGridWeek,timeGridDay' // Permet à l'utilisateur de changer de vue
+                        right: 'today,dayGridMonth,timeGridWeek,timeGridDay' // Enable users to change the view Months/Week/Day
                     },
                     buttonText: {
                         today: 'Aujourd\'hui',
@@ -117,12 +117,12 @@
                     },
                     events: async function(info, successCallback, failureCallback) {
                         try {
-                            // Await the sessions response
+                            // await the sessions response
                             const sessions = await getSession(info.start, info.end);
                             
                             const result = [];
                             
-                            // We will use Promise.all to ensure all location fetches complete before continuing
+                            // ensure all fetches ar complete
                             const locationPromises = sessions.map(async (session) => {
                                 try {
                                     // Fetch location data
@@ -147,15 +147,15 @@
                                 }
                             });
 
-                            // Await all location fetch promises and store the results in result
+                            
                             const locationEvents = await Promise.all(locationPromises);
-
-                            // Fill result with valid location data (non-null items)
+                            
+                            
                             result.push(...locationEvents.filter(event => event !== undefined));
 
                             console.log(result);
 
-                            // Pass the final result to successCallback
+                           
                             successCallback(result);
                         } catch (error) {
                             console.error('Error fetching session data:', error);
@@ -163,7 +163,7 @@
                         }
                     },
 
-                    eventClick: function(info) {
+                    eventClick: function(info) { // listen to click
                         var identifier = document.getElementById('idSeance');
                         var popup = document.getElementById("popup");
                         var location = document.getElementById('location');
@@ -178,15 +178,15 @@
 
                         async function loadTable() {
                             try {
-                                // Requête AJAX pour récupérer le HTML généré par PHP
+                                // Ajax query to get the html
                                 const response = await fetch(`/calendar/${info.event.id}`);
 
-                                // Vérifiez si la requête a réussi
+                                // Check if the query is successful
                                 if (!response.ok) {
                                     throw new Error('Échec de la récupération des données');
                                 }
 
-                                // Récupérer le HTML de la réponse
+                                // fetch the html answer
                                 const tableHTML = await response.text();
 
                                 document.getElementById('bodyTable').innerHTML = tableHTML;
@@ -205,29 +205,30 @@
 
                     }
               };
-
+                //  responssivnes for mobile devices
                 function resizeCaldendar() {
-                    // Vérifier si l'on est en mode mobile
+                    // check if its a smartphone
                     isMobile = window.matchMedia("(max-width: 768px)").matches;
                     if (calendarTem.initialView != (isMobile ? 'timeGridDay' : 'timeGridWeek')) {
 
                         calendarTem.initialView = isMobile ? 'timeGridDay' : 'timeGridWeek';
 
-                        calendar.destroy(); // Détruire le calendrier existant
+                        calendar.destroy(); // Destroy the current calendar
                         calendar = new FullCalendar.Calendar(document.getElementById('calendar'), calendarTem); // Recréer le calendrier avec les nouvelles options
-                        calendar.render(); // Redessiner le calendrier
+                        calendar.render(); // create the new one to fit device screen size
                     }
                 }
 
+                // Load the calendar when the DOM is loaded
                 document.addEventListener('DOMContentLoaded', function() {
-                    // Sélectionner le conteneur du calendrier
+                    
                     var calendarEl = document.getElementById('calendar');
 
-                    // Initialiser le calendrier avec les options définies
+
                     calendar = new FullCalendar.Calendar(calendarEl, calendarTem);
                     calendar.render();
 
-                    // Appeler resizeCaldendar après l'initialisation du calendrier
+                    
                     resizeCaldendar();
                 });
 
