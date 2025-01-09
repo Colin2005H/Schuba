@@ -24,7 +24,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class PloInitiateur extends Model
 {
-	protected $table = 'plo_initiateur';
+	protected $table = 'PLO_INITIATEUR';
 	protected $primaryKey = 'UTI_ID';
 	public $incrementing = false;
 	public $timestamps = false;

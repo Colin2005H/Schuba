@@ -7,53 +7,94 @@ use App\Models\PloLieu;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
+/**
+ * @OA\Schema(
+ *     schema="Location",
+ *     type="object",
+ *     required={"LI_ID"},
+ *     @OA\Property(
+ *         property="ID",
+ *         type="integer",
+ *         description="The unique identifier for the location",
+ *         example=1
+ *     ),
+ *     @OA\Property(
+ *         property="NAME",
+ *         type="string",
+ *         description="The name of the location",
+ *         example="Diving Pool"
+ *     ),
+ *     @OA\Property(
+ *         property="TYPE",
+ *         type="string",
+ *         description="The type of the location (e.g., indoor, outdoor)",
+ *         example="Indoor"
+ *     ),
+ *     @OA\Property(
+ *         property="Session",
+ *         type="array",
+ *         description="The sessions held at this location",
+ *         @OA\Items(
+ *             ref="#/components/schemas/Session"
+ *         )
+ *     )
+ * )
+ */
+
 class PloLieuController extends Controller {
 
     /**
      * @OA\Get(
      *     path="/api/location",
-     *     summary="Get locations based on filters",
-     *     description="This API allows you to retrieve a list of locations based on optional filters like ID, name, and type.",
+     *     summary="Retrieve Locations based on optional filters",
+     *     description="Retrieve Location records filtered by ID, name, and type.",
+     *     operationId="getLocationRecords",
      *     tags={"Locations"},
+     *
      *     @OA\Parameter(
      *         name="ID",
      *         in="query",
+     *         description="Filter by location ID (LI_ID)",
      *         required=false,
-     *         description="ID of the location",
      *         @OA\Schema(type="integer")
      *     ),
      *     @OA\Parameter(
      *         name="NAME",
      *         in="query",
+     *         description="Filter by location name (LI_NOM)",
      *         required=false,
-     *         description="Name of the location. Use partial matching with '%' for wildcards.",
      *         @OA\Schema(type="string")
      *     ),
      *     @OA\Parameter(
      *         name="TYPE",
      *         in="query",
+     *         description="Filter by location type (LI_TYPE)",
      *         required=false,
-     *         description="Type of the location. Use partial matching with '%' for wildcards.",
      *         @OA\Schema(type="string")
      *     ),
+     *
      *     @OA\Response(
      *         response=200,
-     *         description="List of locations retrieved successfully.",
+     *         description="List of Location records matching the filters",
      *         @OA\JsonContent(
      *             type="array",
      *             @OA\Items(
-     *                 type="object",
-     *                 @OA\Property(property="ID", type="integer", example=1),
-     *                 @OA\Property(property="NAME", type="string", example="Location Name"),
-     *                 @OA\Property(property="TYPE", type="string", example="Location Type")
+     *                 ref="#/components/schemas/Location"
      *             )
      *         )
      *     ),
      *     @OA\Response(
-     *         response=404,
-     *         description="No locations found matching the criteria",
+     *         response=400,
+     *         description="Bad Request, invalid parameters",
      *         @OA\JsonContent(
-     *             @OA\Property(property="message", type="string", example="No locations found")
+     *             @OA\Property(property="error", type="string", example="Invalid input data")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Internal server error",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="error", type="string", example="Something went wrong")
      *         )
      *     )
      * )

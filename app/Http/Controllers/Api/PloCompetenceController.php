@@ -6,64 +6,105 @@ use App\Http\Controllers\Controller;
 use App\Models\PloCompetence;
 use Illuminate\Http\Request;
 
+/**
+ * @OA\Schema(
+ *     schema="Skill",
+ *     type="object",
+ *     required={"CPT_ID"},
+ *     @OA\Property(
+ *         property="ID",
+ *         type="string",
+ *         description="The ID of the competence",
+ *         example="CPT001"
+ *     ),
+ *     @OA\Property(
+ *         property="LEVEL",
+ *         type="integer",
+ *         description="The formation level associated with this competence",
+ *         example=2
+ *     ),
+ *     @OA\Property(
+ *         property="NAME",
+ *         type="string",
+ *         description="The label of the competence",
+ *         example="Advanced Diving"
+ *     ),
+ *     @OA\Property(
+ *         property="Formation",
+ *         description="The formation associated with this competence",
+ *         ref="#/components/schemas/Formation"
+ *     ),
+ *     @OA\Property(
+ *         property="Aptitude",
+ *         type="array",
+ *         description="The aptitudes associated with this competence",
+ *         @OA\Items(
+ *             ref="#/components/schemas/Aptitude"
+ *         )
+ *     ),
+ *     @OA\Property(
+ *         property="Validate",
+ *         type="array",
+ *         description="The validation records associated with this competence",
+ *         @OA\Items(
+ *             ref="#/components/schemas/Validate"
+ *         )
+ *     )
+ * )
+ */
+
 class PloCompetenceController extends Controller {
 
     /**
      * @OA\Get(
      *     path="/api/skill",
      *     summary="Get a list of skills",
-     *     description="Retrieves a list of skills based on the provided filters.",
+     *     description="Retrieve a list of skills based on the provided filters.",
      *     operationId="getSkills",
      *     tags={"Skills"},
+     *     
      *     @OA\Parameter(
      *         name="ID",
      *         in="query",
-     *         description="The ID of the skill to search for",
      *         required=false,
-     *         @OA\Schema(
-     *             type="string",
-     *             example="C1"
-     *         )
+     *         description="The ID of the skill (competence)",
+     *         @OA\Schema(type="string")
      *     ),
      *     @OA\Parameter(
      *         name="LEVEL",
      *         in="query",
-     *         description="The level of the skill to filter by",
      *         required=false,
-     *         @OA\Schema(
-     *             type="integer",
-     *             example=2
-     *         )
+     *         description="The level of the skill",
+     *         @OA\Schema(type="integer")
      *     ),
      *     @OA\Parameter(
      *         name="NAME",
      *         in="query",
-     *         description="The name or part of the name of the skill to search for",
      *         required=false,
-     *         @OA\Schema(
-     *             type="string",
-     *             example="Scuba Diving"
-     *         )
+     *         description="The name or label of the skill",
+     *         @OA\Schema(type="string")
      *     ),
+     *     
      *     @OA\Response(
      *         response=200,
-     *         description="List of skills",
+     *         description="A list of skills based on the filters",
      *         @OA\JsonContent(
      *             type="array",
-     *             @OA\Items(
-     *                 type="object",
-     *                 @OA\Property(property="CPT_ID", type="string", example="123"),
-     *                 @OA\Property(property="LEVEL", type="integer", example=2),
-     *                 @OA\Property(property="NAME", type="string", example="Basic Scuba Diving")
-     *             )
+     *             @OA\Items(ref="#/components/schemas/Skill")
      *         )
      *     ),
      *     @OA\Response(
      *         response=400,
-     *         description="Invalid input data",
+     *         description="Invalid parameters",
      *         @OA\JsonContent(
-     *             type="object",
-     *             @OA\Property(property="message", type="string", example="Validation errors")
+     *             @OA\Property(property="message", type="string", example="Invalid parameters provided.")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Internal server error",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="error", type="string", example="Something went wrong")
      *         )
      *     )
      * )
@@ -94,9 +135,9 @@ class PloCompetenceController extends Controller {
         // Return a JSON response with the list of competences
         $competenceList = $competences->map(function ($competence) {
             return [
-                'CPT_ID' => $competence->CPT_ID,
-                'FORM_NIVEAU' => $competence->FORM_NIVEAU,
-                'CPT_LIBELLE' => $competence->CPT_LIBELLE,
+                'ID' => $competence->CPT_ID,
+                'LEVEL' => $competence->FORM_NIVEAU,
+                'NAME' => $competence->CPT_LIBELLE,
             ];
         });
     

@@ -7,80 +7,117 @@ use App\Models\Grouper;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
+/**
+ * @OA\Schema(
+ *     schema="Group",
+ *     type="object",
+ *     required={"SESS_ID", "INIT_ID", "USER_ID"},
+ *     @OA\Property(
+ *         property="SESS_ID",
+ *         type="integer",
+ *         description="The session ID (PloSeance)",
+ *         example=1
+ *     ),
+ *     @OA\Property(
+ *         property="INIT_ID",
+ *         type="integer",
+ *         description="The initiator (teacher) user ID (PloInitiateur)",
+ *         example=2
+ *     ),
+ *     @OA\Property(
+ *         property="USER_ID",
+ *         type="integer",
+ *         description="The student user ID (PloEleve)",
+ *         example=3
+ *     ),
+ *     @OA\Property(
+ *         property="PRESENT",
+ *         type="boolean",
+ *         description="Indicates if the student was present for the session",
+ *         example=true
+ *     ),
+ *     @OA\Property(
+ *         property="Student",
+ *         type="object",
+ *         description="The student (PloEleve) associated with the session",
+ *         ref="#/components/schemas/Student"
+ *     ),
+ *     @OA\Property(
+ *         property="Initiator",
+ *         type="object",
+ *         description="The initiator (PloInitiateur) associated with the session",
+ *         ref="#/components/schemas/Initiator"
+ *     ),
+ *     @OA\Property(
+ *         property="Session",
+ *         type="object",
+ *         description="The session (PloSeance) associated with the grouping",
+ *         ref="#/components/schemas/Session"
+ *     )
+ * )
+ */
+
 class GrouperController extends Controller {
     
     /**
      * @OA\Get(
      *     path="/api/group",
-     *     summary="Get group records",
-     *     description="Retrieves group records based on optional filters for user, initiator, session, and presence status.",
+     *     summary="Retrieve Group records based on optional filters",
+     *     description="Retrieve Group records filtered by USER_ID, INIT_ID, SESS_ID, and PRESENT status.",
+     *     operationId="getGroupRecords",
      *     tags={"Groups"},
+     *
      *     @OA\Parameter(
      *         name="USER_ID",
      *         in="query",
-     *         description="User ID to filter group by user",
+     *         description="Filter by user ID (UTI_ID)",
      *         required=false,
-     *         @OA\Schema(
-     *             type="integer",
-     *             example=1
-     *         )
+     *         @OA\Schema(type="integer")
      *     ),
      *     @OA\Parameter(
      *         name="INIT_ID",
      *         in="query",
-     *         description="Initiator ID to filter group by initiator",
+     *         description="Filter by initiator ID (UTI_ID_INITIATEUR)",
      *         required=false,
-     *         @OA\Schema(
-     *             type="integer",
-     *             example=1
-     *         )
+     *         @OA\Schema(type="integer")
      *     ),
      *     @OA\Parameter(
      *         name="SESS_ID",
      *         in="query",
-     *         description="Session ID to filter group by session",
+     *         description="Filter by session ID (SEA_ID)",
      *         required=false,
-     *         @OA\Schema(
-     *             type="integer",
-     *             example=1
-     *         )
+     *         @OA\Schema(type="integer")
      *     ),
      *     @OA\Parameter(
      *         name="PRESENT",
      *         in="query",
-     *         description="Presence status of the user in the session",
+     *         description="Filter by presence status (GRP_PRESENCE)",
      *         required=false,
-     *         @OA\Schema(
-     *             type="boolean",
-     *             example=true
-     *         )
+     *         @OA\Schema(type="boolean")
      *     ),
+     *
      *     @OA\Response(
      *         response=200,
-     *         description="Successfully retrieved group records",
+     *         description="List of Group records matching the filters",
      *         @OA\JsonContent(
      *             type="array",
      *             @OA\Items(
-     *                 type="object",
-     *                 @OA\Property(property="USER_ID", type="integer", example=1),
-     *                 @OA\Property(property="INIT_ID", type="integer", example=1),
-     *                 @OA\Property(property="SESS_ID", type="integer", example=1),
-     *                 @OA\Property(property="PRESENT", type="boolean", example=true)
+     *                 ref="#/components/schemas/Group"
      *             )
      *         )
      *     ),
      *     @OA\Response(
      *         response=400,
-     *         description="Bad request, validation failed",
+     *         description="Bad Request, invalid parameters",
      *         @OA\JsonContent(
-     *             @OA\Property(property="message", type="string", example="The given data was invalid.")
+     *             @OA\Property(property="error", type="string", example="Invalid input data")
      *         )
      *     ),
      *     @OA\Response(
      *         response=500,
      *         description="Internal server error",
      *         @OA\JsonContent(
-     *             @OA\Property(property="message", type="string", example="Something went wrong, please try again.")
+     *             @OA\Property(property="error", type="string", example="Something went wrong")
      *         )
      *     )
      * )

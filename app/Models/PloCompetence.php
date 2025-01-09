@@ -24,7 +24,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class PloCompetence extends Model
 {
-	protected $table = 'plo_competence';
+	protected $table = 'PLO_COMPETENCE';
 	protected $primaryKey = 'CPT_ID';
 	public $incrementing = false;
 	public $timestamps = false;

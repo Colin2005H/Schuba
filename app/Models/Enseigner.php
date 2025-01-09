@@ -21,7 +21,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Enseigner extends Model
 {
-	protected $table = 'enseigner';
+	protected $table = 'ENSEIGNER';
 	public $incrementing = false;
 	public $timestamps = false;
 
