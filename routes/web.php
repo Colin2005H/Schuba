@@ -72,7 +72,7 @@ Route::get('/header', function() {
 
 
 
-Route::post('/showForm', [BilanSeanceController::class, 'showForm'])->name('seance-store');
+Route::post('/showForm', [BilanSeanceController::class, 'showForm'])->name('seance-store-show');
 
 Route::get('/home', function() {
     return view('home');
@@ -90,6 +90,7 @@ Route::post('/seance-store', [BilanSeanceController::class, 'store'])->name('sea
 Route::prefix('/calendar')->name('calendar.')->controller(\App\Http\Controllers\CalendarController::class)->group(function(){
     Route::get('/', 'show')->name('show');
     Route::get('/{sessionId}', 'tableSession')->name('tableSession');
+    Route::post('/', 'store');
 
 });
 
