@@ -5,6 +5,7 @@
             let selectedN2="";
             let selectedN3="";
 
+            //disable the preselected option for the other forms
             document.addEventListener("DOMContentLoaded", function() {
                 @foreach($optionsManager as $option)
                     @if ($n1Exist===1 && $n1ExistManager->first()->UTI_ID==$option->UTI_ID)
@@ -19,6 +20,7 @@
                 @endforeach
             });
 
+            //disable or enable option according the the selection change for the form N1
             function loadManagersN1(id){
 
                 if (id==""){
@@ -49,6 +51,7 @@
 
             }
 
+            //disable or enable option according the the selection change for the form N2
             function loadManagersN2(id){
                 if (id==""){
                     selectedN2="";
@@ -76,6 +79,7 @@
                 }
             }
 
+            //disable or enable option according the the selection change for the form N3
             function loadManagersN3(id){
                 if (id==""){
                     selectedN3="";
@@ -111,6 +115,7 @@
     <div class="bg-[rgb(255,255,255,1)] px-16 py-10 m-10 justify-items-center rounded">
         <h1 class="font-bold text-[#004B85] text-center text-2xl m-4">Création de formation</h1>
 
+       <!-- FORM N1 -->
     <!-- -------------------------------------------------------------------------------------------------------------------------------------------------------- -->
         <div class="flex">
             <form action="/formations" method="post" class="mx-4 my-6 max-w-96 flex flex-col border-2 border-[#004B85] rounded">
@@ -141,7 +146,7 @@
                         @php
                             $existingInitiatorIdsN1 = collect($n1ExistInitiators)->pluck('UTI_ID')->toArray();
                         @endphp
-                        @foreach($optionsInitiateur as $option)
+                        @foreach($optionsInitiatorsN1N2 as $option)
 
                             <option @if ($n1Exist===1 &&  in_array($option->UTI_ID, $existingInitiatorIdsN1) )
                                 selected
@@ -168,12 +173,18 @@
                 <p class="text-xs text-center mb-3">(Pour faire plusieurs choix maintenir la touche CTRL enfoncée)</p>
 
 
+                    @if ($n1Exist===0)
+                        <div class="text-center m-4">
+                            <input type="submit" value="Créer" id="btnCreateN1" class="bg-[#000000] py-2 px-4 rounded text-white" />
+                        </div>
+                    @else
+                        <div class="text-center m-4">
+                            <input type="submit" value="Modifier" id="btnModifyN1" class="bg-[#000000] py-2 px-4 rounded text-white" />
+                        </div>
+                    @endif
 
-                    <div class="text-center m-4">
-                        <input type="submit" name="action" value="@if ($n1Exist===0) Créer @else Modifier @endif" id="btnCreateN1" class="bg-[#000000] py-2 px-4 rounded text-white" />
-                    </div>
                     @if ($n1NbSessions === 0 && $n1Exist===1)
-                        <input type="submit" name="action" value="Supprimer" class="bg-[#000000] py-2 px-4 rounded text-white" />
+                        <input type="submit" name="action" value="Supprimer" class="bg-[#000000] py-2 px-3 mb-4 self-center rounded text-white " />
                     @endif
 
 
@@ -184,6 +195,7 @@
 
             </form>
 
+            <!-- FORM N2 -->
         <!-- -------------------------------------------------------------------------------------------------------------------------------------------------------- -->
 
             <form action="/formations" method="post" class="mx-4 my-6 max-w-96 flex flex-col border-2 border-[#004B85] rounded">
@@ -214,7 +226,7 @@
                         @php
                             $existingInitiatorIdsN2 = collect($n2ExistInitiators)->pluck('UTI_ID')->toArray();
                         @endphp
-                        @foreach($optionsInitiateur as $option)
+                        @foreach($optionsInitiatorsN1N2 as $option)
                             <option @if ($n2Exist===1 &&  in_array($option->UTI_ID, $existingInitiatorIdsN2) )
                                 selected
                             @endif value="{{ $option->UTI_ID }}">{{ $option->UTI_NOM }} {{ $option->UTI_PRENOM }}</option>
@@ -250,7 +262,7 @@
                 @endif
 
                 @if ($n2NbSessions === 0 && $n2Exist===1)
-                        <input type="submit" name="action" value="Supprimer" class="bg-[#000000] py-2 px-4 rounded text-white" />
+                        <input type="submit" name="action" value="Supprimer" class="bg-[#000000] py-2 px-3 mb-4 self-center rounded text-white" />
                 @endif
 
                 @if (session('success2'))
@@ -259,6 +271,7 @@
 
             </form>
 
+            <!-- FORM N3 -->
         <!-- -------------------------------------------------------------------------------------------------------------------------------------------------------- -->
 
             <form action="/formations" method="post" class="mx-4 my-6 max-w-96 flex flex-col border-2 border-[#004B85] rounded">
@@ -289,7 +302,7 @@
                         @php
                             $existingInitiatorIdsN3 = collect($n3ExistInitiators)->pluck('UTI_ID')->toArray();
                         @endphp
-                        @foreach($optionsInitiateur as $option)
+                        @foreach($optionsInitiatorsN3 as $option)
                             <option @if ($n3Exist===1 &&  in_array($option->UTI_ID, $existingInitiatorIdsN3) )
                                 selected
                             @endif value="{{ $option->UTI_ID }}">{{ $option->UTI_NOM }} {{ $option->UTI_PRENOM }}</option>
@@ -323,8 +336,8 @@
                     </div>
                 @endif
 
-                @if ($n1NbSessions === 0 && $n1Exist===1)
-                        <input type="submit" name="action" value="Supprimer" class="bg-[#000000] py-2 px-4 rounded text-white" />
+                @if ($n3NbSessions === 0 && $n3Exist===1)
+                        <input type="submit" name="action" value="Supprimer" class="bg-[#000000] py-2 px-3 mb-4 self-center rounded text-white" />
                 @endif
 
                 @if (session('success3'))

@@ -117,14 +117,25 @@ class FormationController extends Controller
         ->whereIn('UTI_ID', function ($query) {
             $query->select('UTI_ID')->from('PLO_INITIATEUR');
         })
+        ->where('UTI_NIVEAU', '>=', 5)
         ->select('UTI_ID', 'UTI_NOM', 'UTI_PRENOM')
         ->get();
 
-        //possible initiators
-        $optionsInitiateur =  DB::table('PLO_UTILISATEUR')
+        //possible N1 & N2 initiators
+        $optionsInitiatorsN1N2 =  DB::table('PLO_UTILISATEUR')
         ->whereIn('UTI_ID', function ($query) {
             $query->select('UTI_ID')->from('PLO_INITIATEUR');
         })
+        ->where('UTI_NIVEAU', '>=', 2)
+        ->select('UTI_ID', 'UTI_NOM', 'UTI_PRENOM')
+        ->get();
+
+        //possible N3 initiators
+        $optionsInitiatorsN3 =  DB::table('PLO_UTILISATEUR')
+        ->whereIn('UTI_ID', function ($query) {
+            $query->select('UTI_ID')->from('PLO_INITIATEUR');
+        })
+        ->where('UTI_NIVEAU', '>=', 5)
         ->select('UTI_ID', 'UTI_NOM', 'UTI_PRENOM')
         ->get();
 
@@ -155,11 +166,11 @@ class FormationController extends Controller
         ->select('UTI_ID', 'UTI_NOM', 'UTI_PRENOM')
         ->get();
 
-        return view('manageFormation', compact('optionsManager','optionsInitiateur','optionsStudentN1','optionsStudentN2','optionsStudentN3',
+        return view('manageFormation', compact('optionsManager','optionsInitiatorsN1N2','optionsInitiatorsN3','optionsStudentN1','optionsStudentN2','optionsStudentN3',
         'n1Exist','n1ExistManager','n1ExistInitiators','n1ExistStudents',
         'n2Exist','n2ExistManager','n2ExistInitiators','n2ExistStudents',
         'n3Exist','n3ExistManager','n3ExistInitiators','n3ExistStudents',
-        'n1NbSessions','n2NbSessions','n2NbSessions'));
+        'n1NbSessions','n2NbSessions','n3NbSessions'));
     }
 
     public function createFormation(Request $request){
@@ -184,10 +195,21 @@ class FormationController extends Controller
             ->where('FORM_NIVEAU', $validated['category'])
             ->count();
 
+            $nManagerExist = DB::table('GERER_LA_FORMATION')
+            ->where('UTI_ID', $validated['manager'])
+            ->where('FORM_NIVEAU','!=', $validated['category'])
+            ->count();
+
             $initiatorSize = count($validated['initiator']);
             $studentSize = count($validated['student']);
 
-            if ($studentSize/2 > $initiatorSize){
+            if($nManagerExist==1){
+                return redirect()->back()->with('success'.$validated['category'], 'Le responsable ne peut pas être responsable de deux formations!');
+            }
+            else if ($studentSize > 10){
+                return redirect()->back()->with('success'.$validated['category'], 'Il ne peut pas y avoir plus de 10 élèves dans une formation!');
+            }
+            else if ($studentSize/2 > $initiatorSize){
                 return redirect()->back()->with('success'.$validated['category'], 'Il n\'y a pas assez d\'initiateurs pour le nombre d\'élèves!');
             }
             else if ($nExist == 0){
