@@ -246,11 +246,7 @@
                         }
                     ?>
                     <?php
-                    use App\Http\Controllers\RoleController;
-                    use Illuminate\Support\Facades\Auth;
-
-                    $roleController = new RoleController();
-                    $role = $roleController->getRole(session('user'));
+                    
                     ?>
                 </tbody>
             </table>
