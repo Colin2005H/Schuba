@@ -32,7 +32,19 @@
                 <tbody>
                     @foreach($studentsList as $student)
                         <tr class="odd:bg-white even:bg-gray-50">
-                            <th class="px-4 py-2 border border-gray-300 font-medium">{{$student->UTI_PRENOM}} {{ $student->UTI_NOM }}</th>
+                            <th class="px-4 py-2 border border-gray-300 font-medium text-center">
+                                {{$student->UTI_PRENOM}} {{ $student->UTI_NOM }}
+
+                               
+                                <form action="{{ url('/submit/' . $student->UTI_ID) }}" method="POST" class="mt-2">
+                                    @csrf
+                                    <button 
+                                        type="submit" 
+                                        class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded shadow">
+                                        Valider
+                                    </button>
+                                </form>
+                            </th>
                             @foreach($aptitudesList as $aptitude)
                                 @php
                                     $validationFound = $validationsList->first(function ($validation) use ($student, $aptitude) {
