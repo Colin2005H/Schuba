@@ -232,7 +232,7 @@
     <p id="hiddenValue" class="hidden"></p>
     <div class="hidden fixed inset-0 z-10 bg-opacity-75 bg-gray-500 flex items-center justify-center place-content-center place-items-center align-content-center min-h-screen w-full" id="popup">
         <div class="bg-white rounded-lg p-6 w-full max-w-md text-center">
-            <p id="identifier" class=""></p>
+            <p id="identifier" class="hidden"></p>
             <p id="location" class="text-lg font-semibold mb-2"></p>
             <p id="beginning-hour" class="mb-2"></p>
             <p id="ending-hour" class="mb-4"></p>
@@ -254,10 +254,16 @@
         
             $roleController = new RoleController();
             $role = $roleController->getRole(session('user'));
+            $userid = session('user')->UTI_ID;
+
             if($role === 'initiateur'){
                 echo "<button id=\"evaluate\" class=\"mt-4 bg-blue-500 text-white px-4 py-2 rounded mx-auto\">Evaluer</button>";
             }
-            ?>
+            if($role === 'eleve'){?>
+                <a href="{{ url('/aptitudes/'.$userid) }}" class="mt-4 bg-blue-500 text-white px-4 py-2 rounded mx-auto"> Bilan de compétences </a>
+            
+            <?php
+            }?>
         </div>
     </div>
 </body>
