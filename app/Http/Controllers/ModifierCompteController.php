@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
+// ModifierCompteController is a controller class that handles the modification of a user account
 class ModifierCompteController extends Controller
 {
 
@@ -41,7 +42,6 @@ class ModifierCompteController extends Controller
                     'uti_mail.required' => "Le champ doit être rempli",
                 ]);
             }
-
             $this->validate($request, [
                 'uti_mail' => 'bail|required|email',
                 'uti_nom' => 'bail|required',

@@ -32,6 +32,7 @@
                     @endif
                 </div>
 
+                <!-- display user's informations -->
                 <div>
                     <div id="address">Adresse : {{$user->UTI_ADRESSE .", ". $user->UTI_CODE_POSTAL ." ". $user->UTI_VILLE}}</div>
                     <p>Date de naissance : {{date("d/m/Y", strtotime($user->UTI_DATE_NAISSANCE))}}</p>

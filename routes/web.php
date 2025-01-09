@@ -95,6 +95,11 @@ Route::get('/home', function() {
     return view('home');
 });
 
+//il faut ajouter level dans la route absolument
+Route::get('/aptitudesGlobal', function() {
+    return view('aptitudesGlobalTable');
+});
+
 Route::post('/showForm', [BilanSeanceController::class, 'showForm'])->name('seance-store');
 
 Route::get('/triche', function() {

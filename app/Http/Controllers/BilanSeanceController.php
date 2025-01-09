@@ -14,28 +14,28 @@ class BilanSeanceController extends Controller
 
     public function getInfo(int $seance_id)
 {
-    // Récupérer toutes les évaluations pour cette séance
+    // Fetch all evaluations for this session
     $evaluations = Evaluer::where('SEA_ID', $seance_id)
         ->get();
 
     $default = [];
 
     foreach ($evaluations as $evaluation) {
-        $eleve_id = $evaluation->UTI_ID; // L'ID de l'élève
-        $apt_code = (string)$evaluation->APT_CODE; // Le code de l'aptitude
-        $evaluation_result = $evaluation->EVA_RESULTAT; // Le résultat de l'évaluation
-        $evaluation_commentaire = $evaluation->EVA_COMMENTAIRE; // Le commentaire de l'évaluation
+        $eleve_id = $evaluation->UTI_ID; // student ID
+        $apt_code = (string)$evaluation->APT_CODE; // aptitude code
+        $evaluation_result = $evaluation->EVA_RESULTAT; // evaluation result
+        $evaluation_commentaire = $evaluation->EVA_COMMENTAIRE; // evaluation comment
 
         $default[$eleve_id][$apt_code] = [
-            'evaluation' => $evaluation_result,
-            'commentaire' => $evaluation_commentaire,
+            'evaluation' => $evaluation_result, // evaluation result
+            'commentaire' => $evaluation_commentaire, // evaluation comment
         ];
     }
     //dd($default);
     return $default;
 }
 
-
+        // Show the form to fill in the evaluation of the students
         public function showForm(int $seance_id)
     {
         $seance = Seance::find($seance_id);
@@ -48,7 +48,7 @@ class BilanSeanceController extends Controller
         return view('recapitulatif', ['eleves' => $eleves,'seance' => $seance,'currentUser' => $currentUser,'default' => $default]);
     }
 
-    
+        // Store the evaluation in the database and redirect to the home page   
         public function store(Request $request) {
 
             
@@ -62,8 +62,9 @@ class BilanSeanceController extends Controller
                 return redirect()->back()->with('error', 'L\'ID de la séance est manquant.');
             }
         
-            
+            // Update the evaluation of the students 
             foreach ($request->presence as $eleve => $presence) {
+                
                 
                 foreach ($request->evaluation[$eleve] as $apt_code => $evaluation) {
                     //dd($sea_id,$eleve,$apt_code);

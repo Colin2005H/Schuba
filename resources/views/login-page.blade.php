@@ -7,7 +7,6 @@
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-100">
-@include('header')
     <div class="flex flex-col min-h-screen bg-cover bg-center">
         <div class="text-center mb-8">
             <h1 class="text-3xl font-bold text-black flex items-center justify-center gap-2 py-2">
