@@ -36,7 +36,10 @@ class Evaluer extends Model
 
 	protected $fillable = [
 		'EVA_COMMENTAIRE',
-		'EVA_RESULTAT'
+		'EVA_RESULTAT',
+		'SEA_ID',
+		'UTI_ID',
+		'APT_CODE'
 	];
 
 	public function plo_aptitude()

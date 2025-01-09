@@ -74,4 +74,7 @@ Route::get('/calendar', function () {
     return view('calendar');
 });
 
-Route::get('/setWorkedSkills', [App\Http\Controllers\workedSkillsController::class, "index"]);
+//Routes pour la page pour enregistrer les aptitudes à travailler dans une seance
+Route::get('/setWorkedSkills/{id}', [App\Http\Controllers\workedSkillsController::class, "index"]);
+
+Route::post('/setWorkedSkills/{id}', [App\Http\Controllers\workedSkillsController::class, "store"]);
