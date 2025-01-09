@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Facades\DB; 
+use Illuminate\Support\Facades\DB; 
 
 class User extends Authenticatable
 {
@@ -23,8 +24,19 @@ class User extends Authenticatable
         'uti_nom',
         'uti_mail',
         'uti_mdp',
+        'uti_nom',
+        'uti_mail',
+        'uti_mdp',
     ];
 
+//table //primary key
+
+    protected $table = 'PLO_UTILISATEUR';
+
+    protected $primaryKey = 'uti_id';
+
+
+    
 //table //primary key
 
     protected $table = 'PLO_UTILISATEUR';
@@ -39,6 +51,7 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $hidden = [
+        'uti_mdp',
         'uti_mdp',
         'remember_token',
     ];
