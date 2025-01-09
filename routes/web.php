@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FormationController;
+use App\Http\Controllers\MemberListController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,6 +17,9 @@ use App\Http\Controllers\FormationController;
 
 Route::get('/formations', [FormationController::class, 'showFormation']);
 Route::post('/formations', [FormationController::class, 'createFormation']);
+
+Route::get('/liste-membres-formation', [MemberListController::class, 'showList']);
+
 Route::get('/', function () {
     return view('welcome');
 });
