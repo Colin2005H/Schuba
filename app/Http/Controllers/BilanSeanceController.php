@@ -9,10 +9,9 @@ use Illuminate\Http\Request;
 
 class BilanSeanceController extends Controller
 {
-        public function showForm(/*Seance $seance*/)
+        public function showForm(int $seance_id)
     {
-        $seance = Seance::all();
-        $seance = $seance->first();
+        $seance = Seance::find($seance_id);
         $eleves = $seance->getEleves();
 
         $currentUser = session('user');

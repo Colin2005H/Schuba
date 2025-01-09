@@ -8,6 +8,7 @@ use App\Http\Controllers\BilanSeanceController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\listCommentariesController;
 
+
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 
@@ -90,3 +91,5 @@ Route::get('/calendar', function () {
 Route::get('/footer', function () {
     return view('footer');
 });
+
+Route::get('/seance/{seance_id}/bilan', [BilanSeanceController::class, 'showForm'])->name('bilan.showForm');

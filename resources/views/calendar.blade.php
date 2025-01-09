@@ -247,10 +247,17 @@
                 </tbody>
             </table>
             <button id="close" class="mt-4 bg-blue-500 text-white px-4 py-2 rounded mx-auto" onclick="document.getElementById('popup').style.display = 'none';">Fermer</button>
-            <?php if($role === 'initiateur'){
-                echo "<button id=\"evaluate\" class=\"mt-4 bg-blue-500 text-white px-4 py-2 rounded mx-auto\">Evaluer</button>";
-            }
+            <?php
+                $seance_id = $_COOKIE['identifier'];
+                $url = route('bilan.showForm', ['seance_id' => $seance_id]);
+            
             ?>
+            <?php if($role === 'initiateur'): ?>
+    <button id="evaluate" class="mt-4 bg-blue-500 text-white px-4 py-2 rounded mx-auto" 
+            onclick="window.location.href='<?php echo $url; ?>'">
+        Evaluer
+    </button>
+<?php endif; ?>
         </div>
     </div>
 </body>
