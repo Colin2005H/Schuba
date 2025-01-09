@@ -171,8 +171,8 @@
                         var endingHour = document.getElementById('ending-hour');
                         identifier.textContent = info.event.id;
                         location.textContent = info.event.title;
-                        beginningHour.textContent = "Début : " + info.event.start;
-                        endingHour.textContent = "Fin : " + info.event.end;
+                        beginningHour.textContent = "Début : " + info.event.start.toLocaleTimeString();
+                        endingHour.textContent = "Fin : " + info.event.end.toLocaleTimeString();
                         popup.style.display = "block";
 
                         async function loadTable() {
@@ -254,27 +254,12 @@
 
                     $roleController = new RoleController();
                     $role = $roleController->getRole(session('user'));
-                    $personTable = CalendarController::getGroupByIdSession(1);
-                    foreach($personTable as $line){
-                        echo "<tr>";
-                        echo "<td rowspan=\"2\" scope=\"row\" class=\"px-4 py-2 border-b border-gray-200 text-center\">".$line[0]."</td>";
-                        echo "<td class=\"px-4 py-2 border-b border-gray-200 text-center\">".$line[1][0]."</td>";
-                        echo "<td class=\"px-4 py-2 border-b border-gray-200 text-center\">".$line[2][0]."</td>"; 
-                        echo "</tr>";
-
-                        if(count($line[1]) > 1){
-                            echo "<tr>";
-                            echo "<td class=\"px-4 py-2 border-b border-gray-200 text-center\">".$line[1][1]."</td>";
-                            echo "<td class=\"px-4 py-2 border-b border-gray-200 text-center\">".$line[2][1]."</td>"; 
-                            echo "</tr>";
-                        }
-                    }
                     ?>
                 </tbody>
             </table>
             <button id="close" class="mt-4 bg-blue-500 text-white px-4 py-2 rounded mx-auto" onclick="document.getElementById('popup').style.display = 'none';">Fermer</button>
             <?php
-                $seance_id = 1;
+                $seance_id = $_COOKIE['identifier'];
                 $url = route('bilan.showForm', ['seance_id' => $seance_id]);
             
             ?>
@@ -284,15 +269,6 @@
         Evaluer
     </button>
 <?php endif; ?>
-            <?php           
-            use App\Http\Controllers\RoleController;
-        
-            $roleController = new RoleController();
-            $role = $roleController->getRole(session('user'));
-            if($role === 'initiateur'){
-                echo "<button id=\"evaluate\" class=\"mt-4 bg-blue-500 text-white px-4 py-2 rounded mx-auto\">Evaluer</button>";
-            }
-            ?>
         </div>
     </div>
 </body>
