@@ -9,9 +9,10 @@ use App\Models\Evaluer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
+//modifSeanceController is a controller class that handles the modification of a session 
 class ModifSeanceController extends Controller
 {
-
+    
     public function showForm(int $seance_id)
     {
         $seance = Seance::find($seance_id);
