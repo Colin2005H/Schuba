@@ -6,61 +6,104 @@ use App\Models\Valider;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
+/**
+ * @OA\Schema(
+ *     schema="Validate",
+ *     type="object",
+ *     required={"UTI_ID", "CPT_ID", "VALIDER"},
+ *     @OA\Property(
+ *         property="UTI_ID",
+ *         type="integer",
+ *         description="The unique identifier for the user",
+ *         example=1
+ *     ),
+ *     @OA\Property(
+ *         property="SKILL_ID",
+ *         type="string",
+ *         description="The ID of the competence being validated",
+ *         example="CPT123"
+ *     ),
+ *     @OA\Property(
+ *         property="VALIDATE",
+ *         type="boolean",
+ *         description="Indicates whether the competence has been validated by the user",
+ *         example=true
+ *     ),
+ *     @OA\Property(
+ *         property="Skill",
+ *         ref="#/components/schemas/Skill",
+ *         description="The competence associated with the validation"
+ *     ),
+ *     @OA\Property(
+ *         property="User",
+ *         ref="#/components/schemas/User",
+ *         description="The user who validated the competence"
+ *     )
+ * )
+ */
+
 class ValiderController extends Controller {
     
     /**
      * @OA\Get(
      *     path="/api/validate",
-     *     summary="Get Validate records",
-     *     description="Retrieve Validate records based on the optional filters: User ID, Competence ID, and Validation Status.",
+     *     summary="Get a list of validation records",
+     *     description="Retrieve a list of validation records based on the provided filters.",
+     *     operationId="getValidate",
      *     tags={"Validates"},
+     *     
      *     @OA\Parameter(
      *         name="UTI_ID",
      *         in="query",
-     *         description="User ID to filter the records",
      *         required=false,
-     *         @OA\Schema(type="integer", example=1)
+     *         description="The ID of the user (teacher or student).",
+     *         @OA\Schema(type="integer")
      *     ),
+     *     
      *     @OA\Parameter(
-     *         name="CPT_ID",
+     *         name="SKILL_ID",
      *         in="query",
-     *         description="Competence ID to filter the records",
      *         required=false,
-     *         @OA\Schema(type="string", example="CPT123")
+     *         description="The ID of the skill (competence).",
+     *         @OA\Schema(type="integer")
      *     ),
+     *     
      *     @OA\Parameter(
-     *         name="VALIDER",
+     *         name="VALIDATE",
      *         in="query",
-     *         description="Validation status (true/false) to filter the records",
      *         required=false,
-     *         @OA\Schema(type="boolean", example=true)
+     *         description="The validation status (true/false).",
+     *         @OA\Schema(type="boolean")
      *     ),
+     *     
      *     @OA\Response(
      *         response=200,
-     *         description="Successfully retrieved Valider records",
+     *         description="A list of validation records based on the filters",
      *         @OA\JsonContent(
      *             type="array",
-     *             @OA\Items(
-     *                 type="object",
-     *                 @OA\Property(property="UTI_ID", type="integer", example=1),
-     *                 @OA\Property(property="CPT_ID", type="string", example="CPT123"),
-     *                 @OA\Property(property="VALIDER", type="boolean", example=true)
-     *             )
+     *             @OA\Items(ref="#/components/schemas/Validate")
      *         )
      *     ),
      *     @OA\Response(
      *         response=400,
      *         description="Invalid parameters",
      *         @OA\JsonContent(
-     *             @OA\Property(property="message", type="string", example="Invalid parameters")
+     *             @OA\Property(property="message", type="string", example="Invalid parameters provided.")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Internal server error",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="error", type="string", example="Something went wrong")
      *         )
      *     )
      * )
      */
     public function get(Request $request) {
         $utiId = $request->input('UTI_ID');
-        $cptId = $request->input('CPT_ID');
-        $valider = $request->input('VALIDER');
+        $cptId = $request->input('SKILL_ID');
+        $valider = $request->input('VALIDATE');
 
         $query = Valider::query();
 
@@ -77,7 +120,15 @@ class ValiderController extends Controller {
 
         $validators = $query->get();
 
-        return response()->json($validators);
+        $events = $validators->map(function ($validator) {
+            return [
+                'UTI_ID' => $validator->UTI_ID,
+                'SKILL_ID' => $validator->CPT_ID,
+                'VALIDATE' =>$validator->VALDER,
+            ];
+        });
+
+        return response()->json($events);
     }
 
     /**

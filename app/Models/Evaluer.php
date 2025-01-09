@@ -25,7 +25,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Evaluer extends Model
 {
-	protected $table = 'evaluer';
+	protected $table = 'EVALUER';
 	public $incrementing = false;
 	public $timestamps = false;
 

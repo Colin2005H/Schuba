@@ -6,71 +6,87 @@ use App\Http\Controllers\Controller;
 use App\Models\PloEleve;
 use Illuminate\Http\Request;
 
+/**
+ * @OA\Schema(
+ *     schema="Student",
+ *     type="object",
+ *     required={"UTI_ID"},
+ *     @OA\Property(
+ *         property="ID",
+ *         type="integer",
+ *         description="The unique identifier for the student",
+ *         example=1
+ *     ),
+ *     @OA\Property(
+ *         property="User",
+ *         description="The user associated with this student",
+ *         ref="#/components/schemas/User"
+ *     ),
+ *     @OA\Property(
+ *         property="Signed",
+ *         type="array",
+ *         description="The formations the student is associated with",
+ *         @OA\Items(
+ *             ref="#/components/schemas/Signed"
+ *         )
+ *     ),
+ *     @OA\Property(
+ *         property="Assessment",
+ *         type="array",
+ *         description="The evaluations associated with this student",
+ *         @OA\Items(
+ *             ref="#/components/schemas/Assessment"
+ *         )
+ *     ),
+ *     @OA\Property(
+ *         property="Group",
+ *         type="array",
+ *         description="The sessions this student is grouped in",
+ *         @OA\Items(
+ *             ref="#/components/schemas/Group"
+ *         )
+ *     )
+ * )
+ */
+
 class PloEleveController extends Controller {
 
     /**
      * @OA\Get(
      *     path="/api/student",
      *     summary="Get a list of students",
-     *     description="Fetch a list of students based on optional filters (ID). If no filters are provided, it returns all students.",
+     *     description="Retrieve a list of students based on the provided filters.",
+     *     operationId="getStudents",
      *     tags={"Students"},
+     *     
      *     @OA\Parameter(
      *         name="ID",
      *         in="query",
-     *         description="User ID to filter the students",
      *         required=false,
-     *         @OA\Schema(
-     *             type="integer",
-     *             example=1
-     *         )
+     *         description="The ID of the student",
+     *         @OA\Schema(type="integer")
      *     ),
+     *     
      *     @OA\Response(
      *         response=200,
-     *         description="Successfully fetched the list of students",
+     *         description="A list of students based on the filters",
      *         @OA\JsonContent(
      *             type="array",
-     *             @OA\Items(
-     *                 type="object",
-     *                 @OA\Property(
-     *                     property="ID",
-     *                     type="integer",
-     *                     description="User ID of the student",
-     *                     example=1
-     *                 )
-     *             )
+     *             @OA\Items(ref="#/components/schemas/Student")
      *         )
      *     ),
      *     @OA\Response(
      *         response=400,
-     *         description="Bad Request, invalid input parameters",
+     *         description="Invalid parameters",
      *         @OA\JsonContent(
-     *             @OA\Property(
-     *                 property="message",
-     *                 type="string",
-     *                 example="Invalid parameters"
-     *             )
-     *         )
-     *     ),
-     *     @OA\Response(
-     *         response=404,
-     *         description="No students found",
-     *         @OA\JsonContent(
-     *             @OA\Property(
-     *                 property="message",
-     *                 type="string",
-     *                 example="No students found matching the criteria."
-     *             )
+     *             @OA\Property(property="message", type="string", example="Invalid parameters provided.")
      *         )
      *     ),
      *     @OA\Response(
      *         response=500,
      *         description="Internal server error",
      *         @OA\JsonContent(
-     *             @OA\Property(
-     *                 property="message",
-     *                 type="string",
-     *                 example="Something went wrong, please try again."
-     *             )
+     *             @OA\Property(property="error", type="string", example="Something went wrong")
      *         )
      *     )
      * )

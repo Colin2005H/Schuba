@@ -7,127 +7,184 @@ use Illuminate\Http\Request;
 use App\Models\PloUtilisateur;
 use App\Http\Controllers\Controller;
 
+/**
+ * @OA\Schema(
+ *     schema="User",
+ *     type="object",
+ *     required={"UTI_ID", "UTI_MAIL", "UTI_MDP", "UTI_DATE_CREATION"},
+ *     @OA\Property(
+ *         property="ID",
+ *         type="integer",
+ *         description="The unique identifier for the user",
+ *         example=1
+ *     ),
+ *     @OA\Property(
+ *         property="CLUB_ID",
+ *         type="integer",
+ *         nullable=true,
+ *         description="The ID of the club the user belongs to",
+ *         example=3
+ *     ),
+ *     @OA\Property(
+ *         property="NAME",
+ *         type="string",
+ *         description="The last name of the user",
+ *         example="Doe"
+ *     ),
+ *     @OA\Property(
+ *         property="FIRSTNAME",
+ *         type="string",
+ *         description="The first name of the user",
+ *         example="John"
+ *     ),
+ *     @OA\Property(
+ *         property="EMAIL",
+ *         type="string",
+ *         description="The email address of the user",
+ *         example="john.doe@example.com"
+ *     ),
+ *     @OA\Property(
+ *         property="PASSWORD",
+ *         type="string",
+ *         description="The password of the user",
+ *         example="password123"
+ *     ),
+ *     @OA\Property(
+ *         property="CREATION_DATE",
+ *         type="string",
+ *         format="date-time",
+ *         description="The creation date of the user account",
+ *         example="2025-01-08T10:00:00"
+ *     ),
+ *     @OA\Property(
+ *         property="LEVEL",
+ *         type="string",
+ *         nullable=true,
+ *         description="The level of the user",
+ *         example="admin"
+ *     ),
+ *     @OA\Property(
+ *         property="BIRTH_DATE",
+ *         type="string",
+ *         format="date-time",
+ *         nullable=true,
+ *         description="The birth date of the user",
+ *         example="1990-01-01T00:00:00"
+ *     ),
+ *     @OA\Property(
+ *         property="Club",
+ *         ref="#/components/schemas/Club",
+ *         nullable=true,
+ *         description="The club the user belongs to"
+ *     ),
+ *     @OA\Property(
+ *         property="Student",
+ *         ref="#/components/schemas/Student",
+ *         description="The student associated with the user"
+ *     ),
+ *     @OA\Property(
+ *         property="Initiator",
+ *         ref="#/components/schemas/Initiator",
+ *         description="The initiator associated with the user"
+ *     ),
+ *     @OA\Property(
+ *         property="Validate",
+ *         type="array",
+ *         description="The validations associated with the user",
+ *         @OA\Items(ref="#/components/schemas/Validate")
+ *     )
+ * )
+ */
+
 class PloUtilisateurController extends Controller {
 
     /**
      * @OA\Get(
      *     path="/api/user",
-     *     summary="List filtered users",
-     *     description="Retrieve a list of users filtered by various criteria such as user ID, last name, first name, email, creation date, etc.",
-     *     operationId="listUsers",
+     *     summary="Retrieve users based on optional filters",
+     *     description="Retrieve users based on filters such as ID, CLUB_ID, NAME, FIRSTNAME, EMAIL, LEVEL, CREATION_DATE, and BIRTH_DATE.",
+     *     operationId="getUserRecords",
      *     tags={"Users"},
+     *
      *     @OA\Parameter(
-     *         name="u_id",
+     *         name="ID",
      *         in="query",
-     *         description="User ID to filter the results",
+     *         description="Filter by user ID",
      *         required=false,
-     *         @OA\Schema(
-     *             type="integer",
-     *             example=1
-     *         )
+     *         @OA\Schema(type="integer")
      *     ),
      *     @OA\Parameter(
-     *         name="c_id",
+     *         name="CLUB_ID",
      *         in="query",
-     *         description="Club ID to filter the users",
+     *         description="Filter by club ID",
      *         required=false,
-     *         @OA\Schema(
-     *             type="integer",
-     *             example=1
-     *         )
+     *         @OA\Schema(type="integer")
      *     ),
      *     @OA\Parameter(
-     *         name="name",
+     *         name="NAME",
      *         in="query",
-     *         description="User's last name (uses LIKE 'name%')",
+     *         description="Filter by user name",
      *         required=false,
-     *         @OA\Schema(
-     *             type="string",
-     *             example="Doe"
-     *         )
+     *         @OA\Schema(type="string")
      *     ),
      *     @OA\Parameter(
-     *         name="firstname",
+     *         name="FIRSTNAME",
      *         in="query",
-     *         description="User's first name (uses LIKE 'firstname%')",
+     *         description="Filter by user's first name",
      *         required=false,
-     *         @OA\Schema(
-     *             type="string",
-     *             example="John"
-     *         )
+     *         @OA\Schema(type="string")
      *     ),
      *     @OA\Parameter(
-     *         name="email",
+     *         name="EMAIL",
      *         in="query",
-     *         description="User's email address (uses LIKE 'email%')",
+     *         description="Filter by user email",
      *         required=false,
-     *         @OA\Schema(
-     *             type="string",
-     *             example="john.doe@example.com"
-     *         )
+     *         @OA\Schema(type="string")
      *     ),
      *     @OA\Parameter(
-     *         name="creation_date",
+     *         name="LEVEL",
      *         in="query",
-     *         description="Filter users by creation date (format: yyyy-mm-dd)",
+     *         description="Filter by user level",
      *         required=false,
-     *         @OA\Schema(
-     *             type="string",
-     *             format="date",
-     *             example="2023-01-01"
-     *         )
+     *         @OA\Schema(type="integer")
      *     ),
      *     @OA\Parameter(
-     *         name="birth_date",
+     *         name="CREATION_DATE",
      *         in="query",
-     *         description="Filter users by date of birth (format: yyyy-mm-dd)",
+     *         description="Filter by creation date",
      *         required=false,
-     *         @OA\Schema(
-     *             type="string",
-     *             format="date",
-     *             example="1990-01-01"
-     *         )
+     *         @OA\Schema(type="string", format="date")
      *     ),
      *     @OA\Parameter(
-     *         name="level",
+     *         name="BIRTH_DATE",
      *         in="query",
-     *         description="User's level",
+     *         description="Filter by birth date",
      *         required=false,
-     *         @OA\Schema(
-     *             type="integer",
-     *             example=2
-     *         )
+     *         @OA\Schema(type="string", format="date")
      *     ),
+     *     
      *     @OA\Response(
      *         response=200,
-     *         description="Successfully fetched the users matching the criteria",
+     *         description="List of users matching the filters",
      *         @OA\JsonContent(
      *             type="array",
      *             @OA\Items(
-     *                 type="object",
-     *                 @OA\Property(property="ID", type="integer", description="User ID", example=1),
-     *                 @OA\Property(property="CLUB_ID", type="integer", description="Club ID", example=1),
-     *                 @OA\Property(property="NAME", type="string", description="User's last name", example="Doe"),
-     *                 @OA\Property(property="FIRSTNAME", type="string", description="User's first name", example="John"),
-     *                 @OA\Property(property="EMAIL", type="string", description="User's email address", example="john.doe@example.com"),
-     *                 @OA\Property(property="LEVEL", type="integer", description="User's level", example=2),
-     *                 @OA\Property(property="BIRTH_DATE", type="string", format="date-time", description="User's date of birth", example="1990-01-01T00:00:00"),
-     *                 @OA\Property(property="CREATION_DATE", type="string", format="date-time", description="User's account creation date", example="2023-01-01T12:00:00")
+     *                 ref="#/components/schemas/User"
      *             )
      *         )
      *     ),
      *     @OA\Response(
      *         response=400,
-     *         description="Incorrect or invalid parameters",
+     *         description="Bad Request, invalid parameters",
      *         @OA\JsonContent(
-     *             @OA\Property(property="error", type="string", example="Invalid parameters")
+     *             @OA\Property(property="error", type="string", example="Invalid input data")
      *         )
      *     ),
      *     @OA\Response(
      *         response=500,
      *         description="Internal server error",
      *         @OA\JsonContent(
-     *             @OA\Property(property="message", type="string", example="Something went wrong, please try again.")
+     *             @OA\Property(property="error", type="string", example="Something went wrong")
      *         )
      *     )
      * )

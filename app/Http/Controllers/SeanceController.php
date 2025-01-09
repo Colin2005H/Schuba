@@ -3,14 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Models\Aptitude;
-use App\Models\Eleve;
 use App\Models\Groupe;
 use App\Models\Initiator;
 use App\Models\Lieu;
+use App\Models\PloEleve;
+use App\Models\PloInitiateur;
 use App\Models\Seance;
 use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class SeanceController extends Controller
 {
@@ -21,22 +23,51 @@ class SeanceController extends Controller
      */
     public function createSession()
     {
+        DB::beginTransaction();
+
+        $niveau = NULL;
+
+        try {
+            //TODO peut-être déplacer ça dans le model
+            $niveau = DB::table('gerer_la_formation')->select('FORM_NIVEAU')->where('UTI_ID', session('user')->UTI_ID)->get()->firstOrFail();
+            $niveau = $niveau->FORM_NIVEAU;
+        } catch (\Throwable $th) {
+            echo $th->getMessage();
+        }
+        DB::commit();
+
+        //dd($niveau);
+
         return view('creer-seance', [
             'lieux' => Lieu::all(),
 
             'aptitudes' => Aptitude::all(),
 
-            'initiateurs' => Initiator::all()->map(function (Initiator $initiator) { //prends tous les Initiator
-                return $initiator->user()->getResults();
+            'initiateurs' => PloInitiateur::all()->filter(function (PloInitiateur $initiator) use ($niveau){
+                return $initiator->isInFormation($niveau); //uniquement ceux du bon niveau
+
+            })->map(function (PloInitiateur $initiator) { //prends tous les Initiator
+                return $initiator->plo_utilisateur()->getResults();
+
             })->filter(function ($user, $key) {
                 return $user != null;
+
+            }), //TODO filtrer seulement ceux de la formation concernée ($niveau)
+
+
+            'eleves' => PloEleve::all()->filter(function (PloEleve $student) use ($niveau){
+                return $student->getCurrentFormation() == $niveau; //uniquement ceux du bon niveau
+
+            })->map(function (PloEleve $student) { //transforme l'élève en utilisateur
+                return $student->plo_utilisateur()->getResults();
+
+            })->filter(function ($user, $key) {
+                return $user != null; //securité
+
             }),
 
-            'eleves' => Eleve::all()->map(function (Eleve $student) { //prends tous les eleves
-                return $student->user()->getResults();
-            })->filter(function ($user, $key) {
-                return $user != null;
-            })
+            
+            'niveau' => $niveau
         ]);
     }
 
@@ -62,6 +93,7 @@ class SeanceController extends Controller
 
             
         } catch (Exception $e) {
+            DB::rollBack();
             return redirect()->route('createSession.show')->with('success', $e->getMessage());
         }
 

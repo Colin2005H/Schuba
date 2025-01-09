@@ -6,6 +6,8 @@ use App\Http\Controllers\FormationController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\listCommentariesController;
+use App\Http\Controllers\AptitudesTableStudentController;
+use App\Http\Controllers\AptitudesGlobalTableController;
 
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
@@ -21,8 +23,11 @@ use Illuminate\Support\Facades\Hash;
 |
 */
 
-
 //Route pour la page d'accueil
+Route::get('/formations', [FormationController::class, 'showFormation']);
+Route::post('/formations', [FormationController::class, 'createFormation']);
+
+
 Route::get('/formations', [FormationController::class, 'showFormation']);
 Route::post('/formations', [FormationController::class, 'createFormation']);
 
@@ -68,12 +73,20 @@ Route::get('/home', function() {
 });
 
 Route::get('/triche', function() {
-    return Hash::make("admin");
+    return Hash::make("responsable");
 });
 
 Route::prefix('/calendar')->name('calendar.')->controller(\App\Http\Controllers\CalendarController::class)->group(function(){
     Route::get('/', 'show')->name('show');
     Route::get('/{sessionId}', 'tableSession')->name('tableSession');
+});
+
+Route::prefix('/aptitudes/{userId}')->name('aptitudes.')->controller(AptitudesTableStudentController::class)->group(function(){
+    Route::get('/', 'showListAptitudes')->name('show');
+});
+
+Route::prefix('/globalAptitudes/{level}')->name('globalAptitudes.')->controller(AptitudesGlobalTableController::class)->group(function(){
+    Route::get('/', 'showListAptitudes')->name('show');
 });
 
 Route::get('/footer', function () {

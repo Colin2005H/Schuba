@@ -28,7 +28,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class PloEleve extends Model
 {
 	use HasApiTokens, HasFactory, Notifiable;
-	protected $table = 'plo_eleve';
+	protected $table = 'PLO_ELEVE';
 	protected $primaryKey = 'UTI_ID';
 	public $incrementing = false;
 	public $timestamps = false;
@@ -55,5 +55,25 @@ class PloEleve extends Model
 	public function groupers()
 	{
 		return $this->hasMany(Grouper::class, 'UTI_ID');
+	}
+
+	/**
+	 * Renvoie le niveau de la formation actuelle de l'élève
+	 *
+	 * @return int niveau de la formation actuelle
+	 */
+	public function getCurrentFormation(){
+		$appartiens = $this->appartients();
+
+		$level = $appartiens->select('FORM_NIVEAU')->orderBy('DATE_INSCRIPTION')->first();
+		
+		if($level == NULL){
+			echo("<script>console.log('rien')</script>");
+			return NULL;
+		}
+		echo("<script>console.log(".$level->FORM_NIVEAU.")</script>");
+
+		
+		return $level->FORM_NIVEAU;
 	}
 }

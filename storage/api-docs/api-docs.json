@@ -6,7 +6,7 @@
         "contact": {
             "name": "Groupe 1"
         },
-        "version": "0.5.0"
+        "version": "1.0.0"
     },
     "paths": {
         "/api/signed": {
@@ -19,23 +19,23 @@
                 "operationId": "0087490a916fad58cc0e1d0002f8ed00",
                 "parameters": [
                     {
-                        "name": "UTI_ID",
+                        "name": "STUD_ID",
                         "in": "query",
                         "description": "User ID to filter the records",
                         "required": false,
                         "schema": {
                             "type": "integer",
-                            "example": 1
+                            "example": 123
                         }
                     },
                     {
-                        "name": "FORM_NIVEAU",
+                        "name": "LEVEL",
                         "in": "query",
                         "description": "Formation Level to filter the records",
                         "required": false,
                         "schema": {
                             "type": "integer",
-                            "example": 2
+                            "example": 1
                         }
                     },
                     {
@@ -58,22 +58,7 @@
                                 "schema": {
                                     "type": "array",
                                     "items": {
-                                        "properties": {
-                                            "FORM_NIVEAU": {
-                                                "type": "integer",
-                                                "example": 2
-                                            },
-                                            "UTI_ID": {
-                                                "type": "integer",
-                                                "example": 1
-                                            },
-                                            "DATE_INSCRIPTION": {
-                                                "type": "string",
-                                                "format": "date-time",
-                                                "example": "2025-01-01T09:00:00"
-                                            }
-                                        },
-                                        "type": "object"
+                                        "$ref": "#/components/schemas/Signed"
                                     }
                                 }
                             }
@@ -111,22 +96,22 @@
                         "application/json": {
                             "schema": {
                                 "required": [
-                                    "UTI_ID",
+                                    "STUD_ID",
                                     "FORM_NIVEAU",
                                     "DATE_INSCRIPTION"
                                 ],
                                 "properties": {
-                                    "UTI_ID": {
+                                    "STUD_ID": {
                                         "description": "ID of the user who belongs to the formation",
                                         "type": "integer",
                                         "example": 1
                                     },
-                                    "FORM_NIVEAU": {
+                                    "LEVEL": {
                                         "description": "Formation level that the user belongs to",
                                         "type": "integer",
                                         "example": 2
                                     },
-                                    "DATE_INSCRIPTION": {
+                                    "SIGN_DATE": {
                                         "description": "The registration date of the formation",
                                         "type": "string",
                                         "format": "date-time",
@@ -270,13 +255,13 @@
                     "Leaders"
                 ],
                 "summary": "Get Leader records based on filters",
-                "description": "Retrieve the Leader records filtered by USER_ID, CLUB_ID, and START_DATE.",
+                "description": "Retrieve the Leader records filtered by INIT_ID, CLUB_ID, and START_DATE.",
                 "operationId": "getDirigerLeClubRecords",
                 "parameters": [
                     {
-                        "name": "USER_ID",
+                        "name": "INIT_ID",
                         "in": "query",
-                        "description": "Filter by USER_ID",
+                        "description": "Filter by INIT_ID",
                         "required": false,
                         "schema": {
                             "type": "integer"
@@ -310,19 +295,7 @@
                                 "schema": {
                                     "type": "array",
                                     "items": {
-                                        "properties": {
-                                            "USER_ID": {
-                                                "type": "integer"
-                                            },
-                                            "CLUB_ID": {
-                                                "type": "integer"
-                                            },
-                                            "START_DATE": {
-                                                "type": "string",
-                                                "format": "date"
-                                            }
-                                        },
-                                        "type": "object"
+                                        "$ref": "#/components/schemas/Leader"
                                     }
                                 }
                             }
@@ -376,12 +349,12 @@
                         "application/json": {
                             "schema": {
                                 "required": [
-                                    "USER_ID",
+                                    "INIT_ID",
                                     "CLUB_ID",
                                     "START_DATE"
                                 ],
                                 "properties": {
-                                    "USER_ID": {
+                                    "INIT_ID": {
                                         "description": "User ID (initiator)",
                                         "type": "integer",
                                         "example": 1
@@ -416,7 +389,7 @@
                                         },
                                         "diriger_le_club": {
                                             "properties": {
-                                                "USER_ID": {
+                                                "INIT_ID": {
                                                     "type": "integer",
                                                     "example": 1
                                                 },
@@ -550,14 +523,14 @@
                 "tags": [
                     "Teachings"
                 ],
-                "summary": "Get Teaching records",
-                "description": "Retrieve a list of Teaching records based on the provided filter criteria.",
-                "operationId": "49ff76718c3034fad6ff227aa89b15dd",
+                "summary": "Get a list of teaching records",
+                "description": "Retrieve a list of teaching records based on the provided filters.",
+                "operationId": "getTeachings",
                 "parameters": [
                     {
                         "name": "ID",
                         "in": "query",
-                        "description": "User ID to filter by",
+                        "description": "The ID of the teacher (user).",
                         "required": false,
                         "schema": {
                             "type": "integer"
@@ -566,7 +539,7 @@
                     {
                         "name": "LEVEL",
                         "in": "query",
-                        "description": "Teaching level to filter by",
+                        "description": "The level of the teaching record.",
                         "required": false,
                         "schema": {
                             "type": "integer"
@@ -575,33 +548,49 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Successfully retrieved the list of Teaching records",
+                        "description": "A list of teaching records based on the filters",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "type": "array",
                                     "items": {
-                                        "properties": {
-                                            "ID": {
-                                                "description": "User ID",
-                                                "type": "integer"
-                                            },
-                                            "LEVEL": {
-                                                "description": "Teaching level",
-                                                "type": "integer"
-                                            }
-                                        },
-                                        "type": "object"
+                                        "$ref": "#/components/schemas/Teaching"
                                     }
                                 }
                             }
                         }
                     },
                     "400": {
-                        "description": "Invalid input parameters"
+                        "description": "Invalid parameters",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Invalid parameters provided."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     },
                     "500": {
-                        "description": "Internal server error"
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Something went wrong"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     }
                 }
             },
@@ -763,19 +752,19 @@
                 }
             }
         },
-        "/api/manager": {
+        "/api/assessment": {
             "get": {
                 "tags": [
-                    "Managers"
+                    "Assessments"
                 ],
-                "summary": "Get formation manager records",
-                "description": "Retrieve manager based on optional filters: User ID, Formation Level, and Start Date.",
-                "operationId": "9e59b26885df298b89bac690b0e91081",
+                "summary": "Get Assessment records based on filters",
+                "description": "Retrieve Assessment records filtered by session ID (SESS_ID), appointment code (APT_CODE), student ID (STUD_ID), comment (COMMENT), and result (RESULT).",
+                "operationId": "getAssessmentRecords",
                 "parameters": [
                     {
-                        "name": "UTI_ID",
+                        "name": "SESS_ID",
                         "in": "query",
-                        "description": "User ID to filter the records",
+                        "description": "Filter by session ID",
                         "required": false,
                         "schema": {
                             "type": "integer",
@@ -783,161 +772,69 @@
                         }
                     },
                     {
-                        "name": "FORM_NIVEAU",
+                        "name": "APT_CODE",
                         "in": "query",
-                        "description": "Formation Level to filter the records",
-                        "required": false,
-                        "schema": {
-                            "type": "integer",
-                            "example": 2
-                        }
-                    },
-                    {
-                        "name": "GER_DATE_DEBUT",
-                        "in": "query",
-                        "description": "Start Date of the formation",
+                        "description": "Filter by appointment code",
                         "required": false,
                         "schema": {
                             "type": "string",
-                            "format": "date-time",
-                            "example": "2025-01-01T09:00:00"
+                            "example": "APT123"
+                        }
+                    },
+                    {
+                        "name": "STUD_ID",
+                        "in": "query",
+                        "description": "Filter by student ID",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "example": 456
+                        }
+                    },
+                    {
+                        "name": "COMMENT",
+                        "in": "query",
+                        "description": "Filter by comment text (partial match)",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "example": "Good performance"
+                        }
+                    },
+                    {
+                        "name": "RESULT",
+                        "in": "query",
+                        "description": "Filter by result text (partial match)",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "example": "Pass"
                         }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "Successfully retrieved GererLaFormation records",
+                        "description": "Successfully retrieved assessment records",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "type": "array",
                                     "items": {
-                                        "properties": {
-                                            "UTI_ID": {
-                                                "type": "integer",
-                                                "example": 1
-                                            },
-                                            "FORM_NIVEAU": {
-                                                "type": "integer",
-                                                "example": 2
-                                            },
-                                            "GER_DATE_DEBUT": {
-                                                "type": "string",
-                                                "format": "date-time",
-                                                "example": "2025-01-01T09:00:00"
-                                            }
-                                        },
-                                        "type": "object"
+                                        "$ref": "#/components/schemas/Assessment"
                                     }
                                 }
                             }
                         }
                     },
                     "400": {
-                        "description": "Invalid parameters",
+                        "description": "Bad Request, invalid parameters",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
-                                        "message": {
+                                        "error": {
                                             "type": "string",
-                                            "example": "Invalid parameters"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/api/gerer-la-formation": {
-            "post": {
-                "tags": [
-                    "Managers"
-                ],
-                "summary": "Create a new formation manager",
-                "description": "This API allows you to create a new manager by providing the User ID, Formation Level, and Start Date.",
-                "operationId": "3b34be262fbad208bc05193614ecf928",
-                "requestBody": {
-                    "description": "The necessary data to create a new GererLaFormation record",
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "required": [
-                                    "UTI_ID",
-                                    "FORM_NIVEAU",
-                                    "GER_DATE_DEBUT"
-                                ],
-                                "properties": {
-                                    "UTI_ID": {
-                                        "description": "ID of the user associated with the formation record",
-                                        "type": "integer",
-                                        "example": 1
-                                    },
-                                    "FORM_NIVEAU": {
-                                        "description": "Formation level associated with the GererLaFormation record",
-                                        "type": "integer",
-                                        "example": 2
-                                    },
-                                    "GER_DATE_DEBUT": {
-                                        "description": "Start date and time of the formation",
-                                        "type": "string",
-                                        "format": "date-time",
-                                        "example": "2025-01-01T09:00:00"
-                                    }
-                                },
-                                "type": "object"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "GererLaFormation record created successfully",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "GererLaFormation successfully created!"
-                                        },
-                                        "gerer_la_formation": {
-                                            "properties": {
-                                                "UTI_ID": {
-                                                    "type": "integer",
-                                                    "example": 1
-                                                },
-                                                "FORM_NIVEAU": {
-                                                    "type": "integer",
-                                                    "example": 2
-                                                },
-                                                "GER_DATE_DEBUT": {
-                                                    "type": "string",
-                                                    "format": "date-time",
-                                                    "example": "2025-01-01T09:00:00"
-                                                }
-                                            },
-                                            "type": "object"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Validation error in the provided data",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "The provided data is invalid"
+                                            "example": "Invalid parameter"
                                         }
                                     },
                                     "type": "object"
@@ -951,9 +848,269 @@
                             "application/json": {
                                 "schema": {
                                     "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Something went wrong"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Assessments"
+                ],
+                "summary": "Create a new Assessment record",
+                "description": "Create a new Assessment record by providing session ID (SEA_ID), appointment code (APT_CODE), student ID (UTI_ID), comment (EVA_COMMENTAIRE), and result (EVA_RESULTAT).",
+                "operationId": "createAssessmentRecord",
+                "requestBody": {
+                    "description": "Assessment data to be created",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Assessment"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successfully created the assessment record",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Assessment"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request, invalid input data",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Validation failed for input parameters"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Something went wrong"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/manager": {
+            "get": {
+                "tags": [
+                    "Managers"
+                ],
+                "summary": "Retrieve Managers based on optional filters",
+                "description": "Retrieve records of managers filtered by INIT_ID, LEVEL, and START date.",
+                "operationId": "getManagerRecords",
+                "parameters": [
+                    {
+                        "name": "INIT_ID",
+                        "in": "query",
+                        "description": "Filter by the ID of the initiator (INIT_ID)",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "LEVEL",
+                        "in": "query",
+                        "description": "Filter by formation level (LEVEL)",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "START",
+                        "in": "query",
+                        "description": "Filter by start date of the formation (START)",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "format": "date",
+                            "example": "2025-01-01"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of Manager records matching the filters",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Manager"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request, invalid parameters",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Invalid input data"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Something went wrong"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Managers"
+                ],
+                "summary": "Create a new Manager record",
+                "description": "Creates a new manager record with the provided INIT_ID, LEVEL, and START date.",
+                "operationId": "createManager",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "INIT_ID",
+                                    "LEVEL",
+                                    "START"
+                                ],
+                                "properties": {
+                                    "INIT_ID": {
+                                        "description": "The ID of the initiator",
+                                        "type": "integer",
+                                        "example": 123
+                                    },
+                                    "LEVEL": {
+                                        "description": "The level of the formation",
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "START": {
+                                        "description": "The start date of the formation",
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2025-01-01"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Manager record successfully created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
                                         "message": {
                                             "type": "string",
-                                            "example": "An error occurred while creating the record"
+                                            "example": "Manager successfully created!"
+                                        },
+                                        "Manager": {
+                                            "properties": {
+                                                "INIT_ID": {
+                                                    "type": "integer",
+                                                    "example": 123
+                                                },
+                                                "LEVEL": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "START": {
+                                                    "type": "string",
+                                                    "format": "date",
+                                                    "example": "2025-01-01"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request, validation errors",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Invalid input data"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Something went wrong"
                                         }
                                     },
                                     "type": "object"
@@ -969,31 +1126,31 @@
                 "tags": [
                     "Managers"
                 ],
-                "summary": "Delete a formation manager record",
-                "description": "This API allows you to delete an existing manager by providing its ID.",
-                "operationId": "f2c734fc4e7f0075b6f630115c053dbb",
+                "summary": "Delete a Manager record",
+                "description": "Deletes a manager record by the provided ID.",
+                "operationId": "deleteManager",
                 "parameters": [
                     {
                         "name": "id",
                         "in": "path",
-                        "description": "ID of the GererLaFormation record to be deleted",
+                        "description": "The ID of the Manager record to delete",
                         "required": true,
                         "schema": {
                             "type": "integer",
-                            "example": 1
+                            "example": 123
                         }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "GererLaFormation record deleted successfully",
+                        "description": "Manager record successfully deleted",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
                                         "message": {
                                             "type": "string",
-                                            "example": "GererLaFormation successfully deleted!"
+                                            "example": "Manager successfully deleted!"
                                         }
                                     },
                                     "type": "object"
@@ -1002,14 +1159,30 @@
                         }
                     },
                     "404": {
-                        "description": "GererLaFormation record not found",
+                        "description": "Manager record not found",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
                                         "message": {
                                             "type": "string",
-                                            "example": "GererLaFormation record not found."
+                                            "example": "Manager record not found."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Something went wrong"
                                         }
                                     },
                                     "type": "object"
@@ -1025,92 +1198,70 @@
                 "tags": [
                     "Groups"
                 ],
-                "summary": "Get group records",
-                "description": "Retrieves group records based on optional filters for user, initiator, session, and presence status.",
-                "operationId": "1b29d655f5c291dba95ffff8eadfb856",
+                "summary": "Retrieve Group records based on optional filters",
+                "description": "Retrieve Group records filtered by USER_ID, INIT_ID, SESS_ID, and PRESENT status.",
+                "operationId": "getGroupRecords",
                 "parameters": [
                     {
                         "name": "USER_ID",
                         "in": "query",
-                        "description": "User ID to filter group by user",
+                        "description": "Filter by user ID (UTI_ID)",
                         "required": false,
                         "schema": {
-                            "type": "integer",
-                            "example": 1
+                            "type": "integer"
                         }
                     },
                     {
                         "name": "INIT_ID",
                         "in": "query",
-                        "description": "Initiator ID to filter group by initiator",
+                        "description": "Filter by initiator ID (UTI_ID_INITIATEUR)",
                         "required": false,
                         "schema": {
-                            "type": "integer",
-                            "example": 1
+                            "type": "integer"
                         }
                     },
                     {
                         "name": "SESS_ID",
                         "in": "query",
-                        "description": "Session ID to filter group by session",
+                        "description": "Filter by session ID (SEA_ID)",
                         "required": false,
                         "schema": {
-                            "type": "integer",
-                            "example": 1
+                            "type": "integer"
                         }
                     },
                     {
                         "name": "PRESENT",
                         "in": "query",
-                        "description": "Presence status of the user in the session",
+                        "description": "Filter by presence status (GRP_PRESENCE)",
                         "required": false,
                         "schema": {
-                            "type": "boolean",
-                            "example": true
+                            "type": "boolean"
                         }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "Successfully retrieved group records",
+                        "description": "List of Group records matching the filters",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "type": "array",
                                     "items": {
-                                        "properties": {
-                                            "USER_ID": {
-                                                "type": "integer",
-                                                "example": 1
-                                            },
-                                            "INIT_ID": {
-                                                "type": "integer",
-                                                "example": 1
-                                            },
-                                            "SESS_ID": {
-                                                "type": "integer",
-                                                "example": 1
-                                            },
-                                            "PRESENT": {
-                                                "type": "boolean",
-                                                "example": true
-                                            }
-                                        },
-                                        "type": "object"
+                                        "$ref": "#/components/schemas/Group"
                                     }
                                 }
                             }
                         }
                     },
                     "400": {
-                        "description": "Bad request, validation failed",
+                        "description": "Bad Request, invalid parameters",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
-                                        "message": {
+                                        "error": {
                                             "type": "string",
-                                            "example": "The given data was invalid."
+                                            "example": "Invalid input data"
                                         }
                                     },
                                     "type": "object"
@@ -1124,9 +1275,9 @@
                             "application/json": {
                                 "schema": {
                                     "properties": {
-                                        "message": {
+                                        "error": {
                                             "type": "string",
-                                            "example": "Something went wrong, please try again."
+                                            "example": "Something went wrong"
                                         }
                                     },
                                     "type": "object"
@@ -1328,78 +1479,77 @@
                 "tags": [
                     "Aptitudes"
                 ],
-                "summary": "Retrieve a list of aptitudes",
-                "description": "Fetches a list of aptitudes based on optional filters such as ID, competence ID, and name.",
-                "operationId": "getAptitudes",
+                "summary": "Retrieve aptitudes based on optional filters",
+                "description": "Retrieve aptitudes based on filters such as APT_CODE, SKILL_ID, and NAME.",
+                "operationId": "getAptitudeRecords",
                 "parameters": [
                     {
                         "name": "ID",
                         "in": "query",
-                        "description": "The ID of the aptitude to filter by",
+                        "description": "Filter by aptitude code (APT_CODE)",
                         "required": false,
                         "schema": {
-                            "type": "string",
-                            "example": "APT001"
+                            "type": "string"
                         }
                     },
                     {
                         "name": "SKILL_ID",
                         "in": "query",
-                        "description": "The skill ID to filter by",
+                        "description": "Filter by skill ID (CPT_ID)",
                         "required": false,
                         "schema": {
-                            "type": "string",
-                            "example": "CPT01"
+                            "type": "integer"
                         }
                     },
                     {
                         "name": "NAME",
                         "in": "query",
-                        "description": "The name or part of the name of the aptitude to filter by",
+                        "description": "Filter by aptitude name (APT_LIBELLE)",
                         "required": false,
                         "schema": {
-                            "type": "string",
-                            "example": "Technical Skill"
+                            "type": "string"
                         }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "A list of aptitudes based on the filters provided",
+                        "description": "List of aptitudes matching the filters",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "type": "array",
                                     "items": {
-                                        "properties": {
-                                            "APT_CODE": {
-                                                "type": "string",
-                                                "example": "APT001"
-                                            },
-                                            "CPT_ID": {
-                                                "type": "string",
-                                                "example": "CPT01"
-                                            },
-                                            "APT_LIBELLE": {
-                                                "type": "string",
-                                                "example": "Technical Skill"
-                                            }
-                                        },
-                                        "type": "object"
+                                        "$ref": "#/components/schemas/Aptitude"
                                     }
                                 }
                             }
                         }
                     },
                     "400": {
-                        "description": "Invalid request parameters",
+                        "description": "Bad Request, invalid parameters",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
-                                        "message": {
+                                        "error": {
                                             "type": "string",
-                                            "example": "Invalid request parameters"
+                                            "example": "Invalid input data"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Something went wrong"
                                         }
                                     },
                                     "type": "object"
@@ -1665,64 +1815,68 @@
                 "tags": [
                     "Clubs"
                 ],
-                "summary": "Get a list of clubs",
-                "description": "Fetches clubs based on the provided filters (ID or Name).",
-                "operationId": "getClubs",
+                "summary": "Retrieve clubs based on optional filters",
+                "description": "Retrieve clubs based on filters such as CLUB_ID and NAME.",
+                "operationId": "getClubRecords",
                 "parameters": [
                     {
                         "name": "ID",
                         "in": "query",
-                        "description": "The ID of the club",
+                        "description": "Filter by club ID (CLU_ID)",
                         "required": false,
                         "schema": {
-                            "type": "integer",
-                            "format": "int64"
+                            "type": "integer"
                         }
                     },
                     {
                         "name": "NAME",
                         "in": "query",
-                        "description": "Partial name of the club to search for",
+                        "description": "Filter by club name (CLU_NOM)",
                         "required": false,
                         "schema": {
-                            "type": "string",
-                            "example": "Sports Club"
+                            "type": "string"
                         }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "List of clubs successfully fetched",
+                        "description": "List of clubs matching the filters",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "type": "array",
                                     "items": {
-                                        "properties": {
-                                            "CLU_ID": {
-                                                "type": "integer",
-                                                "example": 1
-                                            },
-                                            "CLU_NOM": {
-                                                "type": "string",
-                                                "example": "Sports Club"
-                                            }
-                                        },
-                                        "type": "object"
+                                        "$ref": "#/components/schemas/Club"
                                     }
                                 }
                             }
                         }
                     },
                     "400": {
-                        "description": "Bad request, invalid parameters",
+                        "description": "Bad Request, invalid parameters",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
-                                        "message": {
+                                        "error": {
                                             "type": "string",
-                                            "example": "Invalid request parameters"
+                                            "example": "Invalid input data"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Something went wrong"
                                         }
                                     },
                                     "type": "object"
@@ -1957,77 +2111,76 @@
                     "Skills"
                 ],
                 "summary": "Get a list of skills",
-                "description": "Retrieves a list of skills based on the provided filters.",
+                "description": "Retrieve a list of skills based on the provided filters.",
                 "operationId": "getSkills",
                 "parameters": [
                     {
                         "name": "ID",
                         "in": "query",
-                        "description": "The ID of the skill to search for",
+                        "description": "The ID of the skill (competence)",
                         "required": false,
                         "schema": {
-                            "type": "string",
-                            "example": "C1"
+                            "type": "string"
                         }
                     },
                     {
                         "name": "LEVEL",
                         "in": "query",
-                        "description": "The level of the skill to filter by",
+                        "description": "The level of the skill",
                         "required": false,
                         "schema": {
-                            "type": "integer",
-                            "example": 2
+                            "type": "integer"
                         }
                     },
                     {
                         "name": "NAME",
                         "in": "query",
-                        "description": "The name or part of the name of the skill to search for",
+                        "description": "The name or label of the skill",
                         "required": false,
                         "schema": {
-                            "type": "string",
-                            "example": "Scuba Diving"
+                            "type": "string"
                         }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "List of skills",
+                        "description": "A list of skills based on the filters",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "type": "array",
                                     "items": {
-                                        "properties": {
-                                            "CPT_ID": {
-                                                "type": "string",
-                                                "example": "123"
-                                            },
-                                            "LEVEL": {
-                                                "type": "integer",
-                                                "example": 2
-                                            },
-                                            "NAME": {
-                                                "type": "string",
-                                                "example": "Basic Scuba Diving"
-                                            }
-                                        },
-                                        "type": "object"
+                                        "$ref": "#/components/schemas/Skill"
                                     }
                                 }
                             }
                         }
                     },
                     "400": {
-                        "description": "Invalid input data",
+                        "description": "Invalid parameters",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
                                         "message": {
                                             "type": "string",
-                                            "example": "Validation errors"
+                                            "example": "Invalid parameters provided."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Something went wrong"
                                         }
                                     },
                                     "type": "object"
@@ -2298,66 +2451,42 @@
                     "Students"
                 ],
                 "summary": "Get a list of students",
-                "description": "Fetch a list of students based on optional filters (ID). If no filters are provided, it returns all students.",
-                "operationId": "3095f235203a754e7d003f11b4b4466d",
+                "description": "Retrieve a list of students based on the provided filters.",
+                "operationId": "getStudents",
                 "parameters": [
                     {
                         "name": "ID",
                         "in": "query",
-                        "description": "User ID to filter the students",
+                        "description": "The ID of the student",
                         "required": false,
                         "schema": {
-                            "type": "integer",
-                            "example": 1
+                            "type": "integer"
                         }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "Successfully fetched the list of students",
+                        "description": "A list of students based on the filters",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "type": "array",
                                     "items": {
-                                        "properties": {
-                                            "ID": {
-                                                "description": "User ID of the student",
-                                                "type": "integer",
-                                                "example": 1
-                                            }
-                                        },
-                                        "type": "object"
+                                        "$ref": "#/components/schemas/Student"
                                     }
                                 }
                             }
                         }
                     },
                     "400": {
-                        "description": "Bad Request, invalid input parameters",
+                        "description": "Invalid parameters",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
                                         "message": {
                                             "type": "string",
-                                            "example": "Invalid parameters"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "No students found",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "No students found matching the criteria."
+                                            "example": "Invalid parameters provided."
                                         }
                                     },
                                     "type": "object"
@@ -2371,9 +2500,9 @@
                             "application/json": {
                                 "schema": {
                                     "properties": {
-                                        "message": {
+                                        "error": {
                                             "type": "string",
-                                            "example": "Something went wrong, please try again."
+                                            "example": "Something went wrong"
                                         }
                                     },
                                     "type": "object"
@@ -2565,96 +2694,86 @@
                 "tags": [
                     "Formations"
                 ],
-                "summary": "List filtered formations",
-                "description": "Retrieve a list of formations filtered by criteria such as formation level, name, description, and maximum number of professors.",
-                "operationId": "listFormations",
+                "summary": "Retrieve formations based on optional filters",
+                "description": "Retrieve formations based on filters such as ID, NAME, DESCRIPTION, and MAX_TEACHERS.",
+                "operationId": "getFormationRecords",
                 "parameters": [
                     {
                         "name": "ID",
                         "in": "query",
-                        "description": "Formation level ID to filter the results",
+                        "description": "Filter by formation level (FORM_NIVEAU)",
                         "required": false,
                         "schema": {
-                            "type": "integer",
-                            "example": 2
+                            "type": "integer"
                         }
                     },
                     {
                         "name": "NAME",
                         "in": "query",
-                        "description": "Formation name (uses LIKE 'name%')",
+                        "description": "Filter by formation name (FORM_LIBELLE)",
                         "required": false,
                         "schema": {
-                            "type": "string",
-                            "example": "Niveau 1 Plongée"
+                            "type": "string"
                         }
                     },
                     {
                         "name": "DESCRIPTION",
                         "in": "query",
-                        "description": "Formation description (uses LIKE 'description%')",
+                        "description": "Filter by formation description (FORM_DESCRIPTION)",
                         "required": false,
                         "schema": {
-                            "type": "string",
-                            "example": "Formation de plongée pour débutants"
+                            "type": "string"
                         }
                     },
                     {
                         "name": "MAX_TEACHERS",
                         "in": "query",
-                        "description": "Maximum number of professors for the formation",
+                        "description": "Filter by maximum number of teachers (FORM_PROF_MAX)",
                         "required": false,
                         "schema": {
-                            "type": "integer",
-                            "example": 3
+                            "type": "integer"
                         }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "Successfully fetched the formations matching the criteria",
+                        "description": "List of formations matching the filters",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "type": "array",
                                     "items": {
-                                        "properties": {
-                                            "FORM_NIVEAU": {
-                                                "description": "Formation level",
-                                                "type": "integer",
-                                                "example": 2
-                                            },
-                                            "FORM_LIBELLE": {
-                                                "description": "Formation name",
-                                                "type": "string",
-                                                "example": "Niveau 1 Plongée"
-                                            },
-                                            "FORM_DESCRIPTION": {
-                                                "description": "Formation description",
-                                                "type": "string",
-                                                "example": "Formation de plongée pour débutants"
-                                            },
-                                            "FORM_PROF_MAX": {
-                                                "description": "Maximum number of professors",
-                                                "type": "integer",
-                                                "example": 3
-                                            }
-                                        },
-                                        "type": "object"
+                                        "$ref": "#/components/schemas/Formation"
                                     }
                                 }
                             }
                         }
                     },
                     "400": {
-                        "description": "Incorrect parameters",
+                        "description": "Bad Request, invalid parameters",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
                                         "error": {
                                             "type": "string",
-                                            "example": "Invalid parameters"
+                                            "example": "Invalid input data"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Something went wrong"
                                         }
                                     },
                                     "type": "object"
@@ -2943,50 +3062,43 @@
                 "tags": [
                     "Initiators"
                 ],
-                "summary": "Get Initiator information",
-                "description": "Retrieve information about one or more initiators. Optionally filter by ID.",
-                "operationId": "getInitiateur",
+                "summary": "Retrieve Initiators based on optional filters",
+                "description": "Retrieve Initiator records filtered by ID (UTI_ID).",
+                "operationId": "getInitiatorRecords",
                 "parameters": [
                     {
                         "name": "ID",
                         "in": "query",
-                        "description": "The ID of the initiator to filter by",
+                        "description": "Filter by initiator ID (UTI_ID)",
                         "required": false,
                         "schema": {
-                            "type": "integer",
-                            "example": 1
+                            "type": "integer"
                         }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "List of initiators or specific initiator if ID is provided",
+                        "description": "List of Initiator records matching the filters",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "type": "array",
                                     "items": {
-                                        "properties": {
-                                            "ID": {
-                                                "type": "integer",
-                                                "example": 1
-                                            }
-                                        },
-                                        "type": "object"
+                                        "$ref": "#/components/schemas/Initiator"
                                     }
                                 }
                             }
                         }
                     },
                     "400": {
-                        "description": "Bad request",
+                        "description": "Bad Request, invalid parameters",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
-                                        "message": {
+                                        "error": {
                                             "type": "string",
-                                            "example": "Invalid parameter"
+                                            "example": "Invalid input data"
                                         }
                                     },
                                     "type": "object"
@@ -3000,9 +3112,9 @@
                             "application/json": {
                                 "schema": {
                                     "properties": {
-                                        "message": {
+                                        "error": {
                                             "type": "string",
-                                            "example": "Something went wrong, please try again."
+                                            "example": "Something went wrong"
                                         }
                                     },
                                     "type": "object"
@@ -3194,14 +3306,14 @@
                 "tags": [
                     "Locations"
                 ],
-                "summary": "Get locations based on filters",
-                "description": "This API allows you to retrieve a list of locations based on optional filters like ID, name, and type.",
-                "operationId": "9e549a3ff77400108eb891e2d7c542b8",
+                "summary": "Retrieve Locations based on optional filters",
+                "description": "Retrieve Location records filtered by ID, name, and type.",
+                "operationId": "getLocationRecords",
                 "parameters": [
                     {
                         "name": "ID",
                         "in": "query",
-                        "description": "ID of the location",
+                        "description": "Filter by location ID (LI_ID)",
                         "required": false,
                         "schema": {
                             "type": "integer"
@@ -3210,7 +3322,7 @@
                     {
                         "name": "NAME",
                         "in": "query",
-                        "description": "Name of the location. Use partial matching with '%' for wildcards.",
+                        "description": "Filter by location name (LI_NOM)",
                         "required": false,
                         "schema": {
                             "type": "string"
@@ -3219,7 +3331,7 @@
                     {
                         "name": "TYPE",
                         "in": "query",
-                        "description": "Type of the location. Use partial matching with '%' for wildcards.",
+                        "description": "Filter by location type (LI_TYPE)",
                         "required": false,
                         "schema": {
                             "type": "string"
@@ -3228,41 +3340,43 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "List of locations retrieved successfully.",
+                        "description": "List of Location records matching the filters",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "type": "array",
                                     "items": {
-                                        "properties": {
-                                            "ID": {
-                                                "type": "integer",
-                                                "example": 1
-                                            },
-                                            "NAME": {
-                                                "type": "string",
-                                                "example": "Location Name"
-                                            },
-                                            "TYPE": {
-                                                "type": "string",
-                                                "example": "Location Type"
-                                            }
-                                        },
-                                        "type": "object"
+                                        "$ref": "#/components/schemas/Location"
                                     }
                                 }
                             }
                         }
                     },
-                    "404": {
-                        "description": "No locations found matching the criteria",
+                    "400": {
+                        "description": "Bad Request, invalid parameters",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
-                                        "message": {
+                                        "error": {
                                             "type": "string",
-                                            "example": "No locations found"
+                                            "example": "Invalid input data"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Something went wrong"
                                         }
                                     },
                                     "type": "object"
@@ -3550,105 +3664,72 @@
                 "tags": [
                     "Sessions"
                 ],
-                "summary": "Get sessions based on filters",
-                "description": "Fetch a list of sessions by filtering on session ID, location ID, and start and end dates.",
-                "operationId": "606addeb37c766d37032d78b33a121a6",
+                "summary": "Get a list of sessions",
+                "description": "Retrieve a list of sessions based on provided filters.",
+                "operationId": "getSessions",
                 "parameters": [
                     {
                         "name": "ID",
                         "in": "query",
-                        "description": "Session ID to filter the results",
+                        "description": "The ID of the session",
                         "required": false,
                         "schema": {
-                            "type": "integer",
-                            "example": 1
+                            "type": "integer"
                         }
                     },
                     {
                         "name": "LOCATION_ID",
                         "in": "query",
-                        "description": "Location ID to filter the sessions",
+                        "description": "The location ID of the session",
                         "required": false,
                         "schema": {
-                            "type": "integer",
-                            "example": 1
+                            "type": "integer"
                         }
                     },
                     {
                         "name": "START",
                         "in": "query",
-                        "description": "Start date to filter the sessions (format: yyyy-mm-dd or yyyy-mm-ddThh:mm:ss)",
+                        "description": "The start date of the session (ISO 8601 format)",
                         "required": false,
                         "schema": {
                             "type": "string",
-                            "format": "date-time",
-                            "example": "2025-01-01T09:00:00"
+                            "format": "date-time"
                         }
                     },
                     {
                         "name": "END",
                         "in": "query",
-                        "description": "End date to filter the sessions (format: yyyy-mm-dd or yyyy-mm-ddThh:mm:ss)",
+                        "description": "The end date of the session (ISO 8601 format)",
                         "required": false,
                         "schema": {
                             "type": "string",
-                            "format": "date-time",
-                            "example": "2025-01-10T11:00:00"
+                            "format": "date-time"
                         }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "Successfully fetched the sessions",
+                        "description": "A list of sessions based on the filters",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "type": "array",
                                     "items": {
-                                        "properties": {
-                                            "ID": {
-                                                "description": "Session ID",
-                                                "type": "integer",
-                                                "example": 1
-                                            },
-                                            "LOCATION_ID": {
-                                                "description": "Location ID",
-                                                "type": "integer",
-                                                "example": 1
-                                            },
-                                            "LEVEL": {
-                                                "description": "Training level ID",
-                                                "type": "integer",
-                                                "example": 1
-                                            },
-                                            "START": {
-                                                "description": "Session start date",
-                                                "type": "string",
-                                                "format": "date-time",
-                                                "example": "2025-01-07T11:43:52+00:00"
-                                            },
-                                            "END": {
-                                                "description": "Session end date",
-                                                "type": "string",
-                                                "format": "date-time",
-                                                "example": "2025-02-01T12:43:52+00:00"
-                                            }
-                                        },
-                                        "type": "object"
+                                        "$ref": "#/components/schemas/Session"
                                     }
                                 }
                             }
                         }
                     },
                     "400": {
-                        "description": "Bad Request, invalid input parameters",
+                        "description": "Invalid parameters",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
                                         "message": {
                                             "type": "string",
-                                            "example": "Invalid parameters"
+                                            "example": "Invalid parameters provided."
                                         }
                                     },
                                     "type": "object"
@@ -3662,9 +3743,9 @@
                             "application/json": {
                                 "schema": {
                                     "properties": {
-                                        "message": {
+                                        "error": {
                                             "type": "string",
-                                            "example": "Something went wrong, please try again."
+                                            "example": "Something went wrong"
                                         }
                                     },
                                     "type": "object"
@@ -3979,160 +4060,108 @@
                 "tags": [
                     "Users"
                 ],
-                "summary": "List filtered users",
-                "description": "Retrieve a list of users filtered by various criteria such as user ID, last name, first name, email, creation date, etc.",
-                "operationId": "listUsers",
+                "summary": "Retrieve users based on optional filters",
+                "description": "Retrieve users based on filters such as ID, CLUB_ID, NAME, FIRSTNAME, EMAIL, LEVEL, CREATION_DATE, and BIRTH_DATE.",
+                "operationId": "getUserRecords",
                 "parameters": [
                     {
-                        "name": "u_id",
+                        "name": "ID",
                         "in": "query",
-                        "description": "User ID to filter the results",
+                        "description": "Filter by user ID",
                         "required": false,
                         "schema": {
-                            "type": "integer",
-                            "example": 1
+                            "type": "integer"
                         }
                     },
                     {
-                        "name": "c_id",
+                        "name": "CLUB_ID",
                         "in": "query",
-                        "description": "Club ID to filter the users",
+                        "description": "Filter by club ID",
                         "required": false,
                         "schema": {
-                            "type": "integer",
-                            "example": 1
+                            "type": "integer"
                         }
                     },
                     {
-                        "name": "name",
+                        "name": "NAME",
                         "in": "query",
-                        "description": "User's last name (uses LIKE 'name%')",
+                        "description": "Filter by user name",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "FIRSTNAME",
+                        "in": "query",
+                        "description": "Filter by user's first name",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "EMAIL",
+                        "in": "query",
+                        "description": "Filter by user email",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "LEVEL",
+                        "in": "query",
+                        "description": "Filter by user level",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "CREATION_DATE",
+                        "in": "query",
+                        "description": "Filter by creation date",
                         "required": false,
                         "schema": {
                             "type": "string",
-                            "example": "Doe"
+                            "format": "date"
                         }
                     },
                     {
-                        "name": "firstname",
+                        "name": "BIRTH_DATE",
                         "in": "query",
-                        "description": "User's first name (uses LIKE 'firstname%')",
+                        "description": "Filter by birth date",
                         "required": false,
                         "schema": {
                             "type": "string",
-                            "example": "John"
-                        }
-                    },
-                    {
-                        "name": "email",
-                        "in": "query",
-                        "description": "User's email address (uses LIKE 'email%')",
-                        "required": false,
-                        "schema": {
-                            "type": "string",
-                            "example": "john.doe@example.com"
-                        }
-                    },
-                    {
-                        "name": "creation_date",
-                        "in": "query",
-                        "description": "Filter users by creation date (format: yyyy-mm-dd)",
-                        "required": false,
-                        "schema": {
-                            "type": "string",
-                            "format": "date",
-                            "example": "2023-01-01"
-                        }
-                    },
-                    {
-                        "name": "birth_date",
-                        "in": "query",
-                        "description": "Filter users by date of birth (format: yyyy-mm-dd)",
-                        "required": false,
-                        "schema": {
-                            "type": "string",
-                            "format": "date",
-                            "example": "1990-01-01"
-                        }
-                    },
-                    {
-                        "name": "level",
-                        "in": "query",
-                        "description": "User's level",
-                        "required": false,
-                        "schema": {
-                            "type": "integer",
-                            "example": 2
+                            "format": "date"
                         }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "Successfully fetched the users matching the criteria",
+                        "description": "List of users matching the filters",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "type": "array",
                                     "items": {
-                                        "properties": {
-                                            "ID": {
-                                                "description": "User ID",
-                                                "type": "integer",
-                                                "example": 1
-                                            },
-                                            "CLUB_ID": {
-                                                "description": "Club ID",
-                                                "type": "integer",
-                                                "example": 1
-                                            },
-                                            "NAME": {
-                                                "description": "User's last name",
-                                                "type": "string",
-                                                "example": "Doe"
-                                            },
-                                            "FIRSTNAME": {
-                                                "description": "User's first name",
-                                                "type": "string",
-                                                "example": "John"
-                                            },
-                                            "EMAIL": {
-                                                "description": "User's email address",
-                                                "type": "string",
-                                                "example": "john.doe@example.com"
-                                            },
-                                            "LEVEL": {
-                                                "description": "User's level",
-                                                "type": "integer",
-                                                "example": 2
-                                            },
-                                            "BIRTH_DATE": {
-                                                "description": "User's date of birth",
-                                                "type": "string",
-                                                "format": "date-time",
-                                                "example": "1990-01-01T00:00:00"
-                                            },
-                                            "CREATION_DATE": {
-                                                "description": "User's account creation date",
-                                                "type": "string",
-                                                "format": "date-time",
-                                                "example": "2023-01-01T12:00:00"
-                                            }
-                                        },
-                                        "type": "object"
+                                        "$ref": "#/components/schemas/User"
                                     }
                                 }
                             }
                         }
                     },
                     "400": {
-                        "description": "Incorrect or invalid parameters",
+                        "description": "Bad Request, invalid parameters",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
                                         "error": {
                                             "type": "string",
-                                            "example": "Invalid parameters"
+                                            "example": "Invalid input data"
                                         }
                                     },
                                     "type": "object"
@@ -4146,9 +4175,9 @@
                             "application/json": {
                                 "schema": {
                                     "properties": {
-                                        "message": {
+                                        "error": {
                                             "type": "string",
-                                            "example": "Something went wrong, please try again."
+                                            "example": "Something went wrong"
                                         }
                                     },
                                     "type": "object"
@@ -4585,64 +4614,47 @@
                 "tags": [
                     "Validates"
                 ],
-                "summary": "Get Validate records",
-                "description": "Retrieve Validate records based on the optional filters: User ID, Competence ID, and Validation Status.",
-                "operationId": "956e3c454b77bc10f39d516693d761b4",
+                "summary": "Get a list of validation records",
+                "description": "Retrieve a list of validation records based on the provided filters.",
+                "operationId": "getValidate",
                 "parameters": [
                     {
                         "name": "UTI_ID",
                         "in": "query",
-                        "description": "User ID to filter the records",
+                        "description": "The ID of the user (teacher or student).",
                         "required": false,
                         "schema": {
-                            "type": "integer",
-                            "example": 1
+                            "type": "integer"
                         }
                     },
                     {
-                        "name": "CPT_ID",
+                        "name": "SKILL_ID",
                         "in": "query",
-                        "description": "Competence ID to filter the records",
+                        "description": "The ID of the skill (competence).",
                         "required": false,
                         "schema": {
-                            "type": "string",
-                            "example": "CPT123"
+                            "type": "integer"
                         }
                     },
                     {
-                        "name": "VALIDER",
+                        "name": "VALIDATE",
                         "in": "query",
-                        "description": "Validation status (true/false) to filter the records",
+                        "description": "The validation status (true/false).",
                         "required": false,
                         "schema": {
-                            "type": "boolean",
-                            "example": true
+                            "type": "boolean"
                         }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "Successfully retrieved Valider records",
+                        "description": "A list of validation records based on the filters",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "type": "array",
                                     "items": {
-                                        "properties": {
-                                            "UTI_ID": {
-                                                "type": "integer",
-                                                "example": 1
-                                            },
-                                            "CPT_ID": {
-                                                "type": "string",
-                                                "example": "CPT123"
-                                            },
-                                            "VALIDER": {
-                                                "type": "boolean",
-                                                "example": true
-                                            }
-                                        },
-                                        "type": "object"
+                                        "$ref": "#/components/schemas/Validate"
                                     }
                                 }
                             }
@@ -4656,7 +4668,23 @@
                                     "properties": {
                                         "message": {
                                             "type": "string",
-                                            "example": "Invalid parameters"
+                                            "example": "Invalid parameters provided."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Something went wrong"
                                         }
                                     },
                                     "type": "object"
@@ -4924,10 +4952,671 @@
             }
         }
     },
+    "components": {
+        "schemas": {
+            "Signed": {
+                "required": [
+                    "FORM_NIVEAU",
+                    "UTI_ID"
+                ],
+                "properties": {
+                    "FORM_NIVEAU": {
+                        "description": "The training level ID associated with the formation (PloFormation) ",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "STUD_ID": {
+                        "description": "The user ID of the student (PloEleve)",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "SIGN_DATE": {
+                        "description": "The date and time the student was enrolled in the formation",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2025-01-01T10:00:00"
+                    },
+                    "Student": {
+                        "$ref": "#/components/schemas/Student"
+                    },
+                    "Formation": {
+                        "$ref": "#/components/schemas/Formation"
+                    }
+                },
+                "type": "object"
+            },
+            "Leader": {
+                "required": [
+                    "STUD_ID",
+                    "CLUB_ID"
+                ],
+                "properties": {
+                    "STUD_ID": {
+                        "description": "The user ID of the initiator managing the club (PloInitiateur)",
+                        "type": "integer",
+                        "example": 123
+                    },
+                    "CLUB_ID": {
+                        "description": "The club ID (PloClub)",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "START_DATE": {
+                        "description": "The start date of the management of the club",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2025-01-01T10:00:00"
+                    },
+                    "Club": {
+                        "$ref": "#/components/schemas/Club"
+                    },
+                    "Initiator": {
+                        "$ref": "#/components/schemas/Initiator"
+                    }
+                },
+                "type": "object"
+            },
+            "Teaching": {
+                "required": [
+                    "UTI_ID",
+                    "FORM_NIVEAU"
+                ],
+                "properties": {
+                    "ID": {
+                        "description": "The user ID of the instructor teaching the course (Initiator)",
+                        "type": "integer",
+                        "example": 123
+                    },
+                    "LEVEL": {
+                        "description": "The formation level ID (Formation)",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "Formation": {
+                        "$ref": "#/components/schemas/Formation"
+                    },
+                    "Initiator": {
+                        "$ref": "#/components/schemas/Initiator"
+                    }
+                },
+                "type": "object"
+            },
+            "Assessment": {
+                "required": [
+                    "SEA_ID",
+                    "APT_CODE",
+                    "UTI_ID"
+                ],
+                "properties": {
+                    "SEA_ID": {
+                        "description": "The session ID associated with the evaluation (PloSeance)",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "APT_CODE": {
+                        "description": "The aptitude code associated with the evaluation (PloAptitude)",
+                        "type": "string",
+                        "example": "DIVE_1"
+                    },
+                    "UTI_ID": {
+                        "description": "The user ID of the student being evaluated (PloEleve)",
+                        "type": "integer",
+                        "example": 123
+                    },
+                    "COMMENT": {
+                        "description": "Comments regarding the evaluation",
+                        "type": "string",
+                        "example": "Excellent performance!"
+                    },
+                    "RESULT": {
+                        "description": "The result of the evaluation",
+                        "type": "string",
+                        "example": "'Acquis' / 'Non acquis'"
+                    },
+                    "Aptitude": {
+                        "$ref": "#/components/schemas/Aptitude"
+                    },
+                    "Student": {
+                        "$ref": "#/components/schemas/Student"
+                    },
+                    "Session": {
+                        "$ref": "#/components/schemas/Session"
+                    }
+                },
+                "type": "object"
+            },
+            "Manager": {
+                "required": [
+                    "UTI_ID",
+                    "FORM_NIVEAU"
+                ],
+                "properties": {
+                    "INIT_ID": {
+                        "description": "The user ID of the initiator/teacher (PloInitiateur)",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "LEVEL": {
+                        "description": "The formation level (PloFormation)",
+                        "type": "integer",
+                        "example": 2
+                    },
+                    "START": {
+                        "description": "The start date of the formation",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2025-01-01T09:00:00"
+                    },
+                    "Formation": {
+                        "$ref": "#/components/schemas/Formation"
+                    },
+                    "Initiator": {
+                        "$ref": "#/components/schemas/Initiator"
+                    }
+                },
+                "type": "object"
+            },
+            "Group": {
+                "required": [
+                    "SESS_ID",
+                    "INIT_ID",
+                    "USER_ID"
+                ],
+                "properties": {
+                    "SESS_ID": {
+                        "description": "The session ID (PloSeance)",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "INIT_ID": {
+                        "description": "The initiator (teacher) user ID (PloInitiateur)",
+                        "type": "integer",
+                        "example": 2
+                    },
+                    "USER_ID": {
+                        "description": "The student user ID (PloEleve)",
+                        "type": "integer",
+                        "example": 3
+                    },
+                    "PRESENT": {
+                        "description": "Indicates if the student was present for the session",
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "Student": {
+                        "$ref": "#/components/schemas/Student"
+                    },
+                    "Initiator": {
+                        "$ref": "#/components/schemas/Initiator"
+                    },
+                    "Session": {
+                        "$ref": "#/components/schemas/Session"
+                    }
+                },
+                "type": "object"
+            },
+            "Aptitude": {
+                "required": [
+                    "SKILL_ID",
+                    "ID",
+                    "Name"
+                ],
+                "properties": {
+                    "SKILL_ID": {
+                        "description": "The code of the aptitude",
+                        "type": "string",
+                        "example": "APT001"
+                    },
+                    "ID": {
+                        "description": "The ID of the competence the aptitude belongs to",
+                        "type": "string",
+                        "example": "CPT001"
+                    },
+                    "Name": {
+                        "description": "The label or name of the aptitude",
+                        "type": "string",
+                        "example": "First Aid"
+                    },
+                    "Skill": {
+                        "$ref": "#/components/schemas/Skill"
+                    },
+                    "Assessment": {
+                        "description": "The evaluations (Evaluer) related to this aptitude",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Assessment"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "Club": {
+                "required": [
+                    "CLU_ID"
+                ],
+                "properties": {
+                    "ID": {
+                        "description": "The ID of the club",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "Name": {
+                        "description": "The name of the club",
+                        "type": "string",
+                        "example": "Schuba Diving Club"
+                    },
+                    "Leader": {
+                        "description": "The club leadership records associated with the club",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Leader"
+                        }
+                    },
+                    "plo_utilisateurs": {
+                        "description": "The users associated with this club",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/User"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "Skill": {
+                "required": [
+                    "CPT_ID"
+                ],
+                "properties": {
+                    "ID": {
+                        "description": "The ID of the competence",
+                        "type": "string",
+                        "example": "CPT001"
+                    },
+                    "LEVEL": {
+                        "description": "The formation level associated with this competence",
+                        "type": "integer",
+                        "example": 2
+                    },
+                    "NAME": {
+                        "description": "The label of the competence",
+                        "type": "string",
+                        "example": "Advanced Diving"
+                    },
+                    "Formation": {
+                        "$ref": "#/components/schemas/Formation"
+                    },
+                    "Aptitude": {
+                        "description": "The aptitudes associated with this competence",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Aptitude"
+                        }
+                    },
+                    "Validate": {
+                        "description": "The validation records associated with this competence",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Validate"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "Student": {
+                "required": [
+                    "UTI_ID"
+                ],
+                "properties": {
+                    "ID": {
+                        "description": "The unique identifier for the student",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "User": {
+                        "$ref": "#/components/schemas/User"
+                    },
+                    "Signed": {
+                        "description": "The formations the student is associated with",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Signed"
+                        }
+                    },
+                    "Assessment": {
+                        "description": "The evaluations associated with this student",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Assessment"
+                        }
+                    },
+                    "Group": {
+                        "description": "The sessions this student is grouped in",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Group"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "Formation": {
+                "required": [
+                    "FORM_NIVEAU"
+                ],
+                "properties": {
+                    "ID": {
+                        "description": "The unique identifier for the formation level",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "NAME": {
+                        "description": "The label/name of the formation",
+                        "type": "string",
+                        "example": "Advanced Scuba Training"
+                    },
+                    "DESCRIPTION": {
+                        "description": "The description of the formation",
+                        "type": "string",
+                        "example": "A complete training program for advanced scuba divers."
+                    },
+                    "MAX_TEACHERS": {
+                        "description": "The maximum number of instructors allowed for the formation",
+                        "type": "integer",
+                        "example": 5
+                    },
+                    "appartients": {
+                        "description": "The students associated with this formation",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Signed"
+                        }
+                    },
+                    "enseigners": {
+                        "description": "The instructors for this formation",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Assessment"
+                        }
+                    },
+                    "gerer_la_formations": {
+                        "description": "The management of this formation",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Manager"
+                        }
+                    },
+                    "plo_competences": {
+                        "description": "The competencies associated with this formation",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Skill"
+                        }
+                    },
+                    "plo_seances": {
+                        "description": "The sessions scheduled for this formation",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Session"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "Initiator": {
+                "required": [
+                    "ID"
+                ],
+                "properties": {
+                    "ID": {
+                        "description": "The unique identifier for the initiator",
+                        "type": "integer",
+                        "example": 123
+                    },
+                    "Leader": {
+                        "description": "The clubs directed by this initiator",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Leader"
+                        }
+                    },
+                    "Teaching": {
+                        "description": "The formations taught by this initiator",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Teaching"
+                        }
+                    },
+                    "Manager": {
+                        "description": "The formations managed by this initiator",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Manager"
+                        }
+                    },
+                    "Group": {
+                        "description": "The groups that this initiator is part of",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Group"
+                        }
+                    },
+                    "User": {
+                        "$ref": "#/components/schemas/User"
+                    }
+                },
+                "type": "object"
+            },
+            "Location": {
+                "required": [
+                    "LI_ID"
+                ],
+                "properties": {
+                    "ID": {
+                        "description": "The unique identifier for the location",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "NAME": {
+                        "description": "The name of the location",
+                        "type": "string",
+                        "example": "Diving Pool"
+                    },
+                    "TYPE": {
+                        "description": "The type of the location (e.g., indoor, outdoor)",
+                        "type": "string",
+                        "example": "Indoor"
+                    },
+                    "Session": {
+                        "description": "The sessions held at this location",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Session"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "Session": {
+                "required": [
+                    "SEA_ID",
+                    "LI_ID",
+                    "FORM_NIVEAU"
+                ],
+                "properties": {
+                    "LOCATION_ID": {
+                        "description": "The unique identifier for the session",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "ID": {
+                        "description": "The location ID where the session takes place",
+                        "type": "integer",
+                        "example": 2
+                    },
+                    "LEVEL": {
+                        "description": "The formation level associated with the session",
+                        "type": "integer",
+                        "example": 101
+                    },
+                    "START": {
+                        "description": "The start date and time of the session",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2025-01-10T09:00:00"
+                    },
+                    "END": {
+                        "description": "The end date and time of the session",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2025-01-10T12:00:00"
+                    },
+                    "Formation": {
+                        "$ref": "#/components/schemas/Formation"
+                    },
+                    "Location": {
+                        "$ref": "#/components/schemas/Location"
+                    },
+                    "Assessement": {
+                        "description": "The evaluations for the session",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Assessment"
+                        }
+                    },
+                    "Group": {
+                        "description": "The groupings for the session",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Group"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "User": {
+                "required": [
+                    "UTI_ID",
+                    "UTI_MAIL",
+                    "UTI_MDP",
+                    "UTI_DATE_CREATION"
+                ],
+                "properties": {
+                    "ID": {
+                        "description": "The unique identifier for the user",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "CLUB_ID": {
+                        "description": "The ID of the club the user belongs to",
+                        "type": "integer",
+                        "example": 3,
+                        "nullable": true
+                    },
+                    "NAME": {
+                        "description": "The last name of the user",
+                        "type": "string",
+                        "example": "Doe"
+                    },
+                    "FIRSTNAME": {
+                        "description": "The first name of the user",
+                        "type": "string",
+                        "example": "John"
+                    },
+                    "EMAIL": {
+                        "description": "The email address of the user",
+                        "type": "string",
+                        "example": "john.doe@example.com"
+                    },
+                    "PASSWORD": {
+                        "description": "The password of the user",
+                        "type": "string",
+                        "example": "password123"
+                    },
+                    "CREATION_DATE": {
+                        "description": "The creation date of the user account",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2025-01-08T10:00:00"
+                    },
+                    "LEVEL": {
+                        "description": "The level of the user",
+                        "type": "string",
+                        "example": "admin",
+                        "nullable": true
+                    },
+                    "BIRTH_DATE": {
+                        "description": "The birth date of the user",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "1990-01-01T00:00:00",
+                        "nullable": true
+                    },
+                    "Club": {
+                        "oneOf": [
+                            {
+                                "$ref": "#/components/schemas/Club"
+                            }
+                        ],
+                        "nullable": true,
+                        "description": "The club the user belongs to"
+                    },
+                    "Student": {
+                        "$ref": "#/components/schemas/Student"
+                    },
+                    "Initiator": {
+                        "$ref": "#/components/schemas/Initiator"
+                    },
+                    "Validate": {
+                        "description": "The validations associated with the user",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Validate"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "Validate": {
+                "required": [
+                    "UTI_ID",
+                    "CPT_ID",
+                    "VALIDER"
+                ],
+                "properties": {
+                    "UTI_ID": {
+                        "description": "The unique identifier for the user",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "SKILL_ID": {
+                        "description": "The ID of the competence being validated",
+                        "type": "string",
+                        "example": "CPT123"
+                    },
+                    "VALIDATE": {
+                        "description": "Indicates whether the competence has been validated by the user",
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "Skill": {
+                        "$ref": "#/components/schemas/Skill"
+                    },
+                    "User": {
+                        "$ref": "#/components/schemas/User"
+                    }
+                },
+                "type": "object"
+            }
+        }
+    },
     "tags": [
         {
             "name": "Aptitudes",
             "description": "Manage aptitudes"
+        },
+        {
+            "name": "Assessments",
+            "description": "Manage student assessment"
         },
         {
             "name": "Clubs",

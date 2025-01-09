@@ -23,7 +23,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Appartient extends Model
 {
-	protected $table = 'appartient';
+	protected $table = 'APPARTIENT';
 	public $incrementing = false;
 	public $timestamps = false;
 

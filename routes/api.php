@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\AppartientController;
 use App\Http\Controllers\Api\DirigerLeClubController;
 use App\Http\Controllers\Api\EnseignerController;
+use App\Http\Controllers\Api\EvaluerController;
 use App\Http\Controllers\Api\GererLaFormationController;
 use App\Http\Controllers\Api\GrouperController;
 use App\Http\Controllers\Api\PloAptitudeController;
@@ -16,6 +17,7 @@ use App\Http\Controllers\Api\PloLieuController;
 use App\Http\Controllers\Api\PloSeanceController;
 use App\Http\Controllers\Api\PloUtilisateurController;
 use App\Http\Controllers\Api\ValiderController;
+
 
 Route::get('/location', [PloLieuController::class, "get"]);
 Route::post('/location', [PloLieuController::class, "create"]);
@@ -85,6 +87,10 @@ Route::delete('/manager/{id}', [GererLaFormationController::class, "delete"]);
 Route::get('/signed', [AppartientController::class, "get"]);
 Route::post('/signed', [AppartientController::class, "create"]);
 Route::delete('/signed/{id}', [AppartientController::class, "delete"]);
+
+Route::get('/assessment', [EvaluerController::class, "get"]);
+Route::post('/assessment', [EvaluerController::class, "create"]);
+Route::delete('/assessment/{id}', [EvaluerController::class, "delete"]);
 
 /*
 |--------------------------------------------------------------------------

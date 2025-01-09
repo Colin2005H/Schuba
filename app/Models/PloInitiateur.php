@@ -24,7 +24,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class PloInitiateur extends Model
 {
-	protected $table = 'plo_initiateur';
+	protected $table = 'PLO_INITIATEUR';
 	protected $primaryKey = 'UTI_ID';
 	public $incrementing = false;
 	public $timestamps = false;
@@ -56,5 +56,17 @@ class PloInitiateur extends Model
 	public function groupers()
 	{
 		return $this->hasMany(Grouper::class, 'UTI_ID_INITIATEUR');
+	}
+
+	/**
+	 * Undocumented function
+	 *
+	 * @param int $level niveau de la formation
+	 * @return boolean
+	 */
+	public function isInFormation($level){
+		$formations = $this->enseigners()->where('FORM_NIVEAU', $level)->get();
+		//dd($formations);
+		return $formations->isNotEmpty();
 	}
 }
