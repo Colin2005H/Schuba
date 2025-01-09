@@ -8,6 +8,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\listCommentariesController;
 use App\Http\Controllers\AptitudesTableStudentController;
 use App\Http\Controllers\AptitudesGlobalTableController;
+use App\Http\Controllers\ValidationCompetencesController;
 
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
@@ -90,4 +91,10 @@ Route::prefix('/globalAptitudes/{level}')->name('globalAptitudes.')->controller(
 
 Route::get('/footer', function () {
     return view('footer');
+});
+
+
+Route::prefix('/validationcomp/{userId}')->name('validationcomp.')->controller(ValidationCompetencesController::class)->group(function(){
+    Route::get('/', 'showCompetences')->name('show');
+    Route::post('/', 'valideCompetences')->name('valider');
 });
