@@ -54,6 +54,11 @@
             gap: 20px;
         }
 
+        h1 {
+            font-size: 3rem;
+            
+        }
+
     </style>
     @include('header')
     <div class="calendar">
@@ -198,9 +203,6 @@
                     // Appeler resizeCaldendar après l'initialisation du calendrier
                     resizeCaldendar();
                 });
-                document.getElementById('close').addEventListener('click', function() {
-                    document.getElementById('popup').style.display = 'none';
-                });
             </script>
         </div>
     </div>
@@ -244,7 +246,7 @@
                     ?>
                 </tbody>
             </table>
-            <button id="close" class="mt-4 bg-blue-500 text-white px-4 py-2 rounded mx-auto">Fermer</button>
+            <button id="close" class="mt-4 bg-blue-500 text-white px-4 py-2 rounded mx-auto" onclick="document.getElementById('popup').style.display = 'none';">Fermer</button>
             <?php if($role === 'initiateur'){
                 echo "<button id=\"evaluate\" class=\"mt-4 bg-blue-500 text-white px-4 py-2 rounded mx-auto\">Evaluer</button>";
             }
