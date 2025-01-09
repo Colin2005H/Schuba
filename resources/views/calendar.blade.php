@@ -266,26 +266,24 @@
                     ?>
                 </tbody>
             </table>
-            <button id="close" class="mt-4 bg-blue-500 text-white px-4 py-2 rounded mx-auto" onclick="document.getElementById('popup').style.display = 'none';" type="button">Fermer</button>
-            <?php
-                //$seance_id = $_COOKIE['identifier'];
-                //$url = route('bilan.showForm', ['seance_id' => $seance_id]);
+            <button id="close" class="mt-4 bg-blue-500 text-white px-4 py-2 rounded mx-auto" onclick="document.getElementById('popup').style.display = 'none';" type="button">
+                Fermer
+            </button>
             
-            ?>
-            <?php if($role === 'initiateur'): ?>
+            @if($role === 'initiateur' /*&& Seance::find()*/) {{--c'est là que je dois bosser moi--}}
             
-                <button id="evaluate" class="mt-4 bg-blue-500 text-white px-4 py-2 rounded mx-auto" 
-                        >
+                <button id="evaluate" class="mt-4 bg-blue-500 text-white px-4 py-2 rounded mx-auto">
                     Evaluer
                 </button>
-                <?php endif; ?>
-                <?php if($role === 'responsable'): ?>
+            @endif
+
+            @if($role === 'responsable')
             
             <button id="modif" class="mt-4 bg-blue-500 text-white px-4 py-2 rounded mx-auto" 
                     >
                     Modifier
             </button>    
-            <?php endif; ?>
+            @endif
             
             @if($role === 'eleve')
             <button id="bilan" class="mt-4 bg-blue-500 text-white px-4 py-2 rounded mx-auto" 

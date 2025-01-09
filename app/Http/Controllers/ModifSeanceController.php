@@ -14,7 +14,12 @@ class ModifSeanceController extends Controller
 
     public function showForm(int $seance_id)
     {
+        //LET ME COOK
+        
         $seance = Seance::find($seance_id);
+        //if(!isset($seance)) pourrait etre interessant
+        
+        echo "<script>console.log(\n".$seance->isNext()."\n);</script>" ;
         $eleves = $seance->getEleves();
 
         $currentUser = session('user');

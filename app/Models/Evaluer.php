@@ -59,23 +59,4 @@ class Evaluer extends Model
 		return $this->belongsTo(PloSeance::class, 'SEA_ID');
 	}
 
-	/**
-	 * @return bool true if this is the next assessment in chronological order, false otherwise
-	 */
-	public function isNext(){
-		$currentDate = $this->plo_seance->SEA_DATE_DEB;
-		$currentLevel = $this->plo_seance->FORM_NIVEAU;
-
-		//jointure avec la table evaluer
-		$querry = Evaluer::whereIn('SEA_ID')
-		->join('PLO_SEANCE', 'PLO_SEANCE.SEA_ID', '=', 'EVALUER.SEA_ID')
-		->where('SEA_DATE_DEB', '<', $currentDate)
-		->where('FORM_NIVEAU', $currentLevel)
-		->order('SEA_DATE', 'DESC');
-		//on cherche les evaluations de la meme formation pour une séance qui a lieu avant la notre
-
-		//on renvoie si il y en a
-		return $querry->get()->isEmpty();
-	}
-
 }

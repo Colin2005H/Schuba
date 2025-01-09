@@ -119,4 +119,24 @@ class Seance extends Model
 
         return $form;
     }
+
+    /**
+	 * @return bool true if this is the next session in chronological order, false otherwise
+	 */
+	public function isNext(){
+		$currentDate = $this->SEA_DATE_DEB;
+		$currentLevel = $this->FORM_NIVEAU;
+
+		//jointure avec la table evaluer
+		$querry = Evaluer::all()
+		->join('PLO_SEANCE', 'PLO_SEANCE.SEA_ID', '=', 'EVALUER.SEA_ID')
+		->where('SEA_DATE_DEB', '<', $currentDate)
+		->where('FORM_NIVEAU', $currentLevel)
+		->order('SEA_DATE', 'DESC');
+		//on cherche les evaluations de la meme formation pour une séance qui a lieu avant la notre
+
+        dd($querry);
+		//on renvoie si il y en a
+		return $querry->get()->isEmpty();
+	}
 }
