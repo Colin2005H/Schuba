@@ -23,8 +23,11 @@ use Illuminate\Support\Facades\Hash;
 |
 */
 
-
 //Route pour la page d'accueil
+Route::get('/formations', [FormationController::class, 'showFormation']);
+Route::post('/formations', [FormationController::class, 'createFormation']);
+
+
 Route::get('/formations', [FormationController::class, 'showFormation']);
 Route::post('/formations', [FormationController::class, 'createFormation']);
 
@@ -77,6 +80,7 @@ Route::get('/calendar', function () {
     return view('calendar');
 });
 
+
 Route::prefix('/aptitudes/{userId}')->name('aptitudes.')->controller(AptitudesTableStudentController::class)->group(function(){
     Route::get('/', 'showListAptitudes')->name('show');
 });
@@ -84,3 +88,4 @@ Route::prefix('/aptitudes/{userId}')->name('aptitudes.')->controller(AptitudesTa
 Route::prefix('/globalAptitudes/{level}')->name('globalAptitudes.')->controller(AptitudesGlobalTableController::class)->group(function(){
     Route::get('/', 'showListAptitudes')->name('show');
 });
+

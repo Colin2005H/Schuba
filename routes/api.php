@@ -36,7 +36,6 @@ Route::get('/lieu', [PloLieuController::class, "liste"]);
 Route::get('/lieu/{id}', [PloLieuController::class, "detail"]);
 
 Route::get('/seance', [PloSeanceController::class, "liste"]);
-Route::get('/seance/{id}', [PloSeanceController::class, "detail"]);
 
 Route::get('/utilisateur', [PloUtilisateurController::class, "liste"]);
 Route::get('/utilisateur/{id}', [PloUtilisateurController::class, "detail"]);
