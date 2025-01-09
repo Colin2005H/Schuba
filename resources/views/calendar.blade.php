@@ -171,8 +171,8 @@
                         var endingHour = document.getElementById('ending-hour');
                         identifier.textContent = info.event.id;
                         location.textContent = info.event.title;
-                        beginningHour.textContent = "Début : " + info.event.start.toLocaleTimeString();
-                        endingHour.textContent = "Fin : " + info.event.end.toLocaleTimeString();
+                        beginningHour.textContent = "Début : " + info.event.start;
+                        endingHour.textContent = "Fin : " + info.event.end;
                         popup.style.display = "block";
 
                         document.cookie = "identifier="+info.event.id;
@@ -228,7 +228,7 @@
 
                     $roleController = new RoleController();
                     $role = $roleController->getRole(session('user'));
-                    $personTable = CalendarController::getGroupByIdSession($_COOKIE['identifier']);
+                    $personTable = CalendarController::getGroupByIdSession(1);
                     foreach($personTable as $line){
                         echo "<tr>";
                         echo "<td rowspan=\"2\" scope=\"row\" class=\"px-4 py-2 border-b border-gray-200 text-center\">".$line[0]."</td>";
@@ -248,7 +248,7 @@
             </table>
             <button id="close" class="mt-4 bg-blue-500 text-white px-4 py-2 rounded mx-auto" onclick="document.getElementById('popup').style.display = 'none';">Fermer</button>
             <?php
-                $seance_id = $_COOKIE['identifier'];
+                $seance_id = 1;
                 $url = route('bilan.showForm', ['seance_id' => $seance_id]);
             
             ?>

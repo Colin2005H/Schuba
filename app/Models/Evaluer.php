@@ -29,6 +29,8 @@ class Evaluer extends Model
 	public $incrementing = false;
 	public $timestamps = false;
 
+	protected $primaryKey = 'SEA_ID';
+
 	protected $casts = [
 		'SEA_ID' => 'int',
 		'UTI_ID' => 'int'

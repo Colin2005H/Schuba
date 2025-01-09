@@ -13,7 +13,7 @@ class Evaluation extends Model
 
     protected $table = 'evaluer';
 
-    protected $primaryKey = "APT_CODE";
+    protected $primaryKey = "SEA_ID";
 
     public $timestamps = false;
     
