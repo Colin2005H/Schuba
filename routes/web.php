@@ -134,3 +134,7 @@ Route::post('/seance/{seance_id}/update', [ModifSeanceController::class, 'update
 Route::get('/seance/{seance_id}/modif', [ModifSeanceController::class, 'showForm'])->name('bilan.modif');
 
 Route::get('/seance/{seance_id}/delete', [ModifSeanceController::class, 'delete'])->name('seance.delete');
+
+Route::prefix('/aptitudes/{userId}')->name('aptitudes.')->controller(AptitudesTableStudentController::class)->group(function(){
+    Route::get('/', 'showListAptitudes')->name('show');
+});

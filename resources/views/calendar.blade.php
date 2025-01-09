@@ -269,9 +269,6 @@
             <?php
                 //$seance_id = $_COOKIE['identifier'];
                 //$url = route('bilan.showForm', ['seance_id' => $seance_id]);
-                $roleController = new RoleController();
-                $role = $roleController->getRole(session('user'));
-                $userid = session('user')->UTI_ID;
             
             ?>
             <?php if($role === 'initiateur'): ?>
@@ -280,15 +277,24 @@
                         >
                     Evaluer
                 </button>
+                <?php endif; ?>
+                <?php if($role === 'responsable'): ?>
+            
+            <button id="modif" class="mt-4 bg-blue-500 text-white px-4 py-2 rounded mx-auto" 
+                    >
+                    Modifier
+            </button>    
+            <?php endif; ?>
+            
+            @if($role === 'eleve')
+            <button id="bilan" class="mt-4 bg-blue-500 text-white px-4 py-2 rounded mx-auto" 
+                    >
+                    bilan
+            </button>   
+            @endif
+            
             </form>
     
-<?php endif; ?>
-        <?php 
-        if($role === 'eleve'){?>
-            <a href="{{ url('/aptitudes/'.$userid) }}" class="mt-4 bg-blue-500 text-white px-4 py-2 rounded mx-auto"> Bilan de compétences </a>
-            
-        <?php
-        }?>
         </div>
     </div>
 </body>
