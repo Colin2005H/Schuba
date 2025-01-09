@@ -8,6 +8,15 @@
     </head>
     <body>
     @include('header')
+        @php
+            use App\Http\Controllers\RoleController;
+            use Illuminate\Support\Facades\Auth;
+
+            $userid = session('user')->UTI_ID;
+
+            $roleController = new RoleController();
+            $role = $roleController->getRole(session('user'));
+        @endphp
         <div class="flex flex-col min-h-screen bg-cover bg-center">
 
             <div class="bg-white p-6 rounded-lg shadow-md sm:w-96 items-center justify-center mx-auto my-auto">
@@ -17,8 +26,10 @@
                     <p>Email : {{$user->UTI_MAIL}}</p>
                     <p>Mot de passe : *****</p>
                      
-                    <button class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 cursor-not-allowed font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" disabled>Modifier le mot de passe</button>
-                    <button class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 cursor-not-allowed font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" disabled>Modifier l'adresse email</button>
+                    @if($role != 'directeur_technique')
+                        <button class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 cursor-not-allowed font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" disabled>Modifier le mot de passe</button>
+                        <button class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" disabled>Modifier l'adresse email</button>
+                    @endif
                 </div>
 
                 <div>
@@ -28,8 +39,9 @@
                     <p>Niveau de plongée : {{$user->UTI_NIVEAU}}</p>
                 </div>
 
-                <button class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 cursor-not-allowed font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900" disabled>Supprimer un compte</button>
-                
+                @if($role != 'directeur_technique')
+                    <button onclick="alertSuppAccount()" class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">Supprimer un compte</button>
+                @endif
             </div>
 
             <footer class="mt-auto text-center text-white text-sm py-4 w-full" style="background-color: rgba(23, 34, 49, 1);">
@@ -39,5 +51,10 @@
                 <p>&copy; Groupe1</p>
             </footer>
         </div>
+        <script>
+            function alertSuppAccount(){
+                alert("Un message a bien été envoyé pour supprimer votre compte");
+            }
+        </script>
     </body>
 </html>

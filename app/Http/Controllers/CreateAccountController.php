@@ -55,9 +55,6 @@ class CreateAccountController extends Controller
             'userType.required' => "Au moins un bouton doit être coché"
         ]);
 
-        $chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-        $passwd = substr(str_shuffle($chars),0, 8);
-
         $user = Utilisateur::create([
             'clu_id' => $clubDirector[0]->clu_id,
             'uti_nom' => $request->input('uti_nom'),
@@ -66,7 +63,7 @@ class CreateAccountController extends Controller
             'uti_code_postal' => $request->input('uti_code_postal'),
             'uti_adresse' => $request->input('uti_adresse'),
             'uti_ville' => $request->input('uti_ville'),
-            'uti_mdp' => $passwd,
+            'uti_mdp' => Hash::make('PorcqMangeAnne'),
             'uti_niveau' => $request->input('uti_niveau'),
             'uti_date_certificat' => $request->input('uti_date_certificat'),
             'uti_date_naissance' => $request->input('uti_date_naissance'),

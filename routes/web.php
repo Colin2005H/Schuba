@@ -76,6 +76,11 @@ Route::get('/triche', function() {
     return Hash::make("responsable");
 });
 
+Route::prefix('/changeData')->name('changeData.')->controller(\App\Http\Controllers\ChangeDataController::class)->group(function(){
+    Route::get('/', 'show')->name('show');
+    Route::post('/', 'edit');
+});
+
 Route::prefix('/calendar')->name('calendar.')->controller(\App\Http\Controllers\CalendarController::class)->group(function(){
     Route::get('/', 'show')->name('show');
     Route::get('/{sessionId}', 'tableSession')->name('tableSession');
