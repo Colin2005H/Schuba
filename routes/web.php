@@ -80,7 +80,6 @@ Route::get('/calendar', function () {
     return view('calendar');
 });
 
-
 Route::prefix('/aptitudes/{userId}')->name('aptitudes.')->controller(AptitudesTableStudentController::class)->group(function(){
     Route::get('/', 'showListAptitudes')->name('show');
 });
@@ -89,3 +88,6 @@ Route::prefix('/globalAptitudes/{level}')->name('globalAptitudes.')->controller(
     Route::get('/', 'showListAptitudes')->name('show');
 });
 
+Route::get('/footer', function () {
+    return view('footer');
+});

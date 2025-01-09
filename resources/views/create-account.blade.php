@@ -79,9 +79,15 @@
             </div>
 
             <div class="mb-4">
-                <label class="flex items-center gap-2 text-gray-700">
-                    <input id="niveauUser" type="text" name="uti_niveau" value="" placeholder="Niveau de plongée" class="w-full px-3 py-2 bg-white border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400">
-                </label>
+                <select name="uti_niveau" id="niveauUser" class="w-full px-3 py-2 bg-white border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400">
+                    <option value="">Niveau de plongée</option>
+                    <option value="0">Pas de niveau</option>
+                    <option value="1">N1</option>
+                    <option value="2">N2</option>
+                    <option value="3">N3</option>
+                    <option value="4">MF1</option>
+                    <option value="4">MF2</option>
+                </select>
                 @error("uti_niveau")
                     <span class="text-red-500 text-sm">{{$message}}</span>
                 @enderror
@@ -105,14 +111,18 @@
 
             <div class="mb-4" id="userTypeDiv">
                 <div class="form-check" id="eleveDiv">
-                    <input type="radio" id="userType1" name="userType" value="eleve" />
+                    <input type="radio" id="userType1" name="userType" value="eleve" disabled/>
                     <label for="userType1">Eleve</label>
                 </div>
 
                 <div id="initiateurBtnRadio" class="form-check">
-                    <input type="radio" id="userType2" name="userType" value="initiateur"/>
+                    <input type="radio" id="userType2" name="userType" value="initiateur" disabled/>
                     <label for="userType2">Initiateur</label>
                 </div>
+
+                @error("userType")
+                    <span class="text-red-500 text-sm">{{$message}}</span>
+                @enderror
             </div>
 
             <button class="flex items-center justify-center text-white hover:bg-blue-500 p-4 rounded-md" style="background-color: rgba(23, 34, 49, 1);">Enregistrer</button>
@@ -147,7 +157,19 @@
             }
         });
 
-        niveau.addEventListener('input', function () {
+        niveau.addEventListener('change', function () {
+            if(niveau.value == ""){
+                initiateur.disabled = true;
+                initiateur.checked = false;
+                student.disabled = true;
+                student.checked = false;
+                if(document.getElementById('studentFormation')){
+                    var studentFormation = document.getElementById('studentFormation');
+                    studentDiv.removeChild(studentFormation);
+                    changeStudentRadioBtn = 0;
+                }
+                return;
+            }
             if(student.checked){
                 var valueFormation = parseInt(niveau.value)+ 1
                 document.getElementById("studentFormation").textContent = 'Formation de niveau ' + valueFormation + ' pour cette année';
@@ -155,6 +177,10 @@
             if(parseInt(niveau.value) < 2){
                 initiateur.disabled = true;
                 initiateur.checked = false;
+                student.disabled = false;
+            }
+            if(parseInt(niveau.value) == 2){
+                initiateur.disabled = false;
                 student.disabled = false;
             }
             if(parseInt(niveau.value) >= 3){
