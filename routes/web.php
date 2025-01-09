@@ -1,6 +1,8 @@
 <?php
 
 
+use App\Http\Controllers\ValidationCompetencesController;
+
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
@@ -142,4 +144,9 @@ Route::get('/seance/{seance_id}/delete', [ModifSeanceController::class, 'delete'
 
 Route::prefix('/aptitudes/{userId}')->name('aptitudes.')->controller(AptitudesTableStudentController::class)->group(function(){
     Route::get('/', 'showListAptitudes')->name('show');
+});
+
+Route::prefix('/validationcomp/{userId}')->name('validationcomp.')->controller(ValidationCompetencesController::class)->group(function(){
+    Route::get('/', 'showCompetences')->name('show');
+    Route::post('/', 'valideCompetences')->name('valider');
 });
