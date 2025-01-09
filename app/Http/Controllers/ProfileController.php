@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+// Controller for the profile page
 class ProfileController extends Controller
 {
     public function index (){
