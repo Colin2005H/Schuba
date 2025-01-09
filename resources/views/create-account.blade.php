@@ -71,7 +71,7 @@
 
             <div class="mb-4">
                 <label for="clu_id">Club :</label>
-                <input type="text" id="clu_id" name="clu_id" value="{{$clubDirector[0]->clu_nom}}" class="w-full px-3 py-2 bg-white border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" readonly>
+                <input type="text" id="clu_id" name="clu_id" value="{{$clubDirector[0]->CLU_NOM}}" class="w-full px-3 py-2 bg-white border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" readonly>
 
                 @error("clu_id")
                     <span class="text-red-500 text-sm">{{$message}}</span>
