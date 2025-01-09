@@ -175,7 +175,28 @@
                         endingHour.textContent = "Fin : " + info.event.end.toLocaleTimeString();
                         popup.style.display = "block";
 
-                        document.cookie = "identifier="+info.event.id;
+                        async function loadTable() {
+                            try {
+                                // Requête AJAX pour récupérer le HTML généré par PHP
+                                const response = await fetch(`/calendar/${info.event.id}`);
+
+                                // Vérifiez si la requête a réussi
+                                if (!response.ok) {
+                                    throw new Error('Échec de la récupération des données');
+                                }
+
+                                // Récupérer le HTML de la réponse
+                                const tableHTML = await response.text();
+
+                                document.getElementById('bodyTable').innerHTML = tableHTML;
+
+                            } catch (error) {
+                                console.error('Erreur lors de la récupération de la table:', error);
+                            }
+                        }
+                        loadTable();
+
+                        document.cookie = "identifier=".info.event.id;
                     }
               };
 
@@ -203,9 +224,12 @@
                     // Appeler resizeCaldendar après l'initialisation du calendrier
                     resizeCaldendar();
                 });
+
+                
             </script>
         </div>
     </div>
+    <p id="hiddenValue" class="hidden"></p>
     <div class="hidden fixed inset-0 z-10 bg-opacity-75 bg-gray-500 flex items-center justify-center place-content-center place-items-center align-content-center min-h-screen w-full" id="popup">
         <div class="bg-white rounded-lg p-6 w-full max-w-md text-center">
             <p id="identifier" class="hidden"></p>
@@ -213,44 +237,33 @@
             <p id="beginning-hour" class="mb-2"></p>
             <p id="ending-hour" class="mb-4"></p>
             <table class="min-w-full bg-white border border-gray-200">
-                <thead>
+                <thead id="test">
                     <tr>
                         <th scope="col" class="px-4 py-2 border-b border-gray-200 text-center">Initiateurs</th>
                         <th scope="col" class="px-4 py-2 border-b border-gray-200 text-center">Elèves</th>
                         <th scope="col" class="px-4 py-2 border-b border-gray-200 text-center">Aptitudes</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <?php
-                    use App\Http\Controllers\CalendarController;
-                    use App\Http\Controllers\RoleController;
-                    use Illuminate\Support\Facades\Auth;
+                <tbody id="bodyTable">
 
-                    $roleController = new RoleController();
-                    $role = $roleController->getRole(session('user'));
-                    $personTable = CalendarController::getGroupByIdSession($_COOKIE['identifier']);
-                    foreach($personTable as $line){
-                        echo "<tr>";
-                        echo "<td rowspan=\"2\" scope=\"row\" class=\"px-4 py-2 border-b border-gray-200 text-center\">".$line[0]."</td>";
-                        echo "<td class=\"px-4 py-2 border-b border-gray-200 text-center\">".$line[1][0]."</td>";
-                        echo "<td class=\"px-4 py-2 border-b border-gray-200 text-center\">".$line[2][0]."</td>"; 
-                        echo "</tr>";
-
-                        if(count($line[1]) > 1){
-                            echo "<tr>";
-                            echo "<td class=\"px-4 py-2 border-b border-gray-200 text-center\">".$line[1][1]."</td>";
-                            echo "<td class=\"px-4 py-2 border-b border-gray-200 text-center\">".$line[2][1]."</td>"; 
-                            echo "</tr>";
-                        }
-                    }
-                    ?>
                 </tbody>
             </table>
             <button id="close" class="mt-4 bg-blue-500 text-white px-4 py-2 rounded mx-auto" onclick="document.getElementById('popup').style.display = 'none';">Fermer</button>
-            <?php if($role === 'initiateur'){
+            <?php           
+            use App\Http\Controllers\RoleController;
+        
+            $roleController = new RoleController();
+            $role = $roleController->getRole(session('user'));
+            $userid = session('user')->UTI_ID;
+
+            if($role === 'initiateur'){
                 echo "<button id=\"evaluate\" class=\"mt-4 bg-blue-500 text-white px-4 py-2 rounded mx-auto\">Evaluer</button>";
             }
-            ?>
+            if($role === 'eleve'){?>
+                <a href="{{ url('/aptitudes/'.$userid) }}" class="mt-4 bg-blue-500 text-white px-4 py-2 rounded mx-auto"> Bilan de compétences </a>
+            
+            <?php
+            }?>
         </div>
     </div>
 </body>

@@ -76,8 +76,9 @@ Route::get('/triche', function() {
     return Hash::make("responsable");
 });
 
-Route::get('/calendar', function () {
-    return view('calendar');
+Route::prefix('/calendar')->name('calendar.')->controller(\App\Http\Controllers\CalendarController::class)->group(function(){
+    Route::get('/', 'show')->name('show');
+    Route::get('/{sessionId}', 'tableSession')->name('tableSession');
 });
 
 Route::prefix('/aptitudes/{userId}')->name('aptitudes.')->controller(AptitudesTableStudentController::class)->group(function(){
