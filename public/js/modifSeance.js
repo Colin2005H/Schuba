@@ -61,3 +61,10 @@ function cancelEdit(button) {
     button.style.display = 'none';
     row.querySelector('button[onclick="transformRow(this)"]').style.display = 'inline-block';
 }
+
+function setActionAndSubmit(action) {
+    // Set the action in the hidden input
+    document.getElementById('action').value = action;
+    // Submit the form
+    document.getElementById('seanceForm').submit();
+}

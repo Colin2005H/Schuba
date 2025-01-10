@@ -42,17 +42,18 @@ class ModifSeanceController extends Controller
      */
     public function delete(Request $request)
     {
-        Seance::destroy($request->input('SEA_ID'));
-
-            DB::table('GROUPER')
-        ->where('SEA_ID', $request->input('SEA_ID'))
-        ->delete();
 
         DB::table('EVALUER')
         ->where('SEA_ID', $request->input('SEA_ID'))
         ->delete();
 
-        return redirect('/');
+        DB::table('GROUPER')
+        ->where('SEA_ID', $request->input('SEA_ID'))
+        ->delete();
+
+        Seance::destroy($request->input('SEA_ID'));
+
+        return view('calendar');
     }
     
     /**
@@ -67,7 +68,11 @@ class ModifSeanceController extends Controller
      */
     public function update(Request $request)
     {
-        Seance::destroy($request->input('SEA_ID'));
+
+        $action = $request->input('action');
+
+        if($action === 'update') {
+            Seance::destroy($request->input('SEA_ID'));
 
             DB::table('GROUPER')
         ->where('SEA_ID', $request->input('SEA_ID'))
@@ -77,7 +82,13 @@ class ModifSeanceController extends Controller
         ->where('SEA_ID', $request->input('SEA_ID'))
         ->delete();
         
-        return redirect('/');
+        return view('calendar');
+        }
+    
+        elseif ($action === 'delete') {
+            $this->delete($request);
+        }
+        
     }
 
 }
