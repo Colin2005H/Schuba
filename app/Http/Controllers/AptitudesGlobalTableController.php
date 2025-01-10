@@ -3,10 +3,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB; 
 
-
+// Controller for the global table of aptitudes
 class AptitudesGlobalTableController extends Controller
 {
-
+    // Function to show the global table of aptitudes
     public function showListAptitudes($level)
     {
         $validationsList = DB::table('APT_VALIDE')

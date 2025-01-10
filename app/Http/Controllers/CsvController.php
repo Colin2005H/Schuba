@@ -6,49 +6,6 @@ use App\Models\PloUtilisateur;
 use Illuminate\Support\Facades\DB;
 
 class CsvController extends Controller {
-    /*
-    public function createCsvUser() {
-        if (session_status() == PHP_SESSION_NONE) {
-            session_start();
-        }
-        
-        if (!isset($_SESSION['user'])) {
-            $id_user = 1;
-        } else {
-            $id_user = $_SESSION['user']->UTI_ID;
-        }   
-
-        $query = PloUtilisateur::query();
-        $query->where('UTI_ID', $id_user);
-        $club = $query->get()->first()->CLU_ID;
-
-        header('Content-Type: text/csv');
-        header('Content-Disposition: attachment; filename="user.csv"');
-        $query = DB::table('utilisateur_aptitude');
-        $query->where('club', $club);
-        $users = $query->get();
-        $csv = fopen('php://output', 'wb');
-    
-        $headers = ['id', 'id_aptitude', 'aptitude', 'valide', 'nom', 'prenom', 'mail', 'date_creation_compte', 'date_naissance', 'niveau'];
-        fputcsv($csv, $headers);
-        
-        foreach ($users as $user) {
-            $row = [
-                $user['id'],
-                $user['id_aptitude'],
-                $user['aptitude'],
-                $user['valide'],
-                $user['nom'],
-                $user['prenom'],
-                $user['mail'],
-                $user['date_creation_compte'],
-                $user['date_naissance'],
-                $user['niveau']
-            ];
-            fputcsv($csv, $row);
-        }
-        fclose($csv);
-    }*/
 
     public function createCsvUser() {
         // Start session if not already started
@@ -73,7 +30,7 @@ class CsvController extends Controller {
         header('Content-Disposition: attachment; filename="user.csv"');
     
         // Query to get users based on the club ID
-        $query = DB::table('utilisateur_aptitude');
+        $query = DB::table('UTILISATEUR_APTITUDE');
         $query->where('CLUB', $club);
         $users = $query->get();
     

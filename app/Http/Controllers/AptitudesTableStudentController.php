@@ -3,7 +3,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB; 
 
-
+//controller for the table of aptitudes of students
 class AptitudesTableStudentController extends Controller
 {
 

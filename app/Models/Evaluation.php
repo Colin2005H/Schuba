@@ -11,7 +11,7 @@ class Evaluation extends Model
 {
     use HasFactory;
 
-    protected $table = 'evaluer';
+    protected $table = 'EVALUER';
 
     protected $primaryKey = "SEA_ID";
 

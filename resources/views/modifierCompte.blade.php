@@ -121,17 +121,18 @@
         </form>
     </div>
 
+    <!--script to handle the radio button for the user type and verify if all the conditions are checked to enter new data   -->
     <script>
         var niveau = document.getElementById("niveauUser");
         var student = document.getElementById("userType1");
         var initiateur = document.getElementById("userType2");
         var studentDiv = document.getElementById("eleveDiv");
         var changeStudentRadioBtn = 0;
-        document.getElementById("uti_date_naissance").max = new Date().toLocaleDateString('fr-ca');
-        document.getElementById("uti_date_certificat").max = new Date().toLocaleDateString('fr-ca')
+        document.getElementById("uti_date_naissance").max = new Date().toLocaleDateString('fr-ca'); // Set the max date to today
+        document.getElementById("uti_date_certificat").max = new Date().toLocaleDateString('fr-ca') 
 
-        student.addEventListener('click', function() {
-            if(student.checked && changeStudentRadioBtn === 0){
+        student.addEventListener('click', function() { 
+            if(student.checked && changeStudentRadioBtn === 0){  
                 var studentFormation = document.createElement('p');
                 var valueFormation = parseInt(niveau.value)+ 1
                 studentFormation.textContent = 'Formation de niveau ' + valueFormation + ' pour cette année';
@@ -154,12 +155,12 @@
                 var valueFormation = parseInt(niveau.value)+ 1
                 document.getElementById("studentFormation").textContent = 'Formation de niveau ' + valueFormation + ' pour cette année';
             }
-            if(parseInt(niveau.value) < 2){
+            if(parseInt(niveau.value) < 2){ // an initiateur can't have a level below 2
                 initiateur.disabled = true;
                 initiateur.checked = false;
                 student.disabled = false;
             }
-            if(parseInt(niveau.value) >= 3){
+            if(parseInt(niveau.value) >= 3){ 
                 initiateur.disabled = false;
                 student.disabled = true;
                 student.checked = false;

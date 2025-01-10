@@ -10,20 +10,27 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
+
+// Controller for the create account page
 class CreateAccountController extends Controller
 {
-
+    // add the ability to create an account for a user by the director of the club
     public function createAccount() {
-        $director = DB::table('DIRIGER_LE_CLUB')->select('CLU_ID')->where('UTI_ID', '=', session('user')->UTI_ID)->get();
-        $clubDirector = DB::table('PLO_CLUB')->select('CLU_ID', 'CLU_NOM')->where('CLU_ID', '=', $director[0]->CLU_ID)->get();
-        return view('create-account')->with(compact('clubDirector'));
+        $director = DB::table('DIRIGER_LE_CLUB')->select('CLU_ID')->where('UTI_ID', '=', session('user')->UTI_ID)->get(); 
+        $clubDirector = DB::table('PLO_CLUB')->select('CLU_ID', 'CLU_NOM')->where('CLU_ID', '=', $director[0]->CLU_ID)->get(); 
+        return view('create-account')->with(compact('clubDirector')); // 
     }
 
+    //if the requirements are met, store the user created in the database
     public function store(Request $request){
         $director = DB::table('DIRIGER_LE_CLUB')->select('CLU_ID')->where('UTI_ID', '=', session('user')->UTI_ID)->get();
+
+        //id and name of the director's club
         $clubDirector = DB::table('PLO_CLUB')->select('CLU_ID', 'CLU_NOM')->where('CLU_ID', '=', $director[0]->CLU_ID)->get();
+
+        //List of the requirements to met in the form
         $this->validate($request, [
-            'uti_mail' => 'bail|required|unique:plo_utilisateur|email',
+            'uti_mail' => 'bail|required|unique:PLO_UTILISATEUR|email',
             'uti_nom' => 'bail|required',
             'uti_prenom' => 'bail|required',
             'uti_code_postal' => 'bail|required|numeric|integer|min:10000|max:99999',
@@ -55,6 +62,7 @@ class CreateAccountController extends Controller
             'userType.required' => "Au moins un bouton doit être coché"
         ]);
 
+        //create a new user with the parameters inserted by the technical director, in the form
         $user = Utilisateur::create([
             'clu_id' => $clubDirector[0]->CLU_ID,
             'uti_nom' => $request->input('uti_nom'),
@@ -70,6 +78,7 @@ class CreateAccountController extends Controller
             'uti_date_creation' => today()
         ]);
 
+        //check the selected radio button and insert the new user in the corresponding table
         switch($request->input('userType')){
             case 'eleve':
                 $sql = DB::table('PLO_UTILISATEUR')->select('UTI_ID')->where('UTI_MAIL','=',$request->input('uti_mail'))->get();
@@ -85,6 +94,7 @@ class CreateAccountController extends Controller
                 break;
         }
 
-        return redirect()->route('createAccount.show')->with('success', "L'utilisateur a bien été ajouté");
+        // redirect to create account page with a success alert
+        return redirect()->route('createAccount.show')->with('success', "L'utilisateur a bien été ajouté"); 
     }
 }

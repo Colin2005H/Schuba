@@ -9,14 +9,14 @@ class ValidationCompetencesController extends Controller
 
     public function showCompetences($user)
     {
-        // Récupérer les informations de l'élève
+        // Fetch student information
         $student = DB::table('PLO_ELEVE')
             ->join('PLO_UTILISATEUR', 'PLO_UTILISATEUR.UTI_ID', '=', 'PLO_ELEVE.UTI_ID')
             ->where('PLO_ELEVE.UTI_ID', '=', $user)
             ->select('PLO_ELEVE.UTI_ID', 'UTI_NOM', 'UTI_PRENOM', 'UTI_NIVEAU')
             ->first();
     
-        // Récupérer les compétences validables pour le prochain niveau
+        // fetch validable competences for the next level
         $validableCompetences = DB::table('COMPETENCES_VALIDABLES')
             ->join('PLO_COMPETENCE', 'PLO_COMPETENCE.CPT_ID', '=', 'COMPETENCES_VALIDABLES.CPT_ID')
             ->where('UTI_ID', '=', $user)
@@ -24,15 +24,15 @@ class ValidationCompetencesController extends Controller
             ->select('PLO_COMPETENCE.CPT_ID', 'CPT_LIBELLE')
             ->get();
     
-        // Nombre total de compétences nécessaires pour le niveau supérieur
+        //Total number of competences needed for the next level
         $nbComp = DB::table('PLO_COMPETENCE')
             ->where('FORM_NIVEAU', $student->UTI_NIVEAU + 1)
             ->count();
     
-        // Nombre de compétences validées (équivalent au nombre de validableCompetences)
+        // number of validated competences (equivalent to the number of validableCompetences)
         $nbCompValidated = count($validableCompetences);
     
-        // Passez les données nécessaires à la vue
+        // Transfer data to the view 
         return view('validationCompetences', compact('validableCompetences', 'student', 'nbComp', 'nbCompValidated'));
     }
     
@@ -40,12 +40,12 @@ class ValidationCompetencesController extends Controller
 
     public function valideCompetences(Request $request)
 {
-    // Insérer les données dans la table 'VALIDER'
+    //insert data into the 'VALIDER' table
     DB::table('PLO_UTILISATEUR')
     ->where('UTI_ID', '=', $request->UTI_ID)
     ->update(array('UTI_NIVEAU' => $request->UTI_NIVEAU + 1));
 
-    // Redirection après insertion
+    // rederiction after insertion
     return redirect()->back()->with('success', 'Compétence validée avec succès !');
 }
 

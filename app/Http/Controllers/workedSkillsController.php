@@ -16,14 +16,14 @@ class workedSkillsController extends Controller
     public function index($id)
     {
         //code dupliqué de SeanceController : il faudrait le déplacer dans le modèle
-        //permets de récupérer le niveau du responsable de formation
+        //enable to fetch the level of the training manager
         DB::beginTransaction();
 
         $niveau = NULL;
 
         try {
             //TODO peut-être déplacer ça dans le model
-            $niveau = DB::table('gerer_la_formation')->select('FORM_NIVEAU')->where('UTI_ID', session('user')->UTI_ID)->get()->firstOrFail();
+            $niveau = DB::table('GERER_LA_FORMATION')->select('FORM_NIVEAU')->where('UTI_ID', session('user')->UTI_ID)->get()->firstOrFail();
             $niveau = $niveau->FORM_NIVEAU;
         } catch (\Throwable $th) {
             echo $th->getMessage();
@@ -34,20 +34,20 @@ class workedSkillsController extends Controller
 
         if ($seance != NULL && $niveau!= NULL) {
 
-            //Ne prends que les eleves de la séance
+            //fetch only students of the session
             $eleves = PloEleve::all()->filter(function (PloEleve $eleve) use ($seance) {
                 //début du filtre
 
                 $groupes = $eleve->groupers->filter(function (Grouper $groupe) use ($seance) {
-                    return $groupe->SEA_ID == $seance->SEA_ID; //renvoie les groupes dans lequel est l'élève et qui sont dans la séance
+                    return $groupe->SEA_ID == $seance->SEA_ID; //return the groups in which the student is and which are in the session
                 });
 
-                //si aucun groupe restant alors l'élève n'est pas dans la séance
+                //if no group left then the student is not in the session
                 return $groupes->isNotEmpty();
             }) //fin du filtre
                 ->map(function (PloEleve $eleve) {
 
-                    //on ne prends que les utilisateurs
+                    //fetch only the users
                     return $eleve->plo_utilisateur()->get()[0];
                 });
 
@@ -70,7 +70,7 @@ class workedSkillsController extends Controller
 
     public function store($id, Request $request){
         
-        // apt est un tableau avec en clé l'id de lut'ilisateur et en valeur un tableau des compétences selectionnées
+        //apt is a table with the user's id as key and an array of selected skills as value
         $array = $request->input('apt');
         if(isset($array)){
             foreach($array as $userId => $skillsArray){
@@ -85,7 +85,7 @@ class workedSkillsController extends Controller
                 }
             }
         }
-        
+        //return to the session creation page
         return redirect()->route('createSession.show')->with('success', "La séance et les aptitudes travaillées ont été enregistrée");
     }
 }
