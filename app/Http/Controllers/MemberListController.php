@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 
 class MemberListController extends Controller
 {
+    //show the list of members, students and initiators with their informations (name, first name, level)
     function showList(){
 
         $idManager = session('user')->UTI_ID;
@@ -33,6 +34,6 @@ class MemberListController extends Controller
         ->where('ENSEIGNER.FORM_NIVEAU',$nivForm[0]->FORM_NIVEAU)
         ->get();
 
-        return view('memberList',compact('studentList','initiatorList'));
+        return view('memberList',compact('studentList','initiatorList')); 
     }
 }

@@ -10,15 +10,17 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
+
 class CreateAccountController extends Controller
 {
-
+    // add the ability to create an account for a user by the director of the club
     public function createAccount() {
-        $director = DB::table('DIRIGER_LE_CLUB')->select('CLU_ID')->where('UTI_ID', '=', session('user')->UTI_ID)->get();
-        $clubDirector = DB::table('PLO_CLUB')->select('CLU_ID', 'CLU_NOM')->where('CLU_ID', '=', $director[0]->CLU_ID)->get();
-        return view('create-account')->with(compact('clubDirector'));
+        $director = DB::table('DIRIGER_LE_CLUB')->select('CLU_ID')->where('UTI_ID', '=', session('user')->UTI_ID)->get(); 
+        $clubDirector = DB::table('PLO_CLUB')->select('CLU_ID', 'CLU_NOM')->where('CLU_ID', '=', $director[0]->CLU_ID)->get(); 
+        return view('create-account')->with(compact('clubDirector')); // 
     }
 
+    // store the user created in the database
     public function store(Request $request){
         $director = DB::table('DIRIGER_LE_CLUB')->select('CLU_ID')->where('UTI_ID', '=', session('user')->UTI_ID)->get();
         $clubDirector = DB::table('PLO_CLUB')->select('CLU_ID', 'CLU_NOM')->where('CLU_ID', '=', $director[0]->CLU_ID)->get();
@@ -70,6 +72,7 @@ class CreateAccountController extends Controller
             'uti_date_creation' => today()
         ]);
 
+        // differentiates the type of user to create
         switch($request->input('userType')){
             case 'eleve':
                 $sql = DB::table('PLO_UTILISATEUR')->select('UTI_ID')->where('UTI_MAIL','=',$request->input('uti_mail'))->get();
@@ -85,6 +88,6 @@ class CreateAccountController extends Controller
                 break;
         }
 
-        return redirect()->route('createAccount.show')->with('success', "L'utilisateur a bien été ajouté");
+        return redirect()->route('createAccount.show')->with('success', "L'utilisateur a bien été ajouté"); 
     }
 }

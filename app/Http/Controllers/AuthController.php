@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
+// controller for the authentication of users
 class AuthController extends Controller
 {
     public function login(Request $request)
@@ -17,11 +18,11 @@ class AuthController extends Controller
         ]);
 
 
-        if (Auth::attempt($credentials)) {
-            $request->session()->regenerate();
-            $user = Auth::user();  // Récupérer l'utilisateur actuellement authentifié
-            session(['user' => $user]);  // Stocker l'utilisateur dans la session
-            return redirect('/home'); //azjajf
+        if (Auth::attempt($credentials)) { // Check if the credentials are correct then
+            $request->session()->regenerate(); 
+            $user = Auth::user();  // Fetch current user logged in
+            session(['user' => $user]);  // Store user in session
+            return redirect('/home'); // Redirect to home page
         }
 
         return back()->withErrors([
@@ -29,13 +30,14 @@ class AuthController extends Controller
         ])->withInput();
     }
 
+    
     public function logout(Request $request)
     {
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect('/');
+        return redirect('/'); // Redirect to login page
     }
 }
 
