@@ -105,7 +105,7 @@
         <button type="button" onclick="addRow()">Ajouter un élève</button>
 
         <br>
-        <button type="button" onclick="setActionAndSubmit('update')">Enregistrer</button>
+        <button type="button">Enregistrer</button>
         <button type="button" onclick="setActionAndSubmit('delete')" class="mt-4 bg-blue-500 text-white px-4 py-2 rounded mx-auto">Supprimer</button>
     </form>
 </div>

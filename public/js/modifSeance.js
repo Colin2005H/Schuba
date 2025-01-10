@@ -176,3 +176,10 @@ function confirmRow(button) {
     modifyButton.onclick = function() { transformRow(modifyButton); };
     row.querySelector('td:last-child').appendChild(modifyButton);
 }
+
+function setActionAndSubmit(action) {
+    // Set the action in the hidden input
+    document.getElementById('action').value = action;
+    // Submit the form
+    document.getElementById('seanceForm').submit();
+}

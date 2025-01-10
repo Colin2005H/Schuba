@@ -55,7 +55,7 @@ class ModifSeanceController extends Controller
 
         Seance::destroy($request->input('SEA_ID'));
 
-        return view('calendar');
+        return redirect('/home'); 
     }
     
     /**
