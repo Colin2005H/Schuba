@@ -48,7 +48,7 @@ Route::get('/', function () {
 });
 
 
-Route::get('/listUser', [ListUserController::class, 'showListUser']);
+Route::get('/listUser', [listUserController::class, 'showListUser']);
 Route::get('/modifierCompte/{id}', [ModifierCompteController::class, 'edit'])->name('modifierCompte');
 Route::post('/modifierCompte/{id}', [ModifierCompteController::class, 'update'])->name('modifierCompte');
 
