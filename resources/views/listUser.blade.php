@@ -15,6 +15,7 @@
 
     <!-- Conteneur du tableau centré -->
     <div class="w-3/4 max-w-5xl scalable overflow-y-auto bg-white shadow-lg rounded-lg  self-center">
+        <a class="button"type="button" href="/create-csv"> télécharger le csv</button>
         <table class="min-w-full table-auto">
             <thead>
                 <tr class="bg-gray-200">
