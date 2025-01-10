@@ -8,7 +8,17 @@ use App\Models\User;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class AuthController extends Controller
-{
+{    
+    /**
+     * login
+     *
+     * Log in the user which match with
+     * mail/password given to the form
+     * , make it session var and redirect to home page
+     * 
+     * @param  mixed $request the results of the form
+     * @return void
+     */
     public function login(Request $request)
     {
         $credentials = $request->validate([
@@ -21,14 +31,22 @@ class AuthController extends Controller
             $request->session()->regenerate();
             $user = Auth::user();  // Récupérer l'utilisateur actuellement authentifié
             session(['user' => $user]);  // Stocker l'utilisateur dans la session
-            return redirect('/home'); //azjajf
+            return redirect('/home'); 
         }
 
         return back()->withErrors([
             'uti_mail' => 'Les informations d\'identification ne correspondent pas à nos enregistrements.',
         ])->withInput();
     }
-
+    
+    /**
+     * logout
+     *
+     * Log out the user and back to log in page
+     * 
+     * @param  mixed $request the results of the form
+     * @return void
+     */
     public function logout(Request $request)
     {
         Auth::logout();
