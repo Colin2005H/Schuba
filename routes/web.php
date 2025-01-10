@@ -143,7 +143,7 @@ Route::post('/modifierCompte/{id}', [ModifierCompteController::class, 'update'])
 
 Route::post('/seance/{seance_id}/update', [ModifSeanceController::class, 'update'])->name('seance-update');
 
-Route::get('/seance/{seance_id}/modif', [ModifSeanceController::class, 'showForm'])->name('bilan.modif');
+Route::get('/seance/{seance_id}/modif', )->name('bilan.modif');
 
 Route::get('/seance/{seance_id}/delete', [ModifSeanceController::class, 'delete'])->name('seance.delete');
 

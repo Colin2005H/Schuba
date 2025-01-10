@@ -8,6 +8,7 @@ use App\Models\Evaluation;
 use App\Models\Evaluer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Redirect;
 
 class BilanSeanceController extends Controller
 {
@@ -58,11 +59,17 @@ class BilanSeanceController extends Controller
         $seance = Seance::find($session_id);
         $eleves = $seance->getEleves();
 
-        $currentUser = session('user');
+        dd($seance->isNext());
 
-        $default = $this->getInfo($session_id);
+        if($seance->isNext()){
+            $currentUser = session('user');
 
-        return view('recapitulatif', ['eleves' => $eleves,'seance' => $seance,'currentUser' => $currentUser,'default' => $default]);
+            $default = $this->getInfo($session_id);
+
+            return view('recapitulatif', ['eleves' => $eleves,'seance' => $seance,'currentUser' => $currentUser,'default' => $default]);
+        }
+
+        return Redirect::route("/calandar");
     }
 
             

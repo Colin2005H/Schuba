@@ -29,7 +29,7 @@ class ModifSeanceController extends Controller
 
         //if(!isset($seance)) pourrait etre interessant
         
-        echo "<script>console.log(\n".$session->isNext()."\n);</script>" ;
+        
         
         
         $eleves = $session->getEleves();

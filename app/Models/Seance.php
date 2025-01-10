@@ -160,12 +160,13 @@ class Seance extends Model
 		$querry = Evaluer::all()->toQuery();
         //dd($currentDate);
 		$querry = $querry->join('PLO_SEANCE', 'PLO_SEANCE.SEA_ID', '=', 'EVALUER.SEA_ID')
-		->where(DB::raw("SEA_DATE_DEB < str_to_date('".$currentDate."', '%Y-%m-%d')") )
+		->where(DB::raw("SEA_DATE_DEB < str_to_date('".$currentDate."', '%Y-%m-%d')"), true )
 		->where('FORM_NIVEAU', $currentLevel);
 		//on cherche les evaluations de la meme formation pour une séance qui a lieu avant la notre
 
         //dd($querry->get());
 		//on renvoie si il y en a
+
 		return $querry->get()->isEmpty();
 	}
 }
