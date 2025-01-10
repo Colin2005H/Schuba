@@ -36,15 +36,18 @@
                 <p>Date de naissance : {{date("d/m/Y", strtotime($user->UTI_DATE_NAISSANCE))}}</p>
                 <p>Date de votre certificat médical : {{date("d/m/Y", strtotime($user->UTI_DATE_CERTIFICAT))}}</p>
                 <p>Niveau de plongée : {{$user->UTI_NIVEAU}}</p>
-            </div>
-            <div class="items-center justify-center mx-auto my-auto"> 
+
                 @if($role != 'directeur_technique')
                     <button onclick="alertSuppAccount()" class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">Supprimer un compte</button>
                 @endif
+                </br>
+                </br>
                 @if($role != 'directeur_technique')
                     <a href="{{ route('changeData.showPassword') }}" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
                         Modifier le mot de passe
                     </a>
+                    </br>
+                    </br>
                     <a href="{{ route('changeData.showEmail') }}" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
                         Modifier l'adresse email
                     </a>
