@@ -68,10 +68,8 @@ class PloEleve extends Model
 		$level = $appartiens->select('FORM_NIVEAU')->orderBy('DATE_INSCRIPTION')->first();
 		
 		if($level == NULL){
-			echo("<script>console.log('rien')</script>");
 			return NULL;
 		}
-		echo("<script>console.log(".$level->FORM_NIVEAU.")</script>");
 
 		
 		return $level->FORM_NIVEAU;
@@ -87,9 +85,9 @@ class PloEleve extends Model
 
 		//on prends les évaluations de l'aptitude pour l'utilisateur concerné de la plus récente à la plus ancienne
 		$querry = $this->evaluers()
-		->join('PLO_SEANCE', 'evaluer.sea_id', '=', 'PLO_SEANCE.sea_id') 
+		->join('PLO_SEANCE', 'EVALUER.SEA_ID', '=', 'PLO_SEANCE.SEA_ID') 
 		->where('APT_CODE', $skill)
-		->orderBy('sea_date_deb', 'DESC')->get(); 
+		->orderBy('SEA_DATE_DEB', 'DESC')->get(); 
 
 		
 		if(sizeof($querry) < 3){
