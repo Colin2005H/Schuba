@@ -100,7 +100,7 @@ Route::get('/aptitudesGlobal', function() {
     return view('aptitudesGlobalTable');
 });
 
-Route::post('/showForm', [BilanSeanceController::class, 'showForm'])->name('seance-store');
+Route::post('/showForm', /*function(){dd("seance-store");}*/[BilanSeanceController::class, 'showForm'])->name('seance-store'); //ON PASSE PAR LA
 
 Route::get('/triche', function() {
     return Hash::make("responsable");

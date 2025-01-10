@@ -54,8 +54,8 @@ class BilanSeanceController extends Controller
          * @param  mixed $session_id the id of the session
          * @return void
          */
-        public function showForm(int $session_id)
-    {
+        public function showForm(int $session_id){
+        
         $seance = Seance::find($session_id);
         $eleves = $seance->getEleves();
 
@@ -88,7 +88,7 @@ class BilanSeanceController extends Controller
             $sea_id = $request->input('SEA_ID');
 
             if (!$sea_id) {
-                return redirect()->back()->with('error', 'L\'ID de la séance est manquant.');
+                return Redirect::route('calendar.show')->with('failure', 'L\'ID de la séance est manquant.');
             }
         
             
@@ -112,8 +112,8 @@ class BilanSeanceController extends Controller
                 }
             }
         
-            
-            return redirect('/');
+            dd("fin de store");
+            return redirect('calendar.show');
         }
         
         
