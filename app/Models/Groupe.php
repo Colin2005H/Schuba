@@ -9,7 +9,7 @@ class Groupe extends Model
 {
     use HasFactory;
 
-    protected $table = 'grouper';
+    protected $table = 'GROUPER';
     public $timestamps = false;
 
     //  NE PAS METTRE DE CLE PRIMAIRE

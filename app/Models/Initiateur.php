@@ -11,7 +11,7 @@ class Initiateur extends Model
 
     protected $fillable = ['uti_id'];
 
-    protected $table = 'plo_initiateur';
+    protected $table = 'PLO_INITIATEUR';
     public $timestamps = false;
     protected $primaryKey = 'uti_id';
 }

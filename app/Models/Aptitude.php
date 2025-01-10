@@ -9,7 +9,7 @@ class Aptitude extends Model
 {
     use HasFactory;
 
-    protected $table = 'plo_aptitude';
+    protected $table = 'PLO_APTITUDE';
     public $timestamps = false;
 
     public $incrementing = false;

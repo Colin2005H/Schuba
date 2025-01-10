@@ -18,7 +18,7 @@ class Seance extends Model
      *
      * @var string
      */
-    protected $table = 'plo_seance';
+    protected $table = 'PLO_SEANCE';
 
     /**
      * Indicates if the model should be timestamped.
@@ -42,7 +42,7 @@ class Seance extends Model
     public static function insert($beginTime, $endTime, $place, $level){
         DB::beginTransaction();
         try{ //
-            DB::insert("insert into plo_seance (li_id, form_niveau, sea_date_deb, sea_date_fin) values (?, ?, str_to_date(?, \"%Y-%m-%dT%H:%i\"), str_to_date(?, \"%Y-%m-%dT%H:%i\"))", [$place, $level, $beginTime, $endTime]);
+            DB::insert("insert into PLO_SEANCE (li_id, form_niveau, sea_date_deb, sea_date_fin) values (?, ?, str_to_date(?, \"%Y-%m-%dT%H:%i\"), str_to_date(?, \"%Y-%m-%dT%H:%i\"))", [$place, $level, $beginTime, $endTime]);
             
         } catch (Exception $e){
             DB::rollBack();
@@ -52,7 +52,7 @@ class Seance extends Model
         DB::commit();
 
         //$id = DB::select('select id from plo_seance where li_id = ? and form_niveau = ? and sea_date_deb = ? and sea_date_fin = ?;', [$place, $level, $beginTime, $endTime])[0];
-        $id = DB::table('plo_seance')->select('SEA_ID')
+        $id = DB::table('PLO_SEANCE')->select('SEA_ID')
         ->where('LI_ID', $place)
         ->where('FORM_NIVEAU', $level)
         ->where('sea_date_deb', $beginTime)

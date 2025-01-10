@@ -15,7 +15,7 @@ class Eleve extends Model
 
     protected $fillable = ['uti_id'];
 
-    protected $table = 'plo_eleve';
+    protected $table = 'PLO_ELEVE';
     public $timestamps = false;
     protected $primaryKey = "UTI_ID";
 

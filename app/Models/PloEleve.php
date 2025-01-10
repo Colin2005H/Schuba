@@ -87,7 +87,7 @@ class PloEleve extends Model
 
 		//on prends les évaluations de l'aptitude pour l'utilisateur concerné de la plus récente à la plus ancienne
 		$querry = $this->evaluers()
-		->join('plo_seance', 'evaluer.sea_id', '=', 'plo_seance.sea_id') 
+		->join('PLO_SEANCE', 'evaluer.sea_id', '=', 'PLO_SEANCE.sea_id') 
 		->where('APT_CODE', $skill)
 		->orderBy('sea_date_deb', 'DESC')->get(); 
 
