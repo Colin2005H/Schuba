@@ -16,7 +16,6 @@
     <form action="{{ route('seance-store') }}" method="POST">
 
               <input type="hidden" name="SEA_ID" value="{{ $seance->SEA_ID }}">
-   <f
 
             <table class="table-auto border-collapse mb-6 w-full">
 
