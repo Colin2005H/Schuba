@@ -39,6 +39,7 @@
     </style>
     <script defer src="{{ asset('js/modifSeance.js') }}"></script>
 </head>
+@include('header')
 
 <body>
 
