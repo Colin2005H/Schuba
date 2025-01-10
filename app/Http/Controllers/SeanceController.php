@@ -17,11 +17,7 @@ use Illuminate\Support\Facades\Redirect;
 
 class SeanceController extends Controller
 {
-    /**
-     * fonction appelée par le Routeur
-     *
-     * @return void
-     */
+    
     public function createSession()
     {
         DB::beginTransaction();
@@ -45,9 +41,9 @@ class SeanceController extends Controller
             'aptitudes' => Aptitude::all(),
 
             'initiateurs' => PloInitiateur::all()->filter(function (PloInitiateur $initiator) use ($niveau){
-                return $initiator->isInFormation($niveau); //uniquement ceux du bon niveau
+                return $initiator->isInFormation($niveau); //only those in the right formation
 
-            })->map(function (PloInitiateur $initiator) { //prends tous les Initiator
+            })->map(function (PloInitiateur $initiator) { //fetch all the initiators
                 return $initiator->plo_utilisateur()->getResults();
 
             })->filter(function ($user, $key) {
@@ -57,13 +53,13 @@ class SeanceController extends Controller
 
 
             'eleves' => PloEleve::all()->filter(function (PloEleve $student) use ($niveau){
-                return $student->getCurrentFormation() == $niveau; //uniquement ceux du bon niveau
+                return $student->getCurrentFormation() == $niveau; 
 
-            })->map(function (PloEleve $student) { //transforme l'élève en utilisateur
+            })->map(function (PloEleve $student) { //cast the students into users
                 return $student->plo_utilisateur()->getResults();
 
             })->filter(function ($user, $key) {
-                return $user != null; //securité
+                return $user != null; //security check
 
             }),
 
@@ -72,12 +68,7 @@ class SeanceController extends Controller
         ]);
     }
 
-    /**
-     * stock une nouvelle séance dans la BDD
-     *
-     * @param Request $request
-     * @return void
-     */
+    //store the session in the database
     public function store(Request $request)
     {
         $sessionId = NULL;
@@ -102,13 +93,7 @@ class SeanceController extends Controller
         return redirect()->route("createSession.show")->with('success', "Un problème inattendu est survenu (sessionId NULL)");
     }
 
-    /**
-     * Créé un groupe avec le tableau en parametre
-     *
-     * @param array<string, string> $group tableau avec des clés "initiateur", "eleve1" et "eleve2"
-     * @param int $sessionId id de la session dont le groupe fait parti
-     * @return void
-     */
+    //create a group of user for the session
     public function createGroup($group, $sessionId)
     {
         echo "<script>console.log(\"création de groupe\");</script>";

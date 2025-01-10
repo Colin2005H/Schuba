@@ -10,18 +10,18 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
+
 // Controller for the create account page
 class CreateAccountController extends Controller
 {
-
-    //show the create account page
+    // add the ability to create an account for a user by the director of the club
     public function createAccount() {
-        $director = DB::table('DIRIGER_LE_CLUB')->select('CLU_ID')->where('UTI_ID', '=', session('user')->UTI_ID)->get();
-        $clubDirector = DB::table('PLO_CLUB')->select('CLU_ID', 'CLU_NOM')->where('CLU_ID', '=', $director[0]->CLU_ID)->get();
-        return view('create-account')->with(compact('clubDirector'));
+        $director = DB::table('DIRIGER_LE_CLUB')->select('CLU_ID')->where('UTI_ID', '=', session('user')->UTI_ID)->get(); 
+        $clubDirector = DB::table('PLO_CLUB')->select('CLU_ID', 'CLU_NOM')->where('CLU_ID', '=', $director[0]->CLU_ID)->get(); 
+        return view('create-account')->with(compact('clubDirector')); // 
     }
 
-    //if the requirements are met, create a new user Student or Initiator
+    //if the requirements are met, store the user created in the database
     public function store(Request $request){
         $director = DB::table('DIRIGER_LE_CLUB')->select('CLU_ID')->where('UTI_ID', '=', session('user')->UTI_ID)->get();
 
@@ -95,6 +95,6 @@ class CreateAccountController extends Controller
         }
 
         // redirect to create account page with a success alert
-        return redirect()->route('createAccount.show')->with('success', "L'utilisateur a bien été ajouté");
+        return redirect()->route('createAccount.show')->with('success', "L'utilisateur a bien été ajouté"); 
     }
 }

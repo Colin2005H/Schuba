@@ -11,7 +11,7 @@
 @include('header')
     <body class="h-screen bg-gray-100 flex items-center justify-center">
 
-        <!-- Conteneur du tableau centré -->
+        <!-- Container centered -->
         <div class="w-3/4 max-w-5xl scalable overflow-y-auto bg-white shadow-lg rounded-lg">
           <table class="min-w-full table-auto">
             <thead>
