@@ -38,9 +38,9 @@ class ModifSeanceController extends Controller
         $currentUser = session('user');
 
 
-        return view('modif-seance', ['eleves' => $eleves,'seance' => $session,'currentUser' => $currentUser/*,'default' => $default*/]);
+        return view('modif-seance', ['eleves' => $eleves, 'seance' => $session, 'currentUser' => $currentUser/*,'default' => $default*/]);
     }
-    
+
     /**
      * delete
      *
@@ -53,18 +53,18 @@ class ModifSeanceController extends Controller
     {
 
         DB::table('EVALUER')
-        ->where('SEA_ID', $request->input('SEA_ID'))
-        ->delete();
+            ->where('SEA_ID', $request->input('SEA_ID'))
+            ->delete();
 
         DB::table('GROUPER')
-        ->where('SEA_ID', $request->input('SEA_ID'))
-        ->delete();
+            ->where('SEA_ID', $request->input('SEA_ID'))
+            ->delete();
 
         Seance::destroy($request->input('SEA_ID'));
 
         return view('calendar');
     }
-    
+
     /**
      * update
      *
@@ -80,24 +80,22 @@ class ModifSeanceController extends Controller
 
         $action = $request->input('action');
 
-        if($action === 'update') {
+        if ($action === 'update') {
             Seance::destroy($request->input('SEA_ID'));
 
             DB::table('GROUPER')
-        ->where('SEA_ID', $request->input('SEA_ID'))
-        ->delete();
+                ->where('SEA_ID', $request->input('SEA_ID'))
+                ->delete();
 
-        DB::table('EVALUER')
-        ->where('SEA_ID', $request->input('SEA_ID'))
-        ->delete();
-        
-        return view('calendar');
-        }
-    
-        elseif ($action === 'delete') {
+            DB::table('EVALUER')
+                ->where('SEA_ID', $request->input('SEA_ID'))
+                ->delete();
+
+            return view('calendar');
+        } elseif ($action === 'delete') {
             $this->delete($request);
         }
-        
+
     }
 
 }

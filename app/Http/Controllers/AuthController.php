@@ -9,7 +9,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 // controller for the authentication of users
 class AuthController extends Controller
-{    
+{
     /**
      * login
      *
@@ -39,7 +39,6 @@ class AuthController extends Controller
             'uti_mail' => 'Les informations d\'identification ne correspondent pas à nos enregistrements.',
         ])->withInput();
     }
-    
     /**
      * logout
      *

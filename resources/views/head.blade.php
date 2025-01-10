@@ -8,10 +8,11 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 
-<body >
-@include('header')
+<body>
+    @include('header')
 
     @yield('content')
 
 </body>
+
 </html>
