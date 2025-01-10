@@ -6,8 +6,12 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class MemberListController extends Controller
-{
-    //show the list of members, students and initiators with their informations (name, first name, level)
+{   
+    /**
+     * showList
+     *show the list of members, students and initiators with their informations (name, first name, level) 
+     * @return void
+     */
     function showList(){
 
         $idManager = session('user')->UTI_ID;

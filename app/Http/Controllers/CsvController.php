@@ -6,7 +6,12 @@ use App\Models\PloUtilisateur;
 use Illuminate\Support\Facades\DB;
 
 class CsvController extends Controller {
-
+    
+    /**
+     * createCsvUser
+     * return a csv
+     * @return void
+     */
     public function createCsvUser() {
         // Start session if not already started
         if (session_status() == PHP_SESSION_NONE) {

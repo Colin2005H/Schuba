@@ -6,7 +6,13 @@ use Illuminate\Support\Facades\DB;
 //controller for the table of aptitudes of students
 class AptitudesTableStudentController extends Controller
 {
-
+    
+    /**
+     * showListAptitudes
+     * Return a view with all the aptitudes
+     * @param  mixed $userId
+     * @return void
+     */
     public function showListAptitudes($userId)
     {
         $student = DB::table('PLO_ELEVE')

@@ -8,7 +8,12 @@ use Illuminate\Support\Facades\DB;
 // ModifierCompteController is a controller class that handles the modification of a user account
 class ModifierCompteController extends Controller
 {
-    // function that displays the modification form
+    /**
+     * edit
+     *function that displays the modification form 
+     * @param  mixed $id
+     * @return void
+     */
     public function edit($id)
     {
         $info_compte = DB::table('PLO_UTILISATEUR')//fetch the user information
@@ -20,7 +25,13 @@ class ModifierCompteController extends Controller
         $clubDirector = DB::table('plo_club')->select('clu_id', 'clu_nom')->where('clu_id', '=', $director[0]->clu_id)->get();*/
         return view('modifierCompte', compact('info_compte','club')); //return the view with the user information and the club 
     }
-    // function that updates the user information
+    /**
+     * update
+     *function that updates the user information 
+     * @param  mixed $request
+     * @param  mixed $id
+     * @return void
+     */
     public function update(Request $request, $id){
 
         if ($request->input('action') == 'Annuler'){   //if the user clicks on the cancel button
