@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-//listUserController is a controller class that handles the display of the list of users
-class listUserController extends Controller
+//ListUserController is a controller class that handles the display of the list of users
+class ListUserController extends Controller
 {
     //showListUser function that displays the list of users
     public function showListUser(){
@@ -15,6 +15,7 @@ class listUserController extends Controller
         
         return view('listUser')->with(compact('liste_eleve')); //return the view with the list of users
     }
+    
     //deleteUser function that deletes a user
     public function deleteUser(Request $request){
         $id = $request->input('action'); //get the id of the user to delete

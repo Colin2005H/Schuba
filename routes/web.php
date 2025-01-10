@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CsvController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\listUserController;
+use App\Http\Controllers\ListUserController;
 use App\Http\Controllers\FormationController;
 use App\Http\Controllers\MemberListController;
 use App\Http\Controllers\BilanSeanceController;
@@ -48,7 +48,7 @@ Route::get('/', function () {
 });
 
 
-Route::get('/listUser', [listUserController::class, 'showListUser']);
+Route::get('/listUser', [ListUserController::class, 'showListUser']);
 Route::get('/modifierCompte/{id}', [ModifierCompteController::class, 'edit'])->name('modifierCompte');
 Route::post('/modifierCompte/{id}', [ModifierCompteController::class, 'update'])->name('modifierCompte');
 
@@ -145,8 +145,8 @@ Route::get('/seance/{seance_id}/bilan', [BilanSeanceController::class, 'showForm
 
 Route::get('/create-csv', [CsvController::class, 'createCsvUser']);
 
-Route::get('/listUser', [listUserController::class, 'showListUser'])->name('listUser');
-Route::post('/listUser', [listUserController::class, 'deleteUser'])->name('listUser2');
+Route::get('/listUser', [ListUserController::class, 'showListUser'])->name('listUser');
+Route::post('/listUser', [ListUserController::class, 'deleteUser'])->name('listUser2');
 
 Route::get('/modifierCompte/{id}', [ModifierCompteController::class, 'edit'])->name('modifierCompte');
 Route::post('/modifierCompte/{id}', [ModifierCompteController::class, 'update'])->name('modifierCompte2');
