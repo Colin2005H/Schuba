@@ -6,6 +6,7 @@ use App\Models\Aptitude;
 use App\Models\Seance;
 use App\Models\Evaluation;
 use App\Models\Evaluer;
+use App\Models\PloInitiateur;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -25,11 +26,12 @@ class ModifSeanceController extends Controller
     {
         $session = Seance::find($session);
         $eleves = $session->getEleves();
+        $initiators = PloInitiateur::all();
 
         $currentUser = session('user');
 
 
-        return view('modif-seance', ['eleves' => $eleves,'seance' => $session,'currentUser' => $currentUser/*,'default' => $default*/]);
+        return view('modif-seance', ['eleves' => $eleves,'seance' => $session,'currentUser' => $currentUser/*,'default' => $default*/,'initiator' => $initiators]);
     }
     
     /**

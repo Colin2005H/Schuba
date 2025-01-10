@@ -51,9 +51,9 @@
             </thead>
             <tbody>
                 <tr>
-                    <td><p>{{ $seance->SEA_ID }}</p></td>
+                    <td><label>{{ $seance->SEA_ID }}</label></td>
                     <td><label>{{ $seance->getLieu()[0]->LI_NOM }}</label></td>
-                    <td><p>{{ $seance->getFormation()[0]->FORM_LIBELLE }}</p></td>
+                    <td><label>{{ $seance->getFormation()[0]->FORM_LIBELLE }}</label></td>
                     <td><label>{{ $seance->SEA_DATE_DEB }}</label></td>
                     <td><label>{{ $seance->SEA_DATE_FIN }}</label></td>
                     <td>
@@ -87,7 +87,8 @@
                         <td>
                             <div>
                                 @foreach ($seance->getAptEleve($eleve->user->UTI_ID) as $apt)
-                                <p><strong>{{ $apt->APT_LIBELLE }}</strong></p>
+                                <label><strong>{{ $apt->APT_LIBELLE }}</strong></label>
+                                <br>
                                 @endforeach
                             </div>
                         </td>
