@@ -30,15 +30,15 @@
         }
     </style>
     <script defer src="{{ asset('js/modifSeance.js') }}"></script>
-    <script defer src="{{ asset('js/modifSeance.js') }}"></script>
 </head>
 <body>
 @include('header')
 <div class="form-container">
     <h2>Informations de la Séance</h2>
-    <form action="{{ route('seance-update', ['seance_id' => $seance->SEA_ID]) }}" method="POST">
+    <form id="seanceForm" action="{{ route('seance.update') }}" method="POST">
         @csrf
         <input type="hidden" name="SEA_ID" value="{{ $seance->SEA_ID }}">
+        <input type="hidden" id="action" name="action" value="">
         <table>
             <thead>
                 <tr>
@@ -101,18 +101,9 @@
         </table>
 
         <br>
-        <button type="submit">Enregistrer</button>
+        <button type="button" onclick="setActionAndSubmit('update')">Enregistrer</button>
+        <button type="button" onclick="setActionAndSubmit('delete')" class="mt-4 bg-blue-500 text-white px-4 py-2 rounded mx-auto">Supprimer</button>
     </form>
-
-    <?php
-                $url = route('seance-update', ['seance_id' => $seance->SEA_ID]);
-    ?>
-
-<button id="evaluate" class="mt-4 bg-blue-500 text-white px-4 py-2 rounded mx-auto" 
-            onclick="window.location.href='<?php echo $url; ?>'">
-        Supprimer
-    </button>
-
 </div>
 </body>
 </html>
