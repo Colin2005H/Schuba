@@ -146,7 +146,7 @@ Route::post('/listUser', [listUserController::class, 'deleteUser'])->name('listU
 Route::get('/modifierCompte/{id}', [ModifierCompteController::class, 'edit'])->name('modifierCompte');
 Route::post('/modifierCompte/{id}', [ModifierCompteController::class, 'update'])->name('modifierCompte2');
 
-Route::post('/seance/{seance_id}/update', [ModifSeanceController::class, 'update'])->name('seance-update');
+Route::post('/seance/update', [ModifSeanceController::class, 'update'])->name('seance.update');
 
 Route::get('/seance/{seance_id}/modif', [ModifSeanceController::class, 'showForm'])->name('bilan.modif');
 
