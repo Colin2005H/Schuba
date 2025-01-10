@@ -50,6 +50,9 @@ class Enseigner extends Model
 			->select('FORM_NIVEAU')
 			->first();
 
+			if(is_null($level)){
+				return 0;
+			}
 			return $level->FORM_NIVEAU;
 
 		}
