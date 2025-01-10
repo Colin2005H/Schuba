@@ -129,6 +129,33 @@ class Seance extends Model
 
         return $lieu;
     }
+
+    protected $fillable = [
+		'LI_ID',
+		'FORM_NIVEAU',
+		'SEA_DATE_DEB',
+		'SEA_DATE_FIN'
+	];
+
+	public function plo_formation()
+	{
+		return $this->belongsTo(PloFormation::class, 'FORM_NIVEAU');
+	}
+
+	public function plo_lieu()
+	{
+		return $this->belongsTo(PloLieu::class, 'LI_ID');
+	}
+
+	public function evaluers()
+	{
+		return $this->hasMany(Evaluer::class, 'SEA_ID');
+	}
+
+	public function groupers()
+	{
+		return $this->hasMany(Grouper::class, 'SEA_ID');
+	}
     
     /**
      * getFormation
@@ -162,7 +189,10 @@ class Seance extends Model
 		$querry = $querry->join('PLO_SEANCE', 'PLO_SEANCE.SEA_ID', '=', 'EVALUER.SEA_ID')
 		->where(DB::raw("SEA_DATE_DEB < str_to_date('".$currentDate."', '%Y-%m-%d')"), true )
 		->where('FORM_NIVEAU', $currentLevel);
-		//on cherche les evaluations de la meme formation pour une séance qui a lieu avant la notre
+		//on cherche les séances de la meme formation qui ont lieux avant la notre
+
+        
+
 
         //dd($querry->get());
 		//on renvoie si il y en a
