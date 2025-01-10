@@ -69,7 +69,7 @@ class BilanSeanceController extends Controller
             return view('recapitulatif', ['eleves' => $eleves,'seance' => $seance,'currentUser' => $currentUser,'default' => $default]);
         }
 
-        return Redirect::route("calendar.show");
+        return Redirect::route("calendar.show")->with('failure', "d'autres évaluations doivent être faites avant");
     }
 
             

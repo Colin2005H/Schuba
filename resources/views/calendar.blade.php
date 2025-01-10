@@ -62,6 +62,11 @@
     </style>
     @include('header')
 
+    @if (session('failure'))
+        <div class="bg-red-100 text-red-800 border border-red-400 rounded p-4 mb-4">
+            {{session('failure')}}
+        </div>
+        @endif
     
     <div class="calendar">
         <h1>Calendrier des séances</h1>
