@@ -17,6 +17,7 @@
         
         <h3 class="text-xl font-semibold text-center mb-6">Créer un compte utilisateur</h3>
         
+        <!-- Form to create an new user Student or Initiator -->
         <form method="POST" action="" style="margin-bottom: 10px;">
             @csrf
             <div class="mb-4">
@@ -128,7 +129,7 @@
             <button class="flex items-center justify-center text-white hover:bg-blue-500 p-4 rounded-md" style="background-color: rgba(23, 34, 49, 1);">Enregistrer</button>
         </form>
     </div>
-
+    @include('footer')
     <script>
         var niveau = document.getElementById("niveauUser");
         var student = document.getElementById("userType1");

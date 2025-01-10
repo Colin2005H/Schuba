@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
 
+// Controller for the create account page
 class CreateAccountController extends Controller
 {
     // add the ability to create an account for a user by the director of the club
@@ -20,10 +21,14 @@ class CreateAccountController extends Controller
         return view('create-account')->with(compact('clubDirector')); // 
     }
 
-    // store the user created in the database
+    //if the requirements are met, store the user created in the database
     public function store(Request $request){
         $director = DB::table('DIRIGER_LE_CLUB')->select('CLU_ID')->where('UTI_ID', '=', session('user')->UTI_ID)->get();
+
+        //id and name of the director's club
         $clubDirector = DB::table('PLO_CLUB')->select('CLU_ID', 'CLU_NOM')->where('CLU_ID', '=', $director[0]->CLU_ID)->get();
+
+        //List of the requirements to met in the form
         $this->validate($request, [
             'uti_mail' => 'bail|required|unique:PLO_UTILISATEUR|email',
             'uti_nom' => 'bail|required',
@@ -57,6 +62,7 @@ class CreateAccountController extends Controller
             'userType.required' => "Au moins un bouton doit être coché"
         ]);
 
+        //create a new user with the parameters inserted by the technical director, in the form
         $user = Utilisateur::create([
             'clu_id' => $clubDirector[0]->CLU_ID,
             'uti_nom' => $request->input('uti_nom'),
@@ -72,7 +78,7 @@ class CreateAccountController extends Controller
             'uti_date_creation' => today()
         ]);
 
-        // differentiates the type of user to create
+        //check the selected radio button and insert the new user in the corresponding table
         switch($request->input('userType')){
             case 'eleve':
                 $sql = DB::table('PLO_UTILISATEUR')->select('UTI_ID')->where('UTI_MAIL','=',$request->input('uti_mail'))->get();
@@ -88,6 +94,7 @@ class CreateAccountController extends Controller
                 break;
         }
 
+        // redirect to create account page with a success alert
         return redirect()->route('createAccount.show')->with('success', "L'utilisateur a bien été ajouté"); 
     }
 }

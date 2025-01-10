@@ -61,11 +61,7 @@ public function getAuthPassword()
     return $this->UTI_MDP;
 }
 
-
-
-
     public function getRole(){
-
         $countELEVE = DB::table('PLO_UTILISATEUR') ->join('PLO_ELEVE', 'PLO_UTILISATEUR.UTI_ID', '=', 'PLO_ELEVE.UTI_ID') 
             ->where('PLO_UTILISATEUR.UTI_MAIL', '=', $this->UTI_MAIL) ->count();
 

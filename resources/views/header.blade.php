@@ -14,6 +14,7 @@
 
             $roleController = new RoleController();
             $role = $roleController->getRole(session('user'));
+            $teachingLevel = $roleController->getTeachingLevel($userid);
             print_r($role);
         @endphp
         
@@ -26,11 +27,12 @@
             <a href="{{ url('/') }}" class="hover:text-gray-400">Se Déconnecter</a>
         </nav>
         @elseif($role === 'responsable')
+
         <!-- Navigation responsable-->
         <nav class="hidden md:flex space-x-6">
             <a href="{{ url('/profile') }}" class="hover:text-gray-400">Mon compte</a>
             <a href="{{ url('/calendar') }}" class="hover:text-gray-400">Séances</a>
-            <a href="{{ url('/aptitudesGlobal') }}" class="hover:text-gray-400">Élèves</a><!-- listeleves-->
+            <a href="{{ url('/globalAptitudes/' . $teachingLevel) }}" class="hover:text-gray-400">Bilan des Compétences</a><!-- listeleves-->
             <a href="{{ url('/') }}" class="hover:text-gray-400">Se Déconnecter</a>
         </nav>
         @elseif($role === 'initiateur')
@@ -38,7 +40,7 @@
         <nav class="hidden md:flex space-x-6">
             <a href="{{ url('/profile') }}" class="hover:text-gray-400">Mon compte</a>
             <a href="{{ url('/calendar') }}" class="hover:text-gray-400">Séances</a>
-            <a href="{{ url('/') }}" class="hover:text-gray-400">Élèves</a><!-- listeleves-->
+            <a href="{{ url('/globalAptitudes/' . $teachingLevel) }}" class="hover:text-gray-400">Bilan des Compétences</a><!-- listeleves-->
             <a href="{{ url('/') }}" class="hover:text-gray-400">Se Déconnecter</a>
         </nav>
         @elseif($role === 'directeur_technique')
@@ -46,7 +48,7 @@
         <nav class="hidden md:flex space-x-6">
             <a href="{{ url('/profile') }}" class="hover:text-gray-400">Mon compte</a>
             <a href="{{ url('/formations') }}" class="hover:text-gray-400">Formations</a>
-            <a href="{{ url('/createAccount') }}" class="hover:text-gray-400">gestions des Utilisateurs</a><!-- listUser-->
+            <a href="{{ url('/createAccount') }}" class="hover:text-gray-400">Gestions des Utilisateurs</a><!-- listUser-->
             <a href="{{ url('/createAccount') }}" class="hover:text-gray-400">Créer Comptes</a><!-- Create account-->
             <a href="{{ url('/') }}" class="hover:text-gray-400">Élèves</a>
             <a href="{{ url('/') }}" class="hover:text-gray-400">Se Déconnecter</a>
