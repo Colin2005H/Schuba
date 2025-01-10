@@ -35,6 +35,7 @@
                     <a href="{{ url('/calendar') }}" class="hover:text-gray-400">Séances</a>
                     <a href="{{ url('/globalAptitudes/' . $teachingLevel) }}" class="hover:text-gray-400">Bilan des
                         Compétences</a><!-- listeleves-->
+                    <a href="{{ url('/liste-membres-formation') }}" class="hover:text-gray-400">Membres</a>
                     <a href="{{ url('/') }}" class="hover:text-gray-400">Se Déconnecter</a>
                 </nav>
             @elseif($role === 'initiateur')
