@@ -5,7 +5,7 @@
 @section('content')
 
 <h1 class="font-bold text-[#004B85] text-center text-2xl m-4">Liste des élèves</h1>
-<div class="w-3/4 max-w-5xl scalable overflow-y-scroll mb-16 max-h-96 bg-white shadow-lg rounded-lg">
+<div class="w-3/4 max-w-5xl scalable overflow-y-scroll mb-16 max-h-96 bg-white shadow-lg rounded-lg flex items-center justify-center mx-auto">
     <table class="min-w-full table-auto">
       <thead>
         <tr class="bg-gray-200">
@@ -49,7 +49,7 @@
 </div>
 
 <h1 class="font-bold text-[#004B85] text-center text-2xl m-4">Liste des initiateurs</h1>
-<div class="w-3/4 max-w-5xl scalable overflow-y-scroll max-h-96 bg-white shadow-lg rounded-lg">
+<div class="w-3/4 max-w-5xl scalable overflow-y-scroll mb-16 max-h-96 bg-white shadow-lg rounded-lg flex items-center justify-center mx-auto">
     <table class="min-w-full table-auto">
         <thead>
           <tr class="bg-gray-200">
@@ -93,3 +93,8 @@
   </div>
 
 @endsection
+
+
+</body>
+
+</html>
