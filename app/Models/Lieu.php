@@ -14,7 +14,7 @@ class Lieu extends Model
      *
      * @var string
      */
-    protected $table = 'plo_lieu';
+    protected $table = 'PLO_LIEU';
 
     /**
      * Indicates if the model should be timestamped.
