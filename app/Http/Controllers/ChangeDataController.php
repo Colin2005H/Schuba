@@ -27,7 +27,7 @@ class ChangeDataController extends Controller
     //update the user's email value, with as parameter the request 
     public function editEmail(Request $request){
         $this->validate($request, [
-            'uti_mail' => 'bail|required|unique:plo_utilisateur|email'
+            'uti_mail' => 'bail|required|unique:PLO_UTILISATEUR|email'
         ], [
             'uti_mail.email' => "Le texte doit correspondre à une adresse email valide",
             'uti_mail.unique' => "Cette adresse mail est déjà prise",
