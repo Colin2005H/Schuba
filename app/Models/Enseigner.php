@@ -7,6 +7,9 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Class Enseigner
@@ -39,4 +42,15 @@ class Enseigner extends Model
 	{
 		return $this->belongsTo(PloInitiateur::class, 'UTI_ID');
 	}
+
+	public function getTeachingLevel($userId){
+
+        $level = DB::table('ENSEIGNER')
+            ->where('UTI_ID', '=', $userId)
+			->select('FORM_NIVEAU')
+			->first();
+
+			return $level->FORM_NIVEAU;
+
+		}
 }
