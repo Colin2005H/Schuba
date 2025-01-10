@@ -57,9 +57,9 @@
                     <td><label>{{ $seance->SEA_DATE_DEB }}</label></td>
                     <td><label>{{ $seance->SEA_DATE_FIN }}</label></td>
                     <td>
-                            <button type="button" onclick="transformRow(this)">Modifier</button>
-                            <button type="button" onclick="cancelEdit(this)" style="display: none;">Annuler</button>
-                        </td>
+                        <button type="button" onclick="transformRow(this)">Modifier</button>
+                        <button type="button" onclick="cancelEdit(this)" style="display: none;">Annuler</button>
+                    </td>
                 </tr>
             </tbody>
         </table>
@@ -68,12 +68,12 @@
                 <tr>
                     <th>Nom de l'élève</th>
                     <th>Nom de l'initiateur</th>  
-                    <th>Presence</th>
+                    <th>Présence</th>
                     <th>Aptitudes</th>
                     <th>Actions</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="elevesTableBody">
                 @foreach ($eleves as $eleve)
                     @php
                         $initiateur = $eleve->getinitiator($seance->SEA_ID)[0];
@@ -87,18 +87,21 @@
                         <td>
                             <div>
                                 @foreach ($seance->getAptEleve($eleve->user->UTI_ID) as $apt)
-                                <p><strong>{{ $apt->APT_LIBELLE }}</strong><p>
+                                <p><strong>{{ $apt->APT_LIBELLE }}</strong></p>
                                 @endforeach
                             </div>
                         </td>
                         <td>
                             <button type="button" onclick="transformRow(this)">Modifier</button>
+                            <button type="button" onclick="deleteRow(this)" style="display: none;">Supprimer</button>
                             <button type="button" onclick="cancelEdit(this)" style="display: none;">Annuler</button>
                         </td>
                     </tr>
                 @endforeach
             </tbody>
         </table>
+
+        <button type="button" onclick="addRow()">Ajouter un élève</button>
 
         <br>
         <button type="button" onclick="setActionAndSubmit('update')">Enregistrer</button>
