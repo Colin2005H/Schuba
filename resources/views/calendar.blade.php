@@ -61,6 +61,8 @@
 
     </style>
     @include('header')
+
+    
     <div class="calendar">
         <h1>Calendrier des séances</h1>
         <div id='calendar'>

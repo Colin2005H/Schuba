@@ -59,7 +59,7 @@ class BilanSeanceController extends Controller
         $seance = Seance::find($session_id);
         $eleves = $seance->getEleves();
 
-        dd($seance->isNext());
+        
 
         if($seance->isNext()){
             $currentUser = session('user');
@@ -69,7 +69,7 @@ class BilanSeanceController extends Controller
             return view('recapitulatif', ['eleves' => $eleves,'seance' => $seance,'currentUser' => $currentUser,'default' => $default]);
         }
 
-        return Redirect::route("/calandar");
+        return Redirect::route("calendar.show");
     }
 
             
