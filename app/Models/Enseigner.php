@@ -51,8 +51,15 @@ class Enseigner extends Model
 			->first();
 
 			if(is_null($level)){
-				return 0;
+				$level = DB::table('GERER_LA_FORMATION')
+            		->where('UTI_ID', '=', $userId)
+					->select('FORM_NIVEAU')
+					->first();
+				if(is_null($level)){
+					return 0;
+				}
 			}
+
 			return $level->FORM_NIVEAU;
 
 		}
