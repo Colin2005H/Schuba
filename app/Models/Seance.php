@@ -124,18 +124,19 @@ class Seance extends Model
 	 * @return bool true if this is the next session in chronological order, false otherwise
 	 */
 	public function isNext(){
-		$currentDate = $this->SEA_DATE_DEB;
+		$currentDate = explode(' ', $this->SEA_DATE_DEB)[0]; //on ne récupère que la date
 		$currentLevel = $this->FORM_NIVEAU;
 
+        
 		//jointure avec la table evaluer
-		$querry = Evaluer::all()
-		->join('PLO_SEANCE', 'PLO_SEANCE.SEA_ID', '=', 'EVALUER.SEA_ID')
-		->where('SEA_DATE_DEB', '<', $currentDate)
-		->where('FORM_NIVEAU', $currentLevel)
-		->order('SEA_DATE', 'DESC');
+		$querry = Evaluer::all()->toQuery();
+        //dd($currentDate);
+		$querry = $querry->join('PLO_SEANCE', 'PLO_SEANCE.SEA_ID', '=', 'EVALUER.SEA_ID')
+		->where(DB::raw("SEA_DATE_DEB < str_to_date('".$currentDate."', '%Y-%m-%d')") )
+		->where('FORM_NIVEAU', $currentLevel);
 		//on cherche les evaluations de la meme formation pour une séance qui a lieu avant la notre
 
-        dd($querry);
+        //dd($querry->get());
 		//on renvoie si il y en a
 		return $querry->get()->isEmpty();
 	}
