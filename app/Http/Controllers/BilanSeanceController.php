@@ -8,11 +8,21 @@ use App\Models\Evaluation;
 use App\Models\Evaluer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Redirect;
 
 class BilanSeanceController extends Controller
 {
-
-    public function getInfo(int $seance_id)
+    
+    /**
+     * getInfo
+     *
+     * Get all uefull information of the evaluations of this session
+     * to set them as default in the form.
+     * 
+     * @param  mixed $session_id the id of the session
+     * @return void
+     */
+    public function getInfo(int $session_id)
 {
     // Fetch all evaluations for this session
     $evaluations = Evaluer::where('SEA_ID', $seance_id)
@@ -35,31 +45,51 @@ class BilanSeanceController extends Controller
     return $default;
 }
 
-        // Show the form to fill in the evaluation of the students
-        public function showForm(int $seance_id)
-    {
-        $seance = Seance::find($seance_id);
+        
+        /**
+         * showForm
+         *
+         * Redirect 
+         * to the form with all data of the session.
+         *
+         * @param  mixed $session_id the id of the session
+         * @return void
+         */
+        public function showForm(int $session_id){
+        
+        $seance = Seance::find($session_id);
         $eleves = $seance->getEleves();
 
-        $currentUser = session('user');
+        
 
-        $default = $this->getInfo($seance_id);
+        if($seance->isNext()){
+            $currentUser = session('user');
 
-        return view('recapitulatif', ['eleves' => $eleves,'seance' => $seance,'currentUser' => $currentUser,'default' => $default]);
+            $default = $this->getInfo($session_id);
+
+            return view('recapitulatif', ['eleves' => $eleves,'seance' => $seance,'currentUser' => $currentUser,'default' => $default]);
+        }
+
+        return Redirect::route("calendar.show")->with('failure', "d'autres évaluations doivent être faites avant");
     }
 
-        // Store the evaluation in the database and redirect to the home page   
+            
+        /**
+         * store
+         *
+         * Update the evaluation from the databse
+         * with change from the form
+         * 
+         * @param  mixed $request the results of the form
+         * @return void
+         */
         public function store(Request $request) {
 
             
             $sea_id = $request->input('SEA_ID');
-            
-            //dd($request->presence); // Check structure
-            //dd($request->evaluation); // Check structure
-            //dd($request->commentaire); // Check structure
 
             if (!$sea_id) {
-                return redirect()->back()->with('error', 'L\'ID de la séance est manquant.');
+                return Redirect::route('calendar.show')->with('failure', 'L\'ID de la séance est manquant.');
             }
         
             // Update the evaluation of the students 
@@ -84,8 +114,8 @@ class BilanSeanceController extends Controller
                 }
             }
         
-            
-            return redirect('/');
+            dd("fin de store");
+            return redirect('calendar.show');
         }
         
         

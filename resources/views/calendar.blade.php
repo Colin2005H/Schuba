@@ -61,6 +61,13 @@
 
     </style>
     @include('header')
+
+    @if (session('failure'))
+        <div class="bg-red-100 text-red-800 border border-red-400 rounded p-4 mb-4">
+            {{session('failure')}}
+        </div>
+        @endif
+    
     <div class="calendar">
         <h1>Calendrier des séances</h1>
         <div id='calendar'>
@@ -155,7 +162,7 @@
 
                             console.log(result);
 
-                           
+                        
                             successCallback(result);
                         } catch (error) {
                             console.error('Error fetching session data:', error);
@@ -204,7 +211,7 @@
                         // console.log(idInput.value);
 
                     }
-              };
+                };
                 //  responssivnes for mobile devices
                 function resizeCaldendar() {
                     // check if its a smartphone
@@ -266,24 +273,23 @@
                     ?>
                 </tbody>
             </table>
-            <button id="close" class="mt-4 bg-blue-500 text-white px-4 py-2 rounded mx-auto" onclick="document.getElementById('popup').style.display = 'none';" type="button">Fermer</button>
-            <?php
-                //$seance_id = $_COOKIE['identifier'];
-                //$url = route('bilan.showForm', ['seance_id' => $seance_id]);
+            <button id="close" class="mt-4 bg-blue-500 text-white px-4 py-2 rounded mx-auto" onclick="document.getElementById('popup').style.display = 'none';" type="button">
+                Fermer
+            </button>
             
-            ?>
-            <?php if($role === 'initiateur'): ?>
+            @if($role === 'initiateur' /*&& Seance::find()*/) {{--c'est là que je dois bosser moi--}}
             
                 <button id="evaluate" class="mt-4 bg-blue-500 text-white px-4 py-2 rounded mx-auto">
                     Evaluer
                 </button>
-                <?php endif; ?>
-                <?php if($role === 'responsable'): ?>
+            @endif
+
+            @if($role === 'responsable')
             
             <button id="modif" class="mt-4 bg-blue-500 text-white px-4 py-2 rounded mx-auto">
                     Modifier
             </button>    
-            <?php endif; ?>
+            @endif
             
             @if($role === 'eleve')
             <button id="bilan" class="mt-4 bg-blue-500 text-white px-4 py-2 rounded mx-auto" >

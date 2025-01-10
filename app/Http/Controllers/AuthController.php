@@ -9,7 +9,17 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 // controller for the authentication of users
 class AuthController extends Controller
-{
+{    
+    /**
+     * login
+     *
+     * Log in the user which match with
+     * mail/password given to the form
+     * , make it session var and redirect to home page
+     * 
+     * @param  mixed $request the results of the form
+     * @return void
+     */
     public function login(Request $request)
     {
         $credentials = $request->validate([
@@ -29,8 +39,15 @@ class AuthController extends Controller
             'uti_mail' => 'Les informations d\'identification ne correspondent pas à nos enregistrements.',
         ])->withInput();
     }
-
     
+    /**
+     * logout
+     *
+     * Log out the user and back to log in page
+     * 
+     * @param  mixed $request the results of the form
+     * @return void
+     */
     public function logout(Request $request)
     {
         Auth::logout();

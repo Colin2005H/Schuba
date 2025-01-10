@@ -96,7 +96,12 @@ Route::get('/home', function() {
     return view('home');
 });
 
-Route::post('/showForm', [BilanSeanceController::class, 'showForm'])->name('seance-store');
+//il faut ajouter level dans la route absolument
+Route::get('/aptitudesGlobal', function() {
+    return view('aptitudesGlobalTable');
+});
+
+Route::post('/showForm', /*function(){dd("seance-store");}*/[BilanSeanceController::class, 'showForm'])->name('seance-store'); //ON PASSE PAR LA
 
 Route::get('/triche', function() {
     return Hash::make("responsable");
@@ -147,10 +152,11 @@ Route::get('/modifierCompte/{id}', [ModifierCompteController::class, 'edit'])->n
 Route::post('/modifierCompte/{id}', [ModifierCompteController::class, 'update'])->name('modifierCompte2');
 
 Route::post('/seance/{seance_id}/update', [ModifSeanceController::class, 'update'])->name('seance-update');
+Route::post('/seance/update', [ModifSeanceController::class, 'update'])->name('seance.update');
 
-Route::get('/seance/{seance_id}/modif', [ModifSeanceController::class, 'showForm'])->name('bilan.modif');
+Route::get('/seance/{seance_id}/modif', )->name('bilan.modif');
 
-Route::get('/seance/{seance_id}/delete', [ModifSeanceController::class, 'delete'])->name('seance.delete');
+Route::post('/seance/delete', [ModifSeanceController::class, 'delete'])->name('seance.delete');
 
 Route::prefix('/aptitudes/{userId}')->name('aptitudes.')->controller(AptitudesTableStudentController::class)->group(function(){
     Route::get('/', 'showListAptitudes')->name('show');

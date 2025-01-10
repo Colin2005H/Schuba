@@ -40,7 +40,9 @@ class CalendarController extends Controller
         return $innerHTML;
     }
 
-    //get the group by the session id
+    /**
+     * get the group by the session id
+     */
     public static function getGroupByIdSession($id){
         $result = [];
         $listIDInitiator = [];

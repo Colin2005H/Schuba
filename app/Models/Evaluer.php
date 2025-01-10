@@ -58,4 +58,5 @@ class Evaluer extends Model
 	{
 		return $this->belongsTo(PloSeance::class, 'SEA_ID');
 	}
+
 }
