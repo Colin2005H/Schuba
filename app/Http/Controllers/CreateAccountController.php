@@ -14,14 +14,23 @@ use Illuminate\Support\Facades\Validator;
 // Controller for the create account page
 class CreateAccountController extends Controller
 {
-    // add the ability to create an account for a user by the director of the club
+    /**
+     * createAccount
+     * add the ability to create an account for a user by the director of the club  
+     * @return void
+     */
     public function createAccount() {
         $director = DB::table('DIRIGER_LE_CLUB')->select('CLU_ID')->where('UTI_ID', '=', session('user')->UTI_ID)->get(); 
         $clubDirector = DB::table('PLO_CLUB')->select('CLU_ID', 'CLU_NOM')->where('CLU_ID', '=', $director[0]->CLU_ID)->get(); 
         return view('create-account')->with(compact('clubDirector')); // 
     }
-
-    //if the requirements are met, store the user created in the database
+  
+    /**
+     * store
+     * if the requirements are met, store the user created in the database 
+     * @param  mixed $request
+     * @return void
+     */
     public function store(Request $request){
         $director = DB::table('DIRIGER_LE_CLUB')->select('CLU_ID')->where('UTI_ID', '=', session('user')->UTI_ID)->get();
 

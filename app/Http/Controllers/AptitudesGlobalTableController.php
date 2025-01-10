@@ -5,8 +5,13 @@ use Illuminate\Support\Facades\DB;
 
 // Controller for the global table of aptitudes
 class AptitudesGlobalTableController extends Controller
-{
-    // Function to show the global table of aptitudes
+{   
+    /**
+     * showListAptitudes
+     * Function to show the global table of aptitudes 
+     * @param  mixed $level
+     * @return void
+     */
     public function showListAptitudes($level)
     {
         $validationsList = DB::table('APT_VALIDE')

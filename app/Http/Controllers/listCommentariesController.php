@@ -7,8 +7,12 @@ use Illuminate\Support\Facades\DB;
 
 
 class listCommentariesController extends Controller
-{
-    //show the list of commentaries
+{   
+    /**
+     * showListCommentaries
+     *show the list of commentaries
+     * @return void
+     */
     public function showListCommentaries(){
         $liste_eleve = DB::table('EVALUER')
         ->join('PLO_UTILISATEUR', 'EVALUER.UTI_ID', '=', 'PLO_UTILISATEUR.UTI_ID')

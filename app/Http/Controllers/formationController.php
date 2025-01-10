@@ -7,7 +7,12 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class FormationController extends Controller
-{
+{    
+    /**
+     * showFormation
+     * return the view with datas of all the trainings
+     * @return void
+     */
     public function showFormation(){
 
         //verify if sessions exist for the formation N1

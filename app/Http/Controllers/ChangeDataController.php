@@ -9,22 +9,35 @@ use Illuminate\Support\Facades\Hash;
 
 // Controller for the edit page to change the user's email address and password.
 class ChangeDataController extends Controller
-{
-    //show the edit page with email form
+{ 
+    /**
+     * showEmail
+     * show the edit page with email form
+     * @return void
+     */
     public function showEmail(){
         $user = session('user');
         $changeDataValue = "email";
         return view('change-data')->with(compact('user', 'changeDataValue'));
     }
-
-    //show the edit page with password form
+   
+    /**
+     * showPassword
+     * show the edit page with password form
+     * @return void
+     */
     public function showPassword(){
         $user = session('user');
         $changeDataValue = "password";
         return view('change-data')->with(compact('user', 'changeDataValue'));
     }
-
-    //update the user's email value, with as parameter the request 
+ 
+    /**
+     * editEmail
+     * update the user's email value, with as parameter the request
+     * @param  mixed $request
+     * @return void
+     */
     public function editEmail(Request $request){
         $this->validate($request, [
             'uti_mail' => 'bail|required|unique:PLO_UTILISATEUR|email'
@@ -41,8 +54,14 @@ class ChangeDataController extends Controller
         return redirect()->route('profile.show')->with('success', "L'adresse email a bien été modifié");
     }
 
-    //update the user's password value, with as parameter the request, and redirect to the profile page
-    //if failure, redirect to the edit password page withe an error message
+   
+    /**
+     * editPassword
+     * update the user's password value, with as parameter the request, and redirect to the profile page
+     * if failure, redirect to the edit password page withe an error message 
+     * @param  mixed $request
+     * @return void
+     */
     public function editPassword(Request $request){
         $this->validate($request, [
             'uti_mdp' => 'bail|required',

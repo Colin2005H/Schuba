@@ -36,7 +36,7 @@
                 @elseif($role === 'responsable')
                     <a href="{{ url('/profile') }}" class="hover:text-gray-400">Mon compte</a>
                     <a href="{{ url('/calendar') }}" class="hover:text-gray-400">Séances</a>
-                    <a href="{{ url('/createSession') }}" class="hover:text-gray-400">Crée Séances</a>
+                    <a href="{{ url('/createSession') }}" class="hover:text-gray-400">Créer Séances</a>
                     <a href="{{ url('/globalAptitudes/' . $teachingLevel) }}" class="hover:text-gray-400">Bilan des
                         Compétences</a>
                     <a href="{{ url('/liste-membres-formation') }}" class="hover:text-gray-400">Membres</a>
