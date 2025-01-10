@@ -30,6 +30,7 @@
         }
     </style>
     <script defer src="{{ asset('js/modifSeance.js') }}"></script>
+    <script defer src="{{ asset('js/modifSeance.js') }}"></script>
 </head>
 <body>
 
@@ -38,7 +39,6 @@
     <form action="{{ route('seance-update', ['seance_id' => $seance->SEA_ID]) }}" method="POST">
         @csrf
         <input type="hidden" name="SEA_ID" value="{{ $seance->SEA_ID }}">
-
         <table>
             <thead>
                 <tr>
