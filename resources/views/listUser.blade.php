@@ -13,12 +13,13 @@
 
 <body class="h-screen bg-gray-100 ">
 
-    <a href="/create-csv">
-        <button class="bg-blue-500 my-10 py-5 px-5 rounded-md shadow-md focus:outline-none"> télécharger le csv</button>
-    </a>
+    
     
     <!-- Conteneur du tableau centré -->
     <div class="bg-[url('/img/scub1.png')] h-full bg-cover bg-no-repeat bg-center p-10">
+        <a href="/create-csv">
+            <button class="bg-blue-500 my-10 py-5 px-5 rounded-md shadow-md focus:outline-none"> Télécharger le CSV</button>
+        </a>
         <div class="w-3/4 max-w-5xl max-h-96 overflow-y-scroll bg-white shadow-lg rounded-lg justify-self-center">
             <table class="min-w-full table-auto">
                 <thead>
