@@ -113,7 +113,7 @@ class BilanSeanceController extends Controller
             }
         
             
-            return redirect('/');
+            return Redirect::route('calendar.show');
         }
         
         
