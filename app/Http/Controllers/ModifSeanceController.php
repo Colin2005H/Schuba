@@ -12,46 +12,82 @@ use Illuminate\Support\Facades\DB;
 //modifSeanceController is a controller class that handles the modification of a session 
 class ModifSeanceController extends Controller
 {
-    
-    public function showForm(int $seance_id)
+
+    /**
+     * showForm
+     * 
+     * function of the controller for redirect 
+     * to the form with all data of the session.
+     * 
+     * @param  int $session The id of the session
+     * @return void
+     */
+    public function showForm(int $session)
     {
-        $seance = Seance::find($seance_id);
-        $eleves = $seance->getEleves();
+        $session = Seance::find($session);
+        $eleves = $session->getEleves();
 
         $currentUser = session('user');
 
 
-        return view('modif-seance', ['eleves' => $eleves,'seance' => $seance,'currentUser' => $currentUser/*,'default' => $default*/]);
+        return view('modif-seance', ['eleves' => $eleves, 'seance' => $session, 'currentUser' => $currentUser/*,'default' => $default*/]);
     }
 
+    /**
+     * delete
+     *
+     * function to delete the current session from the database.
+     * 
+     * @param  mixed $request the results of the form
+     * @return void
+     */
     public function delete(Request $request)
     {
-        Seance::destroy($request->input('SEA_ID'));
-
-            DB::table('GROUPER')
-        ->where('SEA_ID', $request->input('SEA_ID'))
-        ->delete();
 
         DB::table('EVALUER')
-        ->where('SEA_ID', $request->input('SEA_ID'))
-        ->delete();
+            ->where('SEA_ID', $request->input('SEA_ID'))
+            ->delete();
 
-        return redirect('/');
+        DB::table('GROUPER')
+            ->where('SEA_ID', $request->input('SEA_ID'))
+            ->delete();
+
+        Seance::destroy($request->input('SEA_ID'));
+
+        return view('calendar');
     }
 
+    /**
+     * update
+     *
+     * function to update the current session 
+     * with all data changes from the form
+     * on the database.
+     * 
+     * @param  mixed $request the results of the form
+     * @return void
+     */
     public function update(Request $request)
     {
-        Seance::destroy($request->input('SEA_ID'));
+
+        $action = $request->input('action');
+
+        if ($action === 'update') {
+            Seance::destroy($request->input('SEA_ID'));
 
             DB::table('GROUPER')
-        ->where('SEA_ID', $request->input('SEA_ID'))
-        ->delete();
+                ->where('SEA_ID', $request->input('SEA_ID'))
+                ->delete();
 
-        DB::table('EVALUER')
-        ->where('SEA_ID', $request->input('SEA_ID'))
-        ->delete();
-        
-        return redirect('/');
+            DB::table('EVALUER')
+                ->where('SEA_ID', $request->input('SEA_ID'))
+                ->delete();
+
+            return view('calendar');
+        } elseif ($action === 'delete') {
+            $this->delete($request);
+        }
+
     }
 
 }

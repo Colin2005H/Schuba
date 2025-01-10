@@ -10,6 +10,16 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 // controller for the authentication of users
 class AuthController extends Controller
 {
+    /**
+     * login
+     *
+     * Log in the user which match with
+     * mail/password given to the form
+     * , make it session var and redirect to home page
+     * 
+     * @param  mixed $request the results of the form
+     * @return void
+     */
     public function login(Request $request)
     {
         $credentials = $request->validate([
@@ -18,11 +28,11 @@ class AuthController extends Controller
         ]);
 
 
-        if (Auth::attempt($credentials)) { // Check if the credentials are correct then
-            $request->session()->regenerate(); 
-            $user = Auth::user();  // Fetch current user logged in
-            session(['user' => $user]);  // Store user in session
-            return redirect('/home'); // Redirect to home page
+        if (Auth::attempt($credentials)) {
+            $request->session()->regenerate();
+            $user = Auth::user();  // Récupérer l'utilisateur actuellement authentifié
+            session(['user' => $user]);  // Stocker l'utilisateur dans la session
+            return redirect('/home');
         }
 
         return back()->withErrors([
@@ -30,7 +40,14 @@ class AuthController extends Controller
         ])->withInput();
     }
 
-    
+    /**
+     * logout
+     *
+     * Log out the user and back to log in page
+     * 
+     * @param  mixed $request the results of the form
+     * @return void
+     */
     public function logout(Request $request)
     {
         Auth::logout();
