@@ -25,7 +25,7 @@ class CreateAccountController extends Controller
         $director = DB::table('DIRIGER_LE_CLUB')->select('CLU_ID')->where('UTI_ID', '=', session('user')->UTI_ID)->get();
         $clubDirector = DB::table('PLO_CLUB')->select('CLU_ID', 'CLU_NOM')->where('CLU_ID', '=', $director[0]->CLU_ID)->get();
         $this->validate($request, [
-            'uti_mail' => 'bail|required|unique:plo_utilisateur|email',
+            'uti_mail' => 'bail|required|unique:PLO_UTILISATEUR|email',
             'uti_nom' => 'bail|required',
             'uti_prenom' => 'bail|required',
             'uti_code_postal' => 'bail|required|numeric|integer|min:10000|max:99999',

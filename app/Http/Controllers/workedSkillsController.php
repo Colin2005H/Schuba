@@ -23,7 +23,7 @@ class workedSkillsController extends Controller
 
         try {
             //TODO peut-être déplacer ça dans le model
-            $niveau = DB::table('gerer_la_formation')->select('FORM_NIVEAU')->where('UTI_ID', session('user')->UTI_ID)->get()->firstOrFail();
+            $niveau = DB::table('GERER_LA_FORMATION')->select('FORM_NIVEAU')->where('UTI_ID', session('user')->UTI_ID)->get()->firstOrFail();
             $niveau = $niveau->FORM_NIVEAU;
         } catch (\Throwable $th) {
             echo $th->getMessage();

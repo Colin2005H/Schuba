@@ -36,7 +36,7 @@ class ModifierCompteController extends Controller
 
             if($request->input('uti_mail') != $info_compte[0]->UTI_MAIL){ //if the user changes his email
                 $this->validate($request, [ 
-                    'uti_mail' => 'bail|required|unique:plo_utilisateur|email',
+                    'uti_mail' => 'bail|required|unique:PLO_UTILISATEUR|email',
                 ], [
                     'uti_mail.email' => "Le texte doit correspondre à une adresse email valide",
                     'uti_mail.unique' => "Cette adresse mail est déjà prise",
