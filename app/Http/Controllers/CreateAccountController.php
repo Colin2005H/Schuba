@@ -30,7 +30,7 @@ class CreateAccountController extends Controller
 
         //List of the requirements to met in the form
         $this->validate($request, [
-            'uti_mail' => 'bail|required|unique:plo_utilisateur|email',
+            'uti_mail' => 'bail|required|unique:PLO_UTILISATEUR|email',
             'uti_nom' => 'bail|required',
             'uti_prenom' => 'bail|required',
             'uti_code_postal' => 'bail|required|numeric|integer|min:10000|max:99999',
