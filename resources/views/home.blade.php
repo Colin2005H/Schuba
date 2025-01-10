@@ -5,6 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SCHUBA - Le hub des écoles de plongée</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.bunny.net">
+    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
@@ -12,15 +15,18 @@
 
     @include('header')
 
-    <div class="container mx-auto">
+    <div class="container w-full place-content-center place-self-center">
         <!-- Image de fond -->
-        <div class="relative bg-cover bg-center h-96 w-full" style="background-image: url({{ asset('img/scub1.png') }});">
+        <div class="relative bg-cover bg-center h-96 w-full "
+            style="background-image: url({{ asset('img/scub1.png') }});">
             <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-                <h1 class="text-white text-4xl font-bold">SCHUBA, le hub des écoles de plongée</h1>
+                <h1 class="text-white text-4xl font-bold text-center">SCHUBA : le hub des écoles de plongée</h1>
+
             </div>
         </div>
 
         <!-- Section de contenu -->
+
         <div class="flex py-10 px-4 justify-center">
             <div class="self-center">
                 <p class="text-lg leading-7 text-justify max-w-3xl mr-20">
@@ -36,6 +42,7 @@
         </div>
     </div>
     @include('footer')
+
 </body>
 
 </html>

@@ -20,6 +20,7 @@ use App\Http\Controllers\ModifierCompteController;
 use App\Http\Controllers\listCommentariesController;
 use App\Http\Controllers\AptitudesGlobalTableController;
 use App\Http\Controllers\AptitudesTableStudentController;
+use App\Http\Controllers\ManageAptitudesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -160,6 +161,13 @@ Route::prefix('/validationcomp/{userId}')->name('validationcomp.')->controller(V
     Route::post('/', 'valideCompetences')->name('valider');
 });
 
+
 Route::get('/choisir', function () {
     return view('choisirLevel');
 });
+
+Route::prefix('/manageAptitudes')->name('manageAptitudes.')->controller(ManageAptitudesController::class)->group(function () {
+    Route::get('/', 'showListAptitudes')->name('show');
+    Route::post('/', 'modifyAptitudes')->name('valider');
+});
+
