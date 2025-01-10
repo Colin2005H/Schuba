@@ -55,7 +55,9 @@
                         Utilisateurs</a><!-- listUser-->
                     <a href="{{ url('/createAccount') }}" class="hover:text-gray-400">Créer
                         Comptes</a><!-- Create account-->
-                    <a href="{{ url('/') }}" class="hover:text-gray-400">Élèves</a>
+                    <a href="{{ url('/choisir') }}" class="hover:text-gray-400">Bilan des
+                        Compétences</a><!-- PAGE CHOISIR LE NIVEAU-->
+                    <a href="{{ url('/') }}" class="hover:text-gray-400">Utilisateurs</a>
                     <a href="{{ url('/') }}" class="hover:text-gray-400">Se Déconnecter</a>
                 </nav>
             @endif

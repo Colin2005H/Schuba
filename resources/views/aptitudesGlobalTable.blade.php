@@ -10,7 +10,16 @@
 
 <body class="bg-gray-100 text-gray-800">
     @include('header')
+    @php
+        use App\Http\Controllers\RoleController;
+        use Illuminate\Support\Facades\Auth;
 
+        $userid = session('user')->UTI_ID;
+
+        $roleController = new RoleController();
+        $role = $roleController->getRole(session('user'));
+        $teachingLevel = $roleController->getTeachingLevel($userid);
+    @endphp
     <div class="container mx-auto py-8">
         <h1 class="text-3xl font-bold mb-6 text-center"> Bilan des aptitudes de la formation N{{ $level }}</h1>
 
@@ -37,15 +46,16 @@
                         <tr class="odd:bg-white even:bg-gray-50">
                             <th class="px-4 py-2 border border-gray-300 font-medium text-center">
                                 {{ $student->UTI_PRENOM }} {{ $student->UTI_NOM }}
-
-                                <form action="{{ url('/validationcomp/' . $student->UTI_ID) }}" method="GET"
-                                    class="mt-2">
-                                    @csrf
-                                    <button type="submit"
-                                        class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded shadow">
-                                        Valider
-                                    </button>
-                                </form>
+                                @if ($role === 'directeur_technique')
+                                    <form action="{{ url('/validationcomp/' . $student->UTI_ID) }}" method="GET"
+                                        class="mt-2">
+                                        @csrf
+                                        <button type="submit"
+                                            class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded shadow">
+                                            Valider
+                                        </button>
+                                    </form>
+                                @endif
                             </th>
                             @foreach ($aptitudesList as $aptitude)
                                 @php
