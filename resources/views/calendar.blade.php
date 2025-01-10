@@ -203,7 +203,6 @@
 
                     }
                 };
-                };
                 //  responssivnes for mobile devices
                 function resizeCaldendar() {
                     // check if its a smartphone

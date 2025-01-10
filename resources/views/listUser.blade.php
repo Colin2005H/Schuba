@@ -13,9 +13,13 @@
 
 <body class="h-screen bg-gray-100 ">
 
+    <a href="/create-csv">
+        <button class="bg-blue-500 my-10 py-5 px-5 rounded-md shadow-md focus:outline-none"> télécharger le csv</button>
+    </a>
+    
     <!-- Conteneur du tableau centré -->
-    <div class="w-3/4 max-w-5xl scalable overflow-y-auto bg-white shadow-lg rounded-lg  self-center">
-        <a class="button"type="button" href="/create-csv"> télécharger le csv</button>
+    <div class="w-3/4 max-w-5xl scalable overflow-y-auto bg-white shadow-lg rounded-lg self-center">
+        
         <table class="min-w-full table-auto">
             <thead>
                 <tr class="bg-gray-200">
