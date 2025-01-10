@@ -33,7 +33,7 @@
 @include('header')
 <div class="form-container">
     <h2>Récapitulatif de la Séance</h2>
-    <form action="{{ route('seance-store') }}" method="POST">
+    <form action="{{ route('seance-store'),  "{{ $seance->SEA_ID }}"}}" method="POST">
 
         @csrf
         <input type="hidden" name="SEA_ID" value="{{ $seance->SEA_ID }}">

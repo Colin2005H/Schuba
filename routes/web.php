@@ -100,7 +100,7 @@ Route::get('/aptitudesGlobal', function() {
     return view('aptitudesGlobalTable');
 });
 
-Route::post('/showForm', [BilanSeanceController::class, 'showForm'])->name('seance-store');
+Route::post('/showForm', [BilanSeanceController::class, 'store'])->name('seance-store');
 
 Route::get('/triche', function() {
     return Hash::make("responsable");
@@ -131,7 +131,7 @@ Route::prefix('/globalAptitudes/{level}')->name('globalAptitudes.')->controller(
 Route::get('/footer', function () {
     return view('footer');
 });
-Route::get('/seance/{seance_id}/bilan', [BilanSeanceController::class, 'showForm'])->name('bilan.showForm');
+Route::post('/seance/bilan', [BilanSeanceController::class, 'showForm'])->name('bilan.showForm');
 
 Route::get('/create-csv', [CsvController::class, 'createCsvUser']);
 
