@@ -24,12 +24,12 @@ class ModifSeanceController extends Controller
     public function showForm(int $session)
     {
         $session = Seance::find($session);
-        $eleves = $seance->getEleves();
+        $eleves = $session->getEleves();
 
         $currentUser = session('user');
 
 
-        return view('modif-seance', ['eleves' => $eleves,'seance' => $seance,'currentUser' => $currentUser/*,'default' => $default*/]);
+        return view('modif-seance', ['eleves' => $eleves,'seance' => $session,'currentUser' => $currentUser/*,'default' => $default*/]);
     }
     
     /**
