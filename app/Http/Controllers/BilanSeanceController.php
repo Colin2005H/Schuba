@@ -11,20 +11,28 @@ use Illuminate\Support\Facades\DB;
 
 class BilanSeanceController extends Controller
 {
-
-    public function getInfo(int $seance_id)
+    
+    /**
+     * getInfo
+     *
+     * Get all uefull information of the evaluations of this session
+     * to set them as default in the form.
+     * 
+     * @param  mixed $session_id the id of the session
+     * @return void
+     */
+    public function getInfo(int $session_id)
 {
-    // Récupérer toutes les évaluations pour cette séance
-    $evaluations = Evaluer::where('SEA_ID', $seance_id)
+    $evaluations = Evaluer::where('SEA_ID', $session_id)
         ->get();
 
     $default = [];
 
     foreach ($evaluations as $evaluation) {
-        $eleve_id = $evaluation->UTI_ID; // L'ID de l'élève
-        $apt_code = (string)$evaluation->APT_CODE; // Le code de l'aptitude
-        $evaluation_result = $evaluation->EVA_RESULTAT; // Le résultat de l'évaluation
-        $evaluation_commentaire = $evaluation->EVA_COMMENTAIRE; // Le commentaire de l'évaluation
+        $eleve_id = $evaluation->UTI_ID;
+        $apt_code = (string)$evaluation->APT_CODE;
+        $evaluation_result = $evaluation->EVA_RESULTAT;
+        $evaluation_commentaire = $evaluation->EVA_COMMENTAIRE; 
 
         $default[$eleve_id][$apt_code] = [
             'evaluation' => $evaluation_result,
@@ -35,28 +43,42 @@ class BilanSeanceController extends Controller
     return $default;
 }
 
-
-        public function showForm(int $seance_id)
+        
+        /**
+         * showForm
+         *
+         * Redirect 
+         * to the form with all data of the session.
+         *
+         * @param  mixed $session_id the id of the session
+         * @return void
+         */
+        public function showForm(int $session_id)
     {
-        $seance = Seance::find($seance_id);
+        $seance = Seance::find($session_id);
         $eleves = $seance->getEleves();
 
         $currentUser = session('user');
 
-        $default = $this->getInfo($seance_id);
+        $default = $this->getInfo($session_id);
 
         return view('recapitulatif', ['eleves' => $eleves,'seance' => $seance,'currentUser' => $currentUser,'default' => $default]);
     }
 
-    
+            
+        /**
+         * store
+         *
+         * Update the evaluation from the databse
+         * with change from the form
+         * 
+         * @param  mixed $request the results of the form
+         * @return void
+         */
         public function store(Request $request) {
 
             
             $sea_id = $request->input('SEA_ID');
-            
-            //dd($request->presence); // Check structure
-            //dd($request->evaluation); // Check structure
-            //dd($request->commentaire); // Check structure
 
             if (!$sea_id) {
                 return redirect()->back()->with('error', 'L\'ID de la séance est manquant.');

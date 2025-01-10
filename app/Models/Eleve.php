@@ -22,7 +22,15 @@ class Eleve extends Model
     public function user(): BelongsTo{
         return $this->belongsTo(User::class, 'UTI_ID', 'UTI_ID');
     }
-
+    
+    /**
+     * getInitiator
+     *
+     * Return the initiator for this student at the session given
+     * 
+     * @param  mixed $seance_id id of the session to check
+     * @return void
+     */
     public function getInitiator(int $seance_id) {
         $id = DB::table('PLO_INITIATEUR') 
             ->join('GROUPER', 'PLO_INITIATEUR.UTI_ID', '=', 'GROUPER.UTI_ID_INITIATEUR') 

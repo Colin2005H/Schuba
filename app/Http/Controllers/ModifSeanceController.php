@@ -11,23 +11,43 @@ use Illuminate\Support\Facades\DB;
 
 class ModifSeanceController extends Controller
 {
-
-    public function showForm(int $seance_id)
+    
+    /**
+     * showForm
+     * 
+     * function of the controller for redirect 
+     * to the form with all data of the session.
+     * 
+     * @param  int $session The id of the session
+     * @return void
+     */
+    public function showForm(int $session)
     {
+
         //LET ME COOK
-        
-        $seance = Seance::find($seance_id);
+        $session = Seance::find($session);
+
         //if(!isset($seance)) pourrait etre interessant
         
-        echo "<script>console.log(\n".$seance->isNext()."\n);</script>" ;
-        $eleves = $seance->getEleves();
+        echo "<script>console.log(\n".$session->isNext()."\n);</script>" ;
+        
+        
+        $eleves = $session->getEleves();
 
         $currentUser = session('user');
 
 
-        return view('modif-seance', ['eleves' => $eleves,'seance' => $seance,'currentUser' => $currentUser/*,'default' => $default*/]);
+        return view('modif-seance', ['eleves' => $eleves,'seance' => $session,'currentUser' => $currentUser/*,'default' => $default*/]);
     }
-
+    
+    /**
+     * delete
+     *
+     * function to delete the current session from the database.
+     * 
+     * @param  mixed $request the results of the form
+     * @return void
+     */
     public function delete(Request $request)
     {
         Seance::destroy($request->input('SEA_ID'));
@@ -42,7 +62,17 @@ class ModifSeanceController extends Controller
 
         return redirect('/');
     }
-
+    
+    /**
+     * update
+     *
+     * function to update the current session 
+     * with all data changes from the form
+     * on the database.
+     * 
+     * @param  mixed $request the results of the form
+     * @return void
+     */
     public function update(Request $request)
     {
         Seance::destroy($request->input('SEA_ID'));

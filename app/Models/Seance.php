@@ -61,7 +61,14 @@ class Seance extends Model
         return $id->SEA_ID;
     }
 
-
+    
+    /**
+     * getEleves
+     *
+     * Get the array of all student of this session.
+     * 
+     * @return Array
+     */
     public function getEleves() {
         $id = DB::table('PLO_SEANCE') 
             ->join('GROUPER', 'PLO_SEANCE.SEA_ID', '=', 'GROUPER.SEA_ID') 
@@ -73,7 +80,16 @@ class Seance extends Model
 
         return $eleves;
     }
-
+    
+    /**
+     * getAptEleve
+     * 
+     * Get the array of the skills 
+     * of the student given in this session
+     *
+     * @param  mixed $eleve_id the id of the student
+     * @return Array
+     */
     public function getAptEleve(int $eleve_id) {
  
         $codes = DB::table('PLO_APTITUDE') 
@@ -95,7 +111,14 @@ class Seance extends Model
     
         return $aptitudes;
     }
-
+    
+    /**
+     * getLieu
+     * 
+     * Get the location of this session.
+     *
+     * @return Array
+     */
     public function getLieu() {
         $id = DB::table('PLO_LIEU') 
             ->join('PLO_SEANCE', 'PLO_LIEU.LI_ID', '=', 'PLO_SEANCE.LI_ID') 
@@ -104,11 +127,16 @@ class Seance extends Model
 
         $lieu = PloLieu::whereIn('LI_ID', $id)->get();
 
-        //dd($lieu);
-
         return $lieu;
     }
-
+    
+    /**
+     * getFormation
+     * 
+     * Get the training of this session.
+     *
+     * @return Array
+     */
     public function getFormation() {
         $id = DB::table('PLO_FORMATION') 
             ->join('PLO_SEANCE', 'PLO_SEANCE.FORM_NIVEAU', '=', 'PLO_FORMATION.FORM_NIVEAU') 
