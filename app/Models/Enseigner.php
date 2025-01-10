@@ -43,6 +43,17 @@ class Enseigner extends Model
 		return $this->belongsTo(PloInitiateur::class, 'UTI_ID');
 	}
 
+
+		
+	/**
+	 * getTeachingLevel
+	 *
+	 * Get the level of the user 
+	 * 
+	 * @param  mixed $userId
+	 * @return int the level of the training that this user is teaching for
+	 * 
+	 */
 	public function getTeachingLevel($userId){
 
         $level = DB::table('ENSEIGNER')

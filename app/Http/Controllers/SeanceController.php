@@ -17,7 +17,12 @@ use Illuminate\Support\Facades\Redirect;
 
 class SeanceController extends Controller
 {
-    
+        
+    /**
+     * createSession
+     * Create a session
+     * @return void
+     */
     public function createSession()
     {
         DB::beginTransaction();
@@ -25,7 +30,6 @@ class SeanceController extends Controller
         $niveau = NULL;
 
         try {
-            //TODO peut-être déplacer ça dans le model
             $niveau = DB::table('GERER_LA_FORMATION')->select('FORM_NIVEAU')->where('UTI_ID', session('user')->UTI_ID)->get()->firstOrFail();
             $niveau = $niveau->FORM_NIVEAU;
         } catch (\Throwable $th) {
@@ -33,7 +37,6 @@ class SeanceController extends Controller
         }
         DB::commit();
 
-        //dd($niveau);
 
         return view('creer-seance', [
             'lieux' => Lieu::all(),
@@ -49,7 +52,7 @@ class SeanceController extends Controller
             })->filter(function ($user, $key) {
                 return $user != null;
 
-            }), //TODO filtrer seulement ceux de la formation concernée ($niveau)
+            }),
 
 
             'eleves' => PloEleve::all()->filter(function (PloEleve $student) use ($niveau){
@@ -68,7 +71,12 @@ class SeanceController extends Controller
         ]);
     }
 
-    //store the session in the database
+    /**
+     * store
+     *store the session in the database  
+     * @param  mixed $request
+     * @return void
+     */
     public function store(Request $request)
     {
         $sessionId = NULL;
@@ -92,8 +100,14 @@ class SeanceController extends Controller
         }
         return redirect()->route("createSession.show")->with('success', "Un problème inattendu est survenu (sessionId NULL)");
     }
-
-    //create a group of user for the session
+    
+    /**
+     * createGroup
+     *create a group of user for the session
+     * @param  mixed $group
+     * @param  mixed $sessionId
+     * @return void
+     */
     public function createGroup($group, $sessionId)
     {
         echo "<script>console.log(\"création de groupe\");</script>";

@@ -9,7 +9,13 @@ use App\Models\User;
 use Illuminate\Http\Request;
 
 class RoleController extends Controller
-{
+{    
+    /**
+     * getRole
+     *return the role of the user (responsable, eleve, ...)
+     * @param  mixed $user
+     * @return void
+     */
     public function getRole(User $user)
     {
             return $user->getRole();

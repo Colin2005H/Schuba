@@ -10,13 +10,22 @@ use Illuminate\Support\Facades\Redirect;
 
 // Controller for the calendar page
 class CalendarController extends Controller
-{
-    //show the calendar page
+{  
+    /**
+     * show
+     * show the calendar page
+     * @return void
+     */
     public function show() {
         return view('calendar');
     }
-
-    // Show the calendar page with the session id
+   
+    /**
+     * tableSession
+     * Show the calendar page with the session id 
+     * @param  mixed $sessionId
+     * @return void
+     */
     public function tableSession($sessionId){
         $personTable = $this->getGroupByIdSession($sessionId);
         $innerHTML = "";  // HTML code to be inserted into the table
@@ -39,8 +48,13 @@ class CalendarController extends Controller
 
         return $innerHTML;
     }
-
-    //get the group by the session id
+  
+    /**
+     * getGroupByIdSession
+     * get the group by the session id 
+     * @param  mixed $id
+     * @return void
+     */
     public static function getGroupByIdSession($id){
         $result = [];
         $listIDInitiator = [];
@@ -93,7 +107,13 @@ class CalendarController extends Controller
         return $valuesTable;
     }
 
-    
+        
+    /**
+     * store
+     * store the data in the database
+     * @param  mixed $request
+     * @return void
+     */
     public function store(Request $request){
         $userid = session('user')->UTI_ID;
         if(session('user')->getRole() == 'responsable') {
